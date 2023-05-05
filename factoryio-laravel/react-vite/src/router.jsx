@@ -1,13 +1,43 @@
-import {createBrowserRouter} from "react-router-dom"
+import {useNavigate, createBrowserRouter} from "react-router-dom"
 import Home from "./views/Home"
 import Login from "./views/Login"
 import Signup from "./views/Signup"
+import {MakerLanding} from "./views/MakerLanding.jsx";
+import {NotFound} from "./views/NotFound.jsx";
+import {MakerLayout} from "./layouts/MakerLayout.jsx";
+import {ItemView} from "./views/ItemView.jsx";
+import {CartView} from "./views/CartView.jsx";
+import {LandingPage} from "./views/LandingPage.jsx";
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Home/>
+        element: <LandingPage/>
     },
+
+    {
+        path: '/maker-io',
+        element: <MakerLayout/>,
+        children: [
+            {
+                path: '',
+                element: <MakerLanding/>
+            },
+            {
+                path: ':id',
+                element: <ItemView/>
+            },
+            {
+                path: 'cart',
+                element: <CartView/>
+            }
+        ],
+    },
+    {
+        path: '*',
+        element: <NotFound/>
+    },
+
     {
         path: '/login',
         element: <Login/>

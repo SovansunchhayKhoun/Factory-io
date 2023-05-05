@@ -1,4 +1,4 @@
-import {useStateContext} from "../contexts/ContextProvider.jsx";
+import {useStateContext} from "../context/ContextProvider.jsx";
 import {useEffect} from "react";
 import axiosClient from "../axios-client.js";
 

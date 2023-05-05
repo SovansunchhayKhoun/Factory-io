@@ -1,0 +1,31 @@
+body {
+  height: 2000px;
+  position: relative;
+}
+
+main {
+  padding-left: 9rem;
+  padding-right: 9rem;
+}
+
+.highlight-hover {
+  transition: 0.15s;
+}
+
+.search-bar {
+  background: url("../../../public/assets/images/material-symbols_search.png") center left 10px no-repeat #D9D9D9;
+  border-radius: 50px;
+}
+
+.highlight-hover:hover {
+  font-weight: bold;
+  cursor: pointer;
+  color: #8A0000;
+  text-decoration: underline;
+}
+
+.items-display {
+  display: grid;
+  grid-template-columns: repeat(4, 300px);
+}
+

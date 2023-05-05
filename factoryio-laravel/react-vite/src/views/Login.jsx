@@ -1,8 +1,8 @@
 import {ArrowLeftIcon} from "@heroicons/react/20/solid";
 import {Link,useNavigate} from "react-router-dom";
-import makerio from "../assets/makerio.png"
+// import makerio from "../assets/makerio.png"
 import {useRef, useState} from "react";
-import {useStateContext} from "../contexts/ContextProvider.jsx";
+import {useStateContext} from "../context/ContextProvider.jsx";
 import axiosClient from "../axios-client.js";
 
 export default function Login(){
@@ -47,7 +47,7 @@ export default function Login(){
                     </Link>
                 </div>
                 <div>
-                    <img src={makerio} className='object-contain' style={{width: 167 + 'px'}}/>
+                    <img src="/assets/images/makerio.png" className='object-contain' style={{width: 167 + 'px'}}/>
                 </div>
             </div>
             <form onSubmit={onSubmit}>

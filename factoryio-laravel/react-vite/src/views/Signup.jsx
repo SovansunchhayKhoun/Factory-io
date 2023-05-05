@@ -1,10 +1,10 @@
 import {ArrowLeftIcon} from "@heroicons/react/20/solid";
 import {Link} from "react-router-dom";
-import makerio from "../assets/makerio.png"
+// import makerio from "../assets/makerio.png"
 import {useRef, useState} from "react";
 import axiosClient from "../axios-client.js";
 import {useNavigate} from "react-router-dom";
-import {useStateContext} from "../contexts/ContextProvider.jsx";
+import {useStateContext} from "../context/ContextProvider.jsx";
 
 export default function Signup() {
     const firstNameRef = useRef();
@@ -15,7 +15,7 @@ export default function Signup() {
     const phoneNumberRef = useRef();
     const navigate = useNavigate()
     const [errors, setErrors] = useState(null)
-    const {setUser,setToken} = useStateContext()
+    const {setUser, setToken} = useStateContext()
     const onSubmit = (event) => {
         event.preventDefault()
         const formValues = {
@@ -35,7 +35,7 @@ export default function Signup() {
             })
             .catch(err => {
                 const response = err.response
-                if(response && response.status === 422){
+                if (response && response.status === 422) {
                     console.log(response.data.errors)
                     setErrors(response.data.errors)
                 }
@@ -49,9 +49,7 @@ export default function Signup() {
                         <ArrowLeftIcon className="h-6 mr-5"/>
                     </Link>
                 </div>
-                <div>
-                    <img src={makerio} className='object-contain' style={{width: 167 + 'px'}}/>
-                </div>
+                <img src="/assets/images/makerio.png" className='object-contain' style={{width: 167 + 'px'}}/>
             </div>
             <form onSubmit={onSubmit}>
                 <div className="flex items-center justify-center h-screen flex-col">
@@ -67,17 +65,17 @@ export default function Signup() {
                         <div className="flex mb-6 w-[500px] gap-5">
                             <div className="w-1/2">
                                 <input type="name" id="firstName"
-                                        ref={firstNameRef}
+                                       ref={firstNameRef}
                                        className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
                                        placeholder="First name"
-                                       />
+                                />
                             </div>
                             <div className="w-1/2">
                                 <input type="name" id="lastName"
                                        ref={lastNameRef}
                                        className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
                                        placeholder="Last name"
-                                       />
+                                />
                             </div>
                         </div>
                         <div className="mb-6 w-[500px]">
@@ -85,28 +83,28 @@ export default function Signup() {
                                    ref={phoneNumberRef}
                                    className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
                                    placeholder="Phone Number"
-                                   />
+                            />
                         </div>
                         <div className="mb-6 w-[500px]">
                             <input type="email" id="email"
                                    ref={emailRef}
                                    className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
                                    placeholder="Email"
-                                   />
+                            />
                         </div>
                         <div className="mb-6 w-[500px]">
                             <input type="password" id="password"
                                    ref={passwordRef}
                                    className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
                                    placeholder="Password"
-                                   />
+                            />
                         </div>
                         <div className="mb-6 w-[500px]">
                             <input type="password" id="confpassword"
                                    ref={passwordConfirmationRef}
                                    className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
                                    placeholder="Confirm Password"
-                                   />
+                            />
                         </div>
                     </div>
                     <div className="flex items-center gap-x-[125px]">

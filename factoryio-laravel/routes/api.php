@@ -14,7 +14,10 @@ use App\Http\Controllers\Api\AuthController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
+Route::group (['prefix' => 'v1'], function () {
+   Route::apiResource ('skills', SkillController::class);
+   Route::apiResource ('products',ProductController::class);
+});
 
 Route::middleware('auth:sanctum')->get('/', function (Request $request) {
     return $request->user();
