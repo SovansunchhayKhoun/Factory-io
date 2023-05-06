@@ -1,14 +1,10 @@
 import {Link, useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import ProductContext from "../context/ProductContext.jsx";
-import {AddCartButton} from "./ui/AddCartButton.jsx";
 
 export const ItemCard = (props) => {
-  let navigate = useNavigate();
-  const {name, price, id, qty} = props.item;
+  const {name, price, status, type, id, qty} = props.item;
   const {storeItem} = useContext(ProductContext);
-  // console.log(`id: ${id} qty${qty}`);
-
   return (
     <>
       {/*card-item */}
@@ -26,11 +22,11 @@ export const ItemCard = (props) => {
             {price}$
           </div>
           <div className="mr-3 text-[#8A0000]">
-            {qty}
+            <span className="font-bold">{status}</span>
           </div>
-          <div>
-            <AddCartButton item={props.item}/>
-          </div>
+          <button onClick={() => storeItem(props.item)}>
+            <img width="36" src="/assets/images/cart-icon.png" alt=""/>
+          </button>
         </div>
       </div>
       {/*card-item */}

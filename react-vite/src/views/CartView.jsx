@@ -1,12 +1,13 @@
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {CartItem} from "../components/CartItem.jsx";
 import ProductContext from "../context/ProductContext.jsx";
 import {Payment} from "../components/ui/Payment.jsx";
 
 export const CartView = () => {
-  // console.log(JSON.parse(localStorage.getItem('savedItem')));
-  const {cartItem} = useContext(ProductContext);
-  // const cartItem = JSON.parse(localStorage.getItem('savedItem')) ||  useContext(ProductContext) ;
+  const {cartItem, getCartItem} = useContext(ProductContext);
+  // useEffect(() => {
+  //   getCartItem();
+  // }, []);
   return (
     <main>
       <div className="flex justify-between mb-3">
@@ -18,7 +19,8 @@ export const CartView = () => {
         {cartItem.map((item) => {
           if (item.id) {
             return (
-              <CartItem key={item.id} name={item.name} price={item.price} id={item.id} qty={item.qty}/>
+              // <CartItem key={item.id} name={item.name} price={item.price} id={item.id} qty={item.qty}/>
+              <CartItem key={item.id} cartItem={item}/>
             );
           }
         })}

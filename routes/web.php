@@ -1,6 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+  use App\Models\Invoice;
+  use App\Models\Product;
+  use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
