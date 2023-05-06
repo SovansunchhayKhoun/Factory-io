@@ -7,12 +7,19 @@ import {NotFound} from "./views/NotFound.jsx";
 import {MakerLayout} from "./layouts/MakerLayout.jsx";
 import {ItemView} from "./views/ItemView.jsx";
 import {CartView} from "./views/CartView.jsx";
+import {LandingLayout} from "./layouts/LandingLayout.jsx"
 import {LandingPage} from "./views/LandingPage.jsx";
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <LandingPage/>
+        element: <LandingLayout />,
+        children: [
+          {
+            path: '/',
+            element: <LandingPage />
+          },
+        ]
     },
 
     {

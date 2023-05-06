@@ -3,7 +3,6 @@ import {useContext} from "react";
 import ProductContext from "../context/ProductContext.jsx";
 
 export const LandingNavBar = () => {
-
   return (
     <nav className="sticky top-0 bg-white z-100 mb-12 flex px-4 py-4 justify-between items-center">
       <Link to="/makerio" className="ml-6">
@@ -58,7 +57,7 @@ export const NavBar = () => {
   const {cartItem} = useContext(ProductContext);
   return (
     <nav className="z-50 sticky top-0 bg-white z-100 mb-12 flex px-36 py-4 justify-between items-center">
-      <Link to="">
+      <Link to="/maker-io">
         <img width="100" src="/assets/images/makerio.png" alt=""/>
       </Link>
 
@@ -69,7 +68,7 @@ export const NavBar = () => {
           </Link>
         </div>
         <div>
-          <Link to="#factory-io">
+          <Link to="/">
             <img width="100" src="/assets/images/factory.png" alt=""/>
           </Link>
         </div>
