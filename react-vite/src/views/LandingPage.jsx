@@ -1,9 +1,10 @@
 import {Link} from "react-router-dom";
+import {UserCard} from "../components/UserCard.jsx";
 
 export const LandingPage = () => {
   return (
     <main className="">
-      <div className="px-48 flex justify-center">
+      <div className="flex justify-center">
         <div className="mr-12">
         <span className="font-bold text-2xl leading-10">
           TECHNOLOGY COMMUNITY <br/> FOR DEVELOPMENT
@@ -21,28 +22,39 @@ export const LandingPage = () => {
           <img src="/assets/images/board.jpg"/>
         </div>
       </div>
-      <div className="px-48 flex justify-center">
+      <div className="px-48 mt-12 flex justify-center">
         <div className="w-[448px] h-[333px] mr-10 justify-end">
           <img src="/assets/images/item1.png" alt=""/>
         </div>
-        <div className="mr-12">
+        <div className="">
           <span className="font-semibold text-2xl leading-10">
-            shop Your Component With<br/> Maker.io
+            Shop Your Component With<br/> Maker.io
           </span>
-          <div className="leading-7 mb-3">
-            Start your project now and shop<br/>
-            your component with us <br/>
+          <div>
+            <div className="leading-7 mb-3">
+              Start your project now and shop<br/>
+              your component with us <br/>
+            </div>
+            <button className="bg-white border border-redHover text-red rounded-[50px] px-3 py-1">
+              Buy Now
+            </button>
           </div>
         </div>
       </div>
+
       <div className="px-48 flex justify-center">
         <div className="mr-12">
         <span className="font-semibold text-2xl leading-10">
           Upload and share your <br/> Project with our community
         </span>
-          <div className="leading-7 mb-3">
-            Sharing knowledge <br/>
-            and your achievement
+          <div>
+            <div className="leading-7 mb-3">
+              Sharing knowledge <br/>
+              and your achievement
+            </div>
+            <button className="bg-white border border-redHover text-red rounded-[50px] px-3 py-1">
+              Sign Up
+            </button>
           </div>
         </div>
 
@@ -58,28 +70,30 @@ export const LandingPage = () => {
         <span className="font-semibold text-2xl leading-10">
           Check Out Recent Technology<br/> Contest
         </span>
-          <div className="leading-7 mb-3">
-            New Contest will be updated <br/>and we courage everyone in our<br/> community to join
+          <div>
+            <div className="leading-7 mb-3">
+              New Contest will be updated <br/>and we courage everyone in our<br/> community to join
+            </div>
+            <button className="bg-white border border-redHover text-red rounded-[50px] px-3 py-1">
+              Check Out
+            </button>
           </div>
         </div>
       </div>
-      <div>
-        <div>
-        <span className="flex flex-col items-center gap-y-6 p-2 font-medium ">
-          About us
-        </span>
+      <div className="flex flex-col items-center gap-y-6 p-2 font-medium">
+        <div className="">
+            About us
         </div>
-        <div className="jusity-items-center flex px-48">
-          <div className="leading-7 mb-3">
+        <div className="flex jusity-between">
+          <div className="leading-7 mr-12">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit.
           </div>
-
-          <div className="w-[400px] h-[300px] mr-10 justify-end">
+          <div className="w-[400px] h-[300px]">
             <img src="/assets/images/item1.png" alt=""/>
           </div>
         </div>
       </div>
-      <div>
+      <div className="flex flex-col items-center gap-y-3">
         <div>
             <span className="flex flex-col items-center gap-y-6 p-2 font-medium ">
               Our team
@@ -90,14 +104,15 @@ export const LandingPage = () => {
               Amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut <br/>labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud <br/>exercitation ullamco laboris nisi.
             </span>
         </div>
-        <div className="mx-auto grid grid-cols-6 gap-6 py-10 px-4 px-6">
-          <div className="round-2x1 border border-slate-200 bg-white p-8 shadow-lg">
-            <img src="/assets/images/item1.png" className="rounded-full h-14 shadow-s" alt=""/>
-            <span className="text-sm font-semibold"> Tepin Sim</span>
-            <span className="texxt-sm"><br/>Co-Funder</span>
-          </div>
+        <div className="">
+          <UserCard name="Tepin" position="Co-founder" manangement="Project Management" field="Robotics"/>
+          <UserCard name="Sou Seangly" position="Co-founder" manangement="Project Management" field="Robotics"/>
+          <UserCard name="Tepin" position="Co-founder" manangement="Project Management" field="Robotics"/>
+          <UserCard name="Tepin" position="Co-founder" manangement="Project Management" field="Robotics"/>
+          <UserCard name="Tepin" position="Co-founder" manangement="Project Management" field="Robotics"/>
         </div>
       </div>
+
     </main>
   );
 };
