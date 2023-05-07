@@ -16,6 +16,12 @@ export const ProductProvider = ({children}) => {
     setItems(apiItems.data.data);
   };
 
+  // useEffect(() => {
+  //   localStorage.removeItem('savedItem');
+  // });
+  // useEffect(() => {
+  //   saveLocalCartItem(cartItem ??[]);
+  // })
   const getItem = async (id) => {
     const apiItem = await Axios.get(`products/${id}`);
     setItem(apiItem.data.data);
@@ -41,8 +47,7 @@ export const ProductProvider = ({children}) => {
   }
 
   function saveLocalCartItem(itemSave) {
-    // console.log(JSON.stringify(itemSave));
-    localStorage.setItem('savedItem', JSON.stringify(itemSave));
+    localStorage.setItem('savedItem', JSON.stringify(itemSave?? []));
   }
 
   const storeItem = (item) => {
@@ -53,10 +58,10 @@ export const ProductProvider = ({children}) => {
       // find and update that existed item qty
       cartItem.find((i) => i.id === item.id).qty = cartItem.find((i) => i.id === item.id).qty + 1;
       setCartItem([...cartItem]);
-      // saveLocalCartItem(cartItem);
     } else if (!itemExist(item)) {
       item.qty = item.qty - 1;
       setItem({...item});
+
       setCartItem([...cartItem, {
         id: item.id,
         name: item.name,
@@ -64,8 +69,8 @@ export const ProductProvider = ({children}) => {
         qty: 1,
         status: item.status,
       }]);
-      // saveLocalCartItem(cartItem);
     }
+    saveLocalCartItem(cartItem);
   };
 
   const increaseItemQty = (cart) => {
@@ -79,13 +84,13 @@ export const ProductProvider = ({children}) => {
     } else {
       setError('Item Quantity cannot exceed stock quantity')
     }
-    // saveLocalCartItem(cartItem);
+    saveLocalCartItem(cartItem);
   };
   const decreaseItemQty = (cart) => {
-    cartItem.find((i) => i.id === cart.id).qty = cartItem.find((i) => i.id === cart.id).qty - 1;
     if (cartItem.find((i) => i.id === cart.id).qty > 1) {
+      cartItem.find((i) => i.id === cart.id).qty = cartItem.find((i) => i.id === cart.id).qty - 1;
       setCartItem([...cartItem]);
-      // saveLocalCartItem(cartItem);
+      saveLocalCartItem(cartItem);
     } else {
       setError("Item Quantity Cannot be less than 1")
       setTimeout(() => {
@@ -94,9 +99,9 @@ export const ProductProvider = ({children}) => {
     }
   };
 
-  useEffect(() => {
-
-  }, []);
+  // useEffect(() => {
+  //
+  // }, []);
 
   const getCartItem = () => {
     setCartItem(JSON.parse(localStorage.getItem('savedItem')) ?? []);
@@ -113,6 +118,7 @@ export const ProductProvider = ({children}) => {
       getCartItem,
       error,
       setError,
+      saveLocalCartItem,
       increaseItemQty,
       decreaseItemQty
     }}>{children}</ProductContext.Provider>;

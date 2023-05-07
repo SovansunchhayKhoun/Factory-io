@@ -4,9 +4,9 @@ import ProductContext from "../context/ProductContext.jsx";
 
 export const NavBar = () => {
   const {cartItem, getCartItem} = useContext(ProductContext);
-  // useEffect(() => {
-  //   getCartItem();
-  // }, []);
+  useEffect(() => {
+    getCartItem();
+  }, []);
   return (
     <nav className="z-50 sticky top-0 bg-white z-100 mb-12 flex px-36 py-4 justify-between items-center">
       <Link to="/maker-io">

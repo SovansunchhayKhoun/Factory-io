@@ -22,6 +22,9 @@ export const Payment = () => {
           </label>
         </div>
       </div>
+      <div className="flex justify-end mt-3 mb-3">
+        <button className="bg-redHover text-whiteFactory px-3 py-1 rounded-[20px]">Check out</button>
+      </div>
     </>
   );
 };

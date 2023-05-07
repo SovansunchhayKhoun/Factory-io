@@ -5,9 +5,9 @@ import {Payment} from "../components/ui/Payment.jsx";
 
 export const CartView = () => {
   const {cartItem, getCartItem} = useContext(ProductContext);
-  // useEffect(() => {
-  //   getCartItem();
-  // }, []);
+  useEffect(() => {
+    getCartItem();
+  }, []);
   return (
     <main>
       <div className="flex justify-between mb-3">

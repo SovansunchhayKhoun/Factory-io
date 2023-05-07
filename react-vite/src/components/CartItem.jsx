@@ -1,5 +1,6 @@
 import {useContext, useState} from "react";
 import ProductContext from "../context/ProductContext.jsx";
+import {Link} from "react-router-dom"
 
 export const CartItem = (props) => {
   const {cartItem} = props;
@@ -12,17 +13,19 @@ export const CartItem = (props) => {
         </div>
         <div>
           <div className="mb-1 font-bold text-blueBase">${cartItem.price}</div>
-          <div className="mb-1 text-tealHover font-bold">{cartItem.name}</div>
+          <Link to={`/maker-io/${cartItem.id}`}>
+            <div className="highlight-hover transition duration-150 mb-1 text-tealHover font-bold">{cartItem.name}</div>
+          </Link>
           <div className="mb-1 text-blackFactory">Item Type: Arduino</div>
           <div className="mb-1 flex items-center gap-x-2">
-            <button onClick={() => {
+            <button className="transition duration-150 px-3 py-1 hover:rounded-[50%] hover:bg-whiteFactory active:bg-grayFactory" onClick={() => {
               decreaseItemQty(cartItem)
             }}>-
             </button>
             <span className="py-1 text-center border-[0.13rem] border-tealActive text-sm w-8">
               {cartItem.qty}
             </span>
-            <button onClick={() => {
+            <button className="transition duration-150 px-3 py-1 hover:rounded-[50%] hover:bg-whiteFactory active:bg-grayFactory" onClick={() => {
               increaseItemQty(cartItem)
             }}>+
             </button>

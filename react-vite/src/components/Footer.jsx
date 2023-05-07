@@ -4,7 +4,7 @@ export const Footer = () => {
   return (
     <>
       <footer
-        className="w-[100%] relative bottom-0 bg-whiteFactory flex items-center justify-between px-48 py-6 border">
+        className=" w-[100%] relative bottom-0 bg-whiteFactory flex items-center justify-between px-48 py-6 border">
         <div className="flex items-center gap-x-2">
           <div>
             <Link to="#to-factory">
