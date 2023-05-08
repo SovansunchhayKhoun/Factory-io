@@ -1,6 +1,5 @@
 import {ArrowLeftIcon} from "@heroicons/react/20/solid";
 import {Link} from "react-router-dom";
-// import makerio from "../assets/makerio.png"
 import {useRef, useState} from "react";
 import axiosClient from "../axios-client.js";
 import {useNavigate} from "react-router-dom";
@@ -126,6 +125,6 @@ export default function Signup() {
                 </div>
             </form>
 
-        </>
-    )
+    </>
+  )
 }

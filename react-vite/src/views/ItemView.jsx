@@ -1,16 +1,14 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import ProductContext from "../context/ProductContext.jsx";
-import {AddCartButton} from "../components/ui/AddCartButton.jsx";
 
 export const ItemView = (props) => {
   let {id} = useParams();
-  const {item, getItem} = useContext(ProductContext);
+  const {item, getItem, storeItem} = useContext(ProductContext);
 
   useEffect(() => {
     getItem(id);
   }, []);
-
   const [addItem, setAddItem] = useState("");
   let navigate = useNavigate();
   return (
@@ -41,15 +39,16 @@ export const ItemView = (props) => {
             <p className="text-tealHover font-bold text-sm">
               {addItem}
             </p>
-            {/*<button onClick={() => {*/}
-            {/*  setAddItem("Item has been added to cart");*/}
-            {/*  setTimeout(() => {*/}
-            {/*    setAddItem("")*/}
-            {/*  }, 3000);*/}
-            {/*}}>*/}
-            {/*  <img src="/assets/images/cart-icon.png" alt=""/>*/}
-            {/*</button>*/}
-            <AddCartButton item={item}/>
+            <button onClick={() => {
+              storeItem(item);
+              setAddItem("Item has been added to cart");
+              setTimeout(() => {
+                setAddItem("")
+              }, 3000);
+            }}>
+              <img src="/assets/images/cart-icon.png" alt=""/>
+            </button>
+            {/*<AddCartButton item={item}/>*/}
           </div>
         </div>
       </section>

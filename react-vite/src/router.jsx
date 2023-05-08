@@ -11,48 +11,47 @@ import {LandingLayout} from "./layouts/LandingLayout.jsx"
 import {LandingPage} from "./views/LandingPage.jsx";
 
 const router = createBrowserRouter([
-    {
+  {
+    path: '/',
+    element: <LandingLayout/>,
+    children: [
+      {
         path: '/',
-        element: <LandingLayout />,
-        children: [
-          {
-            path: '/',
-            element: <LandingPage />
-          },
-        ]
-    },
+        element: <LandingPage/>
+      },
+    ]
+  },
+  {
+    path: '/maker-io',
+    element: <MakerLayout/>,
+    children: [
+      {
+        path: '',
+        element: <MakerLanding/>
+      },
+      {
+        path: ':id',
+        element: <ItemView/>
+      },
+      {
+        path: 'cart',
+        element: <CartView/>
+      }
+    ],
+  },
+  {
+    path: '*',
+    element: <NotFound/>
+  },
 
-    {
-        path: '/maker-io',
-        element: <MakerLayout/>,
-        children: [
-            {
-                path: '',
-                element: <MakerLanding/>
-            },
-            {
-                path: ':id',
-                element: <ItemView/>
-            },
-            {
-                path: 'cart',
-                element: <CartView/>
-            }
-        ],
-    },
-    {
-        path: '*',
-        element: <NotFound/>
-    },
-
-    {
-        path: '/login',
-        element: <Login/>
-    },
-    {
-        path: '/signup',
-        element: <Signup/>
-    }
+  {
+    path: '/login',
+    element: <Login/>
+  },
+  {
+    path: '/signup',
+    element: <Signup/>
+  }
 ])
 
 export default router

@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->double ('price');
-            $table->integer ('qty');
+            $table->integer ('qty')->nullable ();
             $table->string('status')->default ('Out of Stock');
-            $table->string('type');
-            $table->longText('description');
+            $table->string('type')->nullable ();
+            $table->longText('description')->nullable ();
             $table->timestamps();
         });
     }

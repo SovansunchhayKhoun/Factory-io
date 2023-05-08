@@ -1,8 +1,9 @@
 import {useContext, createContext, useState, useEffect} from "react";
 import Axios from "axios";
 
-const ProductContext = createContext();
 Axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
+
+const ProductContext = createContext();
 
 export const ProductProvider = ({children}) => {
   const [items, setItems] = useState([]);
@@ -15,15 +16,16 @@ export const ProductProvider = ({children}) => {
     setItems(apiItems.data.data);
   };
 
+  // useEffect(() => {
+  //   localStorage.removeItem('savedItem');
+  // });
+  // useEffect(() => {
+  //   saveLocalCartItem(cartItem ??[]);
+  // })
   const getItem = async (id) => {
     const apiItem = await Axios.get(`products/${id}`);
     setItem(apiItem.data.data);
   };
-
-  useEffect(() => {
-    // localStorage.removeItem('savedItem')
-    setCartItem(JSON.parse(localStorage.getItem('savedItem')) ?? [])
-  }, []);
 
   function checkQty(item) {
     if (item.qty === 0) {
@@ -44,22 +46,22 @@ export const ProductProvider = ({children}) => {
     return false;
   }
 
-  function saveLocal(itemSave) {
-    // console.log(JSON.stringify(itemSave));
-    localStorage.setItem('savedItem', JSON.stringify(itemSave));
+  function saveLocalCartItem(itemSave) {
+    localStorage.setItem('savedItem', JSON.stringify(itemSave?? []));
   }
 
   const storeItem = (item) => {
     checkQty(item);
-    // console.log(item)
     if (itemExist(item)) {
       item.qty = item.qty - 1;
-      const tempItem = cartItem.find((i) => i.id === item.id);
-      setCartItem([...cartItem, {qty: tempItem.qty = tempItem.qty + 1}]);
-      // console.log(cartItem)
-      saveLocal(cartItem);
+      setItem({...item});
+      // find and update that existed item qty
+      cartItem.find((i) => i.id === item.id).qty = cartItem.find((i) => i.id === item.id).qty + 1;
+      setCartItem([...cartItem]);
     } else if (!itemExist(item)) {
       item.qty = item.qty - 1;
+      setItem({...item});
+
       setCartItem([...cartItem, {
         id: item.id,
         name: item.name,
@@ -67,20 +69,28 @@ export const ProductProvider = ({children}) => {
         qty: 1,
         status: item.status,
       }]);
-      saveLocal(cartItem);
     }
+    saveLocalCartItem(cartItem);
   };
 
-  const increaseItemQty = (item) => {
-    const tempItem = cartItem.find((i) => i.id === item);
-    setCartItem([...cartItem, {qty: tempItem.qty = tempItem.qty + 1}]);
-    saveLocal(cartItem);
+  const increaseItemQty = (cart) => {
+    // find original item
+    const stockItem = items.find((i) => i.id === cart.id);
+    stockItem.qty = stockItem.qty - 1;
+    setItems([...items]);
+    if (stockItem.qty >= 0) {
+      cartItem.find((i) => i.id === cart.id).qty = cartItem.find((i) => i.id === cart.id).qty + 1;
+      setCartItem([...cartItem]);
+    } else {
+      setError('Item Quantity cannot exceed stock quantity')
+    }
+    saveLocalCartItem(cartItem);
   };
-  const decreaseItemQty = (item) => {
-    let tempItem = cartItem.find((i) => i.id === item);
-    if (tempItem.qty > 1) {
-      setCartItem([...cartItem, {qty: tempItem.qty = tempItem.qty - 1}]);
-      saveLocal(cartItem);
+  const decreaseItemQty = (cart) => {
+    if (cartItem.find((i) => i.id === cart.id).qty > 1) {
+      cartItem.find((i) => i.id === cart.id).qty = cartItem.find((i) => i.id === cart.id).qty - 1;
+      setCartItem([...cartItem]);
+      saveLocalCartItem(cartItem);
     } else {
       setError("Item Quantity Cannot be less than 1")
       setTimeout(() => {
@@ -89,6 +99,13 @@ export const ProductProvider = ({children}) => {
     }
   };
 
+  // useEffect(() => {
+  //
+  // }, []);
+
+  const getCartItem = () => {
+    setCartItem(JSON.parse(localStorage.getItem('savedItem')) ?? []);
+  };
 
   return <ProductContext.Provider
     value={{
@@ -98,8 +115,10 @@ export const ProductProvider = ({children}) => {
       getItem,
       cartItem,
       storeItem,
+      getCartItem,
       error,
       setError,
+      saveLocalCartItem,
       increaseItemQty,
       decreaseItemQty
     }}>{children}</ProductContext.Provider>;

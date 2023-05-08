@@ -1,14 +1,13 @@
 import {Link, useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import ProductContext from "../context/ProductContext.jsx";
-import {AddCartButton} from "./ui/AddCartButton.jsx";
 
 export const ItemCard = (props) => {
-  let navigate = useNavigate();
-  const {name, price, id, qty} = props.item;
-  const {storeItem} = useContext(ProductContext);
-  // console.log(`id: ${id} qty${qty}`);
-
+  const {name, price, status, type, id, qty} = props.item;
+  const {cartItem, storeItem, saveLocalCartItem} = useContext(ProductContext);
+  // useEffect(() => {
+  //   console.log(cartItem.length);
+  // }, []);
   return (
     <>
       {/*card-item */}
@@ -17,8 +16,8 @@ export const ItemCard = (props) => {
           {name}
         </div>
         <Link to={"/maker-io/" + id}>
-          <div>
-            <img src="/assets/images/item1.png" alt=""/>
+          <div className="">
+            <img className="hover:scale-75 ease-in-out duration-300 " src="/assets/images/item1.png" alt=""/>
           </div>
         </Link>
         <div className="flex items-center">
@@ -26,11 +25,18 @@ export const ItemCard = (props) => {
             {price}$
           </div>
           <div className="mr-3 text-[#8A0000]">
-            {qty}
+            <span className="font-bold">{status}</span>
           </div>
-          <div>
-            <AddCartButton item={props.item}/>
-          </div>
+          <button className="rounded-[50%] px-1 py-1 hover:bg-tealBase active:bg-tealActive transition duration-300"
+                  onClick={() => {
+                    storeItem(props.item);
+                    !cartItem.find((i) => props.item.id === i.id) && saveLocalCartItem([...cartItem, ({
+                      ...props.item,
+                      qty: 1
+                    })])
+                  }}>
+            <img width="36" src="/assets/images/cart-icon.png" alt=""/>
+          </button>
         </div>
       </div>
       {/*card-item */}

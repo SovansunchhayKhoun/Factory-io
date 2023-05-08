@@ -3,6 +3,7 @@ import {ItemCard} from "../components/ItemCard.jsx";
 import {useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import ProductContext from "../context/ProductContext.jsx";
+
 export const MakerLanding = () => {
   let navigate = useNavigate();
   const {items, getItems} = useContext(ProductContext);
