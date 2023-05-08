@@ -1,10 +1,10 @@
-import {useStateContext} from "../context/ContextProvider.jsx";
+import {useAuthContext} from "../context/AuthContext.jsx";
 import {useEffect} from "react";
-import axiosClient from "../axios-client.js";
+
 
 
 export default function Home(){
-    const {setUser,setToken,user} = useStateContext()
+    const {setUser,setToken,user} = useAuthContext()
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem('USER_CREDENTIALS')))
     },[])

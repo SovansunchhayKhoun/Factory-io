@@ -45,7 +45,7 @@ export const LandingPage = () => {
       <div className="px-48 flex justify-center">
         <div className="mr-12">
         <span className="font-semibold text-2xl leading-10">
-          Upload and share your <br/> Project with our community
+          Upload and share your Project<br/> with our community
         </span>
           <div>
             <div className="leading-7 mb-3">
@@ -59,12 +59,14 @@ export const LandingPage = () => {
         </div>
 
         <div className="w-[448px] h-[333px] mr-10 justify-end">
-          <img src="/assets/images/item1.png"/>
+          <video>
+            <source src="/assets/images/vdpro.MP4" type="video/mp4"></source>
+          </video>
         </div>
       </div>
       <div className="px-48 flex justify-center">
         <div className="w-[448px] h-[333px] mr-10 justify-end">
-          <img src="/assets/images/item1.png" alt=""/>
+          <img src="/assets/images/mrc.jpg" alt=""/>
         </div>
         <div className="mr-12">
         <span className="font-semibold text-2xl leading-10">
@@ -82,34 +84,37 @@ export const LandingPage = () => {
       </div>
       <div className="flex flex-col items-center gap-y-6 p-2 font-medium">
         <div className="">
-            About us
+            About Us
         </div>
-        <div className="flex jusity-between">
-          <div className="leading-7 mr-12">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        <div className="flex flex-col items-center">
+          <div className="leading-7 mr-12 ">
+            Factory.io is working on the production and community of Maker, improvement and distribution of technology products. Manufacturers incorporate new technologies including Internet of Things (IoT), cloud computing and analytics, and AI and machine learning and Robotic and PLC systems and STEAM for Kid into their production and automation facilities.
           </div>
-          <div className="w-[400px] h-[300px]">
-            <img src="/assets/images/item1.png" alt=""/>
+          <div className="w-[400px] h-[300px] mt-4">
+            <img src="/assets/images/team.jpg" alt=""/>
           </div>
         </div>
       </div>
       <div className="flex flex-col items-center gap-y-3">
         <div>
             <span className="flex flex-col items-center gap-y-6 p-2 font-medium ">
-              Our team
+              Our Community
             </span>
         </div>
         <div>
             <span className="flex flex-col items-center gap-y-6 p-2 font-regular ">
-              Amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut <br/>labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud <br/>exercitation ullamco laboris nisi.
+              The IoT (Internet of Things) platform community consists of a broad spectrum of people, groups, and businesses engaged in the creation, implementation, and usage of IoT platforms. For the purpose of facilitating the development of scalable and interoperable IoT systems, its focus is on defining standards, best practices, and working together on open-source projects. The community, which consists of software providers, system integrators, hardware producers, network operators, and end users, collaborates to address the technical, commercial, and legal issues related to IoT deployment and to create new use cases and applications that make use of IoT platforms.
             </span>
         </div>
         <div className="">
-          <UserCard name="Tepin" position="Co-founder" manangement="Project Management" field="Robotics"/>
-          <UserCard name="Sou Seangly" position="Co-founder" manangement="Project Management" field="Robotics"/>
-          <UserCard name="Tepin" position="Co-founder" manangement="Project Management" field="Robotics"/>
-          <UserCard name="Tepin" position="Co-founder" manangement="Project Management" field="Robotics"/>
-          <UserCard name="Tepin" position="Co-founder" manangement="Project Management" field="Robotics"/>
+          <UserCard name="Sou Seangly" position="Factory.io" manangement="Project superviser" />
+          <UserCard name="Ngob Doung" position="RobotX" manangement="Project Program Coordinator"/>
+          <UserCard name="Oum Pimol" position="RobotX" manangement="Program Business led" />
+          <UserCard name="Yi Chandara" position="Reachsa.io" manangement="Platform Coordinator" />
+          <UserCard name="Ray Channudam" position="Reachsa.io" manangement="Platform & Business Coordinator" />
+          <UserCard name="Noch Kakada" position="Reachsa.io" manangement="PCB Coordinator" />
+          <UserCard name="Brorn Munyratanak" position="Maker.io" manangement="Production Control Coordinator"/>
+          <UserCard name="Tep Marot" position="Maker.io" manangement="Project Led" />
         </div>
       </div>
 
