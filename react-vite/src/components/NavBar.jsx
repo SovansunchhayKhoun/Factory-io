@@ -2,10 +2,11 @@ import {Link} from "react-router-dom";
 import {useContext, useEffect} from "react";
 import ProductContext from "../context/ProductContext.jsx";
 import {useAuthContext} from "../context/AuthContext.jsx";
+import CartContext from "../context/CartContext.jsx";
 
 export const NavBar = () => {
   const {onLogout,token,user} = useAuthContext()
-  const {cartItem, getCartItem} = useContext(ProductContext);
+  const {cartItem, getCartItem} = useContext(CartContext);
   useEffect(() => {
     getCartItem();
   }, []);

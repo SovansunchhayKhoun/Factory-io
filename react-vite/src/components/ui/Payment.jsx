@@ -1,4 +1,8 @@
+import {useContext} from "react";
+import CartContext from "../../context/CartContext.jsx";
+
 export const Payment = () => {
+  const {cartItem, checkOut, totalPrice} = useContext(CartContext);
   return (
     <>
       <div className="flex justify-between items-center bg-tealActive py-12 px-48">
@@ -22,8 +26,11 @@ export const Payment = () => {
           </label>
         </div>
       </div>
-      <div className="flex justify-end mt-3 mb-3">
-        <button className="bg-redHover text-whiteFactory px-3 py-1 rounded-[20px]">Check out</button>
+      <div className="flex justify-between mt-3 mb-3">
+        <div>Total: <span className="font-bold text-redBase">${totalPrice}</span></div>
+        <button onClick={() => {
+          console.log(cartItem);
+        }} className="bg-redHover text-whiteFactory px-3 py-1 rounded-[20px]">Check out</button>
       </div>
     </>
   );

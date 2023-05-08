@@ -11,7 +11,7 @@
         use HasFactory;
 
         protected $fillable = [
-            'id' , 'date' , 'status' , 'address'
+            'id' , 'date' , 'status' , 'address', 'totalPrice'
         ];
 
         public function products ()
