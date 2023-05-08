@@ -14,6 +14,9 @@ import {Inventory} from "./views/Inventory.jsx";
 import { UserView } from "./views/UserView";
 
 
+import {Communitylanding} from "./views/Communitylanding.jsx";
+import {RnDLanding} from "./views/RnDlanding.jsx";
+import {ContestLanding} from "./views/ContestLanding.jsx";
 
 
 const router = createBrowserRouter([
@@ -25,6 +28,19 @@ const router = createBrowserRouter([
         path: '/',
         element: <LandingPage/>
       },
+      {
+        path: 'CommunityLanding',
+        element: <Communitylanding/>
+      },
+      {
+        path: 'RnDLanding',
+        element: <RnDLanding/>
+      },
+      {
+        path: 'ContestLanding',
+        element: <ContestLanding/>
+      },
+
     ]
   },
   {

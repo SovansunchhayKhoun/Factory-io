@@ -125,7 +125,7 @@ export const NavBar = () => {
 //         </div>
 //         <div className="highlight-hover text-[#3C3C3C]">
 //           <Link to="/contest">
-//             Contest
+//             ContestLanding
 //           </Link>
 //         </div>
 //         <div>
