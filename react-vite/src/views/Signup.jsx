@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import {useRef, useState} from "react";
 import axiosClient from "../axios-client.js";
 import {useNavigate} from "react-router-dom";
-import {useStateContext} from "../context/ContextProvider.jsx";
+import {useAuthContext} from "../context/AuthContext.jsx";
 
 export default function Signup() {
     const firstNameRef = useRef();
@@ -15,7 +15,7 @@ export default function Signup() {
     const phoneNumberRef = useRef();
     const navigate = useNavigate()
     const [errors, setErrors] = useState(null)
-    const {setUser, setToken} = useStateContext()
+    const {setUser, setToken} = useAuthContext()
     const onSubmit = (event) => {
         event.preventDefault()
         const formValues = {
@@ -31,6 +31,7 @@ export default function Signup() {
             .then(({data}) => {
                 setUser(data.user)
                 setToken(data.token)
+              localStorage.setItem('USER_CREDENTIALS',JSON.stringify(data.user))
                 navigate('/')
             })
             .catch(err => {

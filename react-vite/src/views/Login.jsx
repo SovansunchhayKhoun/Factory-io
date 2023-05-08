@@ -2,14 +2,14 @@ import {ArrowLeftIcon} from "@heroicons/react/20/solid";
 import {Link,useNavigate} from "react-router-dom";
 // import makerio from "../assets/makerio.png"
 import {useRef, useState} from "react";
-import {useStateContext} from "../context/ContextProvider.jsx";
+import {useAuthContext} from "../context/AuthContext.jsx";
 import axiosClient from "../axios-client.js";
 
 export default function Login(){
     const emailRef = useRef();
     const passwordRef = useRef();
     const [errors, setErrors] = useState(null)
-    const {setUser,setToken} = useStateContext()
+    const {setUser,setToken} = useAuthContext()
     const navigate = useNavigate()
     const onSubmit = (ev) => {
         ev.preventDefault()

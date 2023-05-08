@@ -19,11 +19,13 @@ Route::group (['prefix' => 'v1'], function () {
    Route::apiResource ('products',ProductController::class);
 });
 
-Route::middleware('auth:sanctum')->get('/', function (Request $request) {
+Route::middleware('auth:sanctum')->group(function (){
+  Route::get('/', function (Request $request) {
     return $request->user();
-});
+  });
+Route::post('/logout',[AuthController::class,'logout']);
 
+});
 Route::post('/signup',[AuthController::class,'signup']);
 Route::post('/login',[AuthController::class,'login']);
-Route::post('/logout',[AuthController::class,'logout']);
 
