@@ -1,5 +1,6 @@
 import {createContext, useContext, useState} from "react";
 import AxiosClient from "../axios-client.js";
+import {useNavigate} from "react-router-dom";
 
 const StateContext = createContext({
   user: null,
@@ -9,6 +10,7 @@ const StateContext = createContext({
   setToken: () => {
   }
 })
+
 
 export const AuthContext = ({children}) => {
   const [user, setUser] = useState({});

@@ -1,5 +1,4 @@
 import {useNavigate, createBrowserRouter} from "react-router-dom"
-import Home from "./views/Home"
 import Login from "./views/Login"
 import Signup from "./views/Signup"
 import {MakerLanding} from "./views/MakerLanding.jsx";
@@ -9,6 +8,12 @@ import {ItemView} from "./views/ItemView.jsx";
 import {CartView} from "./views/CartView.jsx";
 import {LandingLayout} from "./layouts/LandingLayout.jsx"
 import {LandingPage} from "./views/LandingPage.jsx";
+import {DashboardLanding} from "./views/DashboardLanding.jsx";
+import {DashboardLayout} from "./layouts/DashboardLayout.jsx";
+import {Inventory} from "./views/Inventory.jsx";
+
+
+
 
 const router = createBrowserRouter([
   {
@@ -38,6 +43,20 @@ const router = createBrowserRouter([
         element: <CartView/>
       }
     ],
+  },
+  {
+    path: '/admin',
+    element: <DashboardLayout/>,
+    children: [
+      {
+        path: 'dashboard',
+        element: <DashboardLanding/>
+      },
+      {
+        path: 'inventory',
+        element: <Inventory/>
+      }
+    ]
   },
   {
     path: '*',

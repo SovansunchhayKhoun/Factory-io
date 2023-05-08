@@ -1,8 +1,10 @@
 import {Link} from "react-router-dom";
 import {useContext, useEffect} from "react";
 import ProductContext from "../context/ProductContext.jsx";
+import {useAuthContext} from "../context/AuthContext.jsx";
 
 export const NavBar = () => {
+  const {onLogout,token,user} = useAuthContext()
   const {cartItem, getCartItem} = useContext(ProductContext);
   useEffect(() => {
     getCartItem();
@@ -19,6 +21,25 @@ export const NavBar = () => {
             Home
           </Link>
         </div>
+          {
+            token ? (
+              <>
+                {
+                  user['acc_type'] === 0 ? (
+                    <>
+                      <div className="highlight-hover">
+                        <Link to="/dashboard">
+                          Dashboard
+                        </Link>
+                      </div>
+                    </>
+                  ) : null
+                }
+              </>
+            ) :
+              null
+          }
+
         <div>
           <Link to="/">
             <img width="100" src="/assets/images/factory.png" alt=""/>
@@ -38,20 +59,43 @@ export const NavBar = () => {
             Order
           </Link>
         </div>
-      </div>
 
-      <div className="flex">
-        <div className="mr-6">
-          <Link to="#sign-in">
-            Sign in
-          </Link>
-        </div>
-        <div>
-          <Link to="#sign-up">
-            Sign up
-          </Link>
-        </div>
       </div>
+      {
+        token ? (
+            <>
+              <div className='flex'>
+                <div className="mr-6 highlight-hover text-[#3C3C3C]">
+                  <Link to="#">
+                    {user?.firstName}
+                  </Link>
+                </div>
+                <div className="highlight-hover text-[#3C3C3C]">
+                  <a onClick={onLogout} >
+                    Logout
+                  </a>
+                </div>
+              </div>
+
+            </>
+          ) :
+          <>
+            <div className="flex">
+              <div className="mr-6 highlight-hover text-[#3C3C3C]">
+                <Link to="/login">
+                  Sign in
+                </Link>
+              </div>
+              <div className="highlight-hover text-[#3C3C3C]">
+                <Link to="/signup">
+                  Sign up
+                </Link>
+              </div>
+            </div>
+          </>
+      }
+
+
     </nav>
   );
 };
