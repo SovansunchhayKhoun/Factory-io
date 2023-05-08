@@ -1,5 +1,7 @@
 <?php
 
+  use App\Http\Controllers\Api\V1\InvoiceController;
+  use App\Http\Controllers\Api\V1\InvoiceProductController;
   use App\Http\Controllers\Api\V1\ProductController;
   use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +19,8 @@ use App\Http\Controllers\Api\AuthController;
 */
 Route::group (['prefix' => 'v1'], function () {
    Route::apiResource ('products',ProductController::class);
+   Route::apiResource ('invoices',InvoiceController::class);
+   Route::apiResource ('invoice_products', InvoiceProductController::class );
 });
 
 Route::middleware('auth:sanctum')->get('/', function (Request $request) {

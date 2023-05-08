@@ -8,7 +8,7 @@ export const LandingLayout = () => {
         <>
           <LandingNavBar />
             <Outlet/>
-          {/*<Footer />*/}
+          <Footer />
         </>
     );
 };

@@ -13,6 +13,11 @@ export const MakerLanding = () => {
 
   return (
     <main className="">
+      <button onClick={() => {
+        localStorage.removeItem('CART_ITEM');
+        document.location.reload(true);
+      }}>Clear Local Storage</button>
+
       <div className="flex flex-col items-center gap-y-6">
         <section className="font-bold">
           Product
@@ -38,7 +43,7 @@ export const MakerLanding = () => {
           {/*warning if no items in database*/}
           {items.map((item, key) => {
             return (
-              <ItemCard key={item.id} item={item}/>
+              <ItemCard key={item.id} item={item} />
             );
           })}
         </div>

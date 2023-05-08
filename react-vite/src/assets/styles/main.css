@@ -3,15 +3,15 @@
   margin: 0;
 }
 
-#root, body {
+body {
+  position: relative;
   overflow: auto;
-  height: 100%;
 }
 
 main {
-  height: 100%;
   padding-left: 9rem;
   padding-right: 9rem;
+  padding-bottom: 9rem;
 }
 
 .highlight-hover {

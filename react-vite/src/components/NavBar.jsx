@@ -1,9 +1,10 @@
 import {Link} from "react-router-dom";
 import {useContext, useEffect} from "react";
 import ProductContext from "../context/ProductContext.jsx";
+import CartContext from "../context/CartContext.jsx";
 
 export const NavBar = () => {
-  const {cartItem, getCartItem} = useContext(ProductContext);
+  const {cartItem, getCartItem} = useContext(CartContext);
   useEffect(() => {
     getCartItem();
   }, []);

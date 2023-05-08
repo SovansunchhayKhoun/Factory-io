@@ -1,13 +1,12 @@
 import {Link, useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import ProductContext from "../context/ProductContext.jsx";
+import CartContext from "../context/CartContext.jsx";
 
 export const ItemCard = (props) => {
-  const {name, price, status, type, id, qty} = props.item;
-  const {cartItem, storeItem, saveLocalCartItem} = useContext(ProductContext);
-  // useEffect(() => {
-  //   console.log(cartItem.length);
-  // }, []);
+  const {name, price, status, id, qty} = props.item;
+  const {cartItem, checkQty, saveLocalCartItem} = useContext(CartContext);
+
   return (
     <>
       {/*card-item */}
@@ -25,11 +24,13 @@ export const ItemCard = (props) => {
             {price}$
           </div>
           <div className="mr-3 text-[#8A0000]">
-            <span className="font-bold">{status}</span>
+            <span className="font-bold">
+              {qty}
+            </span>
           </div>
-          <button className="rounded-[50%] px-1 py-1 hover:bg-tealBase active:bg-tealActive transition duration-300"
+          <button className="rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300"
                   onClick={() => {
-                    storeItem(props.item);
+                    checkQty(props.item);
                     !cartItem.find((i) => props.item.id === i.id) && saveLocalCartItem([...cartItem, ({
                       ...props.item,
                       qty: 1
@@ -38,6 +39,7 @@ export const ItemCard = (props) => {
             <img width="36" src="/assets/images/cart-icon.png" alt=""/>
           </button>
         </div>
+
       </div>
       {/*card-item */}
     </>
