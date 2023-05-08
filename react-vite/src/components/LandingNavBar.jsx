@@ -18,22 +18,22 @@ export const LandingNavBar = () => {
 
         <div className="flex items-center gap-x-7 h-8">
           <div className="highlight-hover text-[#3C3C3C]">
-            <Link to="#home">
+            <Link to="/">
               Home
             </Link>
           </div>
           <div className="highlight-hover text-[#3C3C3C]">
-            <Link to="#">
+            <Link to="/CommunityLanding">
               Community
             </Link>
           </div>
           <div className="highlight-hover text-[#3C3C3C]">
-            <Link to="R&Dland.html">
+            <Link to="/RnDLanding">
               R&D
             </Link>
           </div>
           <div className="highlight-hover text-[#3C3C3C]">
-            <Link to="#">
+            <Link to="/ContestLanding">
               Contest
             </Link>
           </div>

@@ -17,13 +17,13 @@ export const Footer = () => {
         <span className="mr-3">
           Follow us on:
         </span>
-          <Link to="#to-assoc-link">
+          <Link to="https://www.facebook.com/SolutionOfDigital?mibextid=LQQJ4d">
             <img className="mr-3" width="32" src="/assets/images/facebook-icon.png" alt=""/>
           </Link>
-          <Link to="#to-assoc-link">
+          <Link to="https://www.linkedin.com/company/factory-io/">
             <img className="mr-3" width="32" src="/assets/images/linkedin-icon.png" alt=""/>
           </Link>
-          <Link to="#to-assoc-link">
+          <Link to="https://www.tiktok.com/@factory.io?_t=8c9CGPPLRS6&_r=1">
             <img className="mr-3" width="32" src="/assets/images/tiktok-icon.png" alt=""/>
           </Link>
         </div>
