@@ -67,7 +67,7 @@ export const NavBar = () => {
             <>
               <div className='flex'>
                 <div className="mr-6 highlight-hover text-[#3C3C3C]">
-                  <Link to="#">
+                  <Link to={`/maker-io/user/${user.id}`}>
                     {user?.firstName}
                   </Link>
                 </div>

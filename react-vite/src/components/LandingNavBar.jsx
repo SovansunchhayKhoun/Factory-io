@@ -48,7 +48,7 @@ export const LandingNavBar = () => {
             token ? (
                 <>
                   <div className="mr-1">
-                    <Link to="#" className="highlight-hover text-[#3C3C3C]">
+                    <Link to={`/maker-io/user/${user.id}`} className="highlight-hover text-[#3C3C3C]">
                       {user?.firstName}
                     </Link>
                   </div>

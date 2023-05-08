@@ -11,6 +11,7 @@ import {LandingPage} from "./views/LandingPage.jsx";
 import {DashboardLanding} from "./views/DashboardLanding.jsx";
 import {DashboardLayout} from "./layouts/DashboardLayout.jsx";
 import {Inventory} from "./views/Inventory.jsx";
+import { UserView } from "./views/UserView";
 
 
 
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: '',
         element: <MakerLanding/>
+      },
+      {
+        path: 'user/:id',
+        element: <UserView/>
       },
       {
         path: ':id',
