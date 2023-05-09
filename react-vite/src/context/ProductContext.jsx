@@ -14,6 +14,7 @@ export const ProductProvider = ({children}) => {
   };
 
   const getItem = async (id) => {
+    console.log(id);
     const apiItem = await Axios.get(`products/${id}`);
     setItem(apiItem.data.data);
   };

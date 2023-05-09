@@ -2,14 +2,19 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
 import CartContext from "../../context/CartContext.jsx";
+import InvoiceContext from "../../context/InvoiceContext.jsx";
 
 export const ItemView = (props) => {
   let {id} = useParams();
   const {item, getItem} = useContext(ProductContext);
-  const {checkQty} = useContext(CartContext);
+  const {checkQty, cartItem, saveLocalCartItem} = useContext(CartContext);
+  const {invoices} = useContext(InvoiceContext);
+  let latestInvoice = invoices.slice(-1)[0]?.id + 1 || 1;
+
   useEffect(() => {
     getItem(id);
   }, []);
+
   const [addItem, setAddItem] = useState("");
   let navigate = useNavigate();
   return (
@@ -42,6 +47,15 @@ export const ItemView = (props) => {
             </p>
             <button onClick={() => {
               checkQty(item);
+
+              !cartItem.find((i) => item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
+                ...item,
+                invoice_id: latestInvoice,
+                product_id: item.id,
+                qty: 1,
+                cart_item_price: item.price*1,
+              })])
+
               setAddItem("Item has been added to cart");
               setTimeout(() => {
                 setAddItem("")

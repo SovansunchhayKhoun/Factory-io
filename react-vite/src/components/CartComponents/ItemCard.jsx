@@ -4,7 +4,7 @@ import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 
 export const ItemCard = (props) => {
-  const {name, price, status, product_id, qty} = props.item;
+  const {name, price, status, id, qty} = props.item;
   const {cartItem, checkQty, saveLocalCartItem} = useContext(CartContext);
   const {invoices, getInvoices} = useContext(InvoiceContext);
   let latestInvoice = invoices.slice(-1)[0]?.id + 1 || 1;
@@ -15,7 +15,7 @@ export const ItemCard = (props) => {
         <div className="font-semibold">
           {name}
         </div>
-        <Link to={"/maker-io/" + product_id}>
+        <Link to={"/maker-io/" + id}>
           <div className="">
             <img className="hover:scale-75 ease-in-out duration-300 " src="/assets/images/item1.png" alt=""/>
           </div>
