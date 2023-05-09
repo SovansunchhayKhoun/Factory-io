@@ -13,11 +13,11 @@ import {DashboardLayout} from "./layouts/DashboardLayout.jsx";
 import {Inventory} from "./views/Inventory.jsx";
 import { UserView } from "./views/UserView";
 
-
 import {Communitylanding} from "./views/Factoryio/Communitylanding.jsx";
 import {RnDLanding} from "./views/Factoryio/RnDlanding.jsx";
 import {ContestLanding} from "./views/Factoryio/ContestLanding.jsx";
 import {EditItem} from "./views/EditItem.jsx";
+import {OrderView} from "./views/Makerio/OrderView.jsx";
 
 
 const router = createBrowserRouter([
@@ -63,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: 'cart',
         element: <CartView/>
+      },
+      {
+        path: 'order',
+        element: <OrderView />
       }
     ],
   },

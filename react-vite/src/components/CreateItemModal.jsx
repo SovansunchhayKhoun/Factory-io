@@ -13,7 +13,7 @@ function CreateItemModal({
                          }) {
 
   const modalContent = useRef(null);
-  const {formValues,errors,storeItem,onChange} = useContext(ProductContext)
+  const {formValues, errors, storeItem, onChange} = useContext(ProductContext)
 
   // close on click outside
   useEffect(() => {

@@ -9,14 +9,14 @@ const ProductContext = createContext();
 export const ProductProvider = ({children}) => {
   const [items, setItems] = useState([]);
   const [item, setItem] = useState({});
-  const [formValues,setFormValues] = useState({
+  const [formValues, setFormValues] = useState({
     name: "",
     price: "",
     qty: "",
     type: "",
     description: ""
   })
-  const [errors,setErrros] = useState({})
+  const [errors, setErrors] = useState({})
   const getItems = async () => {
     const apiItems = await Axios.get("products");
     setItems(apiItems.data.data);
@@ -25,17 +25,17 @@ export const ProductProvider = ({children}) => {
   const storeItem = async (e) => {
     e.preventDefault()
     try {
-      await Axios.post("products",formValues)
+      await Axios.post("products", formValues)
       location.reload()
-    }catch (e){
-      if(e.response.status === 422){
-        setErrros(e.response.data.errors)
+    } catch (e) {
+      if (e.response.status === 422) {
+        setErrors(e.response.data.errors)
       }
     }
   }
   const onChange = (e) => {
-    const {name,value} = e.target
-    setFormValues({...formValues,[name]:value})
+    const {name, value} = e.target
+    setFormValues({...formValues, [name]: value})
   }
 
   const getItem = async (id) => {
@@ -54,13 +54,31 @@ export const ProductProvider = ({children}) => {
   const updateItem = async (e) => {
     e.preventDefault()
     try {
-      await Axios.put("products/" + item.id,formValues)
+      await Axios.put("products/" + item.id, formValues)
       history.back()
-    } catch (e){
-      if(e.response.status === 422){
-        setErrros(e.response.data.errors)
+    } catch (msg) {
+      if (msg.response.status === 422) {
+        setErrors(msg.response.data.errors)
       }
     }
+  }
+
+  const updateProduct = async (cartItem, e) => {
+    const stockItem = items.find((item) => item.id === cartItem.id)
+    stockItem.qty = stockItem.qty - cartItem.qty;
+    if (stockItem.qty === 0) {
+      stockItem.status = "Out of Stock";
+    }
+    // console.log(JSON.stringify(stockItem))
+    try {
+      await Axios.put("products/" + stockItem.id, stockItem);
+    } catch (msg) {
+      if (msg.response.status === 422) {
+        console.log(msg.response.data.errors);
+      }
+    }
+
+
   }
 
   return <ProductContext.Provider
@@ -74,7 +92,8 @@ export const ProductProvider = ({children}) => {
       getItems,
       getItem,
       onChange,
-      updateItem
+      updateItem,
+      updateProduct
     }}>{children}</ProductContext.Provider>;
 };
 

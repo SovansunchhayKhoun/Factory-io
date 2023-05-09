@@ -8,14 +8,14 @@ Axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
 
 const CartContext = createContext();
 export const CartProvider = ({children}) => {
-  const {items} = useContext(ProductContext);
+  const {items, setItem} = useContext(ProductContext);
   const {invoices} = useContext(InvoiceContext);
   const [cartItem, setCartItem] = useState([]);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const totalPrice = cartItem.reduce((total, i) => total += i.price * i.qty, 0);
 
   let latestInvoice = invoices.slice(-1)[0]?.id + 1 || 1;
-  const storeItem = (item)=> {
+  const storeItem = (item) => {
     if (itemExist(item)) {
       // find and update that existed item qty
       const itemCart = cartItem.find((i) => i.id === item.id);
@@ -23,6 +23,7 @@ export const CartProvider = ({children}) => {
       itemCart.cart_item_price = itemCart.cart_item_price * itemCart.qty;
       setCartItem([...cartItem]);
     } else if (!itemExist(item)) {
+
       setCartItem([...cartItem, {
         invoice_id: latestInvoice,
         id: item.id, // referenced from stock items
@@ -38,10 +39,18 @@ export const CartProvider = ({children}) => {
     saveLocalCartItem(cartItem);
   }
 
-  const checkQty = (item) => {
-    if (item.qty) {
-      item.qty = item.qty - 1;
+  const addToCart = (item, currentQty) => {
+    currentQty = currentQty-1;
+    if (item.qty && currentQty >= 0) {
       storeItem(item);
+      // if item doesnt exist in cart, save item
+      !cartItem.find((i) => item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
+        ...item,
+        invoice_id: latestInvoice,
+        product_id: item.id,
+        qty: 1,
+        cart_item_price: item.price * 1,
+      })])
     }
   }
 
@@ -80,7 +89,7 @@ export const CartProvider = ({children}) => {
   const decreaseItemQty = (cart) => {
     // set variable for cart item
     const item = cartItem.find((i) => i.id === cart.id);
-    item.qty > 0 ? item.qty = item.qty - 1 : cartItem.splice(cartItem.indexOf(item), 1);
+    item.qty > 1 ? item.qty = item.qty - 1 : cartItem.splice(cartItem.indexOf(item), 1);
 
     item.cart_item_price = item.cart_item_price * item.qty;
 
@@ -92,7 +101,7 @@ export const CartProvider = ({children}) => {
     setCartItem(JSON.parse(localStorage.getItem('CART_ITEM')) ?? []);
   };
 
-  function clearCart () {
+  function clearCart() {
     localStorage.removeItem('CART_ITEM');
     document.location.reload(true);
   }
@@ -118,7 +127,7 @@ export const CartProvider = ({children}) => {
     setCartItem,
     error,
     setError,
-    checkQty,
+    addToCart,
     checkOut,
     getCartItem,
     saveLocalCartItem,

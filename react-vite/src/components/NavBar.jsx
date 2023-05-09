@@ -55,7 +55,7 @@ export const NavBar = () => {
           </span>
         </div>
         <div className="highlight-hover">
-          <Link to="#order">
+          <Link to="/maker-io/order">
             Order
           </Link>
         </div>

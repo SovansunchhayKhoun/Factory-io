@@ -4,10 +4,12 @@ import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 
 export const ItemCard = (props) => {
-  const {name, price, status, id, qty} = props.item;
-  const {cartItem, checkQty, saveLocalCartItem} = useContext(CartContext);
-  const {invoices, getInvoices} = useContext(InvoiceContext);
-  let latestInvoice = invoices.slice(-1)[0]?.id + 1 || 1;
+  const {name, price, status, id, errorStatus} = props.item;
+  let {qty} = props.item;
+  const {cartItem, addToCart} = useContext(CartContext);
+  const itemCart = cartItem.find((i) => i.id === id);
+  const currentQty = qty - (itemCart?.qty || 0);
+
   return (
     <>
       {/*cart-item */}
@@ -26,24 +28,16 @@ export const ItemCard = (props) => {
           </div>
           <div className="mr-3 text-[#8A0000]">
             <span className="font-bold">
-              {qty}
+              {currentQty === 0 ? "Out of Stock" : "In Stock"}
             </span>
           </div>
-          <button className="rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300"
+          <button className={currentQty === 0 ? "hidden" : " rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300"}
                   onClick={() => {
-                    checkQty(props.item);
-                    !cartItem.find((i) => props.item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
-                      ...props.item,
-                      invoice_id: latestInvoice,
-                      product_id: props.item.id,
-                      qty: 1,
-                      cart_item_price: price*1,
-                    })])
+                    addToCart(props.item, currentQty);
                   }}>
             <img width="36" src="/assets/images/cart-icon.png" alt=""/>
           </button>
         </div>
-
       </div>
       {/*cart-item */}
     </>

@@ -3,6 +3,8 @@ import {ItemCard} from "../../components/CartComponents/ItemCard.jsx";
 import {useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
+import CartContext from "../../context/CartContext.jsx";
+import {Pagination} from "@mui/material";
 
 export const MakerLanding = () => {
   let navigate = useNavigate();

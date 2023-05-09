@@ -4,7 +4,7 @@ import {Link} from "react-router-dom"
 import CartContext from "../../context/CartContext.jsx";
 export const CartItem = (props) => {
   const {item} = props;
-  const {increaseItemQty, decreaseItemQty, cartItem, setCartItem, saveLocalCartItem, error, setError} = useContext(CartContext);
+  const {increaseItemQty, decreaseItemQty, cartItem, setCartItem, saveLocalCartItem} = useContext(CartContext);
   return (
     <div className="px-12 py-3 flex items-center justify-between border-2 border-tealActive shadow-2xl">
       <div className="flex items-center gap-x-6">

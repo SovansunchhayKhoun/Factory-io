@@ -7,13 +7,14 @@ import InvoiceContext from "../../context/InvoiceContext.jsx";
 export const ItemView = (props) => {
   let {id} = useParams();
   const {item, getItem} = useContext(ProductContext);
-  const {checkQty, cartItem, saveLocalCartItem} = useContext(CartContext);
-  const {invoices} = useContext(InvoiceContext);
-  let latestInvoice = invoices.slice(-1)[0]?.id + 1 || 1;
+  const {addToCart, cartItem} = useContext(CartContext);
 
   useEffect(() => {
     getItem(id);
   }, []);
+
+  const itemCart = cartItem.find((i) => i.id === item.id);
+  const currentQty = item.qty - (itemCart?.qty || 0);
 
   const [addItem, setAddItem] = useState("");
   let navigate = useNavigate();
@@ -34,7 +35,7 @@ export const ItemView = (props) => {
           <div className="mb-2 font-bold text-blueBase">${item.price}</div>
           <div className="mb-2 font-bold text-tealBase">{item.name}</div>
           <div className="mb-2 text-blackFactory">Item Type: {item.type}</div>
-          <div className="mb-2 text-redBase font-bold">{item.status}</div>
+          <div className="mb-2 text-redBase font-bold">{currentQty === 0 ? "Out of Stock" : item.status}</div>
           <div className="mb-2 text-blackFactory">
             Description
             <p className="mb-3">
@@ -46,20 +47,11 @@ export const ItemView = (props) => {
               {addItem}
             </p>
             <button onClick={() => {
-              checkQty(item);
-
-              !cartItem.find((i) => item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
-                ...item,
-                invoice_id: latestInvoice,
-                product_id: item.id,
-                qty: 1,
-                cart_item_price: item.price*1,
-              })])
-
+              addToCart(item);
               setAddItem("Item has been added to cart");
               setTimeout(() => {
                 setAddItem("")
-              }, 3000);
+              }, 2500);
             }}>
               <img src="/assets/images/cart-icon.png" alt=""/>
             </button>

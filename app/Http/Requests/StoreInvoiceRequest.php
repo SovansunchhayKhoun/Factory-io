@@ -26,7 +26,7 @@
         'status' => ['nullable'],
         'payment_pic' => ['required'],
         'address' => ['nullable'],
-        'totalPrice' => ['required'],
+        'totalPrice' => ['required', 'numeric', 'min:1', 'not_in:0'],
       ];
     }
   }

@@ -30,13 +30,13 @@ export const InvoiceProvider = ({children}) => {
     };
     try {
       await Axios.post('invoices', invoice);
-      setInvoiceError("Invoice Created");
     } catch (e) {
-      setInvoiceError("Cannot Create Invoice")
+      setInvoiceError("Your cart is empty, silly")
+      setTimeout(() => {
+        setInvoiceError('')
+      }, 1500)
     }
   }
-
-
 
   return (
     <InvoiceContext.Provider value={{

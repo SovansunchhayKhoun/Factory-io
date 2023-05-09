@@ -1,8 +1,10 @@
 import {useContext} from "react";
 import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
+import ProductContext from "../../context/ProductContext.jsx";
 
 export const Payment = () => {
+  const {updateProduct} = useContext(ProductContext);
   const {cartItem, checkOut, totalPrice, error} = useContext(CartContext);
   const {invoices, storeInvoice, invoiceError, latestInvoice} = useContext(InvoiceContext);
   return (
@@ -34,6 +36,7 @@ export const Payment = () => {
           storeInvoice(totalPrice);
           cartItem.forEach((item) => {
             checkOut(item);
+            updateProduct(item);
           });
         }} className="bg-redHover text-whiteFactory px-3 py-1 rounded-[20px]">Check out</button>
       </div>
