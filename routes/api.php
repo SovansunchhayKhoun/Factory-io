@@ -24,7 +24,7 @@ Route::group (['prefix' => 'v1'], function () {
 });
 
 Route::middleware('auth:sanctum')->group(function (){
-  Route::get('/maker-io/user/{id}', function (Request $request) {
+  Route::get('/users', function (Request $request) {
     return $request->user();
   });
 Route::post('/logout',[AuthController::class,'logout']);

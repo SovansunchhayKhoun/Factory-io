@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->double ('price');
             $table->integer ('qty')->nullable ();
-            $table->string('status')->default ('Out of Stock');
+            $table->string('status')->default ('In Stock');
             $table->string('type')->nullable ();
             $table->longText('description')->nullable ();
             $table->timestamps();
