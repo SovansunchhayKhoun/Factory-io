@@ -11,11 +11,10 @@ export const NavBar = () => {
     getCartItem();
   }, []);
   return (
-    <nav className="z-50 sticky top-0 bg-white z-100 mb-12 flex px-36 py-4 justify-between items-center">
+    <nav className="z-50 sticky top-0 bg-whiteFactory z-100 mb-12 flex px-36 py-4 justify-between items-center">
       <Link to="/maker-io">
         <img width="100" src="/assets/images/makerio.png" alt=""/>
       </Link>
-
       <div className="flex items-center gap-x-12">
         <div className="highlight-hover text-[#8A0000]">
           <Link to="">

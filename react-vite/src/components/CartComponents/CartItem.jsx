@@ -1,7 +1,7 @@
 import {useContext, useState} from "react";
-import ProductContext from "../context/ProductContext.jsx";
+import ProductContext from "../../context/ProductContext.jsx";
 import {Link} from "react-router-dom"
-import CartContext from "../context/CartContext.jsx";
+import CartContext from "../../context/CartContext.jsx";
 export const CartItem = (props) => {
   const {item} = props;
   const {increaseItemQty, decreaseItemQty, cartItem, setCartItem, saveLocalCartItem, error, setError} = useContext(CartContext);
@@ -14,7 +14,7 @@ export const CartItem = (props) => {
         <div>
           <div className="mb-1 font-bold text-blueBase">${item.price}</div>
           <Link to={`/maker-io/${item.id}`}>
-            <div className="highlight-hover transition duration-150 mb-1 text-tealHover font-bold">{item.name}, {item.cart_item_price}</div>
+            <div className="highlight-hover transition duration-150 mb-1 text-tealHover font-bold">{item.name}</div>
           </Link>
           <div className="mb-1 text-blackFactory">Item Type: Arduino</div>
           <div className="mb-1 flex items-center gap-x-2">
@@ -40,7 +40,7 @@ export const CartItem = (props) => {
           cartItem.splice(cartItem.indexOf(item), 1);
           saveLocalCartItem(cartItem);
           setCartItem([...cartItem]);
-        }}> 
+        }}>
           <img width="18" src="/assets/images/trashcan.png" alt=""/>
         </button>
       </div>

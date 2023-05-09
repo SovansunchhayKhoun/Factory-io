@@ -22,10 +22,10 @@
     public function rules () : array
     {
       return [
-        [
-          'invoice_id' => [ 'required' ],
-          'product_id' => [ 'required' ]
-        ]
+        'invoice_id' => [ 'required' ] ,
+        'product_id' => [ 'required' ] ,
+        'qty' => [ 'required' ] ,
+        'cart_item_price' => [ 'required' ] ,
       ];
     }
   }

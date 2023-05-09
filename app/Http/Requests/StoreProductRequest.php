@@ -24,7 +24,7 @@ class StoreProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'min: 3', 'max: 64'],
+            'name' => ['required'],
             'price'=> ['required']
         ];
     }

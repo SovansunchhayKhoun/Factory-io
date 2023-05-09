@@ -22,7 +22,6 @@
     public function rules () : array
     {
       return [
-        'id' => [ 'required' ] ,
         'date' => [ 'required' ] ,
         'status' => ['nullable'],
         'payment_pic' => ['required'],

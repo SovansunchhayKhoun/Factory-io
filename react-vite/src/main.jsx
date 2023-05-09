@@ -8,16 +8,20 @@ import router from "./router.jsx";
 import {AuthContext} from "./context/AuthContext.jsx";
 import {ProductProvider} from "./context/ProductContext.jsx";
 import {CartProvider} from "./context/CartContext.jsx";
+import {InvoiceProvider} from "./context/InvoiceContext.jsx";
+
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-        <AuthContext>
-            <ProductProvider>
-              <CartProvider>
-                <RouterProvider router={router}/>
-              </CartProvider>
-            </ProductProvider>
-        </AuthContext>
-    </React.StrictMode>,
+  <React.StrictMode>
+    <AuthContext>
+      <InvoiceProvider>
+        <ProductProvider>
+          <CartProvider>
+            <RouterProvider router={router}/>
+          </CartProvider>
+        </ProductProvider>
+      </InvoiceProvider>
+    </AuthContext>
+  </React.StrictMode>,
 )
 
 

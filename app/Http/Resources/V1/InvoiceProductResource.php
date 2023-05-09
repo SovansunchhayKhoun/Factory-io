@@ -17,6 +17,8 @@ class InvoiceProductResource extends JsonResource
         return [
           'invoice_id' => $this->invoice_id,
           'product_id' => $this->product_id,
+          'qty' => $this->qty,
+          'cart_item_price' => $this->cart_item_price,
         ];
     }
 }

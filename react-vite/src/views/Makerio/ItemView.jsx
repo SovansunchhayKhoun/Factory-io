@@ -1,11 +1,12 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
-import ProductContext from "../context/ProductContext.jsx";
+import ProductContext from "../../context/ProductContext.jsx";
+import CartContext from "../../context/CartContext.jsx";
 
 export const ItemView = (props) => {
   let {id} = useParams();
-  const {item, getItem, storeItem} = useContext(ProductContext);
-
+  const {item, getItem} = useContext(ProductContext);
+  const {checkQty} = useContext(CartContext);
   useEffect(() => {
     getItem(id);
   }, []);
@@ -40,7 +41,7 @@ export const ItemView = (props) => {
               {addItem}
             </p>
             <button onClick={() => {
-              storeItem(item);
+              checkQty(item);
               setAddItem("Item has been added to cart");
               setTimeout(() => {
                 setAddItem("")

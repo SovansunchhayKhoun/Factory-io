@@ -1,23 +1,19 @@
 import {Link} from "react-router-dom";
-import {ItemCard} from "../components/ItemCard.jsx";
+import {ItemCard} from "../../components/CartComponents/ItemCard.jsx";
 import {useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
-import ProductContext from "../context/ProductContext.jsx";
+import ProductContext from "../../context/ProductContext.jsx";
 
 export const MakerLanding = () => {
   let navigate = useNavigate();
   const {items, getItems} = useContext(ProductContext);
+
   useEffect(() => {
     getItems();
   }, []);
 
   return (
     <main className="">
-      <button onClick={() => {
-        localStorage.removeItem('CART_ITEM');
-        document.location.reload(true);
-      }}>Clear Local Storage</button>
-
       <div className="flex flex-col items-center gap-y-6">
         <section className="font-bold">
           Product
