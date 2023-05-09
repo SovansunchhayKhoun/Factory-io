@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import {UserCard} from "../components/UserCard.jsx";
+import {UserCard} from "../../components/UserCard.jsx";
 
 export const LandingPage = () => {
   return (
