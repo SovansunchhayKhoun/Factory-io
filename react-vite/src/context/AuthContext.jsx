@@ -38,7 +38,7 @@ export const AuthContext = ({children}) => {
       token,
       setUser,
       setToken,
-      onLogout
+      onLogout,
     }}>
       {children}
     </StateContext.Provider>

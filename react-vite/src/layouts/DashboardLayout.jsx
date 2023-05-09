@@ -1,4 +1,4 @@
-import {Navigate, Outlet} from "react-router-dom";
+import {Navigate, NavLink, Outlet} from "react-router-dom";
 import {useAuthContext} from "../context/AuthContext.jsx";
 import {useEffect, useState} from "react";
 import Sidebar from "../partials/Sidebar.jsx";
@@ -10,10 +10,8 @@ export const DashboardLayout = () => {
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('USER_CREDENTIALS')))
   }, []);
-  if (!token) {
-    return <Navigate to="/"/>
-  } else {
-    if(user['acc_type'] === 0){
+  if (token) {
+    if(user['acc_type'] === 0) {
       return (
         <div className="flex h-screen overflow-hidden">
           {/* Sidebar */}
@@ -24,13 +22,18 @@ export const DashboardLayout = () => {
             <Outlet/>
           </div>
         </div>
-
-
       )
     }else{
-      return <Navigate to='/'/>
+      return (
+        <div>
+          You are not authorize
+          <NavLink to="/">GO back</NavLink>
+        </div>
+      )
     }
 
+  } else {
+    return <Navigate to="/"/>
   }
 
 }
