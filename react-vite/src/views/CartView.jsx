@@ -30,7 +30,6 @@ export const CartView = () => {
         {cartItem.map((item) => {
           if (item.id) {
             return (
-              // <CartItem key={item.id} name={item.name} price={item.price} id={item.id} qty={item.qty}/>
               <CartItem key={item.id} item={item}/>
             );
           }

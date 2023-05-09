@@ -101,20 +101,24 @@ export const LandingPage = () => {
           Our Community
         </div>
         <div>
-            <span className="flex flex-col items-center gap-y-6 p-2 font-normal text-center ">
+            <span className="flex flex-col items-center gap-y-6 p-2 font-normal text-center mb-12">
               The IoT (Internet of Things) platform community consists of a broad spectrum of people, groups, and businesses engaged in the creation, implementation, and usage of IoT platforms. For the purpose of facilitating the development of scalable and interoperable IoT systems, its focus is on defining standards, best practices, and working together on open-source projects. The community, which consists of software providers, system integrators, hardware producers, network operators, and end users, collaborates to address the technical, commercial, and legal issues related to IoT deployment and to create new use cases and applications that make use of IoT platforms.
             </span>
         </div>
-        <div className="grid-cols-5 items-center">
-          <UserCard pf="seangly.jpg" name="Sou Seangly" position="Factory.io" manangement="Project superviser" fbL="https://web.facebook.com/profile.php?id=100022815573502" LL="https://www.linkedin.com/in/seangly-sou-20a9a81ab/" />
-          <UserCard pf="doung.jpg" name="Ngob Doung" position="RobotX" manangement="Project Program Coordinator" fbL="" LL=""/>
-          <UserCard pf="mol.jpg" name="Oem Pimol" position="RobotX" manangement="Program Business led" fbL="https://web.facebook.com/en.dy.9469" LL=""/>
-          <UserCard pf="dara.jpg" name="Yi Chandara" position="Reachsa.io" manangement="Platform Coordinator" fbL="" LL=""/>
-          <UserCard pf="udom.jpg" name="Ray Channudam" position="Reachsa.io" manangement="Platform & Business Coordinator" fbL="https://web.facebook.com/channudam.ray.9" LL="https://www.linkedin.com/in/chann-udam-ray-aa3387200"/>
-          <UserCard pf="kakada.jpg" name="Noch Kakada" position="Reachsa.io" manangement="PCB Coordinator" fbL="https://web.facebook.com/profile.php?id=100032315051455" LL=""/>
-          <UserCard pf="ratanak.jpg" name="Brorn Munyratanak" position="Maker.io" manangement="Production Control Coordinator" fbl="https://web.facebook.com/gkmuny.ratanak.1" LL="https://www.linkedin.com/in/brorn-munyratanak-9ab526254"/>
-          <UserCard pf="marot.jpg" name="Tep Marot" position="Maker.io" manangement="Project Led" fbL="" LL="" />
-        </div>
+          <div className="flex flex-col items-center gap-16">
+            <div className="grid grid-cols-5">
+              <UserCard pf="seangly.jpg" name="Sou Seangly" position="Factory.io" manangement="Project superviser" fbL="https://web.facebook.com/profile.php?id=100022815573502" LL="https://www.linkedin.com/in/seangly-sou-20a9a81ab/" />
+              <UserCard pf="doung.jpg" name="Ngob Doung" position="RobotX" manangement="Project Program Coordinator" fbL="" LL=""/>
+              <UserCard pf="mol.jpg" name="Oem Pimol" position="RobotX" manangement="Program Business led" fbL="https://web.facebook.com/en.dy.9469" LL=""/>
+              <UserCard pf="dara.jpg" name="Yi Chandara" position="Reachsa.io" manangement="Platform Coordinator" fbL="" LL=""/>
+              <UserCard pf="udom.jpg" name="Ray Channudam" position="Reachsa.io" manangement="Platform & Business Coordinator" fbL="https://web.facebook.com/channudam.ray.9" LL="https://www.linkedin.com/in/chann-udam-ray-aa3387200"/>
+            </div>
+            <div className="grid grid-cols-3">
+              <UserCard pf="kakada.jpg" name="Noch Kakada" position="Reachsa.io" manangement="PCB Coordinator" fbL="https://web.facebook.com/profile.php?id=100032315051455" LL=""/>
+              <UserCard pf="ratanak.jpg" name="Brorn Munyratanak" position="Maker.io" manangement="Production Control Coordinator" fbl="https://web.facebook.com/gkmuny.ratanak.1" LL="https://www.linkedin.com/in/brorn-munyratanak-9ab526254"/>
+              <UserCard pf="marot.jpg" name="Tep Marot" position="Maker.io" manangement="Project Led" fbL="" LL="" />
+            </div>
+          </div>
       </div>
 
     </main>

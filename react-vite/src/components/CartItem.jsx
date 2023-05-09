@@ -14,7 +14,7 @@ export const CartItem = (props) => {
         <div>
           <div className="mb-1 font-bold text-blueBase">${item.price}</div>
           <Link to={`/maker-io/${item.id}`}>
-            <div className="highlight-hover transition duration-150 mb-1 text-tealHover font-bold">{item.name}</div>
+            <div className="highlight-hover transition duration-150 mb-1 text-tealHover font-bold">{item.name}, {item.cart_item_price}</div>
           </Link>
           <div className="mb-1 text-blackFactory">Item Type: Arduino</div>
           <div className="mb-1 flex items-center gap-x-2">
@@ -38,9 +38,9 @@ export const CartItem = (props) => {
       <div>
         <button onClick={() =>{
           cartItem.splice(cartItem.indexOf(item), 1);
-          setCartItem([...cartItem]);
           saveLocalCartItem(cartItem);
-        }}>
+          setCartItem([...cartItem]);
+        }}> 
           <img width="18" src="/assets/images/trashcan.png" alt=""/>
         </button>
       </div>

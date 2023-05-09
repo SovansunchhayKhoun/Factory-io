@@ -16,17 +16,17 @@ export const CartProvider = ({children}) => {
       const itemCart = cartItem.find((i) => i.id === item.id);
       itemCart.qty = itemCart.qty + 1;
       itemCart.cart_item_price = itemCart.cart_item_price * itemCart.qty;
-      setCartItem([...cartItem]);
+      // setCartItem([...cartItem]);
     } else if (!itemExist(item)) {
-      setCartItem([...cartItem, {
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        qty: 1,
-        status: item.status,
-        errorStatus: false,
-        cart_item_price: item.price * 1,
-      }]);
+      console.log(cartItem);
+      // setCartItem([...cartItem, {
+      //   id: item.id,
+      //   name: item.name,
+      //   price: item.price,
+      //   qty: 1,
+      //   status: item.status,
+      //   errorStatus: false,
+      // }]);
     }
     saveLocalCartItem(cartItem);
   }

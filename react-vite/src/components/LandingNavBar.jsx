@@ -11,7 +11,7 @@ export const LandingNavBar = () => {
 
   return (
     <>
-      <nav className="sticky top-0 bg-white z-100 mb-12 flex px-4 py-4 justify-between items-center">
+      <nav className="sticky top-0 w-full bg-whiteFactory z-10 mb-12 flex px-4 py-4 justify-between items-center ">
         <Link to="/" className="ml-6">
           <img className="w-30 h-4" src="/assets/images/factory.png" alt=""/>
         </Link>
@@ -48,7 +48,7 @@ export const LandingNavBar = () => {
             token ? (
                 <>
                   <div className="mr-1">
-                    <Link to={`/maker-io/user/${user.id}`} className="highlight-hover text-[#3C3C3C]">
+                    <Link to={`/maker-io/user/${user?.id}`} className="highlight-hover text-[#3C3C3C]">
                       {user?.firstName}
                     </Link>
                   </div>

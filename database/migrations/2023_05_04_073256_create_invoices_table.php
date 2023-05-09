@@ -19,6 +19,7 @@ return new class extends Migration
             $table->double('totalPrice');
             $table->tinyInteger ('status');
             $table->string('address');
+            $table->text('payment_pic');
             $table->timestamps();
         });
     }

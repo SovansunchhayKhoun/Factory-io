@@ -13,7 +13,7 @@ export const MakerLayout = () => {
     <>
       <NavBar/>
       <Outlet/>
-      {/* <Footer/> */}
+       <Footer/>
     </>
   );
 };
