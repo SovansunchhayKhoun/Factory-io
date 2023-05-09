@@ -4,11 +4,13 @@
 }
 
 body {
+  min-height: 1080px;
   position: relative;
   overflow: auto;
 }
 
 main {
+  position: relative;
   padding-left: 9rem;
   padding-right: 9rem;
   padding-bottom: 9rem;
@@ -34,8 +36,19 @@ main {
   display: grid;
   grid-template-columns: repeat(4, 300px);
 }
-
-.user-card{
-  background: linear-gradient(to-bottom, #18264B, #B21317)
+.card-container{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
 }
+.user-card{
+  background: linear-gradient(to bottom, #18264B, #B21317);
+}
+.inner-card {
+  width: 95%;
+  display: inline-flex;
+  flex-direction: column;
+  justify-items: center;
+}
+
+
 

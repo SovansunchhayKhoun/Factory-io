@@ -1,16 +1,21 @@
-import {createContext, useContext, useState} from "react";
+import {createContext, useContext, useEffect, useState} from "react";
 import ProductContext from "./ProductContext.jsx";
 import Axios from "axios";
-import {useNavigate} from "react-router-dom";
+import InvoiceContext from "./InvoiceContext.jsx";
+import invoiceContext from "./InvoiceContext.jsx";
+
 Axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
 
 const CartContext = createContext();
 export const CartProvider = ({children}) => {
-  const {getItems, items, setItems, setItem} = useContext(ProductContext);
+  const {items} = useContext(ProductContext);
+  const {invoices} = useContext(InvoiceContext);
   const [cartItem, setCartItem] = useState([]);
   const [error, setError] = useState(false);
-  const totalPrice = cartItem.reduce((total, i) => total+=i.price*i.qty,0);
-  function storeItem (item)  {
+  const totalPrice = cartItem.reduce((total, i) => total += i.price * i.qty, 0);
+
+  let latestInvoice = invoices.slice(-1)[0]?.id + 1 || 1;
+  const storeItem = (item)=> {
     if (itemExist(item)) {
       // find and update that existed item qty
       const itemCart = cartItem.find((i) => i.id === item.id);
@@ -19,7 +24,9 @@ export const CartProvider = ({children}) => {
       setCartItem([...cartItem]);
     } else if (!itemExist(item)) {
       setCartItem([...cartItem, {
-        id: item.id,
+        invoice_id: latestInvoice,
+        id: item.id, // referenced from stock items
+        product_id: item.id, //for cart product database
         name: item.name,
         price: item.price,
         qty: 1,
@@ -30,8 +37,9 @@ export const CartProvider = ({children}) => {
     }
     saveLocalCartItem(cartItem);
   }
+
   const checkQty = (item) => {
-    if(item.qty) {
+    if (item.qty) {
       item.qty = item.qty - 1;
       storeItem(item);
     }
@@ -84,17 +92,26 @@ export const CartProvider = ({children}) => {
     setCartItem(JSON.parse(localStorage.getItem('CART_ITEM')) ?? []);
   };
 
-  const checkOut = async (e) => {
-    e.preventDefault();
-    try{
-      await Axios.post('products', cartItem);
-      getItems();
-    } catch (e){
-      if(e.response.status = 422){
-        console.log(e.response.data.errors);
+  function clearCart () {
+    localStorage.removeItem('CART_ITEM');
+    document.location.reload(true);
+  }
+
+  const checkOut = async (item) => {
+    try {
+      await Axios.post('invoice_products', item);
+      setError('Check Out Successful')
+      setTimeout(() => {
+        setError('');
+      }, 1500);
+      clearCart();
+    } catch (e) {
+      if (e.response.status = 422) {
+        setError("Cannot Checkout");
       }
     }
   }
+
 
   return <CartContext.Provider value={{
     cartItem,

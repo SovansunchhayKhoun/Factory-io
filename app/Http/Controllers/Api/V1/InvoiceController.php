@@ -3,24 +3,27 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Resources\V1\InvoiceResource;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
   public function index ()
   {
-    return response ()->json ('Invoice Index');
+    return InvoiceResource::collection (Invoice::all ());
   }
 
-  public function store (  )
+  public function store (StoreInvoiceRequest $request )
   {
-
+    Invoice::create($request->validated ());
+    return response()->json ('Invoice Created');
   }
 
-  public function show (  )
+  public function show ( Invoice $invoice )
   {
-
+    return  new InvoiceResource($invoice);
   }
 
   public function update ( )

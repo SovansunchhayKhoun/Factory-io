@@ -1,7 +1,7 @@
 import {useContext, useState} from "react";
-import ProductContext from "../context/ProductContext.jsx";
+import ProductContext from "../../context/ProductContext.jsx";
 import {Link} from "react-router-dom"
-import CartContext from "../context/CartContext.jsx";
+import CartContext from "../../context/CartContext.jsx";
 export const CartItem = (props) => {
   const {item} = props;
   const {increaseItemQty, decreaseItemQty, cartItem, setCartItem, saveLocalCartItem, error, setError} = useContext(CartContext);
@@ -38,8 +38,8 @@ export const CartItem = (props) => {
       <div>
         <button onClick={() =>{
           cartItem.splice(cartItem.indexOf(item), 1);
-          setCartItem([...cartItem]);
           saveLocalCartItem(cartItem);
+          setCartItem([...cartItem]);
         }}>
           <img width="18" src="/assets/images/trashcan.png" alt=""/>
         </button>
