@@ -22,6 +22,7 @@
     public function rules () : array
     {
       return [
+        'user_id' => ['required'],
         'invoice_id' => [ 'required' ] ,
         'product_id' => [ 'required' ] ,
         'qty' => [ 'required' ] ,

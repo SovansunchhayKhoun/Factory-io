@@ -2,11 +2,14 @@ import {useContext} from "react";
 import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 import ProductContext from "../../context/ProductContext.jsx";
+import {useAuthContext} from "../../context/AuthContext.jsx";
 
 export const Payment = () => {
   const {updateProduct} = useContext(ProductContext);
   const {cartItem, checkOut, totalPrice, error} = useContext(CartContext);
-  const {invoices, storeInvoice, invoiceError, latestInvoice} = useContext(InvoiceContext);
+  // const {invoices, storeInvoice, invoiceError, latestInvoice} = useContext(InvoiceContext);
+  const {storeInvoice} = useContext(InvoiceContext);
+  // console.log(invoices);
   return (
     <>
       <div className="flex justify-between items-center bg-tealActive py-12 px-48">
@@ -42,7 +45,7 @@ export const Payment = () => {
       </div>
       <div className="font-bold text-green-500">
         {error}
-        {invoiceError}
+        {/*{invoiceError}*/}
       </div>
     </>
   );

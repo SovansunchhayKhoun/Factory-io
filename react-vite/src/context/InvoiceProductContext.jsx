@@ -13,7 +13,7 @@ export const InvoiceProductProvider = ({children}) => {
   //   setInvoiceProducts(apiItem.data.data);
   // };
 
-  const {data:invoiceProduct, isLoading} = useQuery(['invoices'], () => {
+  const {data:invoiceProduct, isLoading} = useQuery(['invoice_products'], () => {
     return Axios.get("invoice_products").then((res) => {
       return res.data.data;
     })

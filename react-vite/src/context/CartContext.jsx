@@ -3,28 +3,30 @@ import ProductContext from "./ProductContext.jsx";
 import Axios from "axios";
 import InvoiceContext from "./InvoiceContext.jsx";
 import invoiceContext from "./InvoiceContext.jsx";
+import {useAuthContext} from "./AuthContext.jsx";
 
 Axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
 
 const CartContext = createContext();
 export const CartProvider = ({children}) => {
   const {items, setItem} = useContext(ProductContext);
-  const {invoices} = useContext(InvoiceContext);
+  const {invoices, isLoading} = useContext(InvoiceContext);
   const [cartItem, setCartItem] = useState([]);
   const [error, setError] = useState("");
   const totalPrice = cartItem.reduce((total, i) => total += i.price * i.qty, 0);
+  const {user} = useAuthContext();
 
-  let latestInvoice = invoices.slice(-1)[0]?.id + 1 || 1;
+  let latestInvoice = !isLoading && invoices.slice(-1)[0]?.id + 1 || 1;
   const storeItem = (item) => {
     if (itemExist(item)) {
       // find and update that existed item qty
       const itemCart = cartItem.find((i) => i.id === item.id);
       itemCart.qty = itemCart.qty + 1;
-      itemCart.cart_item_price = itemCart.cart_item_price * itemCart.qty;
+      itemCart.cart_item_price = item.price * itemCart.qty;
       setCartItem([...cartItem]);
     } else if (!itemExist(item)) {
-
       setCartItem([...cartItem, {
+        user_id: user.id,
         invoice_id: latestInvoice,
         id: item.id, // referenced from stock items
         product_id: item.id, //for cart product database
@@ -46,6 +48,7 @@ export const CartProvider = ({children}) => {
       // if item doesnt exist in cart, save item
       !cartItem.find((i) => item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
         ...item,
+        user_id: user.id,
         invoice_id: latestInvoice,
         product_id: item.id,
         qty: 1,

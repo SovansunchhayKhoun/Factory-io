@@ -20,6 +20,7 @@ return new class extends Migration
             $table->tinyInteger ('status');
             $table->string('address');
             $table->text('payment_pic');
+            $table->foreignId ('user_id')->references ('id')->on ('users') -> onDelete ('cascade');
             $table->timestamps();
         });
     }

@@ -7,10 +7,10 @@ import InvoiceContext from "../context/InvoiceContext.jsx";
 
 export const MakerLayout = () => {
   const {setUser} = useAuthContext()
-  const {getInvoices} = useContext(InvoiceContext);
+  // const {invoices} = useContext(InvoiceContext);
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('USER_CREDENTIALS')))
-    getInvoices();
+    // getInvoices();
   }, []);
 
   return (
