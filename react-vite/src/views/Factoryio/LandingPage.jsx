@@ -19,7 +19,7 @@ export const LandingPage = () => {
           </button>
         </div>
         <div className="w-[448px] h-[333px] mr-10 justify-end">
-          <img src="/assets/images/board.jpg"/>
+          <img src="/assets/images/board.jpg" alt=""/>
         </div>
       </div>
       <div className="px-48 mb-12 flex justify-center">
@@ -111,26 +111,28 @@ export const LandingPage = () => {
         </div>
         <div className="flex flex-col items-center gap-16">
           <div className="grid grid-cols-5">
-            <UserCard pf="seangly.jpg" name="Sou Seangly" position="Factory.io" manangement="Project superviser"
+            <UserCard pf="seangly.jpg" name="Sou Seangly" position="Factory.io" management="Project superviser"
                       fbL="https://web.facebook.com/profile.php?id=100022815573502"
                       LL="https://www.linkedin.com/in/seangly-sou-20a9a81ab/"/>
-            <UserCard pf="doung.jpg" name="Ngob Doung" position="RobotX" manangement="Project Program Coordinator"
-                      fbL="" LL=""/>
-            <UserCard pf="mol.jpg" name="Oem Pimol" position="RobotX" manangement="Program Business led"
+            <UserCard pf="doung.jpg" name="Ngob Doung" position="RobotX" management="Project Program Coordinator"
+                      fbL="https://www.facebook.com/profile.php?id=100009312509919" LL=""/>
+            <UserCard pf="mol.jpg" name="Oem Pimol" position="RobotX" management="Program Business led"
                       fbL="https://web.facebook.com/en.dy.9469" LL=""/>
-            <UserCard pf="dara.jpg" name="Yi Chandara" position="Reachsa.io" manangement="Platform Coordinator" fbL=""
-                      LL=""/>
+            <UserCard pf="dara.jpg" name="Yi Chandara" position="Reachsa.io" management="Platform Coordinator"
+                      fbL="https://www.facebook.com/profile.php?id=100008439013405"
+                      LL="https://www.linkedin.com/in/chandara-yi-302a00228/"/>
             <UserCard pf="udom.jpg" name="Ray Channudam" position="Reachsa.io"
-                      manangement="Platform & Business Coordinator" fbL="https://web.facebook.com/channudam.ray.9"
+                      management="Platform & Business Coordinator"
+                      fbL="https://web.facebook.com/channudam.ray.9"
                       LL="https://www.linkedin.com/in/chann-udam-ray-aa3387200"/>
           </div>
           <div className="grid grid-cols-3">
-            <UserCard pf="kakada.jpg" name="Noch Kakada" position="Reachsa.io" manangement="PCB Coordinator"
-                      fbL="https://web.facebook.com/profile.php?id=100032315051455" LL=""/>
+            <UserCard pf="kakada.jpg" name="Noch Kakada" position="Reachsa.io" management="PCB Coordinator"
+                      fbL="https://web.facebook.com/profile.php?id=100032315051455" LL="https://www.linkedin.com/in/noch-kakada-953bb7274"/>
             <UserCard pf="ratanak.jpg" name="Brorn Munyratanak" position="Maker.io"
-                      manangement="Production Control Coordinator" fbl="https://web.facebook.com/gkmuny.ratanak.1"
+                      management="Production Control Coordinator" fbl="https://web.facebook.com/gkmuny.ratanak.1"
                       LL="https://www.linkedin.com/in/brorn-munyratanak-9ab526254"/>
-            <UserCard pf="marot.jpg" name="Tep Marot" position="Maker.io" manangement="Project Led" fbL="" LL=""/>
+            <UserCard pf="marot.jpg" name="Tep Marot" position="Maker.io" management="Project Led" fbL="https://www.facebook.com/daniel.ohhhyeaaa?mibextid=ZbWKwL" LL="https://www.linkedin.com/in/tep-marot-575973262"/>
           </div>
         </div>
       </div>

@@ -12,7 +12,7 @@ export const UserCard = (props) => {
                   {props.position}
                 </div>
                 <div className="font-normal text-center">
-                  Management{props.management}
+                  {props.management}
                 </div>
                 <div className="absolute bottom-6 flex justify-center">
                   <div><a href={props.fbL}><img className="w-[20px]" src="/assets/images/facebook_landing.png" alt=""/></a></div>
