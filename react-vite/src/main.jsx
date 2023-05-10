@@ -9,21 +9,25 @@ import {AuthContext} from "./context/AuthContext.jsx";
 import {ProductProvider} from "./context/ProductContext.jsx";
 import {CartProvider} from "./context/CartContext.jsx";
 import {InvoiceProvider} from "./context/InvoiceContext.jsx";
-import {InvoiceProductProvider} from "./context/InvoiceProduct.jsx";
+import {InvoiceProductProvider} from "./context/InvoiceProductContext.jsx";
+import {QueryClient, QueryClientProvider, useQueryClient} from "@tanstack/react-query";
 
+const client = new QueryClient();
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <AuthContext>
-      <InvoiceProvider>
-        <InvoiceProductProvider>
-          <ProductProvider>
-            <CartProvider>
-              <RouterProvider router={router}/>
-            </CartProvider>
-          </ProductProvider>
-        </InvoiceProductProvider>
-      </InvoiceProvider>
-    </AuthContext>
+    <QueryClientProvider client={client}>
+      <AuthContext>
+        <InvoiceProvider>
+          <InvoiceProductProvider>
+            <ProductProvider>
+              <CartProvider>
+                <RouterProvider router={router}/>
+              </CartProvider>
+            </ProductProvider>
+          </InvoiceProductProvider>
+        </InvoiceProvider>
+      </AuthContext>
+    </QueryClientProvider>
   </React.StrictMode>,
 )
 

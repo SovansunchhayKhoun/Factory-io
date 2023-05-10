@@ -16,6 +16,6 @@
 
         public function products ()
         {
-            return $this -> belongsToMany ( Product::class );
+            return $this -> belongsToMany ( Product::class, 'invoice_products', 'invoice_id', 'product_id' )->withPivot (['cart_item_price', 'qty']);
         }
     }

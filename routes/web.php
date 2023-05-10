@@ -17,7 +17,7 @@
 
 Route ::get ( '/' , function () {
     $products = Product ::all ();
-    $invoices = Invoice ::where ( 'id' , 1 ) -> get ();
+    $invoices = Invoice ::all ();
 
     foreach ( $invoices as $invoice ) {
         foreach ( $invoice -> products as $item ) {
