@@ -7,7 +7,7 @@ export const LandingPage = () => {
       <div className="flex justify-center mb-12">
         <div className="mr-12">
         <span className="font-bold text-2xl leading-10">
-          TECHNOLOGY COMMUNITY <br/> FOR DEVELOPMENT
+          RESEARCH COMMUNITY <br/> FOR DEVELOPMENT
         </span>
           <div className="leading-7 mb-3">
             MAKE YOUR IMAGINATION <br/>
@@ -60,7 +60,7 @@ export const LandingPage = () => {
 
         <div className="mr-10 justify-end">
           <video controls>
-            <source src="/assets/images/vdpro.MP4" type="video/mp4"></source>
+            <source src="/assets/images/vdpro.mp4" type="video/mp4"></source>
           </video>
         </div>
       </div>
@@ -96,7 +96,7 @@ export const LandingPage = () => {
             and automation facilities.
           </div>
           <div className="flex-1 mt-4">
-            <img src="/assets/images/team.jpg" alt=""/>
+            <img src="/assets/images/abtus.jpg" alt=""/>
           </div>
         </div>
       </div>
