@@ -4,7 +4,7 @@ import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 
 export const ItemCard = (props) => {
-  const {name, price, status, id, errorStatus} = props.item;
+  const {name, price, id} = props.item;
   let {qty} = props.item;
   const {cartItem, addToCart} = useContext(CartContext);
   const itemCart = cartItem.find((i) => i.id === id);

@@ -30,7 +30,7 @@ export const InvoiceProvider = ({children}) => {
     const invoice = {
       user_id: user.id,
       date: currentDate,
-      status: 0,
+      status: -1,
       address: 'Bridge 2, National Road 6A, Sangkat Prek Leap, Khan Chroy Changva, Phnom Penh', //will change soon
       totalPrice: total,
       payment_pic: 'No pic'

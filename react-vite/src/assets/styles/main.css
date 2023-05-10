@@ -3,14 +3,7 @@
   margin: 0;
 }
 
-body {
-  min-height: 1080px;
-  position: relative;
-  overflow: auto;
-}
-
 main {
-  position: relative;
   padding-left: 9rem;
   padding-right: 9rem;
   padding-bottom: 9rem;

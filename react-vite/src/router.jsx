@@ -12,6 +12,7 @@ import {DashboardLanding} from "./views/DashboardLanding.jsx";
 import {DashboardLayout} from "./layouts/DashboardLayout.jsx";
 import {Inventory} from "./views/Inventory.jsx";
 import { UserView } from "./views/UserView";
+import {AdminOrder} from "./views/AdminOrder.jsx";
 
 import {Communitylanding} from "./views/Factoryio/Communitylanding.jsx";
 import {RnDLanding} from "./views/Factoryio/RnDlanding.jsx";
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
       {
         path: 'inventory',
         element: <Inventory/>
+      },
+      {
+        path: 'orders',
+        element: <AdminOrder />
       },
       {
         path: 'product/:id/edit',

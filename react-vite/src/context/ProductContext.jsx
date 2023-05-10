@@ -67,7 +67,7 @@ export const ProductProvider = ({children}) => {
     const stockItem = items.find((item) => item.id === cartItem.id)
     stockItem.qty = stockItem.qty - cartItem.qty;
     if (stockItem.qty === 0) {
-      stockItem.status = "Out of Stock";
+      stockItem.status = 0;
     }
     // console.log(JSON.stringify(stockItem))
     try {

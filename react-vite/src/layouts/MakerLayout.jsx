@@ -7,17 +7,17 @@ import InvoiceContext from "../context/InvoiceContext.jsx";
 
 export const MakerLayout = () => {
   const {setUser} = useAuthContext()
-  // const {invoices} = useContext(InvoiceContext);
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('USER_CREDENTIALS')))
-    // getInvoices();
   }, []);
 
   return (
     <>
-      <NavBar/>
-        <Outlet/>
-      <Footer/>
+      <div className="h-screen overflow-auto">
+        <NavBar/>
+          <Outlet/>
+        <Footer/>
+      </div>
     </>
   );
 };

@@ -28,7 +28,7 @@ export const InvoiceView = (props) => {
                 Order Date: {date}
               </div>
               <div className="text-tealBase">
-                {status === 0 ? 'Pending' : 'Arrived'}
+                {status === -1 ? 'Pending' : 'Arrived'}
               </div>
             </div>
             <div>
