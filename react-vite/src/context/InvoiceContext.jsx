@@ -66,6 +66,7 @@ export const InvoiceProvider = ({children}) => {
   const declineOrder = async (order) => {
     try {
       await Axios.delete(`/invoices/${order.id}`);
+      document.location.reload(true);
     } catch (e) {
       console.log(e.response.data.errors);
       setError(e.response.data.errors);
