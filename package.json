@@ -12,6 +12,8 @@
     "dependencies": {
         "chart.js": "^4.3.0",
         "chartjs-adapter-moment": "^1.0.1",
+        "flowbite": "^1.6.5",
+        "flowbite-react": "^0.4.4",
         "moment": "^2.29.4",
         "react-flatpickr": "^3.10.13"
     }

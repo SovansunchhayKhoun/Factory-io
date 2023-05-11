@@ -4,7 +4,7 @@ import {
   AccordionHeader,
   AccordionBody,
 } from "@material-tailwind/react";
-import {act} from "react-dom/test-utils";
+
 import {useAuthContext} from "../../context/AuthContext.jsx";
 
 export const InvoiceView = (props) => {

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import ProductContext from "../context/ProductContext.jsx";
+import ProductContext from "../../context/ProductContext.jsx";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {ArrowLeftIcon} from "@heroicons/react/20/solid/index.js";
 import Axios from "axios";

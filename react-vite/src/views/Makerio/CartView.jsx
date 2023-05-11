@@ -19,7 +19,7 @@ export const CartView = () => {
           console.log(e.target.value)
         }} placeholder={`#, Street, District, City, Country`}/>
       </div>
-      <div className="flex flex-col gap-y-3 pb-6 border-b-2 border-tealActive mb-12">
+      <div className="flex flex-col gap-y-3 pb-6 border-b-2 border-tealActive mb-6">
         {cartItem.length === 0 && 'Empty Cart'}
         {cartItem.map((item) => {
           if (item.id) {

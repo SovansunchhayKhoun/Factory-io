@@ -1,7 +1,13 @@
-import {useContext, useEffect} from "react";
+import {Fragment, useContext, useEffect, useState} from "react";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 import {InvoiceView} from "../../components/ui/InvoiceView.jsx";
 import {useAuthContext} from "../../context/AuthContext.jsx";
+import {Spinner} from "flowbite-react";
+import {
+  Accordion,
+  AccordionHeader,
+  AccordionBody,
+} from "@material-tailwind/react";
 
 export const OrderView = () => {
   const {invoices, isLoading} = useContext(InvoiceContext);
@@ -11,8 +17,31 @@ export const OrderView = () => {
   //   getInvoices();
   // }, []);
 
+  const [open, setOpen] = useState(1);
+  const handleOpen = (value) => {
+    setOpen(open === value ? 0 : value);
+  };
+
   if (isLoading) {
-    return <div>Loading...</div>
+    return (
+      <main>
+        <Fragment>
+          <Accordion className="border-2 border-tealActive px-2 rou nded-lg mb-6 shadow-2xl"
+                     open={open === 1}>
+            <AccordionHeader className={`text-[16px] text-blackFactory`} onClick={() => handleOpen(1)}>
+              <div>
+                <Spinner
+                  size="xl"
+                  color="purple"
+                  aria-label="Purple spinner example"
+                />
+                <span className="ml-3 font-semibold">Loading...</span>
+              </div>
+            </AccordionHeader>
+          </Accordion>
+        </Fragment>
+      </main>
+        );
   }
   return (
     <>

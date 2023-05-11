@@ -1,9 +1,9 @@
-import WelcomeBanner from "../partials/dashboard/WelcomeBanner.jsx";
+import WelcomeBanner from "../../partials/dashboard/WelcomeBanner.jsx";
 import {Link, NavLink} from "react-router-dom";
 import React, {useContext, useEffect, useState} from "react";
-import ProductContext from "../context/ProductContext.jsx";
-import {ItemRow} from "../components/ItemRow.jsx";
-import CreateItemModal from "../components/CreateItemModal.jsx";
+import ProductContext from "../../context/ProductContext.jsx";
+import {ItemRow} from "../../components/ItemRow.jsx";
+import CreateItemModal from "../../components/CreateItemModal.jsx";
 
 
 export const Inventory = () => {

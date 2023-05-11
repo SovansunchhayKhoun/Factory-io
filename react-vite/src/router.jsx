@@ -8,16 +8,16 @@ import {ItemView} from "./views/Makerio/ItemView.jsx";
 import {CartView} from "./views/Makerio/CartView.jsx";
 import {LandingLayout} from "./layouts/LandingLayout.jsx"
 import {LandingPage} from "./views/Factoryio/LandingPage.jsx";
-import {DashboardLanding} from "./views/DashboardLanding.jsx";
+import {DashboardLanding} from "./views/Dashboard/DashboardLanding.jsx";
 import {DashboardLayout} from "./layouts/DashboardLayout.jsx";
-import {Inventory} from "./views/Inventory.jsx";
+import {Inventory} from "./views/Dashboard/Inventory.jsx";
 import { UserView } from "./views/UserView";
-import {AdminOrder} from "./views/AdminOrder.jsx";
+import {AdminOrder} from "./views/Dashboard/AdminOrder.jsx";
 
 import {Communitylanding} from "./views/Factoryio/Communitylanding.jsx";
 import {RnDLanding} from "./views/Factoryio/RnDlanding.jsx";
 import {ContestLanding} from "./views/Factoryio/ContestLanding.jsx";
-import {EditItem} from "./views/EditItem.jsx";
+import {EditItem} from "./views/Dashboard/EditItem.jsx";
 import {OrderView} from "./views/Makerio/OrderView.jsx";
 
 

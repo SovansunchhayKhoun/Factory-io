@@ -1,8 +1,8 @@
-import WelcomeBanner from "../partials/dashboard/WelcomeBanner.jsx";
-import CreateItemModal from "../components/CreateItemModal.jsx";
-import {ItemRow} from "../components/ItemRow.jsx";
+import WelcomeBanner from "../../partials/dashboard/WelcomeBanner.jsx";
+import CreateItemModal from "../../components/CreateItemModal.jsx";
+import {ItemRow} from "../../components/ItemRow.jsx";
 import React, {useContext, useEffect, useState} from "react";
-import ProductContext from "../context/ProductContext.jsx";
+import ProductContext from "../../context/ProductContext.jsx";
 
 export const AdminOrder = () => {
   useEffect(() => {

@@ -59,6 +59,7 @@ export const ItemView = (props) => {
           </div>
         </div>
       </section>
+
     </main>
   );
 };
