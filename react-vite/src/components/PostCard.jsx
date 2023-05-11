@@ -22,5 +22,6 @@ export const PostCard = () => {
             </div>
           </div>
         </>
+
     );
 };

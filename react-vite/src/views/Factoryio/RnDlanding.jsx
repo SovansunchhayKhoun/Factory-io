@@ -1,4 +1,5 @@
 import {PostCard} from "../../components/PostCard.jsx";
+import {PostDetail} from "../../components/PostDetail.jsx";
 
 export const RnDLanding = () => {
     return (
@@ -12,7 +13,12 @@ export const RnDLanding = () => {
           Feature Project
         </span>
       </div>
-      <PostCard></PostCard>
+      <div>
+        <PostCard></PostCard>
+      </div>
+      <div className="flex justify-center">
+        <PostDetail></PostDetail>
+      </div>
     </main>
         </>
     );
