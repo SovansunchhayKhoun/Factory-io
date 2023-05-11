@@ -13,7 +13,7 @@ export const MakerLayout = () => {
 
   return (
     <>
-      <div className="h-screen overflow-auto">
+      <div className="min-h-screen flex flex-col overflow-auto">
         <NavBar/>
           <Outlet/>
         <Footer/>
