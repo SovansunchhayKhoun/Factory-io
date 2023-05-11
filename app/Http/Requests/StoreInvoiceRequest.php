@@ -24,9 +24,9 @@
       return [
         'user_id' => [ 'required' ] ,
         'date' => [ 'required' ] ,
-        'status' => [ 'nullable' ] ,
+        'status' => [ 'required' ] ,
         'payment_pic' => [ 'required' ] ,
-        'address' => [ 'nullable' ] ,
+        'address' => [ 'required' ] ,
         'totalPrice' => [ 'required' , 'numeric' , 'min:1' , 'not_in:0' ] ,
       ];
     }

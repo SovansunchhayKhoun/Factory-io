@@ -23,7 +23,6 @@ export const ProductProvider = ({children}) => {
   };
 
   const storeItem = async (e) => {
-    e.preventDefault()
     try {
       await Axios.post("products", formValues)
       location.reload()
