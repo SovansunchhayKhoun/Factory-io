@@ -10,6 +10,7 @@ export const Payment = () => {
   // const {invoices, storeInvoice, invoiceError, latestInvoice} = useContext(InvoiceContext);
   const {storeInvoice} = useContext(InvoiceContext);
   // console.log(invoices);
+  console.log(totalPrice)
   return (
     <>
       <div className="flex flex-col items-end px-6">

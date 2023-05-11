@@ -1,8 +1,8 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import Axios from "axios";
 import {useQuery} from "@tanstack/react-query";
-import {useParams} from "react-router-dom";
 import {useAuthContext} from "./AuthContext.jsx";
+import InvoiceProductContext from "./InvoiceProductContext.jsx";
 
 Axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
 
@@ -14,14 +14,18 @@ export const InvoiceProvider = ({children}) => {
     })
   });
 
+  // const {invoiceProduct} = useContext(InvoiceProductContext);
+  // console.log(invoiceProduct?.slice(-1)[0].invoice_id)
+
   const {user} = useAuthContext();
 
   const [invoice, setInvoice] = useState({});
   const [invoiceError, setInvoiceError] = useState("");
+  const [error, setError] = useState([]);
 
   const getInvoice = async (id) => {
     const apiItem = await Axios.get(`invoices/${id}`);
-    setInvoice(invoice);
+    setInvoice(apiItem.data.data);
   };
 
   const storeInvoice = async (total) => {
@@ -48,12 +52,34 @@ export const InvoiceProvider = ({children}) => {
     }
   }
 
+  const acceptOrder = async (order) => {
+    // console.log(order);
+    order.status = 1;
+    try {
+      await Axios.patch(`/invoices/${order.id}`, order);
+    } catch (e) {
+      console.log(e.response.data.errors)
+      setError(e.response.data.errors);
+    }
+  };
+
+  const declineOrder = async (order) => {
+    try {
+      await Axios.delete(`/invoices/${order.id}`);
+    } catch (e) {
+      console.log(e.response.data.errors);
+      setError(e.response.data.errors);
+    }
+  }
+
   return (
     <InvoiceContext.Provider value={{
       invoices,
       isLoading,
       storeInvoice,
       getInvoice,
+      declineOrder,
+      acceptOrder
     }}>
       {children}
     </InvoiceContext.Provider>

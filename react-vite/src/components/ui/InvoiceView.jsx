@@ -1,4 +1,4 @@
-import {Fragment, useState} from "react";
+import React, {Fragment, useContext, useState} from "react";
 import {
   Accordion,
   AccordionHeader,
@@ -6,6 +6,12 @@ import {
 } from "@material-tailwind/react";
 
 import {useAuthContext} from "../../context/AuthContext.jsx";
+import InvoiceContext from "../../context/InvoiceContext.jsx";
+import CreateItemModal from "../CreateItemModal.jsx";
+import AcceptOrderModal from "../AcceptOrderModal.jsx";
+import DeclineOrderModal from "../DeclineOrderModal.jsx";
+import {AcceptOrder} from "./AcceptOrder.jsx";
+import {DeclineOrder} from "./DeclineOrder.jsx";
 
 export const InvoiceView = (props) => {
   const {id, date, totalPrice, status, address} = props.invoice;
@@ -13,6 +19,8 @@ export const InvoiceView = (props) => {
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
+
+  const {user} = useAuthContext();
 
   return (
     <Fragment>
@@ -31,8 +39,14 @@ export const InvoiceView = (props) => {
                 {status === -1 ? 'Pending' : 'Arrived'}
               </div>
             </div>
-            <div>
-              Total Price: <span className="font-bold text-blueBase">${totalPrice}</span>
+            <div className="flex flex-col">
+              <div>
+                Total Price: <span className="font-bold text-blueBase">${totalPrice}</span>
+              </div>
+              <div className={`${user.acc_type !== 0 && "hidden"} flex text-whiteFactory gap-x-2 mt-1`}>
+                <AcceptOrder invoice={props.invoice}/>
+                <DeclineOrder invoice={props.invoice}/>
+              </div>
             </div>
           </div>
         </AccordionHeader>
@@ -65,6 +79,7 @@ export const InvoiceView = (props) => {
                 })
               }
             </div>
+
             <div>Type
               {
                 props.invoice.invoice_product.map((item) => {
