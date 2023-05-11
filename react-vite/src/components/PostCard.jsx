@@ -20,6 +20,8 @@ export const PostCard = () => {
                 <div><img className="flex items-end" src="/assets/images/save.png" alt=""/></div>
               </div>
             </div>
+          </div>
         </>
+
     );
 };
