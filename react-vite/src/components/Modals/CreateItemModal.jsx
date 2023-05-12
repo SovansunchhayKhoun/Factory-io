@@ -2,6 +2,7 @@
 import React, {useRef, useEffect, useState, useContext} from 'react';
 import Transition from '../../utils/Transition.jsx';
 import ProductContext from "../../context/ProductContext.jsx";
+import PopUp from "./PopUp.jsx";
 
 function CreateItemModal({
                            // eslint-disable-next-line react/prop-types
@@ -41,7 +42,7 @@ function CreateItemModal({
 
   return (
     <>
-      {/* Modal backdrop */}
+      {/*/!* Modal backdrop *!/*/}
       <Transition
         className="fixed inset-0 bg-slate-900 bg-opacity-30 z-50 transition-opacity"
         show={modalOpen}
@@ -121,9 +122,10 @@ function CreateItemModal({
               Create
             </button>
           </form>
-
         </div>
       </Transition>
+      {/* Modal backdrop */}
+
     </>
   );
 }
