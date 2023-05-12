@@ -16,7 +16,6 @@ export const ItemView = (props) => {
   const itemCart = cartItem.find((i) => i.id === item.id);
   const currentQty = item.qty - (itemCart?.qty || 0);
 
-  const [addItem, setAddItem] = useState("");
   let navigate = useNavigate();
   return (
     <main className="px-36">
@@ -43,19 +42,12 @@ export const ItemView = (props) => {
             </p>
           </div>
           <div className="flex justify-end items-center">
-            <p className="text-tealHover font-bold text-sm">
-              {addItem}
-            </p>
-            <button onClick={() => {
-              addToCart(item);
-              setAddItem("Item has been added to cart");
-              setTimeout(() => {
-                setAddItem("")
-              }, 2500);
-            }}>
+            <button className="rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300"
+                    onClick={() => {
+                      addToCart(item, currentQty);
+                    }}>
               <img src="/assets/images/cart-icon.png" alt=""/>
             </button>
-            {/*<AddCartButton item={item}/>*/}
           </div>
         </div>
       </section>

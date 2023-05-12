@@ -1,8 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import React, {useRef, useEffect, useState, useContext} from 'react';
-import Transition from '../utils/Transition.jsx';
-import ProductContext from "../context/ProductContext.jsx";
-import InvoiceContext from "../context/InvoiceContext.jsx";
+import Transition from '../../utils/Transition.jsx';
+import ProductContext from "../../context/ProductContext.jsx";
+import InvoiceContext from "../../context/InvoiceContext.jsx";
 
 function CreateItemModal({
                            // eslint-disable-next-line react/prop-types
@@ -36,7 +36,7 @@ function CreateItemModal({
     modalOpen
   }, [modalOpen]);
 
-  const {invoices, declineOrder} = useContext(InvoiceContext);
+  const {invoices, declineOrder, refetch} = useContext(InvoiceContext);
   const invoice = invoices.find((invoice) => invoice.id === id);
 
   return (

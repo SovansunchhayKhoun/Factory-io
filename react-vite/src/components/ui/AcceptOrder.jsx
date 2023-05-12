@@ -1,4 +1,4 @@
-import AcceptOrderModal from "../AcceptOrderModal.jsx";
+import AcceptOrderModal from "../Modals/AcceptOrderModal.jsx";
 import React, {useState} from "react";
 
 export const AcceptOrder = (props) => {

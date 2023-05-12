@@ -3,6 +3,7 @@ import {CartItem} from "../../components/CartComponents/CartItem.jsx";
 import ProductContext from "../../context/ProductContext.jsx";
 import {Payment} from "../../components/ui/Payment.jsx";
 import CartContext from "../../context/CartContext.jsx";
+import InvoiceContext from "../../context/InvoiceContext.jsx";
 
 export const CartView = () => {
   const {cartItem, getCartItem} = useContext(CartContext);

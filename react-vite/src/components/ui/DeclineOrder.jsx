@@ -1,4 +1,4 @@
-import DeclineOrderModal from "../DeclineOrderModal.jsx";
+import DeclineOrderModal from "../Modals/DeclineOrderModal.jsx";
 import React, {useState} from "react";
 
 export const DeclineOrder = (props) => {
