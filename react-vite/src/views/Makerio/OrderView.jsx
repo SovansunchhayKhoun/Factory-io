@@ -10,12 +10,14 @@ import {
 } from "@material-tailwind/react";
 
 export const OrderView = () => {
-  const {invoices, isLoading} = useContext(InvoiceContext);
+  const {invoices, isLoading, refetch} = useContext(InvoiceContext);
   const {user} = useAuthContext();
   // const {invoices, getInvoices} = useContext(InvoiceContext)
-  // useEffect(() => {
-  //   getInvoices();
-  // }, []);
+  useEffect(() => {
+    refetch();
+  }, []);
+
+  console.log(invoices);
 
   const [open, setOpen] = useState(1);
   const handleOpen = (value) => {
@@ -26,7 +28,7 @@ export const OrderView = () => {
     return (
       <main>
         <Fragment>
-          <Accordion className="border-2 border-tealActive px-2 rou nded-lg mb-6 shadow-2xl"
+          <Accordion className="bg-[rgba(0,0,0,0.1)] border-2 border-tealActive px-2 rou nded-lg mb-6 shadow-2xl"
                      open={open === 1}>
             <AccordionHeader className={`text-[16px] text-blackFactory`} onClick={() => handleOpen(1)}>
               <div>
@@ -41,14 +43,14 @@ export const OrderView = () => {
           </Accordion>
         </Fragment>
       </main>
-        );
+    );
   }
   return (
     <>
       <main>
         {invoices?.filter((invoice) => invoice.user_id === user?.id).length === 0 && 'No Orders have been placed yet'}
-        {invoices?.filter((invoice) => invoice.user_id === user?.id).
-        map((invoice) => {
+
+        {invoices?.filter((invoice) => invoice.user_id === user?.id).map((invoice) => {
           return <InvoiceView key={invoice.id} invoice={invoice}/>
         })}
       </main>

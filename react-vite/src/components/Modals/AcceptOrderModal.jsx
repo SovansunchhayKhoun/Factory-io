@@ -1,10 +1,10 @@
 // eslint-disable-next-line no-unused-vars
 import React, {useRef, useEffect, useState, useContext} from 'react';
-import Transition from '../utils/Transition.jsx';
-import ProductContext from "../context/ProductContext.jsx";
-import InvoiceContext from "../context/InvoiceContext.jsx";
+import Transition from '../../utils/Transition.jsx';
+import ProductContext from "../../context/ProductContext.jsx";
+import InvoiceContext from "../../context/InvoiceContext.jsx";
 import {AccordionBody} from "@material-tailwind/react";
-import {useAuthContext} from "../context/AuthContext.jsx";
+import {useAuthContext} from "../../context/AuthContext.jsx";
 
 function CreateItemModal({
                            // eslint-disable-next-line react/prop-types

@@ -8,19 +8,16 @@ Axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
 
 const InvoiceContext = createContext();
 export const InvoiceProvider = ({children}) => {
-  const {data: invoices, isLoading} = useQuery(['invoices'], () => {
+
+  const {data: invoices, isLoading, refetch} = useQuery(['invoices'], () => {
     return Axios.get('invoices').then((res) => {
       return res.data.data;
     })
   });
 
-  // const {invoiceProduct} = useContext(InvoiceProductContext);
-  // console.log(invoiceProduct?.slice(-1)[0].invoice_id)
-
   const {user} = useAuthContext();
 
   const [invoice, setInvoice] = useState({});
-  const [invoiceError, setInvoiceError] = useState("");
   const [error, setError] = useState([]);
 
   const getInvoice = async (id) => {
@@ -40,15 +37,14 @@ export const InvoiceProvider = ({children}) => {
       payment_pic: 'No pic'
     };
 
-    console.log(JSON.stringify(invoice))
-
     try {
       await Axios.post('invoices', invoice);
     } catch (e) {
-      setInvoiceError("Your cart is empty, silly")
+      e.response.data.errors.totalPrice[0] = 'You must have at least one item in your cart';
+      setError(e.response.data.errors.totalPrice[0]);
       setTimeout(() => {
-        setInvoiceError('')
-      }, 1500)
+        setError(['']);
+      }, 1500);
     }
   }
 
@@ -56,7 +52,7 @@ export const InvoiceProvider = ({children}) => {
     // console.log(order);
     order.status = 1;
     try {
-      await Axios.patch(`/invoices/${order.id}`, order);
+      await Axios.patch(`invoices/${order.id}`, order);
     } catch (e) {
       console.log(e.response.data.errors)
       setError(e.response.data.errors);
@@ -65,8 +61,8 @@ export const InvoiceProvider = ({children}) => {
 
   const declineOrder = async (order) => {
     try {
-      await Axios.delete(`/invoices/${order.id}`);
-      document.location.reload(true);
+      await Axios.delete(`invoices/${order.id}`);
+      refetch();
     } catch (e) {
       console.log(e.response.data.errors);
       setError(e.response.data.errors);
@@ -77,7 +73,10 @@ export const InvoiceProvider = ({children}) => {
     <InvoiceContext.Provider value={{
       invoices,
       isLoading,
+      refetch,
       storeInvoice,
+      error,
+      setError,
       getInvoice,
       declineOrder,
       acceptOrder

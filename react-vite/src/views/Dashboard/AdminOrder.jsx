@@ -1,5 +1,5 @@
 import WelcomeBanner from "../../partials/dashboard/WelcomeBanner.jsx";
-import CreateItemModal from "../../components/CreateItemModal.jsx";
+import CreateItemModal from "../../components/Modals/CreateItemModal.jsx";
 import {ItemRow} from "../../components/ItemRow.jsx";
 import React, {useContext, useEffect, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
@@ -8,18 +8,17 @@ import {InvoiceView} from "../../components/ui/InvoiceView.jsx";
 import {Spinner} from "flowbite-react";
 
 export const AdminOrder = () => {
-  useEffect(() => {
-    getItems();
-  }, []);
   const {items, getItems} = useContext(ProductContext)
   const [createItemModalOpen, setCreateItemModalOpen] = useState(false)
 
-  const {invoices, isLoading} = useContext(InvoiceContext);
+  const {invoices, isLoading, refetch} = useContext(InvoiceContext);
   // const [inv, setInv] = useState(invoices);
   // useEffect(() => {
   //   setInv(invoices);
   // }, []);
-  //
+   useEffect(() => {
+      getItems();
+    }, []);
 
   return (
     <>

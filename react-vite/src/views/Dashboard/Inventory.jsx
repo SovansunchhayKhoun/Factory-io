@@ -3,7 +3,7 @@ import {Link, NavLink} from "react-router-dom";
 import React, {useContext, useEffect, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
 import {ItemRow} from "../../components/ItemRow.jsx";
-import CreateItemModal from "../../components/CreateItemModal.jsx";
+import CreateItemModal from "../../components/Modals/CreateItemModal.jsx";
 
 
 export const Inventory = () => {

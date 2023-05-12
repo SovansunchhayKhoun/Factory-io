@@ -7,9 +7,9 @@ import {
 
 import {useAuthContext} from "../../context/AuthContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
-import CreateItemModal from "../CreateItemModal.jsx";
-import AcceptOrderModal from "../AcceptOrderModal.jsx";
-import DeclineOrderModal from "../DeclineOrderModal.jsx";
+import CreateItemModal from "../Modals/CreateItemModal.jsx";
+import AcceptOrderModal from "../Modals/AcceptOrderModal.jsx";
+import DeclineOrderModal from "../Modals/DeclineOrderModal.jsx";
 import {AcceptOrder} from "./AcceptOrder.jsx";
 import {DeclineOrder} from "./DeclineOrder.jsx";
 
@@ -107,7 +107,7 @@ export const InvoiceView = (props) => {
                   )
                 })
               }</div>
-            <div>Total
+            <div>Sub-total
               {props.invoice.invoice_product.map((item) => <div>${item.cart_item_price}</div>)}
             </div>
           </div>

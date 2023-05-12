@@ -11,8 +11,9 @@ const CartContext = createContext();
 export const CartProvider = ({children}) => {
   const {items, setItem} = useContext(ProductContext);
   const {invoices, isLoading} = useContext(InvoiceContext);
+  const [cartError, setCartError] = useState([]);
+  const [success, setSuccess] = useState(false);
   const [cartItem, setCartItem] = useState([]);
-  const [error, setError] = useState("");
   const totalPrice = cartItem.reduce((total, i) => total += i.price * i.qty, 0);
   const {user} = useAuthContext();
 
@@ -42,18 +43,20 @@ export const CartProvider = ({children}) => {
   }
 
   const addToCart = (item, currentQty) => {
-    currentQty = currentQty-1;
-    if (item.qty && currentQty >= 0) {
-      storeItem(item);
-      // if item doesnt exist in cart, save item
-      !cartItem.find((i) => item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
-        ...item,
-        user_id: user.id,
-        invoice_id: latestInvoice,
-        product_id: item.id,
-        qty: 1,
-        cart_item_price: item.price * 1,
-      })])
+    if (user !== null) {
+      currentQty = currentQty - 1;
+      if (item.qty && currentQty >= 0) {
+        storeItem(item);
+        // if item doesnt exist in cart, save item
+        !cartItem.find((i) => item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
+          ...item,
+          user_id: user.id,
+          invoice_id: latestInvoice,
+          product_id: item.id,
+          qty: 1,
+          cart_item_price: item.price * 1,
+        })])
+      }
     }
   }
 
@@ -106,21 +109,17 @@ export const CartProvider = ({children}) => {
 
   function clearCart() {
     localStorage.removeItem('CART_ITEM');
-    document.location.reload(true);
   }
 
   const checkOut = async (item) => {
     try {
       await Axios.post('invoice_products', item);
-      setError('Check Out Successful')
-      setTimeout(() => {
-        setError('');
-      }, 1500);
       clearCart();
+      setCartItem([]);
     } catch (e) {
-      if (e.response.status = 422) {
-        setError("Cannot Checkout");
-      }
+      e.response.data.errors.msg = 'Failed to process'
+      console.log(e.response.data.errors)
+      setCartError(e.response.data.errors.msg)
     }
   }
 
@@ -128,8 +127,9 @@ export const CartProvider = ({children}) => {
   return <CartContext.Provider value={{
     cartItem,
     setCartItem,
-    error,
-    setError,
+    cartError,
+    success,
+    setSuccess,
     addToCart,
     checkOut,
     getCartItem,

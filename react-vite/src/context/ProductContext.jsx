@@ -68,7 +68,6 @@ export const ProductProvider = ({children}) => {
     if (stockItem.qty === 0) {
       stockItem.status = 0;
     }
-    // console.log(JSON.stringify(stockItem))
     try {
       await Axios.put("products/" + stockItem.id, stockItem);
     } catch (msg) {
@@ -76,8 +75,6 @@ export const ProductProvider = ({children}) => {
         console.log(msg.response.data.errors);
       }
     }
-
-
   }
 
   return <ProductContext.Provider
