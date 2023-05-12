@@ -5,7 +5,7 @@ import ProductContext from "../../context/ProductContext.jsx";
 import {useAuthContext} from "../../context/AuthContext.jsx";
 
 export const Payment = () => {
-  const {updateProduct} = useContext(ProductContext);
+  // const {updateProduct} = useContext(ProductContext);
   const {cartItem, checkOut, totalPrice, error} = useContext(CartContext);
   // const {invoices, storeInvoice, invoiceError, latestInvoice} = useContext(InvoiceContext);
   const {storeInvoice} = useContext(InvoiceContext);
@@ -48,9 +48,10 @@ export const Payment = () => {
       <div className="flex justify-end mt-6 ">
         <button className={`transition duration-300 hover:shadow-tealBase hover:shadow-[5px_-2px_10px_-1px] bg-redHover text-[18px] text-whiteFactory px-4 py-1 rounded-[20px]`} onClick={() => {
           storeInvoice(totalPrice);
+          console.log(item);
           cartItem.forEach((item) => {
             checkOut(item);
-            updateProduct(item);
+            // updateProduct(item);
           });
         }}>Check out
         </button>

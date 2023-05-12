@@ -112,7 +112,7 @@ export const CartProvider = ({children}) => {
   const checkOut = async (item) => {
     try {
       await Axios.post('invoice_products', item);
-      setError('Check Out Successful')
+      setError('Check Out Successful');
       setTimeout(() => {
         setError('');
       }, 1500);
