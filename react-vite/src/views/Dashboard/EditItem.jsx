@@ -3,18 +3,19 @@ import ProductContext from "../../context/ProductContext.jsx";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {ArrowLeftIcon} from "@heroicons/react/20/solid/index.js";
 import Axios from "axios";
+
 export const EditItem = () => {
   const navigate = useNavigate()
 
-  const {getItem,errors,formValues,onChange,updateItem} = useContext(ProductContext)
+  const {getItem, errors, formValues, onChange, updateItem} = useContext(ProductContext)
 
   let {id} = useParams()
 
   useEffect(() => {
     getItem(id)
-  },[])
+  }, [])
 
-  return(
+  return (
     <>
       <button className="m-4" onClick={() => {
         navigate(-1)

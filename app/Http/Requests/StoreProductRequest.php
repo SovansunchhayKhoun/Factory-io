@@ -25,10 +25,11 @@
     public function rules ()
     {
       return [
+//        'toSeeError' => ['required'],
         'name' => [ 'required' , Rule ::unique ( 'products' ) -> ignore ( $this -> product ) ] ,
         'price' => [ 'required' ] ,
         'qty' => [ 'required' ] ,
-//        'status' => ['required'] ,
+        'status' => ['required'] ,
         'type' => [ 'required' ] ,
         'description' => [ 'required' ]
       ];
