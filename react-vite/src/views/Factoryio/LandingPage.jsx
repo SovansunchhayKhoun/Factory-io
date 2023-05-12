@@ -59,7 +59,7 @@ export const LandingPage = () => {
         </div>
 
         <div className="mr-10 justify-end">
-          <video autoPlay controls loop>
+          <video autoPlay controls loop muted>
             <source src="/assets/images/vdpro.mp4" type="video/mp4"></source>
             Your browser does not support the video tag.
           </video>
