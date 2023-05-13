@@ -85,7 +85,10 @@ const router = createBrowserRouter([
       },
       {
         path: 'orders',
-        element: <AdminOrder />
+        element: <AdminOrder />,
+        children: [
+          
+        ],
       },
       {
         path: 'product/:id/edit',
