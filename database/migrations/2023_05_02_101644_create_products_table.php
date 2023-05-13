@@ -16,10 +16,11 @@
         $table -> id ();
         $table -> string ( 'name' );
         $table -> double ( 'price' );
-        $table -> integer ( 'qty' ) -> nullable ();
+        $table -> integer ( 'qty' ) -> default (0);
         $table -> tinyInteger ( 'status' ) -> default ( 1 );
         $table -> string ( 'type' ) -> nullable ();
         $table -> longText ( 'description' ) -> nullable ();
+        $table -> longText ('picture') -> nullable ();
         $table -> timestamps ();
       } );
     }
