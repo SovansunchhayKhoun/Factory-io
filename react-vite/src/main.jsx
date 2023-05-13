@@ -17,15 +17,15 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <QueryClientProvider client={client}>
       <AuthContext>
-        <InvoiceProvider>
-          <InvoiceProductProvider>
+        <InvoiceProductProvider>
+          <InvoiceProvider>
             <ProductProvider>
               <CartProvider>
                 <RouterProvider router={router}/>
               </CartProvider>
             </ProductProvider>
-          </InvoiceProductProvider>
-        </InvoiceProvider>
+          </InvoiceProvider>
+        </InvoiceProductProvider>
       </AuthContext>
     </QueryClientProvider>
   </React.StrictMode>,

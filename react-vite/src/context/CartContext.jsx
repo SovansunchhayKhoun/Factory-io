@@ -4,20 +4,24 @@ import Axios from "axios";
 import InvoiceContext from "./InvoiceContext.jsx";
 import invoiceContext from "./InvoiceContext.jsx";
 import {useAuthContext} from "./AuthContext.jsx";
+import InvoiceProductContext from "./InvoiceProductContext.jsx";
 
 Axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
 
 const CartContext = createContext();
 export const CartProvider = ({children}) => {
-  const {items, setItem} = useContext(ProductContext);
+  const {items} = useContext(ProductContext);
   const {invoices, isLoading} = useContext(InvoiceContext);
   const [cartError, setCartError] = useState([]);
   const [success, setSuccess] = useState(false);
   const [cartItem, setCartItem] = useState([]);
   const totalPrice = cartItem.reduce((total, i) => total += i.price * i.qty, 0);
   const {user} = useAuthContext();
+  const {invoiceProduct, invoiceProductReFetch} = useContext(InvoiceProductContext);
+  useEffect(() => {
+    invoiceProductReFetch();
+  }, []);
 
-  let latestInvoice = !isLoading && invoices.slice(-1)[0]?.id + 1 || 1;
   const storeItem = (item) => {
     if (itemExist(item)) {
       // find and update that existed item qty
@@ -27,15 +31,15 @@ export const CartProvider = ({children}) => {
       setCartItem([...cartItem]);
     } else if (!itemExist(item)) {
       setCartItem([...cartItem, {
+        // invoice_id: latestInvoice,
         user_id: user.id,
-        invoice_id: latestInvoice,
         id: item.id, // referenced from stock items
         product_id: item.id, //for cart product database
         name: item.name,
+        type: item.type,
         price: item.price,
         qty: 1,
         status: item.status,
-        errorStatus: false,
         cart_item_price: item.price * 1,
       }]);
     }
@@ -50,9 +54,10 @@ export const CartProvider = ({children}) => {
         // if item doesnt exist in cart, save item
         !cartItem.find((i) => item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
           ...item,
+          // invoice_id: latestInvoice,
           user_id: user.id,
-          invoice_id: latestInvoice,
           product_id: item.id,
+          type: item.type,
           qty: 1,
           cart_item_price: item.price * 1,
         })])
@@ -80,7 +85,7 @@ export const CartProvider = ({children}) => {
     const item = cartItem.find((i) => i.id === cart.id);
     if (item.qty < stockItem.qty) {
       item.qty = item.qty + 1;
-      item.cart_item_price = item.cart_item_price * item.qty;
+      item.cart_item_price = stockItem.price * item.qty;
       setCartItem([...cartItem]);
       saveLocalCartItem(cartItem);
     } else {
@@ -93,11 +98,13 @@ export const CartProvider = ({children}) => {
     }
   };
   const decreaseItemQty = (cart) => {
+    // find original item
+    const stockItem = items.find((i) => i.id === cart.id);
     // set variable for cart item
     const item = cartItem.find((i) => i.id === cart.id);
     item.qty > 1 ? item.qty = item.qty - 1 : cartItem.splice(cartItem.indexOf(item), 1);
 
-    item.cart_item_price = item.cart_item_price * item.qty;
+    item.cart_item_price = stockItem.price * item.qty;
 
     setCartItem([...cartItem]);
     saveLocalCartItem(cartItem);
@@ -112,14 +119,20 @@ export const CartProvider = ({children}) => {
   }
 
   const checkOut = async (item) => {
-    try {
-      await Axios.post('invoice_products', item);
-      clearCart();
-      setCartItem([]);
-    } catch (e) {
-      e.response.data.errors.msg = 'Failed to process'
-      console.log(e.response.data.errors)
-      setCartError(e.response.data.errors.msg)
+    console.log(item);
+    console.log(JSON.stringify(item))
+    if (!isLoading) {
+      // const latestInvoice = ;
+      item.invoice_id = invoices?.slice(-1)[0]?.id + 1 || invoiceProduct.slice(-1)[0].invoice_id + 1;
+      try {
+        await Axios.post('invoice_products', item);
+        clearCart();
+        setCartItem([]);
+      } catch (e) {
+        e.response.data.errors.msg = 'Failed to process'
+        console.log(e.response.data.errors)
+        setCartError(e.response.data.errors.msg)
+      }
     }
   }
 

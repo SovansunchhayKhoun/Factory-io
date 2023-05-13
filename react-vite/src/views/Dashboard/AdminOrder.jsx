@@ -16,9 +16,9 @@ export const AdminOrder = () => {
   // useEffect(() => {
   //   setInv(invoices);
   // }, []);
-   useEffect(() => {
-      getItems();
-    }, []);
+  useEffect(() => {
+    getItems();
+  }, []);
 
   return (
     <>
@@ -30,13 +30,62 @@ export const AdminOrder = () => {
             color="purple"
             aria-label="Purple spinner example"
           />}
-        {invoices?.filter((inv) => inv.status === -1).length === 0 && "No Pending Orders"}
-        {invoices?.filter((inv) => inv.status === -1).
-        map((invoice) => {
-          return (
-            <InvoiceView key={invoice.id} invoice={invoice}/>
-          );
-        })}
+
+        <div>
+          {invoices?.filter((inv) => inv.status === -1).length === 0 && "No Pending Orders"}
+        </div>
+        <div>
+          {invoices?.filter((inv) => inv.status === -1).map((invoice) => {
+            return (
+              <>
+                Pending
+                <InvoiceView key={invoice.id} invoice={invoice}/>
+              </>
+            );
+          })}
+        </div>
+        <div>
+          {invoices?.filter((inv) => inv.status === 1).length === 0 && "No Accepted Orders"}
+        </div>
+        <div>
+          {invoices?.filter((inv) => inv.status === 1). // accepted
+            map((invoice) => {
+              return (
+                <>
+                  Accepted
+                  <InvoiceView key={invoice.id} invoice={invoice}/>
+                </>
+              );
+            })}
+        </div>
+        <div>
+          {invoices?.filter((inv) => inv.status === 2).length === 0 && "No Orders being delivered"}
+        </div>
+        <div>
+          {invoices?.filter((inv) => inv.status === 2). // Delivering
+            map((invoice) => {
+              return (
+                <>
+                  Delivering
+                  <InvoiceView key={invoice.id} invoice={invoice}/>
+                </>
+              );
+            })}
+        </div>
+        <div>
+          {invoices?.filter((inv) => inv.status === 3).length === 0 && "No Orders have arrived"}
+        </div>
+        <div>
+          {invoices?.filter((inv) => inv.status === 3). // Arrived
+            map((invoice) => {
+              return (
+                <>
+                  Arrived
+                  <InvoiceView key={invoice.id} invoice={invoice}/>
+                </>
+              );
+            })}
+        </div>
       </div>
     </>
   );

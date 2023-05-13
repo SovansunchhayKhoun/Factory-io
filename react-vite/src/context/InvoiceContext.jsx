@@ -8,8 +8,7 @@ Axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
 
 const InvoiceContext = createContext();
 export const InvoiceProvider = ({children}) => {
-
-  const {data: invoices, isLoading, refetch} = useQuery(['invoices'], () => {
+  const {data: invoices, isLoading, refetch:invoicesReFetch} = useQuery(['invoices'], () => {
     return Axios.get('invoices').then((res) => {
       return res.data.data;
     })
@@ -25,7 +24,7 @@ export const InvoiceProvider = ({children}) => {
     setInvoice(apiItem.data.data);
   };
 
-  const storeInvoice = async (total) => {
+  const storeInvoice = async (total, cartItem) => {
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
     const invoice = {
@@ -34,7 +33,8 @@ export const InvoiceProvider = ({children}) => {
       status: -1,
       address: 'Bridge 2, National Road 6A, Sangkat Prek Leap, Khan Chroy Changva, Phnom Penh', //will change soon
       totalPrice: total,
-      payment_pic: 'No pic'
+      payment_pic: 'No pic',
+      item_count: cartItem.length,
     };
 
     try {
@@ -49,11 +49,21 @@ export const InvoiceProvider = ({children}) => {
   }
 
   const acceptOrder = async (order) => {
-    // console.log(order);
-    order.status = 1;
+    switch (order.status) {
+      case -1:
+        order.status = 1;
+        break;
+      case 1:
+        order.status = 2;
+        break;
+      case 2:
+        order.status = 3;
+        break;
+    }
+
     try {
       await Axios.patch(`invoices/${order.id}`, order);
-      refetch();
+      invoicesReFetch();
     } catch (e) {
       console.log(e.response.data.errors)
       setError(e.response.data.errors);
@@ -63,7 +73,7 @@ export const InvoiceProvider = ({children}) => {
   const declineOrder = async (order) => {
     try {
       await Axios.delete(`invoices/${order.id}`);
-      refetch();
+      invoicesReFetch();
     } catch (e) {
       console.log(e.response.data.errors);
       setError(e.response.data.errors);
@@ -74,7 +84,7 @@ export const InvoiceProvider = ({children}) => {
     <InvoiceContext.Provider value={{
       invoices,
       isLoading,
-      refetch,
+      invoicesReFetch,
       storeInvoice,
       error,
       setError,
