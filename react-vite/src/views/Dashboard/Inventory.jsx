@@ -4,7 +4,7 @@ import React, {useContext, useEffect, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
 import {ItemRow} from "../../components/ItemRow.jsx";
 // import CreateItemModal from "../../components/Modals/CreateItemModal.jsx";
-import PopUp from "../../components/Modals/PopUp.jsx";
+import AdminPopUp from "../../components/Modals/AdminPopUp.jsx";
 import CreateItemModal from "../../components/Modals/CreateItemModal.jsx";
 
 

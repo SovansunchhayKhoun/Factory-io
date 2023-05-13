@@ -1,4 +1,4 @@
-import {Fragment, useContext, useEffect, useState} from "react";
+import React, {Fragment, useContext, useEffect, useState} from "react";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 import {InvoiceView} from "../../components/ui/InvoiceView.jsx";
 import {useAuthContext} from "../../context/AuthContext.jsx";
@@ -11,11 +11,11 @@ import {
 import {Link, Navigate} from "react-router-dom";
 
 export const OrderView = () => {
-  const {invoices, isLoading, refetch} = useContext(InvoiceContext);
+  const {invoices, isLoading, invoicesReFetch} = useContext(InvoiceContext);
   const {user} = useAuthContext();
   // const {invoices, getInvoices} = useContext(InvoiceContext)
   useEffect(() => {
-    refetch();
+    invoicesReFetch();
   }, []);
 
   console.log(invoices);
@@ -75,12 +75,21 @@ export const OrderView = () => {
           Pending
           {invoices?.filter((invoice) => {
             return (invoice.user_id === user?.id && invoice.status === -1)
-          }).map((invoice) => {
-            return <InvoiceView key={invoice.id} invoice={invoice}/>
-          })}
-          <div>Arrived</div>
+          }).map((invoice) => <InvoiceView key={invoice.id} invoice={invoice}/>)}
+
+          <div>Accepted</div>
           {invoices?.filter((invoice) => {
             return (invoice.user_id === user?.id && invoice.status === 1)
+          }).map((invoice) => <InvoiceView key={invoice.id} invoice={invoice}/>)}
+
+          <div>Delivering</div>
+          {invoices?.filter((invoice) => {
+            return (invoice.user_id === user?.id && invoice.status === 2)
+          }).map((invoice) => <InvoiceView key={invoice.id} invoice={invoice}/>)}
+
+          <div>Arrived</div>
+          {invoices?.filter((invoice) => {
+            return (invoice.user_id === user?.id && invoice.status === 3)
           }).map((invoice) => <InvoiceView key={invoice.id} invoice={invoice}/>)}
 
         </main>

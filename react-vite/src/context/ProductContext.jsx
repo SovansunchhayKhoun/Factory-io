@@ -62,12 +62,12 @@ export const ProductProvider = ({children}) => {
     }
   }
 
-  const updateProduct = async (cartItem) => {
+  const updateProduct = async (cartItem, invoice) => {
     const stockItem = items.find((item) => item.id === cartItem.product_id)
     if (stockItem.status === 0) {
       setErrors([...stockItem, `${stockItem.name} is out of stock`]);
       console.log('No stock')
-    } else {
+    } else if (invoice.status === 2) {
       stockItem.qty = stockItem.qty - cartItem.qty;
       stockItem.qty <= 0 && (stockItem.status = 0);
       try {

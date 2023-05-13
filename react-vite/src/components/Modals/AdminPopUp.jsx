@@ -5,7 +5,7 @@ import ProductContext from "../../context/ProductContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 import {AccordionBodyContent} from "../AdminComponents/AccordionBodyContent.jsx";
 
-function PopUp({id, modalOpen, setModalOpen, content}) {
+function AdminPopUp({id, modalOpen, setModalOpen, content}) {
   const modalContent = useRef(null);
   // close on click outside
   useEffect(() => {
@@ -68,4 +68,4 @@ function PopUp({id, modalOpen, setModalOpen, content}) {
   );
 }
 
-export default PopUp;
+export default AdminPopUp;

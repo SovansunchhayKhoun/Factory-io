@@ -13,7 +13,7 @@ export const InvoiceProductProvider = ({children}) => {
   //   setInvoiceProducts(apiItem.data.data);
   // };
 
-  const {data:invoiceProduct, isLoading} = useQuery(['invoice_products'], () => {
+  const {data:invoiceProduct, isLoading, refetch:invoiceProductReFetch} = useQuery(['invoice_products'], () => {
     return Axios.get("invoice_products").then((res) => {
       return res.data.data;
     })
@@ -24,6 +24,7 @@ export const InvoiceProductProvider = ({children}) => {
       <InvoiceProductContext.Provider value={{
         invoiceProduct,
         isLoading,
+        invoiceProductReFetch,
       }}>
         {children}
       </InvoiceProductContext.Provider>

@@ -1,6 +1,6 @@
 // import DeclineOrderModal from "../Modals/DeclineOrderModal.jsx";
 import React, {useContext, useState} from "react";
-import PopUp from "../Modals/PopUp.jsx";
+import AdminPopUp from "../Modals/AdminPopUp.jsx";
 import {AccordionBodyContent} from "../AdminComponents/AccordionBodyContent.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 
@@ -33,9 +33,9 @@ export const DeclineOrderButton = (props) => {
 
     return (
         <>
-          <button onClick={(e) => { e.stopPropagation(); setDeclineOrderModalOpen(true); }}
-                  aria-controls={invoice.id} className={`px-2 py-1 rounded-md bg-redBase`}> Decline</button>
-          <PopUp content={<DeclineOrderContent />} id={invoice.id} modalOpen={declineOrderModalOpen} setModalOpen={setDeclineOrderModalOpen}/>
+          <button disabled={!(invoice.status === -1 || invoice.status === 1) && true} onClick={(e) => { e.stopPropagation(); setDeclineOrderModalOpen(true); }}
+                  aria-controls={invoice.id} className={`${(invoice.status === -1 || invoice.status === 1) ? 'bg-redBase text-whiteFactory' : 'bg-grayFactory text-blackFactory cursor-pointer'} px-2 py-1 rounded-md`}> Decline</button>
+          <AdminPopUp content={<DeclineOrderContent />} id={invoice.id} modalOpen={declineOrderModalOpen} setModalOpen={setDeclineOrderModalOpen}/>
         </>
     );
 };

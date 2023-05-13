@@ -2,7 +2,7 @@
 import React, {useRef, useEffect, useState, useContext} from 'react';
 import Transition from '../../utils/Transition.jsx';
 import ProductContext from "../../context/ProductContext.jsx";
-import PopUp from "./PopUp.jsx";
+import AdminPopUp from "./AdminPopUp.jsx";
 
 function CreateItemModal({
                            // eslint-disable-next-line react/prop-types

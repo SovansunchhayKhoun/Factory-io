@@ -19,6 +19,7 @@
         $table -> tinyInteger ( 'status' ) -> default ( 0 );
         $table -> string ( 'address' );
         $table -> text ( 'payment_pic' );
+        $table-> integer ('item_count')->default (0);
         $table -> foreignId ( 'user_id' ) -> references ( 'id' ) -> on ( 'users' ) -> onDelete ( 'cascade' );
         $table -> timestamps ();
       } );

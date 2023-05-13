@@ -9,7 +9,6 @@ export const ItemCard = (props) => {
   const {cartItem, addToCart} = useContext(CartContext);
   const itemCart = cartItem.find((i) => i.id === id);
   const currentQty = qty - (itemCart?.qty || 0);
-  console.log(props.item);
 
   return (
     <>

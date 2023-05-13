@@ -24,6 +24,7 @@
         'status' => $this -> status ,
         'address' => $this -> address ,
         'payment_pic' => $this -> payment_pic ,
+        'item_count' => $this->item_count,
         'created_at' => $this -> created_at ,
         'updated_at' => $this -> updated_at ,
         'user' => User ::where ( 'id' , $this -> user_id ) -> get () ,
