@@ -52,7 +52,6 @@ export const InvoiceProvider = ({children}) => {
     // console.log(order);
     order.status = 1;
     try {
-
       await Axios.patch(`invoices/${order.id}`, order);
       refetch();
     } catch (e) {

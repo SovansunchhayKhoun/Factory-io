@@ -8,6 +8,7 @@ import {
   AccordionHeader,
   AccordionBody,
 } from "@material-tailwind/react";
+import {Link, Navigate} from "react-router-dom";
 
 export const OrderView = () => {
   const {invoices, isLoading, refetch} = useContext(InvoiceContext);
@@ -23,6 +24,17 @@ export const OrderView = () => {
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
+
+  if(!user){
+    return (
+      <>
+        <main>
+          <Link to={'/login'}>Sign in</Link>
+          <Link to={'/signup'}>Sign Up</Link>
+        </main>
+      </>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -45,16 +57,35 @@ export const OrderView = () => {
       </main>
     );
   }
-  return (
-    <>
-      <main>
-        {invoices?.filter((invoice) => invoice.user_id === user?.id).length === 0 && 'No Orders have been placed yet'}
 
-        {invoices?.filter((invoice) => invoice.user_id === user?.id).map((invoice) => {
-          return <InvoiceView key={invoice.id} invoice={invoice}/>
-        })}
+  if(invoices?.filter((invoice) => invoice.user_id === user?.id).length === 0) {
+    return (
+      <main>
+        No orders have been placed yet <Link to={'/maker-io'}></Link>
       </main>
-    </>
-  )
-    ;
+    );
+  } else {
+    return (
+      <>
+        {/*{status === -1 && 'Pending'}*/}
+        {/*{status === 1 && 'Accepted'}*/}
+        {/*{status === 2 && 'Delivering'}*/}
+        {/*{status === 3 && 'Arrived'}*/}
+        <main>
+          Pending
+          {invoices?.filter((invoice) => {
+            return (invoice.user_id === user?.id && invoice.status === -1)
+          }).map((invoice) => {
+            return <InvoiceView key={invoice.id} invoice={invoice}/>
+          })}
+          <div>Arrived</div>
+          {invoices?.filter((invoice) => {
+            return (invoice.user_id === user?.id && invoice.status === 1)
+          }).map((invoice) => <InvoiceView key={invoice.id} invoice={invoice}/>)}
+
+        </main>
+      </>
+    );
+  }
+
 };
