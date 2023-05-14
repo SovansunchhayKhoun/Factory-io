@@ -4,8 +4,11 @@ import React from "react";
 import {useAuthContext} from "../../context/AuthContext.jsx";
 
 export const AccordionHeaderContent = (props) => {
-  const {id, date, totalPrice, status} = props.invoice;
+  const {id, date, totalPrice, status, noStock} = props.invoice;
   const {user} = useAuthContext();
+
+  // console.log('acc')
+  // console.log(props.invoice)
 
   return (
     <div className="flex w-full justify-between items-center">
@@ -24,6 +27,10 @@ export const AccordionHeaderContent = (props) => {
         </div>
       </div>
       <div className="flex flex-col">
+        <div className="text-xs text-redBase">
+          {/**Insufficient Product Quantity*/}
+          {noStock && 'Some of the products are out of stock'}
+        </div>
         <div>
           Total Price: <span className="font-bold text-blueBase">${totalPrice}</span>
         </div>

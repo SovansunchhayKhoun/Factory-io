@@ -32,6 +32,17 @@ export const AdminOrder = () => {
           />}
 
         <div>
+          {invoices?.filter((inv) => inv.status === -2).map((invoice) => {
+            return (
+              <>
+                Out of Stock
+                <InvoiceView key={invoice.id} invoice={invoice}/>
+              </>
+            );
+          })}
+        </div>
+
+        <div>
           {invoices?.filter((inv) => inv.status === -1).length === 0 && "No Pending Orders"}
         </div>
         <div>
