@@ -4,11 +4,11 @@ import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 
 export const ItemCard = (props) => {
-  const {name, price, id, picture} = props.item;
+  const {name, price, id, picture, status} = props.item;
   let {qty} = props.item;
   const {cartItem, addToCart} = useContext(CartContext);
   const itemCart = cartItem.find((i) => i.id === id);
-  const currentQty = qty - (itemCart?.qty || 0);
+  // const currentQty = qty - (itemCart?.qty || 0);
 
   return (
     <>
@@ -28,13 +28,14 @@ export const ItemCard = (props) => {
             </div>
             <div className="mr-3 text-[#8A0000]">
               <span className="font-bold">
-                {currentQty === 0 ? "Out of Stock" : "In Stock"}
+                {/*{currentQty === 0 ? "Out of Stock" : "In Stock"}*/}
+                {status === 1 ? 'In Stock' : 'Out of Stock'}
               </span>
             </div>
             <button
-              className={currentQty === 0 ? "hidden" : " rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300"}
+              className={" rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300"}
               onClick={() => {
-                addToCart(props.item, currentQty);
+                addToCart(props.item);
               }}>
               <img width="36" src="/assets/images/cart-icon.png" alt=""/>
             </button>

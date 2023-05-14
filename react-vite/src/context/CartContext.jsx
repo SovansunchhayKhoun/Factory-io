@@ -6,7 +6,7 @@ import invoiceContext from "./InvoiceContext.jsx";
 import {useAuthContext} from "./AuthContext.jsx";
 import InvoiceProductContext from "./InvoiceProductContext.jsx";
 
-Axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
+Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 
 const CartContext = createContext();
 export const CartProvider = ({children}) => {
@@ -46,10 +46,9 @@ export const CartProvider = ({children}) => {
     saveLocalCartItem(cartItem);
   }
 
-  const addToCart = (item, currentQty) => {
+  const addToCart = (item) => {
     if (user !== null) {
-      currentQty = currentQty - 1;
-      if (item.qty && currentQty >= 0) {
+      if (item.qty) {
         storeItem(item);
         // if item doesnt exist in cart, save item
         !cartItem.find((i) => item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
@@ -83,19 +82,21 @@ export const CartProvider = ({children}) => {
     const stockItem = items.find((i) => i.id === cart.id);
     // set variable for cart item
     const item = cartItem.find((i) => i.id === cart.id);
-    if (item.qty < stockItem.qty) {
-      item.qty = item.qty + 1;
-      item.cart_item_price = stockItem.price * item.qty;
-      setCartItem([...cartItem]);
-      saveLocalCartItem(cartItem);
-    } else {
-      item.errorStatus = "Item quantity cannot exceed stock quantity";
-      setCartItem([...cartItem]);
-      setTimeout(() => {
-        item.errorStatus = "";
-        setCartItem([...cartItem]);
-      }, 1500);
-    }
+    item.qty = item.qty + 1;
+    item.cart_item_price = stockItem.price * item.qty;
+    setCartItem([...cartItem]);
+    saveLocalCartItem(cartItem);
+
+    // if (item.qty < stockItem.qty) {
+    // }
+    // else {
+    //   item.errorStatus = "Item quantity cannot exceed stock quantity";
+    //   setCartItem([...cartItem]);
+    //   setTimeout(() => {
+    //     item.errorStatus = "";
+    //     setCartItem([...cartItem]);
+    //   }, 1500);
+    // }
   };
   const decreaseItemQty = (cart) => {
     // find original item
@@ -119,11 +120,8 @@ export const CartProvider = ({children}) => {
   }
 
   const checkOut = async (item) => {
-    console.log(item);
-    console.log(JSON.stringify(item))
     if (!isLoading) {
-      // const latestInvoice = ;
-      item.invoice_id = invoices?.slice(-1)[0]?.id + 1 || invoiceProduct.slice(-1)[0].invoice_id + 1;
+      item.invoice_id = invoices?.slice(-1)[0]?.id + 1 || invoiceProduct?.slice(-1)[0]?.invoice_id + 1 || 1;
       try {
         await Axios.post('invoice_products', item);
         clearCart();

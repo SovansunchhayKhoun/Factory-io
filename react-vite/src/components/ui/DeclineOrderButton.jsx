@@ -33,8 +33,8 @@ export const DeclineOrderButton = (props) => {
 
     return (
         <>
-          <button disabled={!(invoice.status === -1 || invoice.status === 1) && true} onClick={(e) => { e.stopPropagation(); setDeclineOrderModalOpen(true); }}
-                  aria-controls={invoice.id} className={`${(invoice.status === -1 || invoice.status === 1) ? 'bg-redBase text-whiteFactory' : 'bg-grayFactory text-blackFactory cursor-pointer'} px-2 py-1 rounded-md`}> Decline</button>
+          <button disabled={!(invoice.status < 2) && true} onClick={(e) => { e.stopPropagation(); setDeclineOrderModalOpen(true); }}
+                  aria-controls={invoice.id} className={`${invoice.status < 2 ? 'bg-redBase text-whiteFactory' : 'bg-grayFactory text-blackFactory cursor-pointer'} px-2 py-1 rounded-md`}> Decline</button>
           <AdminPopUp content={<DeclineOrderContent />} id={invoice.id} modalOpen={declineOrderModalOpen} setModalOpen={setDeclineOrderModalOpen}/>
         </>
     );
