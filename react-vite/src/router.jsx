@@ -19,6 +19,7 @@ import {RnDLanding} from "./views/Factoryio/RnDlanding.jsx";
 import {ContestLanding} from "./views/Factoryio/ContestLanding.jsx";
 import {EditItem} from "./views/Dashboard/EditItem.jsx";
 import {OrderView} from "./views/Makerio/OrderView.jsx";
+import {LandingHero} from "./views/Makerio/LandingHero.jsx";
 
 
 const router = createBrowserRouter([
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
     path: '/maker-io',
     element: <MakerLayout/>,
     children: [
+      {
+        path: 'home',
+        element: <LandingHero/>
+      },
       {
         path: '',
         element: <MakerLanding/>
@@ -87,7 +92,7 @@ const router = createBrowserRouter([
         path: 'orders',
         element: <AdminOrder />,
         children: [
-          
+
         ],
       },
       {
