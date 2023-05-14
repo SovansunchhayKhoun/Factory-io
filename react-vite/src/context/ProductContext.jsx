@@ -2,7 +2,7 @@ import {createContext, useState, useEffect} from "react";
 import Axios from "axios";
 
 
-Axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
+Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 
 const ProductContext = createContext();
 

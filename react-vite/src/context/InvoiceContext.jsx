@@ -5,7 +5,7 @@ import {useAuthContext} from "./AuthContext.jsx";
 import InvoiceProductContext from "./InvoiceProductContext.jsx";
 import ProductContext from "./ProductContext.jsx";
 
-Axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
+Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 
 const InvoiceContext = createContext();
 export const InvoiceProvider = ({children}) => {

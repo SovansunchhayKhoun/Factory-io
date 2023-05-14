@@ -3,7 +3,7 @@ import Axios from "axios";
 import {useQuery} from "@tanstack/react-query";
 import {useParams} from "react-router-dom";
 
-Axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
+Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 
 const InvoiceProductContext = createContext();
 export const InvoiceProductProvider = ({children}) => {
