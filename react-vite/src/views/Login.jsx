@@ -1,9 +1,10 @@
 import {ArrowLeftIcon} from "@heroicons/react/20/solid";
 import {Link, Navigate, useNavigate} from "react-router-dom";
 // import makerio from "../assets/makerio.png"
-import {useRef, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {useAuthContext} from "../context/AuthContext.jsx";
 import axiosClient from "../axios-client.js";
+import UserContext from "../context/UserContext.jsx";
 
 export default function Login(){
     const emailRef = useRef();
@@ -11,24 +12,45 @@ export default function Login(){
     const [errors, setErrors] = useState(null)
     const {setUser,setToken,token,user} = useAuthContext()
     const navigate = useNavigate()
+    const {getAdmin,admin} = useContext(UserContext)
+    useEffect(() => {
+      getAdmin()
+    },[])
+
     const onSubmit = (ev) => {
         ev.preventDefault()
         const formValues = {
             email: emailRef.current.value,
             password: passwordRef.current.value,
         }
+      if (admin['email'] === emailRef.current.value){
+        axiosClient.post('/loginAsAdmin', formValues)
+          .then(({data}) => {
+            setUser(data.user)
+            setToken(data.token)
+            navigate("/admin/dashboard")
+          })
+          .catch(err => {
+            const response = err.response
+            if(response && response.status === 422){
+              if (response.data.errors){
+                setErrors(response.data.errors)
+              }else{
+                setErrors({
+                  email: [response.data.message]
+                })
+              }
+            }
+          })
+      }else{
         axiosClient.post('/login', formValues)
             .then(({data}) => {
                 setUser(data.user)
                 setToken(data.token)
-                localStorage.setItem('USER_CREDENTIALS', JSON.stringify(data.user))
-                if(data.user['acc_type'] === 0){
-                  navigate("/admin/dashboard")
-                }else{
                   navigate("/")
-                }
             })
             .catch(err => {
+
                 const response = err.response
                 if(response && response.status === 422){
                     if (response.data.errors){
@@ -40,6 +62,8 @@ export default function Login(){
                     }
                 }
             })
+      }
+
     }
     if(!token) {
       return (

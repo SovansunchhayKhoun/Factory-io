@@ -3,12 +3,16 @@ import {useAuthContext} from "../context/AuthContext.jsx";
 import {useEffect, useState} from "react";
 import Sidebar from "../partials/Sidebar.jsx";
 import Header from "../partials/Header.jsx";
+import axiosClient from "../axios-client.js";
 
 export const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const {setUser, token,user} = useAuthContext()
+  const {setUser,token,user} = useAuthContext()
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem('USER_CREDENTIALS')))
+    axiosClient.get('/user')
+      .then(({data})=>{
+        setUser(data)
+      })
   }, []);
   if (token) {
     if(user['acc_type'] === 0) {

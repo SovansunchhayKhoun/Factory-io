@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\AdminResource;
 use App\Http\Resources\V1\UserResource;
+use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +19,10 @@ class UserController extends Controller
     public function index()
     {
       return UserResource::collection(User::all());
+    }
+
+    public function getAdmins(){
+      return AdminResource::collection(Admin::all());
     }
     public function store(StoreUserRequest $request)
     {

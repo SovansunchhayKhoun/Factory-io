@@ -4,11 +4,15 @@ import {Footer} from "../components/Footer.jsx";
 import {useAuthContext} from "../context/AuthContext.jsx";
 import {useContext, useEffect} from "react";
 import InvoiceContext from "../context/InvoiceContext.jsx";
+import axiosClient from "../axios-client.js";
 
 export const MakerLayout = () => {
   const {setUser} = useAuthContext()
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem('USER_CREDENTIALS')))
+    axiosClient.get('/user')
+      .then(({data})=>{
+        setUser(data)
+      })
   }, []);
 
   return (
