@@ -22,11 +22,8 @@
                 'status' => $this->status,
                 'type' => $this->type,
                 'description' => $this->description,
-<<<<<<< HEAD
               'image' => $this->image
-=======
-                'picture' => $this->picture,
->>>>>>> 8e20bf3435be8f809ce89f4a7e664f36e796c1b5
+                // 'picture' => $this->picture,
             ];
         }
     }
