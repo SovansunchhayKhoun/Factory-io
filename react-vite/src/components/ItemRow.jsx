@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import {useContext} from "react";
+import React, {useContext} from "react";
 import ProductContext from "../context/ProductContext.jsx";
 import Axios from "axios";
 
@@ -10,7 +10,7 @@ export const ItemRow = (props) => {
     getItems()
   }
 
-  const {id,name,qty,price,description} = props.item
+  const {id,name,qty,price,description,image} = props.item
     return (
         <>
           <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
@@ -30,7 +30,8 @@ export const ItemRow = (props) => {
               $ {description}
             </td>
             <td className="px-6 py-4">
-              <img width="180" src="/assets/images/board.jpg" alt=""/>
+              {/*<img className="h-[100px]" src={`../../../storage/app/products/SEjeQE6x64MeDvN41znPLIxgvQfz19rtLozHMRSC.jpg`} alt=""/>*/}
+              <img className="w-[150px] mb-5" src="/assets/images/pngegg.png"/>
             </td>
             <td className="px-4 py-4 flex">
               <Link to={`/admin/product/${id}/edit`} className="bg-blue-600 px-4 py-2 rounded text-whiteFactory dark:text-whiteFactory-500 mr-2">Edit</Link>

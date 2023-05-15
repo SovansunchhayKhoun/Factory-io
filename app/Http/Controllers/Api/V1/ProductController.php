@@ -7,7 +7,7 @@
     use App\Http\Resources\V1\ProductResource;
     use App\Http\Resources\V1\SkillResource;
     use App\Models\Product;
-
+    use Illuminate\Http\Request;
     class ProductController extends Controller
     {
         public function index ()
@@ -15,9 +15,14 @@
             return ProductResource ::collection ( Product ::all () );
         }
 
-        public function store ( StoreProductRequest $request )
+        public function store ( StoreProductRequest $request)
         {
-            Product ::create ( $request -> validated () );
+          $data = $request->validated();
+            if($request->hasFile('image')){
+              $filepath = $request->file('image')->store('products');
+              $data['image'] = $filepath;
+            }
+            Product ::create ( $data);
             return response () -> json ( 'Product Created' );
         }
 

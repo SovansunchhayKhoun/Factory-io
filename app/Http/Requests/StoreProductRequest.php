@@ -25,15 +25,12 @@
     public function rules ()
     {
       return [
-//        'toSeeError' => ['required'],
-//        'name' => [ 'required' , Rule ::unique ( 'products' ) -> ignore ( $this -> product ) ] ,
         'name' => [ 'required' ] ,
         'price' => [ 'required' ] ,
-        'qty' => [ 'required','numeric', 'min:0', 'not_in:0' ] ,
-        'status' => ['required'] ,
         'type' => [ 'required' ] ,
         'description' => [ 'required' ],
-        'picture' => ['nullable']
+        'image' => ['required'],
+        'qty' => [ 'required','numeric', 'min:0', 'not_in:0' ] ,
       ];
     }
   }

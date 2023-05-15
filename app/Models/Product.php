@@ -10,7 +10,7 @@
         use HasFactory;
 
         protected $fillable = [
-            'name' , 'price', 'qty', 'status', 'type', 'description', 'picture'
+            'name' , 'price', 'qty', 'status', 'type', 'description','image'
         ];
 
         public function Invoice ()

@@ -22,11 +22,21 @@ export const LandingPage = () => {
           <img src="/assets/images/board.jpg" alt=""/>
         </div>
       </div>
-      <div className="px-48 mb-12 flex justify-center">
-        <div className="flex items-center w-[448px] h-[333px] mr-10">
-          <img src="/assets/images/item1.png" alt=""/>
+      <div className="flex flex-col justify-center">
+        <span className="font-bold leading-4">Featured on</span>
+        <div className="flex flex-row justify-between mt-10 h-20">
+          <img className="flex items-start w-30 h-6" src="/assets/images/factory.png" alt="" />
+          <img className="flex items-center w-30 h-10" src="/assets/images/makerio.png" alt="" />
+          <img className="flex items-center w-30 h-10" src="/assets/images/robotx.png" alt="" />
+          <img className="flex items-end w-35 h-14 mb-7" src="/assets/images/reachsa.png" alt="" />
         </div>
-          <div className="flex flex-col justify-center">
+      </div>
+
+      <div className="px-40 mb-10 flex justify-center">
+        <div className="flex items-center w-1/2 h-[300px] mr-10">
+          <img src="/assets/images/Sound-Detection-Sensor-Module.jpg" alt=""/>
+        </div>
+          <div className="flex flex-col justify-center w-1/2">
             <span className="font-semibold text-2xl leading-10">
               Shop Your Component With Maker.io
             </span>
@@ -42,15 +52,15 @@ export const LandingPage = () => {
         </div>
       </div>
 
-      <div className="px-48 mb-12 flex gap-x-12 justify-center">
-        <div className="">
-          <span className="font-semibold text-2xl leading-10">
-            Upload and share your Project with our community
-          </span>
+      <div className="px-40 flex justify-center">
+        <div className="flex flex-col justify-start w-1/2 mr-4">
+          <div className="flex font-semibold text-2xl leading-10">
+            Upload Your Project With Our Community
+          </div>
           <div>
-            <div className="leading-7 mb-3">
+            <div className="flex leading-7 mb-2">
               Sharing knowledge
-              and your achievement
+              and your achievement with us
             </div>
             <button className="bg-white border border-redHover text-red rounded-[50px] px-3 py-1">
               Sign Up
@@ -58,7 +68,7 @@ export const LandingPage = () => {
           </div>
         </div>
 
-        <div className="mr-10 justify-end">
+        <div className="mr-10 w-1/2 h-[300px] ">
           <video autoPlay controls loop muted>
             <source src="/assets/images/vdpro.mp4" type="video/mp4"></source>
             Your browser does not support the video tag.
@@ -66,18 +76,18 @@ export const LandingPage = () => {
         </div>
       </div>
 
-      <div className="px-48 gap-x-12 flex justify-center mb-12">
-        <div className="flex-1 justify-end">
+      <div className="px-40 flex justify-center h-[300px]">
+        <div className="flex justify-start w-[350px] h-[200px] mr-4">
           <img src="/assets/images/mrc.jpg" alt=""/>
         </div>
-        <div className="">
+        <div className="flex flex-col w-1/2">
           <span className="font-semibold text-2xl leading-10">
             Check Out Recent Technology Contest
           </span>
           <div>
-            <div className="leading-7 mb-3">
+            <div className="leading-7 mb-2">
               New Contest will be updated and
-              we courage everyone in our community to join
+              we courage everyone in our community to join.
             </div>
             <button className="bg-white border border-redHover text-red rounded-[50px] px-3 py-1">
               Check Out
@@ -85,18 +95,18 @@ export const LandingPage = () => {
           </div>
         </div>
       </div>
-      <div className="px-48 mb-12 flex flex-col items-center gap-y-6 p-2 font-medium">
+      <div className="px-40 mb-12 flex flex-col items-center p-2 font-medium">
         <div className="font-semibold text-2xl">
           About Us
         </div>
-        <div className="flex items-center">
-          <div className="flex-1 leading-7 mr-12 font-normal">
+        <div className="flex flex-row justify-between mt-4">
+          <div className="flex justify-start leading-7 mr-12 font-normal w-1/2 ">
             Factory.io is working on the production and community of Maker, improvement and distribution of technology
             products. Manufacturers incorporate new technologies including Internet of Things (IoT), cloud computing and
             analytics, and AI and machine learning and Robotic and PLC systems and STEAM for Kid into their production
             and automation facilities.
           </div>
-          <div className="flex-1 mt-4">
+          <div className="flex justify-end mt-4 w-1/2">
             <img src="/assets/images/abtus.jpg" alt=""/>
           </div>
         </div>
