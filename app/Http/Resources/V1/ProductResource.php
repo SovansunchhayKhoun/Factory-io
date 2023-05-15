@@ -22,6 +22,7 @@
                 'status' => $this->status,
                 'type' => $this->type,
                 'description' => $this->description,
+                // 'picture' => $this->picture,
               'image' => $this->image
             ];
         }

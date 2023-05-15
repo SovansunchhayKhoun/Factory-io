@@ -1,29 +1,28 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+  use Illuminate\Database\Migrations\Migration;
+  use Illuminate\Database\Schema\Blueprint;
+  use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+  return new class extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up ()
     {
-        Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->double ('price');
-            $table->integer ('qty')->nullable ();
-            $table->string('status')->default ('In Stock');
-            $table->string('type')->nullable ();
-            $table->text('image')->nullable ();
-            $table->longText('description')->nullable ();
-            $table->timestamps();
-        });
+      Schema ::create ( 'products' , function ( Blueprint $table ) {
+        $table -> id ();
+        $table -> string ( 'name' );
+        $table -> double ( 'price' );
+        $table -> integer ( 'qty' ) -> default (0);
+        $table -> tinyInteger ( 'status' ) -> default ( 1 );
+        $table -> string ( 'type' ) -> nullable ();
+        $table -> longText ( 'description' ) -> nullable ();
+        $table -> longText ('image') -> nullable ();
+        $table -> timestamps ();
+      } );
     }
 
     /**
@@ -31,8 +30,8 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down ()
     {
-        Schema::dropIfExists('products');
+      Schema ::dropIfExists ( 'products' );
     }
-};
+  };

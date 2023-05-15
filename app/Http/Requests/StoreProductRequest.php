@@ -25,12 +25,16 @@
     public function rules ()
     {
       return [
-        'name' => [ 'required' , Rule ::unique ( 'products' ) -> ignore ( $this -> product ) ] ,
+//        'toSeeError' => ['required'],
+//        'name' => [ 'required' , Rule ::unique ( 'products' ) -> ignore ( $this -> product ) ] ,
+        'name' => [ 'required' ] ,
         'price' => [ 'required' ] ,
-        'qty' => [ 'required' ] ,
         'type' => [ 'required' ] ,
         'description' => [ 'required' ],
-        'image' => ['required']
+        'image' => ['required'],
+        'qty' => [ 'required','numeric', 'min:0', 'not_in:0' ] ,
+        // 'status' => ['required'] ,
+        // 'picture' => ['nullable']
       ];
     }
   }

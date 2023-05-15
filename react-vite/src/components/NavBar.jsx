@@ -11,7 +11,7 @@ export const NavBar = () => {
     getCartItem();
   }, []);
   return (
-    <nav className="z-50 sticky top-0 bg-whiteFactory z-100 mb-12 flex px-36 py-4 justify-between items-center">
+    <nav className="z-50 fixed w-full top-0 bg-whiteFactory flex px-36 py-4 justify-between items-center">
       <Link to="/maker-io">
         <img width="100" src="/assets/images/makerio.png" alt=""/>
       </Link>

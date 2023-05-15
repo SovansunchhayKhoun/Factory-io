@@ -3,14 +3,8 @@
   margin: 0;
 }
 
-body {
-  min-height: 1080px;
-  position: relative;
-  overflow: auto;
-}
-
 main {
-  position: relative;
+  margin-top: 4.5rem;
   padding-left: 9rem;
   padding-right: 9rem;
   padding-bottom: 9rem;
@@ -50,5 +44,9 @@ main {
   justify-items: center;
 }
 
+.accordion-item-body{
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+}
 
 

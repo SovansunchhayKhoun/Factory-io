@@ -1,6 +1,7 @@
-import {createContext, useContext, useState} from "react";
+import {createContext, useContext, useEffect, useState} from "react";
 import AxiosClient from "../axios-client.js";
 import {useNavigate} from "react-router-dom";
+import CartContext from "./CartContext.jsx";
 
 const StateContext = createContext({
   user: null,
@@ -11,12 +12,12 @@ const StateContext = createContext({
   }
 })
 
-
 export const AuthContext = ({children}) => {
   const [user, setUser] = useState({});
   const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
   const onLogout = (event) => {
     event.preventDefault();
+    localStorage.removeItem('CART_ITEM');
     AxiosClient.post('/logout').then(() => {
       setUser({})
       setToken(null)

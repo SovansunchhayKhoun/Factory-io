@@ -21,13 +21,9 @@ class ProductFactory extends Factory
             'name' => fake()->name,
             'price' => fake ()->numberBetween ( 5, 70),
             'qty' => 10,
-            'status' => 'In Stock',
+            'status' => 1,
             'type' => 'Arduino Board',
             'description' => fake()->text (150)
         ];
-    }
-
-    public function Invoice () {
-        return $this->belongsToMany(Invoice::class);
     }
 }

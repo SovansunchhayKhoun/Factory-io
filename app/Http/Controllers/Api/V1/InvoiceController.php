@@ -23,16 +23,18 @@ class InvoiceController extends Controller
 
   public function show ( Invoice $invoice )
   {
-    return  new InvoiceResource($invoice);
+    return new InvoiceResource($invoice);
   }
 
-  public function update ( )
+  public function update (StoreInvoiceRequest $request, Invoice $invoice)
   {
-
+    $invoice->update ($request->validated ());
+    return response () -> json ('Invoice updated');
   }
 
-  public function destroy (  )
+  public function destroy (Invoice $invoice)
   {
-
+    $invoice->delete ();
+    return response ()->json ('Invoice deleted');
   }
 }

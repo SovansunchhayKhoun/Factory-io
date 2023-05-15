@@ -9,6 +9,7 @@ export const ItemRow = (props) => {
     await Axios.delete("http://127.0.0.1:8000/api/v1/products/" + id)
     getItems()
   }
+
   const {id,name,qty,price,description} = props.item
     return (
         <>
