@@ -1,11 +1,9 @@
-import WelcomeBanner from "../../partials/dashboard/WelcomeBanner.jsx";
+import WelcomeBanner from "../partials/dashboard/WelcomeBanner.jsx";
 import {Link, NavLink} from "react-router-dom";
 import React, {useContext, useEffect, useState} from "react";
-import ProductContext from "../../context/ProductContext.jsx";
-import {ItemRow} from "../../components/ItemRow.jsx";
-// import CreateItemModal from "../../components/Modals/CreateItemModal.jsx";
-import AdminPopUp from "../../components/Modals/AdminPopUp.jsx";
-import CreateItemModal from "../../components/Modals/CreateItemModal.jsx";
+import ProductContext from "../context/ProductContext.jsx";
+import {ItemRow} from "../components/ItemRow.jsx";
+import CreateItemModal from "../components/CreateItemModal.jsx";
 
 
 export const Inventory = () => {
@@ -14,7 +12,6 @@ export const Inventory = () => {
   }, []);
   const {items, getItems} = useContext(ProductContext)
   const [createItemModalOpen, setCreateItemModalOpen] = useState(false)
-
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
       <WelcomeBanner title={`Inventory`}/>
@@ -25,7 +22,6 @@ export const Inventory = () => {
       >
         Create Item
       </button>
-
       <CreateItemModal id="create-item-modal" modalOpen={createItemModalOpen} setModalOpen={setCreateItemModalOpen}/>
 
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-20">
@@ -78,6 +74,7 @@ export const Inventory = () => {
                 return <ItemRow key={key} item={item}/>
             })
             }
+
           </tbody>
         </table>
       </div>

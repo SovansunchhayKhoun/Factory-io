@@ -20,6 +20,9 @@ import {ContestLanding} from "./views/Factoryio/ContestLanding.jsx";
 import {EditItem} from "./views/Dashboard/EditItem.jsx";
 import {OrderView} from "./views/Makerio/OrderView.jsx";
 import {LandingHero} from "./views/Makerio/LandingHero.jsx";
+import {Users} from "./views/Users.jsx";
+import {EditUser} from "./views/EditUser.jsx";
+import {ChangePasswordView} from "./views/ChangePasswordView.jsx";
 
 
 const router = createBrowserRouter([
@@ -63,6 +66,10 @@ const router = createBrowserRouter([
         element: <UserView/>
       },
       {
+        path: 'user/:id/change-password',
+        element: <ChangePasswordView/>
+      },
+      {
         path: ':id',
         element: <ItemView/>
       },
@@ -96,8 +103,16 @@ const router = createBrowserRouter([
         ],
       },
       {
+        path: 'users',
+        element: <Users/>
+      },
+      {
         path: 'product/:id/edit',
         element: <EditItem/>
+      },
+      {
+        path: 'user/:id/edit',
+        element: <EditUser/>
       }
     ]
   },
