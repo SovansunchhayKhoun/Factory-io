@@ -253,7 +253,7 @@ function Sidebar({sidebarOpen, setSidebarOpen}) {
                             </svg>
                             <span
                               className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                              Utility
+                              Orders
                             </span>
                           </div>
                           {/* Icon */}
@@ -270,21 +270,7 @@ function Sidebar({sidebarOpen, setSidebarOpen}) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
-                              to="/admin/orders"
-                              className={({isActive}) =>
-                                'block transition duration-150 truncate ' + (isActive ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')
-                              }
-                            >
-                              <span
-                                className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Default
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/utility/roadmap"
+                              to="/admin/orders/pending"
                               className={({isActive}) =>
                                 'block transition duration-150 truncate ' + (isActive ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')
                               }
@@ -298,7 +284,21 @@ function Sidebar({sidebarOpen, setSidebarOpen}) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
-                              to="/utility/faqs"
+                              to="/admin/orders/accepted"
+                              className={({isActive}) =>
+                                'block transition duration-150 truncate ' + (isActive ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')
+                              }
+                            >
+                              <span
+                                className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                Accepted
+                              </span>
+                            </NavLink>
+                          </li>
+                          <li className="mb-1 last:mb-0">
+                            <NavLink
+                              end
+                              to="/admin/orders/delivering"
                               className={({isActive}) =>
                                 'block transition duration-150 truncate ' + (isActive ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')
                               }
@@ -312,7 +312,7 @@ function Sidebar({sidebarOpen, setSidebarOpen}) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
-                              to="/utility/empty-state"
+                              to="/admin/orders/arrived"
                               className={({isActive}) =>
                                 'block transition duration-150 truncate ' + (isActive ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')
                               }
@@ -320,6 +320,20 @@ function Sidebar({sidebarOpen, setSidebarOpen}) {
                               <span
                                 className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Arrived
+                              </span>
+                            </NavLink>
+                          </li>
+                          <li className="mb-1 last:mb-0">
+                            <NavLink
+                              end
+                              to="/admin/orders/arrived"
+                              className={({isActive}) =>
+                                'block transition duration-150 truncate ' + (isActive ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')
+                              }
+                            >
+                              <span
+                                className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                No Stock
                               </span>
                             </NavLink>
                           </li>

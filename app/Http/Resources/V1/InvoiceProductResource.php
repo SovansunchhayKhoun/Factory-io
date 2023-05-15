@@ -22,7 +22,7 @@
         'user_id' => $this -> user_id ,
         'qty' => $this -> qty ,
         'cart_item_price' => $this -> cart_item_price ,
-        'products' => ProductResource ::collection ( Product ::select ( [ 'name' , 'price' , 'type' , 'description' , 'id' , 'status' ] ) -> where ( 'id' , $this -> product_id ) -> get () )
+        'products' => ProductResource ::collection ( Product :: where ( 'id' , $this -> product_id ) -> get () )
       ];
     }
   }

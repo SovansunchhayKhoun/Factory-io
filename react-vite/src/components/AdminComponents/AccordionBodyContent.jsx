@@ -31,9 +31,9 @@ export const AccordionBodyContent = (props) => {
           {
             invoice_product.map((item) => {
               return (
-                <div>
+                <div key={item.product_id}>
                   {item.products.map((product) => {
-                    return <div>{product.name}</div>
+                    return <div key={product.id}>{product.name}</div>
                   })}
                 </div>
               )
@@ -45,9 +45,9 @@ export const AccordionBodyContent = (props) => {
           {
             invoice_product.map((item) => {
               return (
-                <div>
+                <div key={item.product_id}>
                   {item.products.map((product) => {
-                    return <div>{product.type}</div>
+                    return <div key={product.id}>{product.type}</div>
                   })}
                 </div>
               )
@@ -71,9 +71,9 @@ export const AccordionBodyContent = (props) => {
           {
             invoice_product.map((item) => {
               return (
-                <div>
+                <div key={item.product_id}>
                   {item.products.map((product) => {
-                    return <div>${product.price}</div>
+                    return <div key={product.id}>${product.price}</div>
                   })}
                 </div>
               )

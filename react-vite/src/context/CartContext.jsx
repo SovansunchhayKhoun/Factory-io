@@ -11,7 +11,7 @@ Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const CartContext = createContext();
 export const CartProvider = ({children}) => {
   const {items} = useContext(ProductContext);
-  const {invoices, isLoading} = useContext(InvoiceContext);
+  const {invoices, isLoading, address} = useContext(InvoiceContext);
   const [cartError, setCartError] = useState([]);
   const [success, setSuccess] = useState(false);
   const [cartItem, setCartItem] = useState([]);
@@ -127,13 +127,12 @@ export const CartProvider = ({children}) => {
         clearCart();
         setCartItem([]);
       } catch (e) {
-        e.response.data.errors.msg = 'Failed to process'
+        e.response.data.errors.address = 'The address field is required'
         console.log(e.response.data.errors)
-        setCartError(e.response.data.errors.msg)
+        setCartError(e.response.data.errors)
       }
     }
   }
-
 
   return <CartContext.Provider value={{
     cartItem,

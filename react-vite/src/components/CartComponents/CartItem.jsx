@@ -2,14 +2,19 @@ import {useContext, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
 import {Link} from "react-router-dom"
 import CartContext from "../../context/CartContext.jsx";
+import InvoiceContext from "../../context/InvoiceContext.jsx";
+import UserContext from "../../context/UserContext.jsx";
 export const CartItem = (props) => {
   const {item} = props;
+  const {items} =useContext(ProductContext);
   const {increaseItemQty, decreaseItemQty, cartItem, setCartItem, saveLocalCartItem} = useContext(CartContext);
+  const stockItem = items?.find((i) => i.id === item.product_id);
+
   return (
     <div className="px-12 py-3 flex items-center justify-between border-2 border-tealActive shadow-2xl">
       <div className="flex items-center gap-x-6">
         <div>
-          <img width="150" src="/assets/images/item1.png" alt=""/>
+          <img width="150" src={`/assets/images/${stockItem?.image ?? 'makerio.png'}`} alt=""/>
         </div>
         <div>
           <div className="mb-1 font-bold text-blueBase">${item.price}</div>

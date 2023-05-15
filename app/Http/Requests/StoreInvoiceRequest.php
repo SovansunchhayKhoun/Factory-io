@@ -26,7 +26,7 @@
         'date' => [ 'required' ] ,
         'status' => [ 'required' ] ,
         'payment_pic' => [ 'required' ] ,
-        'address' => [ 'required' ] ,
+        'address' => [ 'required', 'min: 12'] ,
         'item_count' =>['required', 'min: 1'],
         'totalPrice' => [ 'required' , 'numeric' , 'min:1' , 'not_in:0' ] ,
       ];

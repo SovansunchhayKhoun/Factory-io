@@ -4,7 +4,7 @@ import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 
 export const ItemCard = (props) => {
-  const {name, price, id, picture, status} = props.item;
+  const {name, price, id, image, status} = props.item;
   let {qty} = props.item;
   const {cartItem, addToCart} = useContext(CartContext);
   const itemCart = cartItem.find((i) => i.id === id);
@@ -18,7 +18,7 @@ export const ItemCard = (props) => {
           {name}
         </Link>
         <Link className="flex-2" to={"/maker-io/" + id}>
-          <img className="hover:scale-75 ease-in-out duration-300 " src={`/assets/images/${picture ?? 'makerio.png'}`}
+          <img className="hover:scale-75 ease-in-out duration-300 " src={`/assets/images/${image ?? 'makerio.png'}`}
                alt={`${name}`}/>
         </Link>
         <div className="flex-1 flex">
