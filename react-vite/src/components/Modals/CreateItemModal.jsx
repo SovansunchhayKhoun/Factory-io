@@ -14,7 +14,7 @@ function CreateItemModal({
                          }) {
 
   const modalContent = useRef(null);
-  const { errors} = useContext(ProductContext)
+  const { errors,getItems} = useContext(ProductContext)
 
   const [name,setName] = useState("");
   const [price,setPrice] = useState("");
@@ -35,7 +35,8 @@ function CreateItemModal({
       method: "POST",
       body: formValues
     })
-    location.reload()
+    setModalOpen(false)
+    getItems()
   }
   // close on click outside
   useEffect(() => {

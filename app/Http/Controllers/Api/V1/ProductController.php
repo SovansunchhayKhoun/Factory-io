@@ -19,7 +19,7 @@
         {
           $data = $request->validated();
             if($request->hasFile('image')){
-              $filepath = $request->file('image')->storeAs('products');
+              $filepath = $request->file('image')->store('products');
               $data['image'] = $filepath;
             }
             Product ::create ( $data);

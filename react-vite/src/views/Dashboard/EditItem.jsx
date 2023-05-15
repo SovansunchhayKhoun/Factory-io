@@ -1,17 +1,10 @@
-<<<<<<< HEAD:react-vite/src/views/EditItem.jsx
+
 // eslint-disable-next-line no-unused-vars
 import React, {useContext, useEffect} from "react";
-import ProductContext from "../context/ProductContext.jsx";
 import { useNavigate, useParams} from "react-router-dom";
 import {ArrowLeftIcon} from "@heroicons/react/20/solid/index.js";
-=======
-import React, {useContext, useEffect, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
-import {Link, useNavigate, useParams} from "react-router-dom";
-import {ArrowLeftIcon} from "@heroicons/react/20/solid/index.js";
-import Axios from "axios";
 
->>>>>>> 8e20bf3435be8f809ce89f4a7e664f36e796c1b5:react-vite/src/views/Dashboard/EditItem.jsx
 export const EditItem = () => {
   const navigate = useNavigate()
 

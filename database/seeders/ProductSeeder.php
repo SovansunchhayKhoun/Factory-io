@@ -27,7 +27,7 @@
           Humidity Range: 20% to 90% <br/>
           Resolution: Temperature and Humidity both are 16-bit <br/>
           Accuracy: ±1°C and ±1% <br/>',
-        'picture' => 'SN-DHT11-MOD (a)-800x800.jpg',
+        'image' => 'SN-DHT11-MOD (a)-800x800.jpg',
       ]);
 
       DB ::table ( 'products' ) -> insert ( [
@@ -42,7 +42,7 @@
           Small sensitivity to alcohol, smoke. <br/>
           Fast response Stable and long life <br/>
           Simple drive circuit <br/>',
-        'picture' => 'MQ4-Gas-Sensor.jpg',
+        'image' => 'MQ4-Gas-Sensor.jpg',
       ]);
 
 
@@ -61,7 +61,7 @@
           Microphone Sensitivity (1kHz): 52 to 48 dB <br/>
           Easy to use with Microcontrollers or even with normal Digital/Analog IC <br/>
           Small, cheap and easily available <br/>',
-        'picture' => 'Sound-Detection-Sensor-Module.jpg',
+        'image' => 'Sound-Detection-Sensor-Module.jpg',
         ]);
 
 

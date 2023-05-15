@@ -19,14 +19,10 @@ import {RnDLanding} from "./views/Factoryio/RnDlanding.jsx";
 import {ContestLanding} from "./views/Factoryio/ContestLanding.jsx";
 import {EditItem} from "./views/Dashboard/EditItem.jsx";
 import {OrderView} from "./views/Makerio/OrderView.jsx";
-<<<<<<< HEAD
 import {LandingHero} from "./views/Makerio/LandingHero.jsx";
 import {Users} from "./views/Users.jsx";
 import {EditUser} from "./views/EditUser.jsx";
 import {ChangePasswordView} from "./views/ChangePasswordView.jsx";
-=======
-import {LandingHero} from "./views/Makerio/LandingHero.jsx";
->>>>>>> 8e20bf3435be8f809ce89f4a7e664f36e796c1b5
 
 
 const router = createBrowserRouter([
