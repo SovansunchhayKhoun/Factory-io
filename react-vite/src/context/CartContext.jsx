@@ -3,54 +3,64 @@ import ProductContext from "./ProductContext.jsx";
 import Axios from "axios";
 import InvoiceContext from "./InvoiceContext.jsx";
 import invoiceContext from "./InvoiceContext.jsx";
+import {useAuthContext} from "./AuthContext.jsx";
+import InvoiceProductContext from "./InvoiceProductContext.jsx";
 
-Axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
+Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 
 const CartContext = createContext();
 export const CartProvider = ({children}) => {
-  const {items, setItem} = useContext(ProductContext);
-  const {invoices} = useContext(InvoiceContext);
+  const {items} = useContext(ProductContext);
+  const {invoices, isLoading} = useContext(InvoiceContext);
+  const [cartError, setCartError] = useState([]);
+  const [success, setSuccess] = useState(false);
   const [cartItem, setCartItem] = useState([]);
-  const [error, setError] = useState("");
   const totalPrice = cartItem.reduce((total, i) => total += i.price * i.qty, 0);
+  const {user} = useAuthContext();
+  const {invoiceProduct, invoiceProductReFetch} = useContext(InvoiceProductContext);
+  useEffect(() => {
+    invoiceProductReFetch();
+  }, []);
 
-  let latestInvoice = invoices.slice(-1)[0]?.id + 1 || 1;
   const storeItem = (item) => {
     if (itemExist(item)) {
       // find and update that existed item qty
       const itemCart = cartItem.find((i) => i.id === item.id);
       itemCart.qty = itemCart.qty + 1;
-      itemCart.cart_item_price = itemCart.cart_item_price * itemCart.qty;
+      itemCart.cart_item_price = item.price * itemCart.qty;
       setCartItem([...cartItem]);
     } else if (!itemExist(item)) {
-
       setCartItem([...cartItem, {
-        invoice_id: latestInvoice,
+        // invoice_id: latestInvoice,
+        user_id: user.id,
         id: item.id, // referenced from stock items
         product_id: item.id, //for cart product database
         name: item.name,
+        type: item.type,
         price: item.price,
         qty: 1,
         status: item.status,
-        errorStatus: false,
         cart_item_price: item.price * 1,
       }]);
     }
     saveLocalCartItem(cartItem);
   }
 
-  const addToCart = (item, currentQty) => {
-    currentQty = currentQty-1;
-    if (item.qty && currentQty >= 0) {
-      storeItem(item);
-      // if item doesnt exist in cart, save item
-      !cartItem.find((i) => item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
-        ...item,
-        invoice_id: latestInvoice,
-        product_id: item.id,
-        qty: 1,
-        cart_item_price: item.price * 1,
-      })])
+  const addToCart = (item) => {
+    if (user !== null) {
+      if (item.qty) {
+        storeItem(item);
+        // if item doesnt exist in cart, save item
+        !cartItem.find((i) => item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
+          ...item,
+          // invoice_id: latestInvoice,
+          user_id: user.id,
+          product_id: item.id,
+          type: item.type,
+          qty: 1,
+          cart_item_price: item.price * 1,
+        })])
+      }
     }
   }
 
@@ -72,26 +82,30 @@ export const CartProvider = ({children}) => {
     const stockItem = items.find((i) => i.id === cart.id);
     // set variable for cart item
     const item = cartItem.find((i) => i.id === cart.id);
-    if (item.qty < stockItem.qty) {
-      item.qty = item.qty + 1;
-      item.cart_item_price = item.cart_item_price * item.qty;
-      setCartItem([...cartItem]);
-      saveLocalCartItem(cartItem);
-    } else {
-      item.errorStatus = "Item quantity cannot exceed stock quantity";
-      setCartItem([...cartItem]);
-      setTimeout(() => {
-        item.errorStatus = "";
-        setCartItem([...cartItem]);
-      }, 1500);
-    }
+    item.qty = item.qty + 1;
+    item.cart_item_price = stockItem.price * item.qty;
+    setCartItem([...cartItem]);
+    saveLocalCartItem(cartItem);
+
+    // if (item.qty < stockItem.qty) {
+    // }
+    // else {
+    //   item.errorStatus = "Item quantity cannot exceed stock quantity";
+    //   setCartItem([...cartItem]);
+    //   setTimeout(() => {
+    //     item.errorStatus = "";
+    //     setCartItem([...cartItem]);
+    //   }, 1500);
+    // }
   };
   const decreaseItemQty = (cart) => {
+    // find original item
+    const stockItem = items.find((i) => i.id === cart.id);
     // set variable for cart item
     const item = cartItem.find((i) => i.id === cart.id);
     item.qty > 1 ? item.qty = item.qty - 1 : cartItem.splice(cartItem.indexOf(item), 1);
 
-    item.cart_item_price = item.cart_item_price * item.qty;
+    item.cart_item_price = stockItem.price * item.qty;
 
     setCartItem([...cartItem]);
     saveLocalCartItem(cartItem);
@@ -103,20 +117,19 @@ export const CartProvider = ({children}) => {
 
   function clearCart() {
     localStorage.removeItem('CART_ITEM');
-    document.location.reload(true);
   }
 
   const checkOut = async (item) => {
-    try {
-      await Axios.post('invoice_products', item);
-      setError('Check Out Successful')
-      setTimeout(() => {
-        setError('');
-      }, 1500);
-      clearCart();
-    } catch (e) {
-      if (e.response.status = 422) {
-        setError("Cannot Checkout");
+    if (!isLoading) {
+      item.invoice_id = invoices?.slice(-1)[0]?.id + 1 || invoiceProduct?.slice(-1)[0]?.invoice_id + 1 || 1;
+      try {
+        await Axios.post('invoice_products', item);
+        clearCart();
+        setCartItem([]);
+      } catch (e) {
+        e.response.data.errors.msg = 'Failed to process'
+        console.log(e.response.data.errors)
+        setCartError(e.response.data.errors.msg)
       }
     }
   }
@@ -125,8 +138,9 @@ export const CartProvider = ({children}) => {
   return <CartContext.Provider value={{
     cartItem,
     setCartItem,
-    error,
-    setError,
+    cartError,
+    success,
+    setSuccess,
     addToCart,
     checkOut,
     getCartItem,

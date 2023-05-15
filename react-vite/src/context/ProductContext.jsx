@@ -2,7 +2,7 @@ import {createContext, useState, useEffect} from "react";
 import Axios from "axios";
 
 
-Axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
+Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 
 const ProductContext = createContext();
 
@@ -17,14 +17,13 @@ export const ProductProvider = ({children}) => {
     description: "",
     image: "",
   })
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState([]);
   const getItems = async () => {
     const apiItems = await Axios.get("products");
     setItems(apiItems.data.data);
   };
 
   const storeItem = async (e) => {
-    e.preventDefault()
     try {
       await Axios.post("products", formValues)
       location.reload()
@@ -76,22 +75,27 @@ export const ProductProvider = ({children}) => {
     }
   }
 
-  const updateProduct = async (cartItem, e) => {
-    const stockItem = items.find((item) => item.id === cartItem.id)
-    stockItem.qty = stockItem.qty - cartItem.qty;
-    if (stockItem.qty === 0) {
-      stockItem.status = "Out of Stock";
-    }
-    // console.log(JSON.stringify(stockItem))
-    try {
-      await Axios.put("products/" + stockItem.id, stockItem);
-    } catch (msg) {
-      if (msg.response.status === 422) {
+  const updateProduct = async (cartItem, invoice) => {
+    const stockItem = items.find((item) => item.id === cartItem.product_id)
+    // if (stockItem.status === 0) {
+    //   setErrors([...stockItem, `${stockItem.name} is out of stock`]);
+    //   console.log('No stock')
+    // } else
+    if (invoice.status === 2) {
+      stockItem.qty = stockItem.qty - cartItem.qty;
+
+      if(stockItem.qty === 0) {
+        stockItem.status = 0;
+      }
+
+      try {
+        await Axios.put("products/" + stockItem.id, stockItem);
+      } catch (msg) {
         console.log(msg.response.data.errors);
+        msg.response.data.errors.toSeeError[0] = 'Something went wrong while processing Order';
+        setErrors(msg.response.data.errors.toSeeError[0]);
       }
     }
-
-
   }
 
   return <ProductContext.Provider

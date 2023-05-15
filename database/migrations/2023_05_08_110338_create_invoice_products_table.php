@@ -13,6 +13,7 @@
       Schema ::create ( 'invoice_products' , function ( Blueprint $table ) {
         $table -> foreignId ( 'invoice_id' ) -> references ( 'id' ) -> on ( 'invoices' ) -> onDelete ( 'cascade' );
         $table -> foreignId ( 'product_id' ) -> references ( 'id' ) -> on ( 'products' ) -> onDelete ( 'cascade' );
+        $table -> foreignId ( 'user_id' ) -> references ( 'id' ) -> on ( 'users' ) -> onDelete ( 'cascade' );
 
         $table -> integer ( 'qty' );
         $table -> double ( 'cart_item_price' );

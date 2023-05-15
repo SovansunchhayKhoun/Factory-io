@@ -2,6 +2,7 @@
 
   use App\Models\Invoice;
   use App\Models\Product;
+  use App\Models\User;
   use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,7 @@
 */
 
 Route ::get ( '/' , function () {
+    $users = User::all();
     $products = Product ::all ();
     $invoices = Invoice ::all ();
 
@@ -25,6 +27,12 @@ Route ::get ( '/' , function () {
         }
     }
 
-    return view ( 'welcome' , compact ( 'products' , 'invoices' ) );
+    foreach ($users as $user) {
+      foreach ($user -> invoices as $item ){
+        echo $item->id . "<br>";
+      }
+    }
+
+    return view ( 'welcome' , compact ( 'products', 'users' , 'invoices' ) );
 } );
 

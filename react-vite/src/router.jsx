@@ -8,19 +8,24 @@ import {ItemView} from "./views/Makerio/ItemView.jsx";
 import {CartView} from "./views/Makerio/CartView.jsx";
 import {LandingLayout} from "./layouts/LandingLayout.jsx"
 import {LandingPage} from "./views/Factoryio/LandingPage.jsx";
-import {DashboardLanding} from "./views/DashboardLanding.jsx";
+import {DashboardLanding} from "./views/Dashboard/DashboardLanding.jsx";
 import {DashboardLayout} from "./layouts/DashboardLayout.jsx";
-import {Inventory} from "./views/Inventory.jsx";
+import {Inventory} from "./views/Dashboard/Inventory.jsx";
 import { UserView } from "./views/UserView";
+import {AdminOrder} from "./views/Dashboard/AdminOrder.jsx";
 
 import {Communitylanding} from "./views/Factoryio/Communitylanding.jsx";
 import {RnDLanding} from "./views/Factoryio/RnDlanding.jsx";
 import {ContestLanding} from "./views/Factoryio/ContestLanding.jsx";
-import {EditItem} from "./views/EditItem.jsx";
+import {EditItem} from "./views/Dashboard/EditItem.jsx";
 import {OrderView} from "./views/Makerio/OrderView.jsx";
+<<<<<<< HEAD
 import {Users} from "./views/Users.jsx";
 import {EditUser} from "./views/EditUser.jsx";
 import {ChangePasswordView} from "./views/ChangePasswordView.jsx";
+=======
+import {LandingHero} from "./views/Makerio/LandingHero.jsx";
+>>>>>>> 8e20bf3435be8f809ce89f4a7e664f36e796c1b5
 
 
 const router = createBrowserRouter([
@@ -51,6 +56,10 @@ const router = createBrowserRouter([
     path: '/maker-io',
     element: <MakerLayout/>,
     children: [
+      {
+        path: 'home',
+        element: <LandingHero/>
+      },
       {
         path: '',
         element: <MakerLanding/>
@@ -90,8 +99,16 @@ const router = createBrowserRouter([
         element: <Inventory/>
       },
       {
+<<<<<<< HEAD
         path: 'users',
         element: <Users/>
+=======
+        path: 'orders',
+        element: <AdminOrder />,
+        children: [
+
+        ],
+>>>>>>> 8e20bf3435be8f809ce89f4a7e664f36e796c1b5
       },
       {
         path: 'product/:id/edit',

@@ -1,18 +1,18 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+  use Illuminate\Database\Migrations\Migration;
+  use Illuminate\Database\Schema\Blueprint;
+  use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+  return new class extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up ()
     {
+<<<<<<< HEAD
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -24,6 +24,19 @@ return new class extends Migration
             $table->longText('description')->nullable ();
             $table->timestamps();
         });
+=======
+      Schema ::create ( 'products' , function ( Blueprint $table ) {
+        $table -> id ();
+        $table -> string ( 'name' );
+        $table -> double ( 'price' );
+        $table -> integer ( 'qty' ) -> default (0);
+        $table -> tinyInteger ( 'status' ) -> default ( 1 );
+        $table -> string ( 'type' ) -> nullable ();
+        $table -> longText ( 'description' ) -> nullable ();
+        $table -> longText ('picture') -> nullable ();
+        $table -> timestamps ();
+      } );
+>>>>>>> 8e20bf3435be8f809ce89f4a7e664f36e796c1b5
     }
 
     /**
@@ -31,8 +44,8 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down ()
     {
-        Schema::dropIfExists('products');
+      Schema ::dropIfExists ( 'products' );
     }
-};
+  };

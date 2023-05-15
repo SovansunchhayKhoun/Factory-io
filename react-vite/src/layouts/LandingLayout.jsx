@@ -12,9 +12,11 @@ export const LandingLayout = () => {
   }, []);
   return (
     <>
-      <LandingNavBar />
-      <Outlet/>
-      <Footer />
+      <div className="min-h-screen flex flex-col overflow-hidden">
+        <LandingNavBar />
+        <Outlet/>
+        <Footer />
+      </div>
     </>
   );
 

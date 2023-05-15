@@ -30,6 +30,7 @@ export const CartItem = (props) => {
             }}>+
             </button>
           </div>
+          <p><span className="underline underline-offset-2">Sub-total:</span> <span className="font-bold text-redBase">${item.qty*item.price}</span></p>
           <p className="text-redBase text-xs">
             {item.errorStatus}
           </p>
