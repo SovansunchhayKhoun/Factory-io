@@ -28,7 +28,7 @@ export const NavBar = () => {
                   user['acc_type'] === 0 ? (
                     <>
                       <div className="highlight-hover">
-                        <Link to="/dashboard">
+                        <Link to="/admin/dashboard">
                           Dashboard
                         </Link>
                       </div>

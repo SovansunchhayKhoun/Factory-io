@@ -1,6 +1,7 @@
 <?php
 
-  use App\Models\Invoice;
+use App\Http\Controllers\Auth\AdminAuthController;
+use App\Models\Invoice;
   use App\Models\Product;
   use App\Models\User;
   use Illuminate\Support\Facades\Route;
@@ -35,4 +36,5 @@ Route ::get ( '/' , function () {
 
     return view ( 'welcome' , compact ( 'products', 'users' , 'invoices' ) );
 } );
+
 

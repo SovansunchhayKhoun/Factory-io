@@ -4,6 +4,7 @@
   use App\Http\Controllers\Api\V1\InvoiceProductController;
   use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Auth\AdminAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
@@ -33,6 +34,8 @@ Route::middleware('auth:sanctum')->group(function (){
   Route::post('/logout',[AuthController::class,'logout']);
 });
 Route::put('v1/users/{id}/change-password',[UserController::class,'changePassword']);
+Route::get('v1/getAdmin',[UserController::class,'getAdmins']);
 Route::post('/signup',[AuthController::class,'signup']);
 Route::post('/login',[AuthController::class,'login']);
+Route::post('/loginAsAdmin',[AuthController::class,'loginAsAdmin']);
 

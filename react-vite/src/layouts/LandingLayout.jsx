@@ -4,11 +4,15 @@ import {Footer} from "../components/Footer.jsx";
 import {LandingNavBar} from "../components/LandingNavBar.jsx";
 import {useEffect} from "react";
 import {useAuthContext} from "../context/AuthContext.jsx";
+import axiosClient from "../axios-client.js";
 
 export const LandingLayout = () => {
   const {setUser} = useAuthContext()
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem('USER_CREDENTIALS')))
+    axiosClient.get('/user')
+      .then(({data})=>{
+        setUser(data)
+      })
   }, []);
   return (
     <>

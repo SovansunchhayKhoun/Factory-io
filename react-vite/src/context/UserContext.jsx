@@ -9,6 +9,7 @@ const UserContext = createContext();
 export const UserProvider = ({children}) => {
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState({});
+  const [admin,setAdmin] = useState({});
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -21,6 +22,11 @@ export const UserProvider = ({children}) => {
     password_confirmation:"",
   })
   const [errors, setErrors] = useState({})
+
+  const getAdmin = async () => {
+    const apiItems = await Axios.get("getAdmin");
+    setAdmin(apiItems.data.data[0])
+  }
   const getUsers = async () => {
     const apiItems = await Axios.get("users");
     setUsers(apiItems.data.data);
@@ -111,7 +117,9 @@ export const UserProvider = ({children}) => {
       getUser,
       onChange,
       updateUser,
-      updatePassword
+      updatePassword,
+      getAdmin,
+      admin
     }}>{children}</UserContext.Provider>;
 };
 
