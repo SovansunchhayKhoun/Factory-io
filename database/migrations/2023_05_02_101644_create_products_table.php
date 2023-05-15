@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer ('qty')->nullable ();
             $table->string('status')->default ('In Stock');
             $table->string('type')->nullable ();
+            $table->text('image')->nullable ();
             $table->longText('description')->nullable ();
             $table->timestamps();
         });

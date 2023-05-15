@@ -28,9 +28,9 @@
         'name' => [ 'required' , Rule ::unique ( 'products' ) -> ignore ( $this -> product ) ] ,
         'price' => [ 'required' ] ,
         'qty' => [ 'required' ] ,
-        'status' => ['required'] ,
         'type' => [ 'required' ] ,
-        'description' => [ 'required' ]
+        'description' => [ 'required' ],
+        'image' => ['required']
       ];
     }
   }

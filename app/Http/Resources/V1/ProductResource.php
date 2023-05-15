@@ -21,7 +21,8 @@
                 'qty' => $this->qty,
                 'status' => $this->status,
                 'type' => $this->type,
-                'description' => $this->description
+                'description' => $this->description,
+              'image' => $this->image
             ];
         }
     }

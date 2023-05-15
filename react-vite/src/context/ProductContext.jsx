@@ -14,7 +14,8 @@ export const ProductProvider = ({children}) => {
     price: "",
     qty: "",
     type: "",
-    description: ""
+    description: "",
+    image: "",
   })
   const [errors, setErrors] = useState({})
   const getItems = async () => {
@@ -51,10 +52,22 @@ export const ProductProvider = ({children}) => {
     })
   };
 
+  const resetFormValues = () => {
+    setFormValues({
+      name: "",
+      qty: "",
+      type: "",
+      price: "",
+      description: "",
+      image: "",
+    })
+  }
+
   const updateItem = async (e) => {
     e.preventDefault()
     try {
       await Axios.put("products/" + item.id, formValues)
+      resetFormValues()
       history.back()
     } catch (msg) {
       if (msg.response.status === 422) {

@@ -13,8 +13,29 @@ function CreateItemModal({
                          }) {
 
   const modalContent = useRef(null);
-  const {formValues, errors, storeItem, onChange} = useContext(ProductContext)
+  const { errors} = useContext(ProductContext)
 
+  const [name,setName] = useState("");
+  const [price,setPrice] = useState("");
+  const [qty,setQty] =useState("");
+  const [type,setType] = useState("");
+  const [description,setDescription] = useState("");
+  const [image,setImage] = useState();
+  const storeItem = async (e) => {
+    e.preventDefault()
+    const formValues = new FormData;
+    formValues.append("name", name);
+    formValues.append("price", price);
+    formValues.append("qty", qty);
+    formValues.append("type", type);
+    formValues.append("description", description);
+    formValues.append("image", image);
+    await fetch("http://127.0.0.1:8000/api/v1/products",{
+      method: "POST",
+      body: formValues
+    })
+    location.reload()
+  }
   // close on click outside
   useEffect(() => {
     const clickHandler = ({target}) => {
@@ -68,41 +89,40 @@ function CreateItemModal({
         leaveEnd="opacity-0 translate-y-4"
       >
         <div ref={modalContent} className="bg-white overflow-auto max-w-2xl w-full max-h-full rounded shadow-lg">
-          <form className="space-y-6 p-12" onSubmit={storeItem}>
+          <form className="space-y-6 p-12"
+                onSubmit={storeItem}
+          >
             <div>
               <label htmlFor="ProductName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Product Name</label>
               {errors.name && <span className="text-sm text-red-400">{errors.name[0]}</span>}
+              {errors.image && <span className="text-sm text-red-400">{errors.image[0]}</span>}
               <input type="name" name="name" id="name"
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                     value={formValues['name']}
-                     onChange={onChange}
+                     onChange={(e) => setName(e.target.value)}
                      required/>
             </div>
             <div className="flex gap-8">
-              <label htmlFor="Qty" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <label htmlFor="qty" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Qty</label>
               <input type="number" name="qty" id="qty"
-                     value={formValues['qty']}
-                     onChange={onChange}
+                     onChange={(e) => setQty(e.target.value)}
                      min="1"
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                      required/>
-              <label htmlFor="Price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Price</label>
               <input type="number" name="price" id="price"
-                     value={formValues['price']}
-                     onChange={onChange}
+                     onChange={(e) => setPrice(e.target.value)}
                      min="1"
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                      required/>
             </div>
             <div>
-              <label htmlFor="Type" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <label htmlFor="type" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Type</label>
               <input name="type" id="type"
-                     value={formValues['type']}
-                     onChange={onChange}
+                     onChange={(e) => setType(e.target.value)}
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                      required/>
             </div>
@@ -110,10 +130,18 @@ function CreateItemModal({
               <label htmlFor="ProductName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Description</label>
               <input name="description" id="description"
-                     value={formValues['description']}
-                     onChange={onChange}
+                     onChange={(e) => setDescription(e.target.value)}
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                      required/>
+            </div>
+            <div>
+              <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Image</label>
+              <input name="image" id="image"
+                     type="file"
+                     onChange={(e) => setImage(e.target.files[0])}
+                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                     />
             </div>
             <button type="submit"
               // onClick={() => setModalOpen(!modalOpen)}
