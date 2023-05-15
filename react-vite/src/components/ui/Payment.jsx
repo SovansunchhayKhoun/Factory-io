@@ -49,16 +49,6 @@ export const Payment = () => {
       <div className="flex justify-between mt-6 ">
         <div className="text-redBase">{error}{cartError}</div>
         <div>
-          {/*<button*/}
-          {/*  className={`transition duration-300 hover:shadow-tealBase hover:shadow-[5px_-2px_10px_-1px] bg-redHover text-[18px] text-whiteFactory px-4 py-1 rounded-[20px]`}*/}
-          {/*  onClick={() => {*/}
-          {/*    storeInvoice(totalPrice);*/}
-          {/*    cartItem.forEach((item) => {*/}
-          {/*      checkOut(item);*/}
-          {/*      // updateProduct(item);*/}
-          {/*    });*/}
-          {/*  }}>Check out*/}
-          {/*</button>*/}
           <CheckoutButton />
         </div>
       </div>

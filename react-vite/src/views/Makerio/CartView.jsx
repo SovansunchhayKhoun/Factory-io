@@ -7,6 +7,8 @@ import InvoiceContext from "../../context/InvoiceContext.jsx";
 
 export const CartView = () => {
   const {cartItem, getCartItem} = useContext(CartContext);
+  const {handleAddressChange} = useContext(InvoiceContext);
+
   const {getItems} = useContext(ProductContext);
   useEffect(() => {
     getCartItem();
@@ -16,9 +18,7 @@ export const CartView = () => {
     <main>
       <div className="flex justify-between mb-3">
         <div className="font-bold text-blueBase text-lg">Cart</div>
-        <input className="w-[40%] font-semibold bg-tealActive text-blackFactory px-3 py-2 rounded-md" onChange={(e) => {
-          console.log(e.target.value)
-        }} placeholder={`#, Street, District, City, Country`}/>
+        <input className="w-[40%] font-semibold bg-tealActive text-blackFactory px-3 py-2 rounded-md" onChange={handleAddressChange} placeholder={`#, Street, District, City, Country`}/>
       </div>
       <div className="flex flex-col gap-y-3 pb-6 border-b-2 border-tealActive mb-6">
         {cartItem.length === 0 && 'Empty Cart'}

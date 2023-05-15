@@ -9,6 +9,7 @@ import {
   AccordionBody,
 } from "@material-tailwind/react";
 import {Link, Navigate} from "react-router-dom";
+import {PendingItem} from "../../components/CartComponents/PendingItem.jsx";
 
 export const OrderView = () => {
   const {invoices, isLoading, invoicesReFetch} = useContext(InvoiceContext);
@@ -18,14 +19,12 @@ export const OrderView = () => {
     invoicesReFetch();
   }, []);
 
-  console.log(invoices);
-
   const [open, setOpen] = useState(1);
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
 
-  if(!user){
+  if (!user) {
     return (
       <>
         <main>
@@ -58,7 +57,7 @@ export const OrderView = () => {
     );
   }
 
-  if(invoices?.filter((invoice) => invoice.user_id === user?.id).length === 0) {
+  if (invoices?.filter((invoice) => invoice.user_id === user?.id).length === 0) {
     return (
       <main>
         No orders have been placed yet <Link to={'/maker-io'}></Link>
@@ -72,25 +71,40 @@ export const OrderView = () => {
         {/*{status === 2 && 'Delivering'}*/}
         {/*{status === 3 && 'Arrived'}*/}
         <main>
-          Pending
-          {invoices?.filter((invoice) => {
-            return (invoice.user_id === user?.id && invoice.status === -1)
-          }).map((invoice) => <InvoiceView key={invoice.id} invoice={invoice}/>)}
+          <div className="mb-12">
+            <div className="font-bold mb-3">Orders</div>
+            {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === -1).map((invoice) => {
+              return (
+                <>
+                  <PendingItem key={invoice.id} invoice={invoice}/>
+                  {/*<InvoiceView key={invoice.id} invoice={invoice}/>*/}
+                </>
+              );
+            })}
+            {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === 1).map((invoice) => {
+              return (
+                <>
+                  <PendingItem key={invoice.id} invoice={invoice}/>
+                  {/*<InvoiceView key={invoice.id} invoice={invoice}/>*/}
+                </>
+              );
+            })}
 
-          <div>Accepted</div>
-          {invoices?.filter((invoice) => {
-            return (invoice.user_id === user?.id && invoice.status === 1)
-          }).map((invoice) => <InvoiceView key={invoice.id} invoice={invoice}/>)}
-
-          <div>Delivering</div>
-          {invoices?.filter((invoice) => {
-            return (invoice.user_id === user?.id && invoice.status === 2)
-          }).map((invoice) => <InvoiceView key={invoice.id} invoice={invoice}/>)}
-
-          <div>Arrived</div>
-          {invoices?.filter((invoice) => {
-            return (invoice.user_id === user?.id && invoice.status === 3)
-          }).map((invoice) => <InvoiceView key={invoice.id} invoice={invoice}/>)}
+            {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === 2).map((invoice) => {
+              return (
+                <>
+                  <PendingItem key={invoice.id} invoice={invoice}/>
+                  {/*<InvoiceView key={invoice.id} invoice={invoice}/>*/}
+                </>
+              );
+            })}
+          </div>
+          <div>
+            <div className="font-bold mb-3">History</div>
+            {invoices?.filter((invoice) => {
+              return (invoice.user_id === user?.id && invoice.status === 3)
+            }).map((invoice) => <InvoiceView key={invoice.id} invoice={invoice}/>)}
+          </div>
 
         </main>
       </>

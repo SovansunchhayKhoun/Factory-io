@@ -40,7 +40,11 @@ export default function CheckoutButton() {
   if (loadingSuccess) {
     return (
       <>
-        <Spinner size={"xl"} color={"purple"}/>
+        <Spinner
+          size="xl"
+          color="purple"
+          aria-label="Purple spinner example"
+        />
         {setTimeout(() => {
           setLoadingSuccess(false);
         }, 3000)}
@@ -63,7 +67,7 @@ export default function CheckoutButton() {
           aria-describedby="modal-modal-description">
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              Are you sure to proceed Order?
+              Are you sure to proceed order?
             </Typography>
             <Typography id="modal-modal-description" sx={{mt: 2}}>
               <div className="text-blackFactory  mb-3 font-semibold">

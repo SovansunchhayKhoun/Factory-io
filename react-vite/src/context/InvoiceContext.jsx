@@ -25,6 +25,11 @@ export const InvoiceProvider = ({children}) => {
     setInvoice(apiItem.data.data);
   };
 
+  const [address, setAddress] = useState('');
+  const handleAddressChange = (e) => {
+    setAddress(e.target.value);
+  }
+
   const storeInvoice = async (total, cartItem) => {
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
@@ -32,7 +37,7 @@ export const InvoiceProvider = ({children}) => {
       user_id: user.id,
       date: currentDate,
       status: -1,
-      address: 'Bridge 2, National Road 6A, Sangkat Prek Leap, Khan Chroy Changva, Phnom Penh', //will change soon
+      address: address, //will change soon
       totalPrice: total,
       payment_pic: 'No pic',
       item_count: cartItem.length,
@@ -41,6 +46,8 @@ export const InvoiceProvider = ({children}) => {
     try {
       await Axios.post('invoices', invoice);
     } catch (e) {
+      console.log(e.response.data.errors);
+
       e.response.data.errors.totalPrice[0] = 'You must have at least one item in your cart';
       setError(e.response.data.errors.totalPrice[0]);
       setTimeout(() => {
@@ -118,7 +125,8 @@ export const InvoiceProvider = ({children}) => {
       setError,
       getInvoice,
       declineOrder,
-      acceptOrder
+      acceptOrder,
+      handleAddressChange
     }}>
       {children}
     </InvoiceContext.Provider>
