@@ -4,6 +4,8 @@ import {useQuery} from "@tanstack/react-query";
 import {useAuthContext} from "./AuthContext.jsx";
 import InvoiceProductContext from "./InvoiceProductContext.jsx";
 import ProductContext from "./ProductContext.jsx";
+import CartContext from "./CartContext.jsx";
+import {useParams} from "react-router-dom";
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 
@@ -14,30 +16,33 @@ export const InvoiceProvider = ({children}) => {
       return res.data.data;
     })
   });
-
-  const {user} = useAuthContext();
-
   const [invoice, setInvoice] = useState({});
-  const [error, setError] = useState([]);
-
   const getInvoice = async (id) => {
     const apiItem = await Axios.get(`invoices/${id}`);
     setInvoice(apiItem.data.data);
   };
-
+  const {user} = useAuthContext();
+  const [invoiceError, setInvoiceError] = useState([]);
   const [address, setAddress] = useState('');
   const handleAddressChange = (e) => {
     setAddress(e.target.value);
   }
 
-  const storeInvoice = async (total, cartItem) => {
+  const scrollTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
+  const storeInvoice = async (total, cartItem, checkOut, setLoading) => {
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
     const invoice = {
       user_id: user.id,
       date: currentDate,
       status: -1,
-      address: address, //will change soon
+      address: address,
       totalPrice: total,
       payment_pic: 'No pic',
       item_count: cartItem.length,
@@ -45,14 +50,20 @@ export const InvoiceProvider = ({children}) => {
 
     try {
       await Axios.post('invoices', invoice);
-    } catch (e) {
-      console.log(e.response.data.errors);
-
-      e.response.data.errors.totalPrice[0] = 'You must have at least one item in your cart';
-      setError(e.response.data.errors.totalPrice[0]);
+      setLoading(true);
       setTimeout(() => {
-        setError(['']);
-      }, 1500);
+        setLoading(false);
+        cartItem.forEach((item) => {
+          checkOut(item);
+        });
+      }, 3000);
+    } catch (e) {
+      scrollTop();
+      console.log(e.response.data.errors);
+      setInvoiceError(e.response.data.errors);
+      setTimeout(() => {
+        setInvoiceError(['']);
+      }, 3000);
     }
   }
 
@@ -62,24 +73,32 @@ export const InvoiceProvider = ({children}) => {
 
   const acceptOrder = async (order) => {
     const {invoice_product} = order;
-    invoice_product.forEach((inv_prod) => {
-      const item = items.find((item) => item.id === inv_prod.product_id);
-      item.qty = item.qty - inv_prod.qty;
-      if (item.qty <= 0) {
-        // console.log('no stock');
-        order.status = -2;
-        order.noStock = true;
-      }
-    })
+    const tempArr = [];
+
+    if(order.status <= 1) {
+      invoice_product.forEach((inv_prod) => {
+        const stockItem = items.find((item) => item.id === inv_prod.product_id);
+        stockItem.qty = stockItem.qty - inv_prod.qty;
+        if (stockItem.qty < 0) {
+          order.status = -2;
+          order.noStock = true;
+        }
+      })
+    }
+
     switch (order.status) {
       case -2:
         invoice_product.forEach((inv_prod) => {
-          const item = items.find((item) => item.id === inv_prod.product_id);
-          item.qty = item.qty - inv_prod.qty;
-          if (item.qty >= inv_prod.qty) {
-            // console.log('no stock');
+          tempArr.push(inv_prod)
+          const prodArray = [];
+          tempArr.forEach((prod) => {
+            prodArray.push(prod);
+          })
+          if (prodArray.some((prod) => prod.products[0].qty === 0)) {
+            order.status = -2;
+          } else {
             order.status = 1;
-            order.noStock = false;
+            order.noStock = true;
           }
         })
         break;
@@ -98,11 +117,8 @@ export const InvoiceProvider = ({children}) => {
       invoicesReFetch();
     } catch (e) {
       console.log(e.response.data.errors)
-      setError(e.response.data.errors);
+      setInvoiceError(e.response.data.errors);
     }
-    // if (!order.noStock) {
-    // }
-
   };
 
   const declineOrder = async (order) => {
@@ -111,19 +127,20 @@ export const InvoiceProvider = ({children}) => {
       invoicesReFetch();
     } catch (e) {
       console.log(e.response.data.errors);
-      setError(e.response.data.errors);
+      setInvoiceError(e.response.data.errors);
     }
   }
 
   return (
     <InvoiceContext.Provider value={{
+      setAddress,
       invoices,
       isLoading,
       invoicesReFetch,
       storeInvoice,
-      error,
-      setError,
-      getInvoice,
+      invoiceError,
+      setInvoiceError,
+      // getInvoice,
       declineOrder,
       acceptOrder,
       handleAddressChange

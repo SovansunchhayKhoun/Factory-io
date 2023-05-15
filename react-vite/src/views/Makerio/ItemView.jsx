@@ -30,7 +30,7 @@ export const ItemView = (props) => {
       <section className="mt-12 flex justify-center gap-x-12">
         <div className="flex items-center border-2 border-tealBase p-4">
           <img className="max-w-[350px] max-h-[350px] min-w-[350px] min-h-[350px] object-contain"
-               src={`/assets/images/${item?.picture ?? 'makerio.png'}`} alt={`${item.name}`}/>
+               src={`/assets/images/${item?.image ?? 'makerio.png'}`} alt={`${item.name}`}/>
         </div>
         <div className="text-lg shadow-2xl rounded-xl p-4">
           <div className="mb-2 font-bold text-blueBase">${item.price}</div>

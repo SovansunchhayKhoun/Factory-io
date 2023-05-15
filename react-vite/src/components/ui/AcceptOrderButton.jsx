@@ -25,9 +25,11 @@ export const AcceptOrderButton = (props) => {
           <button disabled={invoice.status === 3 && true} type="submit"
                   onClick={() => {
                     acceptOrder(invoice);
-                    invoice_product.forEach((product) => {
-                      updateProduct(product, invoice);
-                    });
+                    if(invoice.status === 2) {
+                      invoice_product.forEach((product) => {
+                        updateProduct(product);
+                      });
+                    }
                   }}
                   className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             {invoice.status === -2 && 'No Stock'}

@@ -23,6 +23,7 @@ import {LandingHero} from "./views/Makerio/LandingHero.jsx";
 import {Users} from "./views/Users.jsx";
 import {EditUser} from "./views/EditUser.jsx";
 import {ChangePasswordView} from "./views/ChangePasswordView.jsx";
+import {InvoiceList} from "./components/AdminComponents/InvoiceComponents/InvoiceList.jsx";
 
 
 const router = createBrowserRouter([
@@ -79,7 +80,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'order',
-        element: <OrderView />
+        element: <OrderView />,
       }
     ],
   },
@@ -99,7 +100,10 @@ const router = createBrowserRouter([
         path: 'orders',
         element: <AdminOrder />,
         children: [
-
+          {
+            path: ':id',
+            element: <InvoiceList />
+          }
         ],
       },
       {

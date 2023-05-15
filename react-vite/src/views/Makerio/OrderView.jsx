@@ -73,18 +73,30 @@ export const OrderView = () => {
         <main>
           <div className="mb-12">
             <div className="font-bold mb-3">Orders</div>
+
             {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === -1).map((invoice) => {
               return (
                 <>
-                  <PendingItem key={invoice.id} invoice={invoice}/>
+                  <div className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
+                    <span className={`font-semibold`}>
+                      Order #{invoice.id}
+                    </span>
+                    <PendingItem key={invoice.id} invoice={invoice}/>
+                  </div>
                   {/*<InvoiceView key={invoice.id} invoice={invoice}/>*/}
                 </>
               );
             })}
+
             {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === 1).map((invoice) => {
               return (
                 <>
-                  <PendingItem key={invoice.id} invoice={invoice}/>
+                  <div className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
+                    <span className={`font-semibold`}>
+                      Order #{invoice.id}
+                    </span>
+                    <PendingItem key={invoice.id} invoice={invoice}/>
+                  </div>
                   {/*<InvoiceView key={invoice.id} invoice={invoice}/>*/}
                 </>
               );
@@ -93,7 +105,12 @@ export const OrderView = () => {
             {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === 2).map((invoice) => {
               return (
                 <>
-                  <PendingItem key={invoice.id} invoice={invoice}/>
+                  <div className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
+                    <span className={`font-semibold`}>
+                      Order #{invoice.id}
+                    </span>
+                    <PendingItem key={invoice.id} invoice={invoice}/>
+                  </div>
                   {/*<InvoiceView key={invoice.id} invoice={invoice}/>*/}
                 </>
               );

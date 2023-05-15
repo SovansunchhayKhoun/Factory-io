@@ -75,26 +75,18 @@ export const ProductProvider = ({children}) => {
     }
   }
 
-  const updateProduct = async (cartItem, invoice) => {
+  const updateProduct = async (cartItem) => {
     const stockItem = items.find((item) => item.id === cartItem.product_id)
-    // if (stockItem.status === 0) {
-    //   setErrors([...stockItem, `${stockItem.name} is out of stock`]);
-    //   console.log('No stock')
-    // } else
-    if (invoice.status === 2) {
-      stockItem.qty = stockItem.qty - cartItem.qty;
+    stockItem.qty = stockItem.qty - cartItem.qty;
+    if(stockItem.qty === 0) {
+      stockItem.status = 0;
+    }
 
-      if(stockItem.qty === 0) {
-        stockItem.status = 0;
-      }
-
-      try {
-        await Axios.put("products/" + stockItem.id, stockItem);
-      } catch (msg) {
-        console.log(msg.response.data.errors);
-        msg.response.data.errors.toSeeError[0] = 'Something went wrong while processing Order';
-        setErrors(msg.response.data.errors.toSeeError[0]);
-      }
+    try {
+      await Axios.put("products/" + stockItem.id, stockItem);
+    } catch (msg) {
+      console.log(msg.response.data.errors);
+      setErrors(msg.response.data.errors);
     }
   }
 

@@ -28,9 +28,10 @@
         'name' => [ 'required' ] ,
         'price' => [ 'required' ] ,
         'type' => [ 'required' ] ,
+        'status' => ['required'],
         'description' => [ 'required' ],
         'image' => ['required'],
-        'qty' => [ 'required','numeric', 'min:0', 'not_in:0' ] ,
+        'qty' => [ 'required','numeric', 'min:0' ] ,
       ];
     }
   }

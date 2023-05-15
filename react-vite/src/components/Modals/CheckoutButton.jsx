@@ -28,7 +28,7 @@ const style = {
 
 export default function CheckoutButton() {
   const {cartItem, getCartItem, checkOut, totalPrice, success, setSuccess} = useContext(CartContext);
-  const {storeInvoice} = useContext(InvoiceContext);
+  const {storeInvoice, address, setAddress} = useContext(InvoiceContext);
   const {user} = useAuthContext();
 
   const [loadingSuccess, setLoadingSuccess] = useState(false);
@@ -45,21 +45,20 @@ export default function CheckoutButton() {
           color="purple"
           aria-label="Purple spinner example"
         />
-        {setTimeout(() => {
-          setLoadingSuccess(false);
-        }, 3000)}
       </>
     );
   }
   if (cartItem.length > 0) {
     return (
       <div>
-        <button
-          className={`transition duration-300 hover:shadow-tealBase hover:shadow-[5px_-2px_10px_-1px] bg-redHover text-[18px] text-whiteFactory px-4 py-1 rounded-[20px]`}
-          onClick={() => {
-            totalPrice > 0 && setSuccess(true);
-          }}>Check out
-        </button>
+        <div>
+          <button
+            className={`transition duration-300 hover:shadow-tealBase hover:shadow-[5px_-2px_10px_-1px] bg-redHover text-[18px] text-whiteFactory px-4 py-1 rounded-[20px]`}
+            onClick={() => {
+              totalPrice > 0 && setSuccess(true);
+            }}>Check out
+          </button>
+        </div>
         <Modal
           open={success}
           // onClose={setSuccess(false)}
@@ -79,24 +78,25 @@ export default function CheckoutButton() {
                     {user?.username}
                   </div>
                   <div className={`bg-[#D9D9D9] px-2 py-1 rounded-lg`}>Address:
-                    {user?.address}
+                    {address}
                   </div>
                 </div>
                 <div className={`flex mb-3 gap-x-6`}>
                   <div className="flex-2">Item
-                    {cartItem?.map((i) => <div className="whitespace-nowrap">{i.name}</div>)}
+                    {cartItem?.map((i) => <div key={i.product_id} className="whitespace-nowrap">{i.name}</div>)}
                   </div>
                   <div>Type
-                    {cartItem?.map((i) => <div className="whitespace-nowrap">{i.type}</div>)}
+                    {cartItem?.map((i) => <div key={i.product_id} className="whitespace-nowrap">{i.type}</div>)}
                   </div>
                   <div>Qty
-                    {cartItem?.map((i) => <div className="whitespace-nowrap">{i.qty}</div>)}
+                    {cartItem?.map((i) => <div key={i.product_id} className="whitespace-nowrap">{i.qty}</div>)}
                   </div>
                   <div>Price
-                    {cartItem?.map((i) => <div className="whitespace-nowrap">${i.price}</div>)}
+                    {cartItem?.map((i) => <div key={i.product_id} className="whitespace-nowrap">${i.price}</div>)}
                   </div>
                   <div>Total
-                    {cartItem?.map((i) => <div className="whitespace-nowrap">${i.cart_item_price}</div>)}
+                    {cartItem?.map((i) => <div key={i.product_id}
+                                               className="whitespace-nowrap">${i.cart_item_price}</div>)}
                   </div>
                 </div>
                 <hr className="border-b-1 border-blackFactory rounded-lg"/>
@@ -119,13 +119,7 @@ export default function CheckoutButton() {
                   onClick={() => {
                     if (cartItem.length > 0) {
                       setSuccess(false);
-                      setLoadingSuccess(true)
-                      storeInvoice(totalPrice, cartItem);
-                      setTimeout(() => {
-                        cartItem.forEach((item) => {
-                          checkOut(item);
-                        });
-                      }, 3000);
+                      storeInvoice(totalPrice, cartItem, checkOut, setLoadingSuccess);
                     }
                   }}>Confirm
                 </button>
