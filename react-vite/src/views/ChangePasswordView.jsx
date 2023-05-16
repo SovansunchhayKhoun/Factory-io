@@ -9,12 +9,12 @@ export const ChangePasswordView = () => {
     getUser(id)
   },[])
   return (
-    <div>
-      <form>
-        {errors.data && console.log(errors.data)}
+    <main>
+      <form className="mt-24">
+        {errors.data && console.log(errors.data.errors)}
         <div className="flex items-center justify-center h-1/2 flex-col">
           <div className="flex flex-col items-center justify-center">
-              {errors.data ? <span className="text-sm text-red-400">{errors.data.message}</span> : null}
+            {errors.data ? <span className="text-sm text-red-400">{errors.data.errors['password']}</span> : null}
             <div className="mb-2 w-[500px]">
               <label className="text-sm">Old password</label>
               <input
@@ -26,6 +26,7 @@ export const ChangePasswordView = () => {
                 onChange={onChange}
               />
             </div>
+            {errors.data ? <span className="text-sm text-red-400">{errors.data.errors['new_password']}</span> : null}
             <div className="mb-2 w-[500px]">
               <label className="text-sm">New Password</label>
               <input
@@ -37,6 +38,7 @@ export const ChangePasswordView = () => {
                 onChange={onChange}
               />
             </div>
+            {errors.data ? <span className="text-sm text-red-400">{errors.data.errors['password_confirmation']}</span> : null}
             <div className="mb-2 w-[500px]">
               <label className="text-sm">Confirm new password</label>
               <input
@@ -58,6 +60,6 @@ export const ChangePasswordView = () => {
           </div>
         </div>
       </form>
-    </div>
+    </main>
         )
         }

@@ -7,12 +7,14 @@ import InvoiceContext from "../context/InvoiceContext.jsx";
 import axiosClient from "../axios-client.js";
 
 export const MakerLayout = () => {
-  const {setUser} = useAuthContext()
+  const {setUser,token} = useAuthContext()
   useEffect(() => {
-    axiosClient.get('/user')
-      .then(({data})=>{
-        setUser(data)
-      })
+    if(token){
+      axiosClient.get('/user')
+        .then(({data})=>{
+          setUser(data)
+        })
+    }
   }, []);
 
   return (

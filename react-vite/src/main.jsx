@@ -33,7 +33,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             </InvoiceProvider>
           </InvoiceProductProvider>
         </UserProvider>
-
       </AuthContext>
     </QueryClientProvider>
   </React.StrictMode>
