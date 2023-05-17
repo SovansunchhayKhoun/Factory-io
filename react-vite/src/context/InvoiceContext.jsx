@@ -73,34 +73,29 @@ export const InvoiceProvider = ({children}) => {
 
   const acceptOrder = async (order) => {
     const {invoice_product} = order;
-    const tempArr = [];
-
-    if(order.status <= 1) {
+    const stockArr = [];
+    if (order.status === -1 || order.status === 1) {
       invoice_product.forEach((inv_prod) => {
-        const stockItem = items.find((item) => item.id === inv_prod.product_id);
+        const stockItem = items.find((item) => inv_prod.product_id === item.id)
         stockItem.qty = stockItem.qty - inv_prod.qty;
-        if (stockItem.qty < 0) {
-          order.status = -2;
-          order.noStock = true;
-        }
+        stockArr.push(stockItem);
       })
+    }
+
+    if (stockArr.some((prod) => prod.qty < 0)) {
+      order.status = -2;
+      order.noStock = true;
     }
 
     switch (order.status) {
       case -2:
-        invoice_product.forEach((inv_prod) => {
-          tempArr.push(inv_prod)
-          const prodArray = [];
-          tempArr.forEach((prod) => {
-            prodArray.push(prod);
-          })
-          if (prodArray.some((prod) => prod.products[0].qty === 0)) {
-            order.status = -2;
-          } else {
-            order.status = 1;
-            order.noStock = true;
-          }
-        })
+        if (stockArr.some((prod) => prod.qty < 0)) {
+          order.status = -2;
+          order.noStock = true;
+        } else {
+          order.status = 1;
+          order.noStock = false;
+        }
         break;
       case -1:
         order.status = 1;

@@ -50,6 +50,7 @@ export const ProductProvider = ({children}) => {
       type: apiItem.type,
       price: apiItem.price,
       description: apiItem.description,
+      image: apiItem.image,
       status: apiItem.status,
     })
   };
@@ -68,11 +69,15 @@ export const ProductProvider = ({children}) => {
 
   const updateItem = async (e) => {
     e.preventDefault()
+
+    formValues.qty > 0 ? formValues.status = 1 : formValues.status = 0;
+
     try {
       await Axios.put("products/" + item.id, formValues)
       resetFormValues()
       history.back()
     } catch (msg) {
+      console.log(msg.response.data.errors);
       if (msg.response.status === 422) {
         setErrors(msg.response.data.errors)
         console.log(msg.response.data.errors)

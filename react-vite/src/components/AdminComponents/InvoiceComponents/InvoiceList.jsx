@@ -5,7 +5,7 @@ import {useOutlet, useOutletContext} from "react-router-dom";
 export const InvoiceList = (props) => {
   const [invoice] = useOutletContext();
   // const {invoice} = props;
-  console.log(Object.keys(invoice).length)
+  // console.log(Object.keys(invoice).length)
     return (
         <>
           {/*<div>*/}
