@@ -36,7 +36,7 @@ export const AdminOrder = () => {
 
         {invoices?.filter((inv) => {
           switch (id) {
-            case 'all':
+            case 'no-stock':
               return inv.status === -2;
             case 'pending':
               return inv.status === -1;
@@ -53,7 +53,6 @@ export const AdminOrder = () => {
             );
           })
         }
-
       </div>
     </>
   );

@@ -1,10 +1,15 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
+import InvoiceContext from "../../context/InvoiceContext.jsx";
 
 export const AccordionBodyContent = (props) => {
+  const {invoicesReFetch} = useContext(InvoiceContext);
   const {id, date, totalPrice, status, address, invoice_product, user, noStock} = props.invoice;
   const {items} = useContext(ProductContext);
-
+// useEffect(() => {
+//   invoicesReFetch()
+//   getItems();
+// }, []);
   return (
     <div className="text-blackFactory font-semibold">
       <div className="px-6">
@@ -56,15 +61,16 @@ export const AccordionBodyContent = (props) => {
         <div>Qty
           {invoice_product.map((item) => {
             const stockItem = items.find((i) => i.id === item.product_id);
+            const inputStyle = 'border-none'
             return (
               <>
-                {/*<input disabled={(item.qty <= stockItem?.qty)} className={`${(item.qty >= stockItem?.qty) && 'border border-blackFactory '} text-center w-[50px]`} placeholder={item.qty}/>*/}
-                <div>{item.qty}
-                  <span className="text-redBase">{(item.qty > stockItem?.qty && status === -2) && ` Stock QTY: ${stockItem.qty}`}</span>
+                <div>
+                    <input className={`${stockItem?.qty > item.qty && inputStyle} p-0 text-center max-w-[36px]`} disabled={stockItem?.qty > item.qty && true} type="text" placeholder={item.qty}/>
+                  <span
+                    className="text-redBase">{(item.qty > stockItem?.qty && status === -2) && ` Stock QTY: ${stockItem?.qty}`}</span>
                 </div>
-                {/*</input>*/}
               </>
-            )
+            );
           })}
         </div>
         <div>Price
