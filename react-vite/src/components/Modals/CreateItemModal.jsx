@@ -14,28 +14,29 @@ function CreateItemModal({
                          }) {
 
   const modalContent = useRef(null);
-  const { errors,getItems} = useContext(ProductContext)
+  const { errors,getItems,storeItem} = useContext(ProductContext)
 
   const [name,setName] = useState("");
   const [price,setPrice] = useState("");
   const [qty,setQty] =useState("");
   const [type,setType] = useState("");
   const [description,setDescription] = useState("");
-  const [image,setImage] = useState();
-  const storeItem = async (e) => {
+  const [image,setImage] = useState("");
+
+  const submit = async (e) => {
     e.preventDefault()
-    const formValues = new FormData;
+    const formValues = new FormData();
     formValues.append("name", name);
     formValues.append("price", price);
     formValues.append("qty", qty);
     formValues.append("type", type);
     formValues.append("description", description);
     formValues.append("image", image);
-    await fetch("http://127.0.0.1:8000/api/v1/products",{
-      method: "POST",
-      body: formValues
-    })
+    formValues.append("status", 1);
+    storeItem(formValues)
+    if(!errors){
     setModalOpen(false)
+    }
     getItems()
   }
   // close on click outside
@@ -92,13 +93,12 @@ function CreateItemModal({
       >
         <div ref={modalContent} className="bg-white overflow-auto max-w-2xl w-full max-h-full rounded shadow-lg">
           <form className="space-y-6 p-12"
-                onSubmit={storeItem}
+                onSubmit={submit}
           >
             <div>
-              <label htmlFor="ProductName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Product Name</label>
               {errors.name && <span className="text-sm text-red-400">{errors.name[0]}</span>}
-              {errors.image && <span className="text-sm text-red-400">{errors.image[0]}</span>}
               <input type="name" name="name" id="name"
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                      onChange={(e) => setName(e.target.value)}
@@ -107,6 +107,7 @@ function CreateItemModal({
             <div className="flex gap-8">
               <label htmlFor="qty" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Qty</label>
+              {errors.qty && <span className="text-sm text-red-400">{errors.qty[0]}</span>}
               <input type="number" name="qty" id="qty"
                      onChange={(e) => setQty(e.target.value)}
                      min="1"
@@ -114,6 +115,7 @@ function CreateItemModal({
                      required/>
               <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Price</label>
+              {errors.price && <span className="text-sm text-red-400">{errors.price[0]}</span>}
               <input type="number" name="price" id="price"
                      onChange={(e) => setPrice(e.target.value)}
                      min="1"
@@ -123,6 +125,7 @@ function CreateItemModal({
             <div>
               <label htmlFor="type" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Type</label>
+              {errors.type && <span className="text-sm text-red-400">{errors.type[0]}</span>}
               <input name="type" id="type"
                      onChange={(e) => setType(e.target.value)}
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
@@ -131,6 +134,7 @@ function CreateItemModal({
             <div>
               <label htmlFor="ProductName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Description</label>
+              {errors.description && <span className="text-sm text-red-400">{errors.description[0]}</span>}
               <input name="description" id="description"
                      onChange={(e) => setDescription(e.target.value)}
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
@@ -139,14 +143,15 @@ function CreateItemModal({
             <div>
               <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Image</label>
+              {errors.image && <span className="text-sm text-red-400">{errors.image[0]}</span>}
               <input name="image" id="image"
                      type="file"
+                     accept="image/png, image/jpeg"
                      onChange={(e) => setImage(e.target.files[0])}
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                      />
             </div>
             <button type="submit"
-              // onClick={() => setModalOpen(!modalOpen)}
                     className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
               Create
             </button>

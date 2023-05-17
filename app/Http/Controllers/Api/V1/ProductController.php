@@ -4,12 +4,18 @@
 
     use App\Http\Controllers\Controller;
     use App\Http\Requests\StoreProductRequest;
+    use App\Http\Requests\UpdateProductRequest;
     use App\Http\Resources\V1\ProductResource;
     use App\Http\Resources\V1\SkillResource;
     use App\Models\Product;
     use Illuminate\Http\Request;
     class ProductController extends Controller
     {
+        public function changeImage(UpdateProductRequest $request)
+        {
+          $data = $request->validated();
+          dd($data);
+        }
         public function index ()
         {
             return ProductResource ::collection ( Product ::all () );
@@ -19,7 +25,8 @@
         {
           $data = $request->validated();
             if($request->hasFile('image')){
-              $filepath = $request->file('image')->store('products');
+              $filename = $request->file('image')->getClientOriginalName();
+              $filepath = $request->file('image')->storeAs('products',$filename);
               $data['image'] = $filepath;
             }
             Product ::create ( $data);
@@ -31,9 +38,16 @@
             return new ProductResource( $product );
         }
 
-        public function update ( StoreProductRequest $request , Product $product )
+        public function update ( UpdateProductRequest $request , Product $product )
         {
-            $product -> update ( $request -> validated () );
+            $data = $request->validated();
+            dd($data);
+          if($request->hasFile('image')){
+            $filename = $request->file('image')->getClientOriginalName();
+            $filepath = $request->file('image')->storeAs('products',$filename);
+            $data['image'] = $filepath;
+          }
+            $product -> update ( $data );
             return response () -> json ( 'Product updated' );
         }
 

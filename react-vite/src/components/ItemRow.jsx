@@ -30,8 +30,12 @@ export const ItemRow = (props) => {
               $ {description}
             </td>
             <td className="px-6 py-4">
-              {/*<img className="h-[100px]" src={`../../../storage/app/products/SEjeQE6x64MeDvN41znPLIxgvQfz19rtLozHMRSC.jpg`} alt=""/>*/}
-              <img className="w-[150px] mb-5" src="/assets/images/pngegg.png"/>
+              {
+                image === null || image === 'undefined'
+                  ? <img className="w-[150px] mb-5" src="/assets/images/board.jpg"/>
+                  :<img className="w-[150px] mb-5" src={`http://127.0.0.1:8000/${image}`}/>
+
+              }
             </td>
             <td className="px-4 py-4 flex">
               <Link to={`/admin/product/${id}/edit`} className="bg-blue-600 px-4 py-2 rounded text-whiteFactory dark:text-whiteFactory-500 mr-2">Edit</Link>
