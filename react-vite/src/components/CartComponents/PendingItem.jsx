@@ -19,7 +19,7 @@ export const PendingItem = (props) => {
                 </div>
                 <div>
                   <Link to={`/maker-io/${products[0].id}`}>
-                    <div className="highlight-hover transition duration-150 mb-1 text-tealHover font-bold">{name}</div>
+                    <div className="highlight-hover transition duration-150 mb-1 text-tealHover font-bold">{name} <sup className={`text-[13px] font-bold text-blueActive`}>x{inv_prd.qty}</sup></div>
                   </Link>
                   <div className="mb-1 text-blackFactory font-semibold">Order date: <span
                     className="font-normal">{date}</span></div>
@@ -31,7 +31,8 @@ export const PendingItem = (props) => {
                   </div>
                 </div>
               </div>
-              <p><span className="underline underline-offset-2">Sub-total:</span>
+              <p>
+                <span className="underline underline-offset-2">Sub-total:</span>
                 <span className="font-bold text-redBase"> ${inv_prd.qty * price}</span>
               </p>
             </div>
