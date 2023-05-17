@@ -37,7 +37,7 @@ export const MakerLanding = () => {
 
         {/*display item */}
         <div className="flex justify-center px-24">
-          <div className="items-display gap-6">
+          <div className="items-display gap-6 md:gap-x-0 gap-y-5">
             {/*warning if no items in database*/}
             {items.length === 0 && <div>No Items</div>}
             {/*warning if no items in database*/}
