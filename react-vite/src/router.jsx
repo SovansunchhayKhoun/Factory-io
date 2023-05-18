@@ -68,11 +68,11 @@ const router = createBrowserRouter([
         element: <UserView/>
       },
       {
-        path: 'user/:id/change-password',
+        path: '/maker-io/user/:id/change-password',
         element: <ChangePasswordView/>
       },
       {
-        path: ':id',
+        path: '/maker-io/:id',
         element: <ItemView/>
       },
       {

@@ -59,15 +59,16 @@ export const AccordionBodyContent = (props) => {
           }</div>
         <div>Qty
           {invoice_product.map((item) => {
-            const stockItem = items.find((i) => i.id === item.product_id);
+            const stockItem = items?.find((i) => i.id === item.product_id);
             const inputStyle = 'border-none'
+
             return (
               <>
                 <div key={item.id}>
                   <input onChange={handleQty(invProd, setInvProd, item)}
                          min="1"
-                         className={`${stockItem?.qty > item.qty && inputStyle} p-0 text-center max-w-[36px]`}
-                         disabled={stockItem?.qty > item.qty && true}
+                         className={`${props.invoice.status >= 2 && inputStyle} p-0 text-center max-w-[36px]`}
+                         disabled={props.invoice.status >= 2}
                          type="text"
                          placeholder={item.qty}/>
                   <span

@@ -21,15 +21,18 @@ export const ChatProvider = ({children}) => {
   const [messagePost, setMessagePost] = useState({});
 
   const handleMessage = (event) => {
+    const tempDate = new Date();
+    const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
     // setMessageContent(event.target.value);
     setMessagePost({
-      admin_id: 1,
+      admin_id: -99,
       chat_id: 1,
-      sender_id: user.id,
+      sender_id: -99,
       msg_content: event.target.value,
+      time_sent: currentDate,
     })
   }
-  const sendMessage = async (messageContent) => {
+  const sendMessage = async () => {
     try {
       await Axios.post('message', messagePost);
       await messageReFetch();

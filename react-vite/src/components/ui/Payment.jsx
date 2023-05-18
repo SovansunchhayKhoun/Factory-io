@@ -4,6 +4,7 @@ import InvoiceContext from "../../context/InvoiceContext.jsx";
 import ProductContext from "../../context/ProductContext.jsx";
 import {useAuthContext} from "../../context/AuthContext.jsx";
 import CheckoutButton from "../Modals/CheckoutButton.jsx";
+import {Link} from "react-router-dom";
 
 export const Payment = () => {
   // const {updateProduct} = useContext(ProductContext);

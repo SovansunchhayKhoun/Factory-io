@@ -1,7 +1,9 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {NavLink, useLocation} from 'react-router-dom';
 
 import SidebarLinkGroup from './SidebarLinkGroup';
+import InvoiceContext from "../context/InvoiceContext.jsx";
+import notifications from "./header/Notifications.jsx";
 
 function Sidebar({sidebarOpen, setSidebarOpen}) {
   const location = useLocation();
@@ -43,6 +45,17 @@ function Sidebar({sidebarOpen, setSidebarOpen}) {
     }
   }, [sidebarExpanded]);
 
+  const {invoices} = useContext(InvoiceContext);
+    const notificationCounter = status => {
+      const invoiceType = invoices?.filter((inv) => inv.status === status);
+      if(invoiceType.length > 0) {
+        return invoiceType.length;
+      } else if(invoiceType.length > 10) {
+        return 10;
+      } else {
+        return false;
+      }
+    }
   return (
     <div>
       {/* Sidebar backdrop (mobile only) */}
@@ -276,8 +289,11 @@ function Sidebar({sidebarOpen, setSidebarOpen}) {
                               }
                             >
                               <span
-                                className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                className="flex items-center gap-x-2 text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Pending
+                                <div className={`${notificationCounter(-1) || 'hidden'} flex items-center justify-center text-[12px] w-[20px] h-[20px] rounded-[50%] bg-indigo-500 text-whiteFactory`}>
+                                  {notificationCounter(-1)}
+                                </div>
                               </span>
                             </NavLink>
                           </li>
@@ -290,8 +306,9 @@ function Sidebar({sidebarOpen, setSidebarOpen}) {
                               }
                             >
                               <span
-                                className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                className="flex items-center gap-x-2 text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Accepted
+                                <div className={`${notificationCounter(1) || 'hidden'} flex items-center justify-center text-[12px] w-[20px] h-[20px] rounded-[50%] bg-indigo-500 text-whiteFactory`}>{notificationCounter(1)}</div>
                               </span>
                             </NavLink>
                           </li>
@@ -304,8 +321,9 @@ function Sidebar({sidebarOpen, setSidebarOpen}) {
                               }
                             >
                               <span
-                                className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                className="flex items-center gap-x-2 text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Delivering
+                                <div className={`${notificationCounter(2) || 'hidden'} flex items-center justify-center text-[12px] w-[20px] h-[20px] rounded-[50%] bg-indigo-500 text-whiteFactory`}>{notificationCounter(2)}</div>
                               </span>
                             </NavLink>
                           </li>
@@ -318,8 +336,9 @@ function Sidebar({sidebarOpen, setSidebarOpen}) {
                               }
                             >
                               <span
-                                className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                className="flex items-center gap-x-2 text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Arrived
+                              <div className={`${notificationCounter(3) || 'hidden'} flex items-center justify-center text-[12px] w-[20px] h-[20px] rounded-[50%] bg-indigo-500 text-whiteFactory`}>{notificationCounter(3)}</div>
                               </span>
                             </NavLink>
                           </li>
@@ -332,8 +351,9 @@ function Sidebar({sidebarOpen, setSidebarOpen}) {
                               }
                             >
                               <span
-                                className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                className="flex items-center gap-x-2 text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 No Stock
+                                <div className={`${notificationCounter(-2) || 'hidden'} flex items-center justify-center text-[12px] w-[20px] h-[20px] rounded-[50%] bg-indigo-500 text-whiteFactory`}>{notificationCounter(-2)}</div>
                               </span>
                             </NavLink>
                           </li>

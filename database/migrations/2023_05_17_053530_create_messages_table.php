@@ -17,6 +17,7 @@
         $table -> foreignId ( 'chat_id' ) -> references ( 'id' ) -> on ( 'chats' );
         $table -> integer ( 'sender_id' );
         $table -> integer ( 'admin_id' );
+        $table -> timestamp ( 'time_sent' );
         $table -> timestamps ();
       } );
     }

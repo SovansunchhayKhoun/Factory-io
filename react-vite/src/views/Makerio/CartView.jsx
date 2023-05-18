@@ -1,9 +1,11 @@
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {CartItem} from "../../components/CartComponents/CartItem.jsx";
 import ProductContext from "../../context/ProductContext.jsx";
 import {Payment} from "../../components/ui/Payment.jsx";
 import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
+import {Link} from "react-router-dom";
+import {useAuthContext} from "../../context/AuthContext.jsx";
 
 export const CartView = () => {
   const {cartItem, getCartItem} = useContext(CartContext);
@@ -14,6 +16,20 @@ export const CartView = () => {
     getCartItem();
     getItems();
   }, []);
+
+  const {user} = useAuthContext();
+
+  if (Object.keys(user).length === 0) {
+    return (
+      <>
+        <main>
+          <Link to={'/login'}>Sign in</Link>
+          <Link to={'/signup'}>Sign Up</Link>
+        </main>
+      </>
+    );
+  }
+
   return (
     <main>
       <div className="flex justify-between mb-3">
@@ -36,7 +52,12 @@ export const CartView = () => {
           }
         })}
       </div>
-      <Payment/>
+      <Link className={`${cartItem.length > 0 && 'hidden'} transition px-2 py-1 shadow-md shadow-blueBase duration-500 font-semibold text-blueActive cursor-pointer hover:text-whiteFactory hover:bg-blueBase`} to={'/maker-io'}>
+        Browse product
+      </Link>
+      <div className={`${cartItem.length === 0 && 'hidden'}`}>
+        <Payment/>
+      </div>
     </main>
   );
 };

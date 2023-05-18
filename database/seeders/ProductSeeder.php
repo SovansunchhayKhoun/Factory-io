@@ -27,7 +27,7 @@
           Humidity Range: 20% to 90% <br/>
           Resolution: Temperature and Humidity both are 16-bit <br/>
           Accuracy: ±1°C and ±1% <br/>' ,
-        'image' => 'SN-DHT11-MOD (a)-800x800.jpg' ,
+        'image' => 'products/SN-DHT11-MOD (a)-800x800.jpg' ,
       ] );
 
       DB ::table ( 'products' ) -> insert ( [
@@ -42,7 +42,7 @@
           Small sensitivity to alcohol, smoke. <br/>
           Fast response Stable and long life <br/>
           Simple drive circuit <br/>' ,
-        'image' => 'MQ4-Gas-Sensor.jpg' ,
+        'image' => 'products/MQ4-Gas-Sensor.jpg' ,
       ] );
 
 
@@ -60,7 +60,7 @@
           Microphone Sensitivity (1kHz): 52 to 48 dB <br/>
           Easy to use with Microcontrollers or even with normal Digital/Analog IC <br/>
           Small, cheap and easily available <br/>' ,
-        'image' => 'Sound-Detection-Sensor-Module.jpg' ,
+        'image' => 'products/Sound-Detection-Sensor-Module.jpg' ,
       ] );
 
       DB ::table ( 'products' ) -> insert ( [
@@ -81,7 +81,7 @@
           POWER  I/O VOLTAGE  5V<br/>
           INPUT VOLTAGE (NOMINAL)  7-12V<br/>
           DC CURRENT PER I/O PIN  20 mA<br/>' ,
-        'image' => 'Microcon.png' ,
+        'image' => 'products/Microcon.png' ,
       ] );
 
       DB ::table ( 'products' ) -> insert ( [
@@ -101,7 +101,7 @@
           55.3mm x 28.0mm x 12.3mm<br/>
           Weight: 9.6g<br/>
           CP2102: USB Driver<br/>' ,
-        'image' => 'Unk.png' ,
+        'image' => 'products/Unk.png' ,
       ] );
 
 

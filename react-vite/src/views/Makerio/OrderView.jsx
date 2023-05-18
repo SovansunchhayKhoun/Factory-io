@@ -24,7 +24,7 @@ export const OrderView = () => {
     setOpen(open === value ? 0 : value);
   };
 
-  if (!user) {
+  if (Object.keys(user).length === 0) {
     return (
       <>
         <main>

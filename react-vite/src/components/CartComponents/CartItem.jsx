@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import React, {useContext, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
 import {Link} from "react-router-dom"
 import CartContext from "../../context/CartContext.jsx";
@@ -14,7 +14,13 @@ export const CartItem = (props) => {
     <div className="px-12 py-3 flex items-center justify-between border-2 border-tealActive shadow-2xl">
       <div className="flex items-center gap-x-6">
         <div>
-          <img width="150" src={`/assets/images/${stockItem?.image ?? 'makerio.png'}`} alt=""/>
+          {
+            (item?.image === null || item?.image === undefined)
+              ? <img className="w-[150px]" src="/assets/images/makerio.png" alt={item.name}/>
+              :<img className="w-[150px]" src={`http://127.0.0.1:8000/${item.image}`} alt={item.name}/>
+          }
+
+          {/*<img width="150" src={`/assets/images/${stockItem?.image ?? 'makerio.png'}`} alt=""/>*/}
         </div>
         <div>
           <div className="mb-1 font-bold text-blueBase">${item.price}</div>

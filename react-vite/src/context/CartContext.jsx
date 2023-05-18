@@ -5,13 +5,13 @@ import InvoiceContext from "./InvoiceContext.jsx";
 import invoiceContext from "./InvoiceContext.jsx";
 import {useAuthContext} from "./AuthContext.jsx";
 import InvoiceProductContext from "./InvoiceProductContext.jsx";
+import {useNavigate, useNavigation} from "react-router-dom";
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
-
 const CartContext = createContext();
 export const CartProvider = ({children}) => {
   const {items} = useContext(ProductContext);
-  const {invoices, isLoading, address} = useContext(InvoiceContext);
+  const {invoices, isLoading} = useContext(InvoiceContext);
   const [cartError, setCartError] = useState([]);
   const [success, setSuccess] = useState(false);
   const [cartItem, setCartItem] = useState([]);
@@ -21,7 +21,6 @@ export const CartProvider = ({children}) => {
   useEffect(() => {
     invoiceProductReFetch();
   }, []);
-
   const storeItem = (item) => {
     if (itemExist(item)) {
       // find and update that existed item qty
@@ -47,7 +46,7 @@ export const CartProvider = ({children}) => {
   }
 
   const addToCart = (item) => {
-    if (user !== null) {
+    if (Object.keys(user).length !== 0) {
       if (item.qty) {
         storeItem(item);
         // if item doesnt exist in cart, save item
@@ -61,6 +60,11 @@ export const CartProvider = ({children}) => {
           cart_item_price: item.price * 1,
         })])
       }
+    }else {
+      setCartError([`Please create an account in order to continue`]);
+      setTimeout(() => {
+        setCartError([]);
+      }, 10000)
     }
   }
 

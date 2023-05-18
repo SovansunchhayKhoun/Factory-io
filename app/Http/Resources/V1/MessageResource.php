@@ -21,8 +21,7 @@
         'chat_id' => $this -> chat_id ,
         'sender_id' => $this -> sender_id ,
         'admin_id' => $this -> admin_id ,
-        'created_at' => $this -> created_at ,
-        'updated_at' => $this -> updated_at ,
+        'time_sent' => $this->time_sent
       ];
     }
   }

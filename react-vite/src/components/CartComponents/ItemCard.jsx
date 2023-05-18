@@ -1,12 +1,12 @@
 import {Link, useNavigate} from "react-router-dom";
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 
 export const ItemCard = (props) => {
   const {name, price, id, image, status} = props.item;
   let {qty} = props.item;
-  const {cartItem, addToCart} = useContext(CartContext);
+  const {cartItem, addToCart, cartError} = useContext(CartContext);
   const itemCart = cartItem.find((i) => i.id === id);
   // const currentQty = qty - (itemCart?.qty || 0);
 
@@ -18,8 +18,13 @@ export const ItemCard = (props) => {
           {name}
         </Link>
         <Link className="flex-2" to={"/maker-io/" + id}>
-          <img className="hover:scale-75 ease-in-out duration-300 " src={`/assets/images/${image ?? 'makerio.png'}`}
-               alt={`${name}`}/>
+
+          {
+            (image === null || image === undefined)
+              ? <img className="hover:scale-75 eas  e-in-out duration-300" src="/assets/images/makerio.png" alt={name}/>
+              : <img className="hover:scale-75 ease-in-out duration-300" src={`http://127.0.0.1:8000/${image}`}
+                     alt={name}/>
+          }
         </Link>
         <div className="flex-1 flex">
           <div className="mt-auto flex items-center">
@@ -33,7 +38,7 @@ export const ItemCard = (props) => {
               </span>
             </div>
             <button
-              className={" rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300"}
+              className={`${props.item.status === 0 && 'hidden'} rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300`}
               onClick={() => {
                 addToCart(props.item);
               }}>
@@ -41,6 +46,8 @@ export const ItemCard = (props) => {
             </button>
           </div>
         </div>
+        <div className="text-redBase text-sm">{cartError} {cartError.length !== 0 &&
+          <Link className={'text-blueActive cursor-pointer font-semibold'} to="/signup">Sign Up</Link>}</div>
       </div>
 
       {/*cart-item */}

@@ -11,6 +11,7 @@ import {AccordionBodyContent} from "../AdminComponents/AccordionBodyContent.jsx"
 import ProductContext from "../../context/ProductContext.jsx";
 import {Spinner} from "flowbite-react";
 import InvoiceProductContext from "../../context/InvoiceProductContext.jsx";
+import {Link} from "react-router-dom";
 
 const style = {
   display: "flex",
@@ -51,9 +52,12 @@ export default function CheckoutButton() {
   if (cartItem.length > 0) {
     return (
       <div>
-        <div>
+        <div className="flex gap-x-2">
+          <Link className={`transition px-2 py-1 shadow-md shadow-blueBase duration-500 font-semibold text-blueActive cursor-pointer hover:text-whiteFactory hover:bg-blueBase`} to={'/maker-io'}>
+            Browse product
+          </Link>
           <button
-            className={`transition duration-300 hover:shadow-tealBase hover:shadow-[5px_-2px_10px_-1px] bg-redHover text-[18px] text-whiteFactory px-4 py-1 rounded-[20px]`}
+            className={`transition duration-500 hover:shadow-blueBase hover:shadow-md bg-redHover text-[18px] text-whiteFactory px-4 py-1 rounded-[20px]`}
             onClick={() => {
               totalPrice > 0 && setSuccess(true);
             }}>Check out
