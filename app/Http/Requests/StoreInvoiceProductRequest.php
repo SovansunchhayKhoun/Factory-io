@@ -25,7 +25,7 @@
         'user_id' => ['required'],
         'invoice_id' => [ 'required' ] ,
         'product_id' => [ 'required' ] ,
-        'qty' => [ 'required' ] ,
+        'qty' => [ 'required' , 'numeric', 'min:1', 'not_in:0'] ,
         'cart_item_price' => [ 'required' ] ,
       ];
     }

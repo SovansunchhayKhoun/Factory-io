@@ -1,15 +1,14 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 
 export const AccordionBodyContent = (props) => {
-  const {invoicesReFetch} = useContext(InvoiceContext);
-  const {id, date, totalPrice, status, address, invoice_product, user, noStock} = props.invoice;
+  const {invProd, setInvProd} = props;
+  const {id, date, totalPrice, status, address, invoice_product, user} = props.invoice;
+  // const [invProd, setInvProd] = useState(invoice_product)
   const {items} = useContext(ProductContext);
-// useEffect(() => {
-//   invoicesReFetch()
-//   getItems();
-// }, []);
+  const {handleQty, editInvoiceProduct} = useContext(InvoiceContext);
+
   return (
     <div className="text-blackFactory font-semibold">
       <div className="px-6">
@@ -36,7 +35,7 @@ export const AccordionBodyContent = (props) => {
           {
             invoice_product.map((item) => {
               return (
-                <div key={item.product_id}>
+                <div key={item.id}>
                   {item.products.map((product) => {
                     return <div key={product.id}>{product.name}</div>
                   })}
@@ -50,7 +49,7 @@ export const AccordionBodyContent = (props) => {
           {
             invoice_product.map((item) => {
               return (
-                <div key={item.product_id}>
+                <div key={item.id}>
                   {item.products.map((product) => {
                     return <div key={product.id}>{product.type}</div>
                   })}
@@ -64,20 +63,28 @@ export const AccordionBodyContent = (props) => {
             const inputStyle = 'border-none'
             return (
               <>
-                <div>
-                    <input className={`${stockItem?.qty > item.qty && inputStyle} p-0 text-center max-w-[36px]`} disabled={stockItem?.qty > item.qty && true} type="text" placeholder={item.qty}/>
+                <div key={item.id}>
+                  <input onChange={handleQty(invProd, setInvProd, item)}
+                         min="1"
+                         className={`${stockItem?.qty > item.qty && inputStyle} p-0 text-center max-w-[36px]`}
+                         disabled={stockItem?.qty > item.qty && true}
+                         type="text"
+                         placeholder={item.qty}/>
                   <span
                     className="text-redBase">{(item.qty > stockItem?.qty && status === -2) && ` Stock QTY: ${stockItem?.qty}`}</span>
                 </div>
               </>
             );
           })}
+          {/*<button onClick={() => {editInvoiceProduct(item)}} className={`${location.pathname === '/admin/orders/no-stock' || 'hidden'} border border-tealBase px-2`}>*/}
+          {/*  Confirm Edit*/}
+          {/*</button>*/}
         </div>
         <div>Price
           {
             invoice_product.map((item) => {
               return (
-                <div key={item.product_id}>
+                <div key={item.id}>
                   {item.products.map((product) => {
                     return <div key={product.id}>${product.price}</div>
                   })}
@@ -86,7 +93,7 @@ export const AccordionBodyContent = (props) => {
             })
           }</div>
         <div>Sub-total
-          {invoice_product.map((item) => <div>${item.cart_item_price}</div>)}
+          {invoice_product.map((item) => <div key={item.id}>${item.cart_item_price}</div>)}
         </div>
       </div>
       <hr className="border-b-1 border-blackFactory rounded-lg"/>
@@ -101,5 +108,6 @@ export const AccordionBodyContent = (props) => {
         <div>${totalPrice}</div>
       </div>
     </div>
-  );
+  )
+    ;
 }

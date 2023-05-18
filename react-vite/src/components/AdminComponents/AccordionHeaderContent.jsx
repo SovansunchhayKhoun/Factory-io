@@ -4,6 +4,7 @@ import React from "react";
 import {useAuthContext} from "../../context/AuthContext.jsx";
 
 export const AccordionHeaderContent = (props) => {
+  const {invProd, setInvProd} = props;
   const {id, date, totalPrice, status, noStock} = props.invoice;
   const {user} = useAuthContext();
 
@@ -35,8 +36,8 @@ export const AccordionHeaderContent = (props) => {
           Total Price: <span className="font-bold text-blueBase">${totalPrice}</span>
         </div>
         <div className={`${user.acc_type !== 0 && "hidden"} flex text-whiteFactory gap-x-2 mt-1`}>
-          <AcceptOrderButton invoice={props.invoice}/>
-          <DeclineOrderButton invoice={props.invoice}/>
+          <AcceptOrderButton invProd={invProd} setInvProd={setInvProd} invoice={props.invoice}/>
+          <DeclineOrderButton invProd={invProd} setInvProd={setInvProd} invoice={props.invoice}/>
         </div>
       </div>
     </div>

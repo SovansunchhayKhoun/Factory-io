@@ -17,4 +17,9 @@ class InvoiceProductController extends Controller
       InvoiceProduct::create ($request->validated ());
       return response () -> json ('Invoice Product Created');
     }
+
+    public function update (StoreInvoiceProductRequest $request, InvoiceProduct $invoiceProduct) {
+      $invoiceProduct->update ($request->validated ());
+      return response () -> json ('Invoice Product Updated');
+    }
 }

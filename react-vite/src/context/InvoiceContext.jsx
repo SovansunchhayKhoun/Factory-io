@@ -7,6 +7,7 @@ import ProductContext from "./ProductContext.jsx";
 import CartContext from "./CartContext.jsx";
 import {useParams} from "react-router-dom";
 
+
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 
 const InvoiceContext = createContext();
@@ -28,9 +29,9 @@ export const InvoiceProvider = ({children}) => {
     setAddress(e.target.value);
   }
 
-  const scrollTop = () => {
+  const scrollTop = (fromTop) => {
     window.scrollTo({
-      top: 0,
+      top: fromTop,
       behavior: "smooth",
     });
   }
@@ -58,7 +59,7 @@ export const InvoiceProvider = ({children}) => {
         });
       }, 3000);
     } catch (e) {
-      scrollTop();
+      scrollTop(0);
       console.log(e.response.data.errors);
       setInvoiceError(e.response.data.errors);
       setTimeout(() => {
@@ -71,32 +72,8 @@ export const InvoiceProvider = ({children}) => {
     return Axios.get('products').then((res) => res.data.data);
   });
 
-  const acceptOrder = async (order) => {
-    const {invoice_product} = order;
-    const stockArr = [];
-    if (order.status === -1 || order.status === 1) {
-      invoice_product.forEach((inv_prod) => {
-        const stockItem = items.find((item) => inv_prod.product_id === item.id)
-        stockItem.qty = stockItem.qty - inv_prod.qty;
-        stockArr.push(stockItem);
-      })
-    }
-
-    if (stockArr.some((prod) => prod.qty < 0)) {
-      order.status = -2;
-      order.noStock = true;
-    }
-
+  const updateOrderStatus = (order) => {
     switch (order.status) {
-      case -2:
-        if (stockArr.some((prod) => prod.qty < 0)) {
-          order.status = -2;
-          order.noStock = true;
-        } else {
-          order.status = 1;
-          order.noStock = false;
-        }
-        break;
       case -1:
         order.status = 1;
         break;
@@ -107,9 +84,65 @@ export const InvoiceProvider = ({children}) => {
         order.status = 3;
         break;
     }
+  }
+
+  const updateInvProd = (invProd) => {
+    invProd.forEach(async (inv) => {
+      try {
+        await Axios.put(`invoice_products/${inv.id}`, inv);
+      } catch (e) {
+        console.log(e.response.data.errors);
+      }
+    })
+  }
+
+
+  const checkInvoiceItemQty = (invoice_product) => {
+    // const {invoice_product} = order;
+    const stockArr = [];
+    invoice_product.forEach((inv_prod) => {
+      const stockItem = items.find((item) => inv_prod.product_id === item.id)
+      stockItem.qty = stockItem.qty - inv_prod.qty;
+      stockArr.push(stockItem);
+    })
+    return stockArr.some((prod) => prod.qty < 0);
+    // if (stockArr.some((prod) => prod.qty < 0)) {
+    //   order.status = -2;
+    //   order.noStock = true;
+    // } else {
+    //   order.status = -1;
+    //   order.noStock = false;
+    //   updateOrderStatus(order)
+    // }
+  }
+
+  const handleQty = (invProd, setInvProd, item) => event => {
+    // console.log(event.target.value)
+    if (event.target.value === '') {
+      invProd.find((inv) => inv.id === item.id).qty = item.qty;
+    } else if (Number(event.target.value)) {
+      invProd.find((inv) => inv.id === item.id).qty = Number(event.target.value);
+    }
+  }
+
+  const editInvoiceProduct = (invProd, setInvProd) => {
+    setInvProd(invProd);
+  };
+
+  const acceptOrder = async (order, invProd) => {
+    const {invoice_product} = order;
+    // (order.status === -1 || order.status === -2) ? checkInvoiceItemQty(invoice_product) : updateOrderStatus(order);
+    updateInvProd(invProd, order);
+    if (checkInvoiceItemQty(invoice_product)) {
+      // order.status = 1;
+      order.status = -2;
+      order.noStock = true;
+    } else {
+      updateOrderStatus(order);
+    }
     try {
       await Axios.patch(`invoices/${order.id}`, order);
-      invoicesReFetch();
+      await invoicesReFetch();
     } catch (e) {
       console.log(e.response.data.errors)
       setInvoiceError(e.response.data.errors);
@@ -119,7 +152,7 @@ export const InvoiceProvider = ({children}) => {
   const declineOrder = async (order) => {
     try {
       await Axios.delete(`invoices/${order.id}`);
-      invoicesReFetch();
+      await invoicesReFetch();
     } catch (e) {
       console.log(e.response.data.errors);
       setInvoiceError(e.response.data.errors);
@@ -128,6 +161,10 @@ export const InvoiceProvider = ({children}) => {
 
   return (
     <InvoiceContext.Provider value={{
+      editInvoiceProduct,
+      // invoiceItem,
+      // setInvoiceItem,
+      handleQty,
       setAddress,
       invoices,
       isLoading,
