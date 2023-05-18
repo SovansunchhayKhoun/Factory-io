@@ -27,39 +27,39 @@ import {InvoiceList} from "./components/AdminComponents/InvoiceComponents/Invoic
 
 
 const router = createBrowserRouter([
+  // {
+  //   path: '/',
+  //   element: <LandingLayout/>,
+  //   children: [
+  //     {
+  //       path: '/',
+  //       element: <LandingPage/>
+  //     },
+  //     {
+  //       path: 'CommunityLanding',
+  //       element: <Communitylanding/>
+  //     },
+  //     {
+  //       path: 'RnDLanding',
+  //       element: <RnDLanding/>
+  //     },
+  //     {
+  //       path: 'ContestLanding',
+  //       element: <ContestLanding/>
+  //     },
+  //
+  //   ]
+  // },
   {
     path: '/',
-    element: <LandingLayout/>,
-    children: [
-      {
-        path: '/',
-        element: <LandingPage/>
-      },
-      {
-        path: 'CommunityLanding',
-        element: <Communitylanding/>
-      },
-      {
-        path: 'RnDLanding',
-        element: <RnDLanding/>
-      },
-      {
-        path: 'ContestLanding',
-        element: <ContestLanding/>
-      },
-
-    ]
-  },
-  {
-    path: '/maker-io',
     element: <MakerLayout/>,
     children: [
       {
-        path: 'home',
+        path: '',
         element: <LandingHero/>
       },
       {
-        path: '',
+        path: '/maker-io',
         element: <MakerLanding/>
       },
       {
