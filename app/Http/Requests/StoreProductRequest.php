@@ -25,12 +25,12 @@
     public function rules ()
     {
       return [
-        'name' => [ 'required' ] ,
+        'name' => ['required',Rule::unique('products')->ignore($this->product)] ,
         'price' => [ 'required' ] ,
         'type' => [ 'required' ] ,
-        'status' => ['required'],
+        'status' => ['nullable'],
         'description' => [ 'required' ],
-        'image' => ['required'],
+        'image' => 'image|nullable',
         'qty' => [ 'required','numeric', 'min:0' ] ,
       ];
     }

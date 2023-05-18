@@ -18,7 +18,7 @@
         'price' => 2 ,
         'qty' => 10 ,
         'status' => 1 ,
-        'type' => 'sensor1' ,
+        'type' => 'sensor' ,
         'description' => 'Specification <br/>
           Operating Voltage: 3.5V to 5.5V<br/>
           Operating current: 0.3mA (measuring) 60uA (standby)<br/>
@@ -26,25 +26,24 @@
           Temperature Range: 0°C to 50°C <br/>
           Humidity Range: 20% to 90% <br/>
           Resolution: Temperature and Humidity both are 16-bit <br/>
-          Accuracy: ±1°C and ±1% <br/>',
-        'image' => 'SN-DHT11-MOD (a)-800x800.jpg',
-      ]);
+          Accuracy: ±1°C and ±1% <br/>' ,
+        'image' => 'SN-DHT11-MOD (a)-800x800.jpg' ,
+      ] );
 
       DB ::table ( 'products' ) -> insert ( [
         'name' => 'MQ4 Gas Sensor' ,
         'price' => 1.5 ,
         'qty' => 10 ,
         'status' => 1 ,
-        'type' => 'sensor2' ,
+        'type' => 'sensor' ,
         'description' => 'Features <br/>
           Good sensitivity to Combustible gas in wide range <br/>
           High sensitivity to CH4, Natural gas. <br/>
           Small sensitivity to alcohol, smoke. <br/>
           Fast response Stable and long life <br/>
-          Simple drive circuit <br/>',
-        'image' => 'MQ4-Gas-Sensor.jpg',
-      ]);
-
+          Simple drive circuit <br/>' ,
+        'image' => 'MQ4-Gas-Sensor.jpg' ,
+      ] );
 
 
       DB ::table ( 'products' ) -> insert ( [
@@ -52,7 +51,7 @@
         'price' => 2.5 ,
         'qty' => 10 ,
         'status' => 1 ,
-        'type' => 'sensor3' ,
+        'type' => 'sensor' ,
         'description' => 'Operating Voltage: 3.3V to 5V DC <br/>
           LM393 comparator with threshold preset <br/>
           PCB Size: 3.4cm * 1.6cm <br/>
@@ -60,9 +59,50 @@
           Operating current:  4~5 mA <br/>
           Microphone Sensitivity (1kHz): 52 to 48 dB <br/>
           Easy to use with Microcontrollers or even with normal Digital/Analog IC <br/>
-          Small, cheap and easily available <br/>',
-        'image' => 'Sound-Detection-Sensor-Module.jpg',
-        ]);
+          Small, cheap and easily available <br/>' ,
+        'image' => 'Sound-Detection-Sensor-Module.jpg' ,
+      ] );
+
+      DB ::table ( 'products' ) -> insert ( [
+        'name' => 'ATmega328P' ,
+        'price' => 2.5 ,
+        'qty' => 10 ,
+        'status' => 1 ,
+        'type' => 'MicroController' ,
+        'description' => 'MICROCONTROLLER   ATmega328P<br/>
+          USB CONNECTOR   USB-B<br/>
+          PINS  BUILT-IN LED PIN  13<br/>
+          DIGITAL I/O PINS  14<br/>
+          ANALOG INPUT PINS  6<br/>
+          PWM PINS  6<br/>
+          COMMUNICATION  UART  Yes<br/>
+          I2C  Yes<br/>
+          SPI  Yes<br/>
+          POWER  I/O VOLTAGE  5V<br/>
+          INPUT VOLTAGE (NOMINAL)  7-12V<br/>
+          DC CURRENT PER I/O PIN  20 mA<br/>' ,
+        'image' => 'Microcon.png' ,
+      ] );
+
+      DB ::table ( 'products' ) -> insert ( [
+        'name' => 'abc' ,
+        'price' => 2.5 ,
+        'qty' => 10 ,
+        'status' => 1 ,
+        'type' => 'MicroController' ,
+        'description' => '*Operating Voltage: 2.2 to 3.6VDC<br/>
+          Ultra-low power consumption<br/>
+          32 GPIO: ADC(12), DAC(2), SPI(3), I2S(2), I2C(2), UART(3), PWM(32), SDIO(50 Mhz)<br/>
+          520 KB SRAM<br/>
+          16 MB Flash<br/>
+          802.11BGN HT40 WiFi Transceiver (-98 dBm minimum sensitivity)<br/>
+          Max data rate: 150 Mbps<br/>
+          -40°C to 125°C operating temperature<br/>
+          55.3mm x 28.0mm x 12.3mm<br/>
+          Weight: 9.6g<br/>
+          CP2102: USB Driver<br/>' ,
+        'image' => 'Unk.png' ,
+      ] );
 
 
     }

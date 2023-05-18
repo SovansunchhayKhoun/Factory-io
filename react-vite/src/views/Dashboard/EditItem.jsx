@@ -1,6 +1,5 @@
-
 // eslint-disable-next-line no-unused-vars
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { useNavigate, useParams} from "react-router-dom";
 import {ArrowLeftIcon} from "@heroicons/react/20/solid/index.js";
 import ProductContext from "../../context/ProductContext.jsx";
@@ -11,6 +10,8 @@ export const EditItem = () => {
   const {getItem, errors, formValues, onChange, updateItem} = useContext(ProductContext)
 
   let {id} = useParams()
+
+  const [image,setImage] = useState("");
 
   useEffect(() => {
     getItem(id)

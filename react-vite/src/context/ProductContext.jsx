@@ -9,12 +9,14 @@ const ProductContext = createContext();
 export const ProductProvider = ({children}) => {
   const [items, setItems] = useState([]);
   const [item, setItem] = useState({});
+
   const [formValues, setFormValues] = useState({
     name: "",
     price: "",
     qty: "",
     type: "",
     description: "",
+    status: "",
     image: "",
   })
   const [errors, setErrors] = useState([]);
@@ -23,7 +25,7 @@ export const ProductProvider = ({children}) => {
     setItems(apiItems.data.data);
   };
 
-  const storeItem = async (e) => {
+  const storeItem = async (formValues) => {
     try {
       await Axios.post("products", formValues)
       location.reload()
@@ -61,6 +63,7 @@ export const ProductProvider = ({children}) => {
       price: "",
       description: "",
       image: "",
+      status: "",
     })
   }
 
@@ -77,6 +80,7 @@ export const ProductProvider = ({children}) => {
       console.log(msg.response.data.errors);
       if (msg.response.status === 422) {
         setErrors(msg.response.data.errors)
+        console.log(msg.response.data.errors)
       }
     }
   }
@@ -108,7 +112,7 @@ export const ProductProvider = ({children}) => {
       getItem,
       onChange,
       updateItem,
-      updateProduct
+      updateProduct,
     }}>{children}</ProductContext.Provider>;
 };
 

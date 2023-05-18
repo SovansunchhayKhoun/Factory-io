@@ -47,7 +47,7 @@ export const Inventory = () => {
             <th scope="col" className="px-6 py-3">
               Description
             </th>
-            <th scope="col" className="px-[80px] py-3">
+            <th scope="col" className="px-12 py-3">
               Image
             </th>
             <th scope="col" className="px-12 py-3">
