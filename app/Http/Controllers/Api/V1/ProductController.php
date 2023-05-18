@@ -38,15 +38,9 @@
             return new ProductResource( $product );
         }
 
-        public function update ( UpdateProductRequest $request , Product $product )
+        public function update ( StoreProductRequest $request , Product $product )
         {
             $data = $request->validated();
-            dd($data);
-          if($request->hasFile('image')){
-            $filename = $request->file('image')->getClientOriginalName();
-            $filepath = $request->file('image')->storeAs('products',$filename);
-            $data['image'] = $filepath;
-          }
             $product -> update ( $data );
             return response () -> json ( 'Product updated' );
         }

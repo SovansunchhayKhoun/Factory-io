@@ -27,7 +27,7 @@ export const ItemRow = (props) => {
               $ {price}
             </td>
             <td className="px-6 py-4">
-              $ {description}
+              {description}
             </td>
             <td className="px-6 py-4">
               {
