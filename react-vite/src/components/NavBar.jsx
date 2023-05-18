@@ -12,12 +12,17 @@ export const NavBar = () => {
   }, []);
   return (
     <nav className="z-50 fixed w-full top-0 bg-whiteFactory flex px-36 py-4 justify-between items-center">
-      <Link to="/maker-io">
-        <img width="100" src="/assets/images/makerio.png" alt=""/>
-      </Link>
+      <div className="flex flex-row items-center">
+        <Link to="/maker-io/home">
+          <img width="100" src="/assets/images/makerio.png" alt=""/>
+        </Link>
+        <Link to="/maker-io/home">
+          <img className="w-[20px] h-[20px] ml-3" src="/assets/images/customer-service.png" alt=""/>
+        </Link>
+      </div>
       <div className="flex items-center gap-x-12">
         <div className="highlight-hover text-[#8A0000]">
-          <Link to="">
+          <Link to="/maker-io">
             Home
           </Link>
         </div>
@@ -42,7 +47,7 @@ export const NavBar = () => {
 
         <div>
           <Link to="/">
-            <img width="100" src="/assets/images/factory.png" alt=""/>
+            <img className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110" width="100" src="/assets/images/factory.png" alt=""/>
           </Link>
         </div>
         <div className="highlight-hover relative">
@@ -65,14 +70,17 @@ export const NavBar = () => {
         token ? (
             <>
               <div className='flex'>
-                <div className="mr-6 highlight-hover text-[#3C3C3C]">
+                <div className="mr-6 highlight-hover text-[#3C3C3C] font-semibold">
                   <Link to={`/maker-io/user/${user.id}`}>
                     {user?.firstName}
                   </Link>
                 </div>
                 <div className="highlight-hover text-[#3C3C3C]">
                   <a onClick={onLogout} >
+                    <div className="flex flex-row items-center">
                     Logout
+                      <img className="w-[18px] h-[18px] ml-1.5" src="/assets/images/logout.png"/>
+                    </div>
                   </a>
                 </div>
               </div>
@@ -86,9 +94,9 @@ export const NavBar = () => {
                   Sign in
                 </Link>
               </div>
-              <div className="highlight-hover text-[#3C3C3C]">
+              <div className="highlight-hover text-[#3C3C3C] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110">
                 <Link to="/signup">
-                  Sign up
+                  <button className="px-4 py-[2px] text-black bg-redBase rounded-[20px] ">Sign up</button>
                 </Link>
               </div>
             </div>
