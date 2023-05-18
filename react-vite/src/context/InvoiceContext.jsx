@@ -74,6 +74,9 @@ export const InvoiceProvider = ({children}) => {
 
   const updateOrderStatus = (order) => {
     switch (order.status) {
+      case -2:
+        order.status = -1;
+        break;
       case -1:
         order.status = 1;
         break;
@@ -96,7 +99,6 @@ export const InvoiceProvider = ({children}) => {
     })
   }
 
-
   const checkInvoiceItemQty = (invoice_product) => {
     // const {invoice_product} = order;
     const stockArr = [];
@@ -105,15 +107,9 @@ export const InvoiceProvider = ({children}) => {
       stockItem.qty = stockItem.qty - inv_prod.qty;
       stockArr.push(stockItem);
     })
-    return stockArr.some((prod) => prod.qty < 0);
-    // if (stockArr.some((prod) => prod.qty < 0)) {
-    //   order.status = -2;
-    //   order.noStock = true;
-    // } else {
-    //   order.status = -1;
-    //   order.noStock = false;
-    //   updateOrderStatus(order)
-    // }
+    console.log(stockArr);
+    console.log(stockArr.some((prod) => prod.qty < 0));
+    return stockArr.some((prod) => prod.qty < 0); // true if some stock item is less than 0
   }
 
   const handleQty = (invProd, setInvProd, item) => event => {
@@ -125,16 +121,11 @@ export const InvoiceProvider = ({children}) => {
     }
   }
 
-  const editInvoiceProduct = (invProd, setInvProd) => {
-    setInvProd(invProd);
-  };
-
   const acceptOrder = async (order, invProd) => {
     const {invoice_product} = order;
-    // (order.status === -1 || order.status === -2) ? checkInvoiceItemQty(invoice_product) : updateOrderStatus(order);
     updateInvProd(invProd, order);
-    if (checkInvoiceItemQty(invoice_product)) {
-      // order.status = 1;
+
+    if (checkInvoiceItemQty(invoice_product) && (order.status === -1 || order.status === 1 || order.status === -2)) {
       order.status = -2;
       order.noStock = true;
     } else {
@@ -161,9 +152,6 @@ export const InvoiceProvider = ({children}) => {
 
   return (
     <InvoiceContext.Provider value={{
-      editInvoiceProduct,
-      // invoiceItem,
-      // setInvoiceItem,
       handleQty,
       setAddress,
       invoices,

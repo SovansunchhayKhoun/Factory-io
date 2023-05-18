@@ -71,7 +71,6 @@ export const ProductProvider = ({children}) => {
     e.preventDefault()
 
     formValues.qty > 0 ? formValues.status = 1 : formValues.status = 0;
-
     try {
       await Axios.put("products/" + item.id, formValues)
       resetFormValues()
@@ -91,7 +90,6 @@ export const ProductProvider = ({children}) => {
     if(stockItem.qty === 0) {
       stockItem.status = 0;
     }
-
     try {
       await Axios.put("products/" + stockItem.id, stockItem);
     } catch (msg) {

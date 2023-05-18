@@ -30,8 +30,8 @@
         'type' => [ 'required' ] ,
         'status' => ['nullable'],
         'description' => [ 'required' ],
-        'image' => 'image|nullable',
-        'qty' => [ 'required','numeric', 'min:0' ] ,
+        'image' => ['required'],
+        'qty' => [ 'required','numeric', 'min:0 ' ] ,
       ];
     }
   }

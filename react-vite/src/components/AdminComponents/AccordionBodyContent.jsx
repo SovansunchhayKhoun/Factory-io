@@ -7,7 +7,7 @@ export const AccordionBodyContent = (props) => {
   const {id, date, totalPrice, status, address, invoice_product, user} = props.invoice;
   // const [invProd, setInvProd] = useState(invoice_product)
   const {items} = useContext(ProductContext);
-  const {handleQty, editInvoiceProduct} = useContext(InvoiceContext);
+  const {handleQty} = useContext(InvoiceContext);
 
   return (
     <div className="text-blackFactory font-semibold">
@@ -76,9 +76,6 @@ export const AccordionBodyContent = (props) => {
               </>
             );
           })}
-          {/*<button onClick={() => {editInvoiceProduct(item)}} className={`${location.pathname === '/admin/orders/no-stock' || 'hidden'} border border-tealBase px-2`}>*/}
-          {/*  Confirm Edit*/}
-          {/*</button>*/}
         </div>
         <div>Price
           {
