@@ -2,11 +2,6 @@ import {createContext, useContext, useEffect, useState} from "react";
 import Axios from "axios";
 import {useQuery} from "@tanstack/react-query";
 import {useAuthContext} from "./AuthContext.jsx";
-import InvoiceProductContext from "./InvoiceProductContext.jsx";
-import ProductContext from "./ProductContext.jsx";
-import CartContext from "./CartContext.jsx";
-import {useParams} from "react-router-dom";
-
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 

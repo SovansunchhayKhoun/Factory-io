@@ -24,6 +24,7 @@ import {Users} from "./views/Users.jsx";
 import {EditUser} from "./views/EditUser.jsx";
 import {ChangePasswordView} from "./views/ChangePasswordView.jsx";
 import {InvoiceList} from "./components/AdminComponents/InvoiceComponents/InvoiceList.jsx";
+import {CustomerService} from "./views/Makerio/CustomerService.jsx";
 
 
 const router = createBrowserRouter([
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
       {
         path: 'order',
         element: <OrderView />,
+      },
+      {
+        path: 'customer-service',
+        element: <CustomerService />
       }
     ],
   },

@@ -15,7 +15,7 @@ export const NavBar = () => {
         <Link to="/">
           <img width="100" src="/assets/images/makerio.png" alt=""/>
         </Link>
-        <Link to="#customer-chat">
+        <Link to="/customer-service">
           <img className="w-[20px] h-[20px] ml-3" src="/assets/images/customer-service.png" alt=""/>
         </Link>
       </div>

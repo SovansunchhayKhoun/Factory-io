@@ -86,17 +86,6 @@ export const CartProvider = ({children}) => {
     item.cart_item_price = stockItem.price * item.qty;
     setCartItem([...cartItem]);
     saveLocalCartItem(cartItem);
-
-    // if (item.qty < stockItem.qty) {
-    // }
-    // else {
-    //   item.errorStatus = "Item quantity cannot exceed stock quantity";
-    //   setCartItem([...cartItem]);
-    //   setTimeout(() => {
-    //     item.errorStatus = "";
-    //     setCartItem([...cartItem]);
-    //   }, 1500);
-    // }
   };
   const decreaseItemQty = (cart) => {
     // find original item
