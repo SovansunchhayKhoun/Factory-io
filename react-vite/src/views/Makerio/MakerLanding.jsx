@@ -10,7 +10,7 @@ import {Footer} from "../../components/Footer.jsx";
 export const MakerLanding = () => {
   let navigate = useNavigate();
   const {items, getItems} = useContext(ProductContext);
-
+  const [searchInput,setSearchInput] = useState('')
   useEffect(() => {
     getItems();
   }, []);
@@ -24,14 +24,28 @@ export const MakerLanding = () => {
           </section>
           <div className="w-[384px]">
             <input type="text"
-                   className="w-[100%] px-12 search-bar py-2"/>
+                   className="w-[100%] px-12 search-bar py-2"
+                   onChange={event => {
+                     setSearchInput(event.target.value)
+                   }}
+            />
           </div>
           <div className="flex gap-x-6 font-bold mb-6">
-            <div className="highlight-hover">All</div>
-            <div className="highlight-hover">Sensors</div>
-            <div className="highlight-hover">Micro-Controller</div>
-            <div className="highlight-hover">Arduino</div>
-            <div className="highlight-hover">Steam</div>
+            <div className="highlight-hover" onClick={() => {
+              setSearchInput('')
+            }}>All</div>
+            <div className="highlight-hover" onClick={() => {
+              setSearchInput('sensor')
+            }}>Sensors</div>
+            <div className="highlight-hover" onClick={() => {
+              setSearchInput('microcontroller')
+            }}>Micro-Controller</div>
+            <div className="highlight-hover" onClick={() => {
+              setSearchInput('arduino')
+            }}>Arduino</div>
+            <div className="highlight-hover" onClick={() => {
+              setSearchInput('steam')
+            }}>Steam</div>
           </div>
         </div>
 
@@ -41,7 +55,17 @@ export const MakerLanding = () => {
             {/*warning if no items in database*/}
             {items.length === 0 && <div>No Items</div>}
             {/*warning if no items in database*/}
-            {items.map((item, key) => {
+            {items.filter((item) => {
+              if (searchInput === ""){
+                return item
+              }else if(searchInput !== ""){
+                if(item.name.toLowerCase().includes(searchInput.toLowerCase()) || item.type.toLowerCase().includes(searchInput.toLowerCase()))
+                return item
+              }else if (type !== ""){
+                if(item.type.toLowerCase().includes(type.toLowerCase()))
+                  return item
+              }
+            }).map((item, key) => {
               return (
                 <ItemCard key={item.id} item={item} />
               );

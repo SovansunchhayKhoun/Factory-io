@@ -47,7 +47,7 @@ export default function Login(){
             .then(({data}) => {
                 setUser(data.user)
                 setToken(data.token)
-                  navigate("/")
+                history.back()
             })
             .catch(err => {
 

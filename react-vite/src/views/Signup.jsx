@@ -30,8 +30,7 @@ export default function Signup() {
             .then(({data}) => {
                 setUser(data.user)
                 setToken(data.token)
-              localStorage.setItem('USER_CREDENTIALS',JSON.stringify(data.user))
-                navigate('/')
+                history.back()
             })
             .catch(err => {
                 const response = err.response
