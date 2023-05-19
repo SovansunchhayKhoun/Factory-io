@@ -2,6 +2,7 @@ import {Link} from "react-router-dom";
 import {useContext, useEffect} from "react";
 import {useAuthContext} from "../context/AuthContext.jsx";
 import CartContext from "../context/CartContext.jsx";
+import ChatContext from "../context/ChatContext.jsx";
 
 export const NavBar = () => {
   const {onLogout, token, user} = useAuthContext()
@@ -9,13 +10,14 @@ export const NavBar = () => {
   useEffect(() => {
     getCartItem();
   }, []);
+  const {initChat} = useContext(ChatContext);
   return (
     <nav className="z-50 fixed w-full top-0 bg-whiteFactory flex px-36 py-4 justify-between items-center">
       <div className="flex flex-row items-center">
         <Link to="/">
           <img width="100" src="/assets/images/makerio.png" alt=""/>
         </Link>
-        <Link to="/customer-service">
+        <Link onClick={() => {initChat(user.username, 'admin')}} to="/customer-service">
           <img className="w-[20px] h-[20px] ml-3" src="/assets/images/customer-service.png" alt=""/>
         </Link>
       </div>

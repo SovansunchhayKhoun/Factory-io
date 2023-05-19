@@ -68,6 +68,25 @@ export const InvoiceProvider = ({children}) => {
     return Axios.get('products').then((res) => res.data.data);
   });
 
+  const handleQty = (invProd, setInvProd, item) => event => {
+    // console.log(event.target.value)
+    if (event.target.value === '') {
+      invProd.find((inv) => inv.id === item.id).qty = item.qty;
+    } else if (Number(event.target.value)) {
+      invProd.find((inv) => inv.id === item.id).qty = Number(event.target.value);
+    }
+  }
+
+  const updateInvProd = (invProd) => {
+    invProd.forEach(async (inv) => {
+      try {
+        await Axios.put(`invoice_products/${inv.id}`, inv);
+      } catch (e) {
+        console.log(e.response.data.errors);
+      }
+    })
+  }
+
   const updateOrderStatus = (order) => {
     switch (order.status) {
       case -2:
@@ -85,16 +104,6 @@ export const InvoiceProvider = ({children}) => {
     }
   }
 
-  const updateInvProd = (invProd) => {
-    invProd.forEach(async (inv) => {
-      try {
-        await Axios.put(`invoice_products/${inv.id}`, inv);
-      } catch (e) {
-        console.log(e.response.data.errors);
-      }
-    })
-  }
-
   const checkInvoiceItemQty = (invoice_product) => {
     // const {invoice_product} = order;
     const stockArr = [];
@@ -103,24 +112,12 @@ export const InvoiceProvider = ({children}) => {
       stockItem.qty = stockItem.qty - inv_prod.qty;
       stockArr.push(stockItem);
     })
-    console.log(stockArr);
-    console.log(stockArr.some((prod) => prod.qty < 0));
     return stockArr.some((prod) => prod.qty < 0); // true if some stock item is less than 0
-  }
-
-  const handleQty = (invProd, setInvProd, item) => event => {
-    // console.log(event.target.value)
-    if (event.target.value === '') {
-      invProd.find((inv) => inv.id === item.id).qty = item.qty;
-    } else if (Number(event.target.value)) {
-      invProd.find((inv) => inv.id === item.id).qty = Number(event.target.value);
-    }
   }
 
   const acceptOrder = async (order, invProd) => {
     const {invoice_product} = order;
     updateInvProd(invProd, order);
-
     if (checkInvoiceItemQty(invoice_product) && (order.status === -1 || order.status === 1 || order.status === -2)) {
       order.status = -2;
       order.noStock = true;

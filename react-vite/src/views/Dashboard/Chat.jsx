@@ -14,11 +14,13 @@ export const Chat = () => {
     getUsers();
   }, [])
   const [activeUser, setActiveUser] = useState({});
-  const {chat, chatReFetch, handleMessage, sendMessage, message, messageReFetch} = useContext(ChatContext);
+  const {findChat, initChat, handleMessage, sendMessage, message, messageReFetch} = useContext(ChatContext);
 
   useEffect(() => {
     messageReFetch();
   }, []);
+
+  const [messageInput, setMessageInput] = useState('');
 
   return (
     <>
@@ -45,9 +47,11 @@ export const Chat = () => {
             {/*User List*/}
             <ul className="overflow-auto h-[32rem]">
               <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
-              {users?.map(user => {
+              {users?.map((user) => {
                 return (
                   <li onClick={() => {
+                    initChat('admin', user.username);
+                    setMessageInput('')
                     setActiveUser(user)
                   }} key={user.id}
                       className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">
@@ -58,7 +62,7 @@ export const Chat = () => {
                         <span className="block ml-2 font-semibold text-gray-600">{user.username}</span>
                         <span className="block ml-2 text-sm text-gray-600">25 minutes</span>
                       </div>
-                      <span className="block ml-2 text-sm text-gray-600">bye</span>
+                      <span className="block ml-2 text-sm text-gray-600">Latest Message</span>
                     </div>
                   </li>
                 );
@@ -67,7 +71,10 @@ export const Chat = () => {
             {/*User List*/}
           </div>
 
-          <div className="lg:col-span-2 lg:block">
+          <div className={`lg:col-span-2 lg:block ${Object.keys(activeUser).length === 0 && 'm-auto'}`}>
+            <div className={`${Object.keys(activeUser).length === 0 ? 'flex justify-center' : 'hidden'}`}>
+              Select a chat to start messaging
+            </div>
             <div className={`${Object.keys(activeUser).length === 0 && 'hidden'} w-full`}>
               <div className="relative flex items-center p-3 border-b border-gray-300">
                 <img className="object-contain w-10 h-10 rounded-full"
@@ -78,24 +85,27 @@ export const Chat = () => {
               </div>
               <div className="relative w-full p-6 overflow-y-auto h-[40rem]">
                 <ul className="space-y-2">
-                  {/*<li className="flex justify-start">*/}
-                  {/*  <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">*/}
-                  {/*    <span className="block">Hi</span>*/}
-                  {/*  </div>*/}
-                  {/*</li>*/}
-                  {message?.filter(msg => msg.receiver_id === activeUser.username)
-                    .map(msg => {
+                  {message?.filter(msg => msg.chat_id === findChat('admin', activeUser?.username)?.id).map((msg) => {
+                    if (msg.receiver_id === activeUser?.username) {
                       return (
-                        <>
-                          <li className="flex justify-end">
-                            <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                              <span className="block">{msg.msg_content}</span>
-                            </div>
-                          </li>
-                        </>
-                      )
+                        <li key={msg.id} className="flex justify-end items-center gap-x-2">
+                          <span className="text-xs block text-grayFactory">{msg.time_sent}</span>
+                          <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
+                            <span className="block">{msg.msg_content}</span>
+                          </div>
+                        </li>
+                      );
+                    } else {
+                      return (
+                        <li key={msg.id} className="flex items-center gap-x-2 justify-start">
+                          <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
+                            <span className="block">{msg.msg_content}</span>
+                          </div>
+                          <span className="text-xs block text-grayFactory">{msg.time_sent}</span>
+                        </li>
+                      );
                     }
-                  )}
+                  })}
                 </ul>
               </div>
 
@@ -117,11 +127,14 @@ export const Chat = () => {
                   </svg>
                 </button>
 
-                <input onChange={event => handleMessage(activeUser, event)} type="text" placeholder="Message"
+                <input value={messageInput} onChange={event => {
+                  setMessageInput(event.target.value);
+                  handleMessage(activeUser, event)
+                }} type="text" placeholder="Message"
                        className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
                        name="message" required/>
                 <button onClick={() => {
-                  sendMessage()
+                  sendMessage(setMessageInput)
                 }} type="">
                   <svg className="w-5 h-5 text-gray-500 origin-center transform rotate-90"
                        xmlns="http://www.w3.org/2000/svg"

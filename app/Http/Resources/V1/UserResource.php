@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\V1;
 
+use App\Models\Chat;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -28,6 +29,7 @@ class UserResource extends JsonResource
           'pfp' => $this->pfp,
           'bio' => $this->bio,
           'acc_type' => $this->acc_type,
+          'chat' => ChatResource::collection (Chat::where('sender_id', 'username')->get())
         ];
     }
 }

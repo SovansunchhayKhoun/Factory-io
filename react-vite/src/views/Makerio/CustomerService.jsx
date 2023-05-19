@@ -6,13 +6,12 @@ import {Replier} from "../../components/ChatComponent/Replier.jsx";
 
 export const CustomerService = () => {
   const {user} = useAuthContext();
-  const {messageReFetch, message, sendMessage, handleMessage} = useContext(ChatContext);
-  // const [messageContent, setMessageContent] = useState('');
+  const {messageReFetch, message, sendMessage, handleMessage, findChat} = useContext(ChatContext);
   useEffect(() => {
     messageReFetch();
   }, []);
 
-
+  const [messageInput, setMessageInput] = useState('');
 
   return (
     <>
@@ -31,26 +30,30 @@ export const CustomerService = () => {
               </>
             }
             {message?.filter(msg => {
-              return msg.sender_id === user.username
-            })
-              .map(msg => {
-              if(msg.sender_id === user.username){
+              return msg.chat_id === findChat(user.username, 'admin')?.id
+            }).map(msg => {
+              if (msg.sender_id === user.username) {
                 return (
                   <Sender time={msg.time_sent} messageContent={msg.msg_content}/>
                 );
               } else {
                 return <Replier time={msg.time_sent} messageContent={msg.msg_content}/>
               }
-              })
+            })
             }
           </div>
 
           <div className="flex items-center gap-x-2 bg-gray-300 p-4">
-            <input onChange={event => handleMessage({username: 'admin'}, event)}
-                   className="w-full flex items-center h-10 rounded px-3 text-sm" type="text"
-                   placeholder="Type your message…"/>
+            <input
+              value={messageInput}
+              onChange={event => {
+                setMessageInput(event.target.value);
+                handleMessage({username: 'admin'}, event)
+              }}
+              className="w-full flex items-center h-10 rounded px-3 text-sm" type="text"
+              placeholder="Type your message…"/>
             <button onClick={() => {
-              sendMessage()
+              sendMessage(setMessageInput)
             }}
                     className="bg-[#1C64F2] text-whiteFactory font-semibold rounded-md px-3 py-1 flex items-center hover:bg-blue-700 cursor-pointer">
               send

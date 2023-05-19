@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\V1;
 
+use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,10 +17,11 @@ class ChatResource extends JsonResource
     {
         return [
           'id' => $this->id,
-          'user_id' => $this->user_id,
-          'admin_id' => $this->admin_id,
+          'sender_id' => $this->sender_id,
+          'receiver_id' => $this->receiver_id,
           'created_at' => $this->created_at,
           'updated_at' => $this->updated_at,
+          'messages' => MessageResource::collection (Message::where(['chat_id'=>$this->id])->get()),
         ];
     }
 }

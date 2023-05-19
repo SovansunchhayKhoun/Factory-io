@@ -15,11 +15,10 @@ export const CartItem = (props) => {
       <div className="flex items-center gap-x-6">
         <div>
           {
-            (item?.image === null || item?.image === undefined)
-              ? <img className="w-[150px]" src="/assets/images/makerio.png" alt={item.name}/>
-              :<img className="w-[150px]" src={`http://127.0.0.1:8000/${item.image}`} alt={item.name}/>
+            (item.image === null || item.image === undefined)
+              ? <img className="w-[150px]" src="/assets/images/makerio.png" alt={item.name}/> :
+              <img className="w-[150px]" src={`${import.meta.env.VITE_URL_APP}${item.image}`} alt={item.name}/>
           }
-
           {/*<img width="150" src={`/assets/images/${stockItem?.image ?? 'makerio.png'}`} alt=""/>*/}
         </div>
         <div>

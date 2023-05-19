@@ -32,6 +32,9 @@ export const AdminOrder = () => {
             color="purple"
             aria-label="Purple spinner example"
           />}
+
+        {invoices?.filter(inv => inv.status === invStatus).length === 0 && invStatus === -1 && 'No Pending orders'}
+        {invoices?.filter(inv => inv.status === invStatus).length === 0 && invStatus !== -1 && 'Empty orders box'}
         {invoices?.filter(inv => inv.status === invStatus).map(invoice => <InvoiceList invoice={invoice}/>)}
       </div>
     </>

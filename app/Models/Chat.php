@@ -12,7 +12,7 @@
     use HasFactory;
 
     protected $fillable = [
-      'user_id' , 'admin_id'
+      'sender_id' , 'receiver_id'
     ];
 
     public function message () : HasMany
