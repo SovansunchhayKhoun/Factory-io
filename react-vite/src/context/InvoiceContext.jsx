@@ -12,6 +12,7 @@ export const InvoiceProvider = ({children}) => {
       return res.data.data;
     })
   });
+  const [invStatus, setInvStatus] = useState(-1);
   const [invoice, setInvoice] = useState({});
   const getInvoice = async (id) => {
     const apiItem = await Axios.get(`invoices/${id}`);
@@ -147,6 +148,8 @@ export const InvoiceProvider = ({children}) => {
 
   return (
     <InvoiceContext.Provider value={{
+      invStatus,
+      setInvStatus,
       handleQty,
       setAddress,
       invoices,

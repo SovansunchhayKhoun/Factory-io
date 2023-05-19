@@ -1,11 +1,13 @@
 import {InvoiceView} from "../../ui/InvoiceView.jsx";
-import React from "react";
+import React, {useContext} from "react";
 import {useOutlet, useOutletContext} from "react-router-dom";
+import InvoiceContext from "../../../context/InvoiceContext.jsx";
 
 export const InvoiceList = (props) => {
-  const [invoice] = useOutletContext();
-  // const {invoice} = props;
+  // const [invoice] = useOutletContext();
+  const {invoice} = props;
   // console.log(Object.keys(invoice).length)
+      console.log(invoice)
     return (
         <>
           {/*<div>*/}
@@ -23,7 +25,8 @@ export const InvoiceList = (props) => {
           {/*  {invoice.status === 3 && "Arrived"}*/}
           {/*</div>*/}
           <div>
-            <InvoiceView key={invoice.id} invoice={invoice}/>
+            {/*<InvoiceView key={invoice.id} invoice={invoice}/>*/}
+            <InvoiceView invoice={invoice}/>
           </div>
         </>
     );

@@ -20,14 +20,15 @@ export const ChatProvider = ({children}) => {
 
   const [messagePost, setMessagePost] = useState({});
 
-  const handleMessage = (event) => {
+  const handleMessage = (receiver, event)=> {
+
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
     // setMessageContent(event.target.value);
     setMessagePost({
-      admin_id: -99,
+      receiver_id: receiver.username,
       chat_id: 1,
-      sender_id: -99,
+      sender_id: user?.username,
       msg_content: event.target.value,
       time_sent: currentDate,
     })

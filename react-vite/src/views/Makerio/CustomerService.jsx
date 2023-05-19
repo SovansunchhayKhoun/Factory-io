@@ -12,6 +12,8 @@ export const CustomerService = () => {
     messageReFetch();
   }, []);
 
+
+
   return (
     <>
       <main className="flex flex-col items-center w-full min-h-screen text-gray-800">
@@ -28,8 +30,11 @@ export const CustomerService = () => {
                 </div>
               </>
             }
-            {message?.map(msg => {
-              if(msg.sender_id === user.id){
+            {message?.filter(msg => {
+              return msg.sender_id === user.username
+            })
+              .map(msg => {
+              if(msg.sender_id === user.username){
                 return (
                   <Sender time={msg.time_sent} messageContent={msg.msg_content}/>
                 );
@@ -41,7 +46,7 @@ export const CustomerService = () => {
           </div>
 
           <div className="flex items-center gap-x-2 bg-gray-300 p-4">
-            <input onChange={event => handleMessage(event)}
+            <input onChange={event => handleMessage({username: 'admin'}, event)}
                    className="w-full flex items-center h-10 rounded px-3 text-sm" type="text"
                    placeholder="Type your message…"/>
             <button onClick={() => {

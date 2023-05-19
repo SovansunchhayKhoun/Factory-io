@@ -20,7 +20,7 @@
         'image' => $this -> image ,
         'chat_id' => $this -> chat_id ,
         'sender_id' => $this -> sender_id ,
-        'admin_id' => $this -> admin_id ,
+        'receiver_id' => $this -> receiver_id ,
         'time_sent' => $this->time_sent
       ];
     }

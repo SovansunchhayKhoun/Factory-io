@@ -26,7 +26,7 @@ class MessageRequest extends FormRequest
           'image' => ['nullable'],
           'chat_id' => ['required'],
           'sender_id' => ['required'],
-          'admin_id' => ['required'],
+          'receiver_id' => ['required'],
           'time_sent' => ['required']
         ];
     }
