@@ -4,6 +4,7 @@ import UserContext from "../../context/UserContext.jsx";
 import {act} from "react-dom/test-utils";
 import {useAuthContext} from "../../context/AuthContext.jsx";
 import ChatContext from "../../context/ChatContext.jsx";
+import {dividerClasses} from "@mui/material";
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 export const Chat = () => {
@@ -14,7 +15,17 @@ export const Chat = () => {
     getUsers();
   }, [])
   const [activeUser, setActiveUser] = useState({});
-  const {findChat, initChat, handleMessage, sendMessage, message, messageReFetch} = useContext(ChatContext);
+  const {
+    chat,
+    findChat,
+    initChat,
+    handleMessage,
+    sendMessage,
+    message,
+    messageReFetch,
+    getLatestMessage,
+    checkUserChat
+  } = useContext(ChatContext);
 
   useEffect(() => {
     messageReFetch();
@@ -47,32 +58,45 @@ export const Chat = () => {
             {/*User List*/}
             <ul className="overflow-auto h-[32rem]">
               <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
-              {users?.map((user) => {
-                return (
-                  <li onClick={() => {
-                    initChat('admin', user.username);
-                    setMessageInput('')
-                    setActiveUser(user)
-                  }} key={user.id}
+              {chat?.map((ch) => {
+                const {users, messages} = ch;
+                if (messages.length > 0) {
+                  return (
+                    <li
+                      onClick={() => {
+                        checkUserChat(users[0].username);
+                        initChat('admin', users[0].username);
+                        setMessageInput('')
+                        setActiveUser(users[0])
+                      }}
+                      key={users[0].id}
                       className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">
-                    <img className="object-cover w-10 h-10 rounded-full"
-                         src="/assets/images/seangly.jpg" alt="username"/>
-                    <div className="w-full pb-2">
-                      <div className="flex justify-between">
-                        <span className="block ml-2 font-semibold text-gray-600">{user.username}</span>
-                        <span className="block ml-2 text-sm text-gray-600">25 minutes</span>
+                      <img className="object-cover w-10 h-10 rounded-full"
+                           src="/assets/images/seangly.jpg" alt="username"/>
+                      <div className="w-full pb-2">
+                        <div className="flex justify-between">
+                          <span className="block ml-2 font-semibold text-gray-600">
+                            {users[0].username}
+                          </span>
+                          <span className="block ml-2 text-sm text-gray-600">
+                            {/*25 minutes*/}
+                          </span>
+                        </div>
+                        <span
+                          className="block ml-2 text-sm text-gray-600 font-semibold">
+                          {getLatestMessage('admin', users[0].username)?.msg_content}
+                        </span>
                       </div>
-                      <span className="block ml-2 text-sm text-gray-600">Latest Message</span>
-                    </div>
-                  </li>
-                );
+                    </li>
+                  )
+                }
               })}
             </ul>
             {/*User List*/}
           </div>
 
           <div className={`lg:col-span-2 lg:block ${Object.keys(activeUser).length === 0 && 'm-auto'}`}>
-            <div className={`${Object.keys(activeUser).length === 0 ? 'flex justify-center' : 'hidden'}`}>
+            <div className={`${Object.keys(activeUser).length === 0 ? 'flex justify-center bg-blueBase text-whiteFactory px-2 py-1 rounded-3xl text-sm' : 'hidden'}`}>
               Select a chat to start messaging
             </div>
             <div className={`${Object.keys(activeUser).length === 0 && 'hidden'} w-full`}>

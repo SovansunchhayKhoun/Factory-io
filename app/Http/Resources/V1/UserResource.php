@@ -29,7 +29,6 @@ class UserResource extends JsonResource
           'pfp' => $this->pfp,
           'bio' => $this->bio,
           'acc_type' => $this->acc_type,
-          'chat' => ChatResource::collection (Chat::where('sender_id', 'username')->get())
         ];
     }
 }
