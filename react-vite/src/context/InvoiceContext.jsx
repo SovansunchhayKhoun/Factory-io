@@ -21,8 +21,8 @@ export const InvoiceProvider = ({children}) => {
   const {user} = useAuthContext();
   const [invoiceError, setInvoiceError] = useState([]);
   const [address, setAddress] = useState('');
-  const handleAddressChange = (e) => {
-    setAddress(e.target.value);
+  const handleAddressChange = event => {
+    setAddress(event.target.value);
   }
 
   const scrollTop = (fromTop) => {
@@ -44,7 +44,6 @@ export const InvoiceProvider = ({children}) => {
       payment_pic: 'No pic',
       item_count: cartItem.length,
     };
-
     try {
       await Axios.post('invoices', invoice);
       setLoading(true);
@@ -54,13 +53,15 @@ export const InvoiceProvider = ({children}) => {
           checkOut(item);
         });
       }, 3000);
+      setAddress('');
     } catch (e) {
       scrollTop(0);
       console.log(e.response.data.errors);
-      setInvoiceError(e.response.data.errors);
-      setTimeout(() => {
-        setInvoiceError(['']);
-      }, 3000);
+      cartItem.addressError = 'The Address field is required';
+      // setInvoiceError(e.response.data.errors);
+      // setTimeout(() => {
+      //   setInvoiceError([]);
+      // }, 3000);
     }
   }
 
@@ -145,17 +146,17 @@ export const InvoiceProvider = ({children}) => {
 
   return (
     <InvoiceContext.Provider value={{
+      setAddress,
+      address,
       invStatus,
       setInvStatus,
       handleQty,
-      setAddress,
       invoices,
       isLoading,
       invoicesReFetch,
       storeInvoice,
       invoiceError,
       setInvoiceError,
-      // getInvoice,
       declineOrder,
       acceptOrder,
       handleAddressChange

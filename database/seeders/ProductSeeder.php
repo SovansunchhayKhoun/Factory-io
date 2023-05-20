@@ -116,7 +116,7 @@
           1 pair of TTL level serial transceiver ports RX / TX<br/>
           Using Atmel Atmega328P-AU MCU<br/>
           Standard 0.1” spacing DIP (breadboard friendly).<br/>' ,
-        'image' => 'arduinonano.png' ,
+        'image' => 'products/arduinonano.png' ,
       ] );
 
       DB ::table ( 'products' ) -> insert ( [
@@ -130,7 +130,7 @@
           264kB of SRAM, and 2MB of on-board Flash memory<br/>
           Drag & drop programming using over USB<br/>
           8×Programmable IO (PIO) state machines for custom peripheral support<br/>' ,
-        'image' => 'ras.png' ,
+        'image' => 'products/ras.png' ,
       ] );
 
 

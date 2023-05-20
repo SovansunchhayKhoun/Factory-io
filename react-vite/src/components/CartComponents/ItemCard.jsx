@@ -2,14 +2,18 @@ import {Link, useNavigate} from "react-router-dom";
 import React, {useContext, useEffect, useState} from "react";
 import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
+import {useAuthContext} from "../../context/AuthContext.jsx";
 
 export const ItemCard = (props) => {
   const {name, price, id, image, status} = props.item;
   let {qty} = props.item;
-  const {cartItem, addToCart, cartError} = useContext(CartContext);
+  const {cartItem, addToCart, cartError, setCartError} = useContext(CartContext);
   const itemCart = cartItem.find((i) => i.id === id);
   // const currentQty = qty - (itemCart?.qty || 0);
-
+  const {token} = useAuthContext();
+  useEffect(()=>{
+    setCartError([]);
+  }, [])
   return (
     <>
       {/*cart-item */}
@@ -40,14 +44,18 @@ export const ItemCard = (props) => {
             <button
               className={`${props.item.status === 0 && 'hidden'} rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300`}
               onClick={() => {
-                addToCart(props.item);
+                if(token) {
+                  addToCart(props.item);
+                } else if(!token) {
+                  setCartError(['You need an account. Please'])
+                }
               }}>
               <img width="36" src="/assets/images/cart-icon.png" alt=""/>
             </button>
           </div>
         </div>
-        <div className="text-redBase text-sm">{cartError} {cartError.length !== 0 &&
-          <Link className={'text-blueActive cursor-pointer font-semibold'} to="/signup">Sign Up</Link>}</div>
+        <div className="text-redBase text-sm">{cartError}{cartError.length !== 0 && !token &&
+          <Link className={'text-blueActive cursor-pointer font-semibold'} to="/signup"> Sign Up</Link>}</div>
       </div>
 
       {/*cart-item */}

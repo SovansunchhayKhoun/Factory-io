@@ -5,7 +5,7 @@ import InvoiceContext from "./InvoiceContext.jsx";
 import invoiceContext from "./InvoiceContext.jsx";
 import {useAuthContext} from "./AuthContext.jsx";
 import InvoiceProductContext from "./InvoiceProductContext.jsx";
-import {useNavigate, useNavigation} from "react-router-dom";
+import {redirect, useNavigate, useNavigation} from "react-router-dom";
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const CartContext = createContext();
@@ -16,7 +16,7 @@ export const CartProvider = ({children}) => {
   const [success, setSuccess] = useState(false);
   const [cartItem, setCartItem] = useState([]);
   const totalPrice = cartItem.reduce((total, i) => total += i.price * i.qty, 0);
-  const {user} = useAuthContext();
+  const {token, user} = useAuthContext();
   const {invoiceProduct, invoiceProductReFetch} = useContext(InvoiceProductContext);
   useEffect(() => {
     invoiceProductReFetch();
@@ -30,7 +30,6 @@ export const CartProvider = ({children}) => {
       setCartItem([...cartItem]);
     } else if (!itemExist(item)) {
       setCartItem([...cartItem, {
-        // invoice_id: latestInvoice,
         user_id: user.id,
         id: item.id, // referenced from stock items
         product_id: item.id, //for cart product database
@@ -40,31 +39,25 @@ export const CartProvider = ({children}) => {
         qty: 1,
         status: item.status,
         cart_item_price: item.price * 1,
+        image: item.image,
       }]);
     }
     saveLocalCartItem(cartItem);
   }
 
   const addToCart = (item) => {
-    if (Object.keys(user).length !== 0) {
-      if (item.qty) {
-        storeItem(item);
-        // if item doesnt exist in cart, save item
-        !cartItem.find((i) => item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
-          ...item,
-          // invoice_id: latestInvoice,
-          user_id: user.id,
-          product_id: item.id,
-          type: item.type,
-          qty: 1,
-          cart_item_price: item.price * 1,
-        })])
-      }
-    }else {
-      setCartError([`Please create an account in order to continue`]);
-      setTimeout(() => {
-        setCartError([]);
-      }, 10000)
+    if (item.qty) {
+      storeItem(item);
+      // if item doesnt exist in cart, save item
+      !cartItem.find((i) => item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
+        ...item,
+        user_id: user.id,
+        product_id: item.id,
+        type: item.type,
+        qty: 1,
+        cart_item_price: item.price * 1,
+        image: item.image,
+      })])
     }
   }
 
@@ -120,7 +113,6 @@ export const CartProvider = ({children}) => {
         clearCart();
         setCartItem([]);
       } catch (e) {
-        e.response.data.errors.address = 'The address field is required'
         console.log(e.response.data.errors)
         setCartError(e.response.data.errors)
       }
@@ -128,6 +120,7 @@ export const CartProvider = ({children}) => {
   }
 
   return <CartContext.Provider value={{
+    setCartError,
     cartItem,
     setCartItem,
     cartError,

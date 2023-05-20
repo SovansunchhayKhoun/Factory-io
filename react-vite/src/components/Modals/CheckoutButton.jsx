@@ -11,7 +11,7 @@ import {AccordionBodyContent} from "../AdminComponents/AccordionBodyContent.jsx"
 import ProductContext from "../../context/ProductContext.jsx";
 import {Spinner} from "flowbite-react";
 import InvoiceProductContext from "../../context/InvoiceProductContext.jsx";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const style = {
   display: "flex",
@@ -29,10 +29,11 @@ const style = {
 
 export default function CheckoutButton() {
   const {cartItem, getCartItem, checkOut, totalPrice, success, setSuccess} = useContext(CartContext);
-  const {storeInvoice, address, setAddress} = useContext(InvoiceContext);
-  const {user} = useAuthContext();
-
+  const {storeInvoice, address} = useContext(InvoiceContext);
+  const {user, token} = useAuthContext();
   const [loadingSuccess, setLoadingSuccess] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getCartItem();
@@ -52,17 +53,12 @@ export default function CheckoutButton() {
   if (cartItem.length > 0) {
     return (
       <div>
-        <div className="flex gap-x-2">
-          <Link className={`transition px-2 py-1 shadow-md shadow-blueBase duration-500 font-semibold text-blueActive cursor-pointer hover:text-whiteFactory hover:bg-blueBase`} to={'/maker-io'}>
-            Browse product
-          </Link>
-          <button
-            className={`transition duration-500 hover:shadow-blueBase hover:shadow-md bg-redHover text-[18px] text-whiteFactory px-4 py-1 rounded-[20px]`}
-            onClick={() => {
-              totalPrice > 0 && setSuccess(true);
-            }}>Check out
-          </button>
-        </div>
+        <button
+          className={`transition duration-500 hover:shadow-blueBase hover:shadow-md bg-redHover text-[18px] text-whiteFactory px-4 py-1 rounded-[20px]`}
+          onClick={() => {
+            totalPrice > 0 && setSuccess(true);
+          }}>Check out
+        </button>
         <Modal
           open={success}
           // onClose={setSuccess(false)}
@@ -72,7 +68,7 @@ export default function CheckoutButton() {
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Are you sure to proceed order?
             </Typography>
-            <Typography id="modal-modal-description" sx={{mt: 2}}>
+            <Typography component={'div'} id="modal-modal-description" sx={{mt: 2}}>
               <div className="text-blackFactory  mb-3 font-semibold">
                 <div className="flex flex-col pr-12 gap-2 mb-3">
                   <div>Phone Number:
@@ -87,20 +83,20 @@ export default function CheckoutButton() {
                 </div>
                 <div className={`flex mb-3 gap-x-6`}>
                   <div className="flex-2">Item
-                    {cartItem?.map((i) => <div key={i.product_id} className="whitespace-nowrap">{i.name}</div>)}
+                    {cartItem?.map((i, pos) => <div key={pos} className="whitespace-nowrap">{i.name}</div>)}
                   </div>
                   <div>Type
-                    {cartItem?.map((i) => <div key={i.product_id} className="whitespace-nowrap">{i.type}</div>)}
+                    {cartItem?.map((i, pos) => <div key={pos} className="whitespace-nowrap">{i.type}</div>)}
                   </div>
                   <div>Qty
-                    {cartItem?.map((i) => <div key={i.product_id} className="whitespace-nowrap">{i.qty}</div>)}
+                    {cartItem?.map((i, pos) => <div key={pos} className="whitespace-nowrap">{i.qty}</div>)}
                   </div>
                   <div>Price
-                    {cartItem?.map((i) => <div key={i.product_id} className="whitespace-nowrap">${i.price}</div>)}
+                    {cartItem?.map((i, pos) => <div key={pos} className="whitespace-nowrap">${i.price}</div>)}
                   </div>
                   <div>Total
-                    {cartItem?.map((i) => <div key={i.product_id}
-                                               className="whitespace-nowrap">${i.cart_item_price}</div>)}
+                    {cartItem?.map((i, pos) => <div key={pos}
+                                                    className="whitespace-nowrap">${i.cart_item_price}</div>)}
                   </div>
                 </div>
                 <hr className="border-b-1 border-blackFactory rounded-lg"/>
@@ -121,9 +117,11 @@ export default function CheckoutButton() {
                 <button
                   className={`transition duration-500 bg-tealActive text-whiteFactory px-1 py-2 min-w-[150px] rounded-md hover:bg-tealHover/80 active:bg-tealActive`}
                   onClick={() => {
-                    if (cartItem.length > 0) {
-                      setSuccess(false);
-                      storeInvoice(totalPrice, cartItem, checkOut, setLoadingSuccess);
+                    if (token) {
+                      if (cartItem.length > 0) {
+                        setSuccess(false);
+                        storeInvoice(totalPrice, cartItem, checkOut, setLoadingSuccess);
+                      }
                     }
                   }}>Confirm
                 </button>

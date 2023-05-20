@@ -30,13 +30,6 @@ export const ChatProvider = ({children}) => {
     return findChat(sender, receiver)?.messages[findChat(sender, receiver)?.messages.length - 1];
   }
 
-  const checkUserChat = () => {
-    chat?.forEach((ch) => {
-      const {users, messages} = ch;
-      console.log(users[0])
-    })
-  };
-
   const initChat = async (sender, receiver) => {
     const newChat = {
       sender_id: sender,
@@ -81,7 +74,6 @@ export const ChatProvider = ({children}) => {
   return (
     <>
       <ChatContext.Provider value={{
-        checkUserChat,
         getLatestMessage,
         findChat,
         initChat,

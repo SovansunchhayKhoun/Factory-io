@@ -3,12 +3,13 @@ import React, {useContext, useEffect, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
 import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
+import {useAuthContext} from "../../context/AuthContext.jsx";
 
 export const ItemView = (props) => {
   let {id} = useParams();
   const {item, getItem} = useContext(ProductContext);
   const {addToCart, cartItem} = useContext(CartContext);
-
+  const {token} = useAuthContext();
   useEffect(() => {
     getItem(id);
   }, []);
@@ -53,7 +54,9 @@ export const ItemView = (props) => {
           <div className="flex justify-end items-center">
             <button className={`${item.status === 0 && 'hidden'} rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300`}
                     onClick={() => {
-                      addToCart(item, currentQty);
+                      if(token) {
+                        addToCart(item, currentQty);
+                      }
                     }}>
               <img src="/assets/images/cart-icon.png" alt=""/>
             </button>
