@@ -9,8 +9,8 @@ import {Footer} from "../../components/Footer.jsx";
 
 export const MakerLanding = () => {
   let navigate = useNavigate();
-  const {items, getItems} = useContext(ProductContext);
-  const [searchInput,setSearchInput] = useState('')
+  const {items, getItems,searchInput,setSearchInput} = useContext(ProductContext);
+
   useEffect(() => {
     getItems();
   }, []);

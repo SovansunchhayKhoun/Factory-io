@@ -2,13 +2,16 @@ import {Link, useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
+import {useAuthContext} from "../../context/AuthContext.jsx";
 
 export const ItemCard = (props) => {
+  const navigate = useNavigate()
+
   const {name, price, id, image, status} = props.item;
   let {qty} = props.item;
   const {cartItem, addToCart} = useContext(CartContext);
+  const {token} = useAuthContext()
   const itemCart = cartItem.find((i) => i.id === id);
-  // const currentQty = qty - (itemCart?.qty || 0);
 
   return (
     <>
@@ -34,8 +37,13 @@ export const ItemCard = (props) => {
             </div>
             <button
               className={" rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300"}
+
               onClick={() => {
-                addToCart(props.item);
+                if (token) {
+                  addToCart(props.item);
+                } else {
+                  navigate('/login')
+                }
               }}>
               <img width="36" src="/assets/images/cart-icon.png" alt=""/>
             </button>

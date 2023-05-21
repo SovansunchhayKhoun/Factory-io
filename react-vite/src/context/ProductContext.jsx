@@ -9,6 +9,7 @@ const ProductContext = createContext();
 export const ProductProvider = ({children}) => {
   const [items, setItems] = useState([]);
   const [item, setItem] = useState({});
+  const [searchInput,setSearchInput] = useState('')
 
   const [formValues, setFormValues] = useState({
     name: "",
@@ -24,6 +25,8 @@ export const ProductProvider = ({children}) => {
     const apiItems = await Axios.get("products");
     setItems(apiItems.data.data);
   };
+
+
 
   const storeItem = async (formValues) => {
     try {
@@ -111,6 +114,8 @@ export const ProductProvider = ({children}) => {
       onChange,
       updateItem,
       updateProduct,
+      searchInput,
+      setSearchInput
     }}>{children}</ProductContext.Provider>;
 };
 
