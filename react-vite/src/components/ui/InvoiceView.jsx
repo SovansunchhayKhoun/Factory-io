@@ -9,7 +9,8 @@ import {AccordionHeaderContent} from "../AdminComponents/AccordionHeaderContent.
 import {AccordionBodyContent} from "../AdminComponents/AccordionBodyContent.jsx";
 
 export const InvoiceView = (props) => {
-  const {id, invoice_product} = props.invoice;
+  const {invoice} = props;
+  const {id, invoice_product} = invoice;
   // console.log(invoice_product)
   const [invProd, setInvProd] = useState(invoice_product);
   const [open, setOpen] = useState(1);
@@ -22,10 +23,10 @@ export const InvoiceView = (props) => {
       <Accordion className="border-2 border-tealActive px-2 rou nded-lg mb-6 shadow-2xl"
                  open={open === id}>
         <AccordionHeader className={`text-[16px] text-blackFactory`} onClick={() => handleOpen(id)}>
-          <AccordionHeaderContent invProd={invProd} setInvProd={setInvProd} invoice={props.invoice}/>
+          <AccordionHeaderContent key={id} invProd={invProd} setInvProd={setInvProd} invoice={props.invoice}/>
         </AccordionHeader>
         <AccordionBody>
-          <AccordionBodyContent invProd={invProd} setInvProd={setInvProd} invoice={props.invoice}/>
+          <AccordionBodyContent key={id} invProd={invProd} setInvProd={setInvProd} invoice={props.invoice}/>
         </AccordionBody>
       </Accordion>
     </Fragment>

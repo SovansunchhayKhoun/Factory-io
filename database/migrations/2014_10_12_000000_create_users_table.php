@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('gender')->nullable();
             $table->string('phoneNumber');
             $table->string('email')->unique();
-            $table->string('username')->nullable();
+            $table->string('username')->unique ();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->text('pfp')->nullable();

@@ -27,7 +27,7 @@
           Humidity Range: 20% to 90% <br/>
           Resolution: Temperature and Humidity both are 16-bit <br/>
           Accuracy: ±1°C and ±1% <br/>' ,
-        'image' => 'SN-DHT11-MOD (a)-800x800.jpg' ,
+        'image' => 'products/SN-DHT11-MOD (a)-800x800.jpg' ,
       ] );
 
       DB ::table ( 'products' ) -> insert ( [
@@ -42,7 +42,7 @@
           Small sensitivity to alcohol, smoke. <br/>
           Fast response Stable and long life <br/>
           Simple drive circuit <br/>' ,
-        'image' => 'MQ4-Gas-Sensor.jpg' ,
+        'image' => 'products/MQ4-Gas-Sensor.jpg' ,
       ] );
 
 
@@ -60,11 +60,11 @@
           Microphone Sensitivity (1kHz): 52 to 48 dB <br/>
           Easy to use with Microcontrollers or even with normal Digital/Analog IC <br/>
           Small, cheap and easily available <br/>' ,
-        'image' => 'Sound-Detection-Sensor-Module.jpg' ,
+        'image' => 'products/Sound-Detection-Sensor-Module.jpg' ,
       ] );
 
       DB ::table ( 'products' ) -> insert ( [
-        'name' => 'ATmega328P' ,
+        'name' => 'Arduino uno' ,
         'price' => 2.5 ,
         'qty' => 10 ,
         'status' => 1 ,
@@ -81,16 +81,16 @@
           POWER  I/O VOLTAGE  5V<br/>
           INPUT VOLTAGE (NOMINAL)  7-12V<br/>
           DC CURRENT PER I/O PIN  20 mA<br/>' ,
-        'image' => 'Microcon.png' ,
+        'image' => 'products/Microcon.png' ,
       ] );
 
       DB ::table ( 'products' ) -> insert ( [
-        'name' => 'abc' ,
+        'name' => 'ESP32 + CP2102' ,
         'price' => 2.5 ,
         'qty' => 10 ,
         'status' => 1 ,
         'type' => 'MicroController' ,
-        'description' => '*Operating Voltage: 2.2 to 3.6VDC<br/>
+        'description' => 'Operating Voltage: 2.2 to 3.6VDC<br/>
           Ultra-low power consumption<br/>
           32 GPIO: ADC(12), DAC(2), SPI(3), I2S(2), I2C(2), UART(3), PWM(32), SDIO(50 Mhz)<br/>
           520 KB SRAM<br/>
@@ -101,7 +101,36 @@
           55.3mm x 28.0mm x 12.3mm<br/>
           Weight: 9.6g<br/>
           CP2102: USB Driver<br/>' ,
-        'image' => 'Unk.png' ,
+        'image' => 'products/Unk.png' ,
+      ] );
+
+      DB ::table ( 'products' ) -> insert ( [
+        'name' => 'Arduino Nano' ,
+        'price' => 2.5 ,
+        'qty' => 10 ,
+        'status' => 1 ,
+        'type' => 'MicroController' ,
+        'description' => 'Operating Voltage (logic level): 5V<br/>
+          8 analog inputs ports: A0 ~ A7<br/>
+          14 Digital input / output ports: TX, RX, D2 ~ D13<br/>
+          1 pair of TTL level serial transceiver ports RX / TX<br/>
+          Using Atmel Atmega328P-AU MCU<br/>
+          Standard 0.1” spacing DIP (breadboard friendly).<br/>' ,
+        'image' => 'products/arduinonano.png' ,
+      ] );
+
+      DB ::table ( 'products' ) -> insert ( [
+        'name' => 'Raspberry pi Pico' ,
+        'price' => 2.5 ,
+        'qty' => 10 ,
+        'status' => 1 ,
+        'type' => 'MicroController' ,
+        'description' => 'MCU: RP2040<br/>
+          Dual-core ARM Cortex M0+ processor, flexible clock running up to 133 MHz<br/>
+          264kB of SRAM, and 2MB of on-board Flash memory<br/>
+          Drag & drop programming using over USB<br/>
+          8×Programmable IO (PIO) state machines for custom peripheral support<br/>' ,
+        'image' => 'products/ras.png' ,
       ] );
 
 

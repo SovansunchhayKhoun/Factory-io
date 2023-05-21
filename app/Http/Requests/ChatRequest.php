@@ -22,8 +22,8 @@ class ChatRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required'],
-            'admin_id' => ['required']
+            'sender_id' => ['required'],
+            'receiver_id' => ['required']
         ];
     }
 }

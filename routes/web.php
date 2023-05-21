@@ -18,23 +18,23 @@ use App\Models\Invoice;
 */
 
 Route ::get ( '/' , function () {
-    $users = User::all();
-    $products = Product ::all ();
-    $invoices = Invoice ::all ();
-
-    foreach ( $invoices as $invoice ) {
-        foreach ( $invoice -> products as $item ) {
-            echo $item -> name . "<br>";
-        }
-    }
-
-    foreach ($users as $user) {
-      foreach ($user -> invoices as $item ){
-        echo $item->id . "<br>";
-      }
-    }
-
-    return view ( 'welcome' , compact ( 'products', 'users' , 'invoices' ) );
+//    $users = User::all();
+//    $products = Product ::all ();
+//    $invoices = Invoice ::all ();
+//
+//    foreach ( $invoices as $invoice ) {
+//        foreach ( $invoice -> products as $item ) {
+//            echo $item -> name . "<br>";
+//        }
+//    }
+//
+//    foreach ($users as $user) {
+//      foreach ($user -> invoices as $item ){
+//        echo $item->id . "<br>";
+//      }
+//    }
+//
+//    return view ( 'welcome' , compact ( 'products', 'users' , 'invoices' ) );
 } );
 
 

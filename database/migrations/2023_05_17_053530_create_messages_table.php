@@ -15,8 +15,9 @@
         $table -> text ( 'msg_content' );
         $table -> text ( 'image' ) -> nullable ();
         $table -> foreignId ( 'chat_id' ) -> references ( 'id' ) -> on ( 'chats' );
-        $table -> integer ( 'sender_id' );
-        $table -> integer ( 'admin_id' );
+        $table -> string ( 'sender_id' );
+        $table -> string ( 'receiver_id' );
+        $table -> timestamp ( 'time_sent' );
         $table -> timestamps ();
       } );
     }

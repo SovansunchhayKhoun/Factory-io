@@ -10,23 +10,22 @@ import {InvoiceList} from "../../components/AdminComponents/InvoiceComponents/In
 import {Outlet, useParams} from "react-router-dom";
 
 export const AdminOrder = () => {
-  let {id} = useParams();
-  const {items, getItems} = useContext(ProductContext)
-  const [createItemModalOpen, setCreateItemModalOpen] = useState(false)
-
-  const {invoices, isLoading, refetch} = useContext(InvoiceContext);
+  // let {id} = useParams();
+  const {getItems} = useContext(ProductContext)
+  const {invoices, isLoading, invStatus} = useContext(InvoiceContext);
   useEffect(() => {
     getItems();
   }, []);
 
-  if (id === 'pending') {
-
-  }
-
   return (
     <>
       <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
-        <WelcomeBanner title={id.toUpperCase() + ' Orders'}/>
+        <WelcomeBanner title={invStatus === -1 && 'Pending Orders' ||
+          invStatus === -2 && 'No Stock' ||
+          invStatus === 1 && 'Accepted Orders' ||
+          invStatus === 2 && 'Delivering' ||
+          invStatus === 3 && 'Arrived'
+        }/>
         {isLoading &&
           <Spinner
             size="xl"
@@ -34,25 +33,9 @@ export const AdminOrder = () => {
             aria-label="Purple spinner example"
           />}
 
-        {invoices?.filter((inv) => {
-          switch (id) {
-            case 'no-stock':
-              return inv.status === -2;
-            case 'pending':
-              return inv.status === -1;
-            case 'accepted':
-              return inv.status === 1;
-            case 'delivering':
-              return inv.status === 2;
-            case 'arrived':
-              return inv.status === 3;
-          }
-        }).map((invoice) => {
-            return (
-              <Outlet context={[invoice]}/>
-            );
-          })
-        }
+        {invoices?.filter(inv => inv.status === invStatus).length === 0 && invStatus === -1 && 'No Pending orders'}
+        {invoices?.filter(inv => inv.status === invStatus).length === 0 && invStatus !== -1 && 'Empty orders box'}
+        {invoices?.filter(inv => inv.status === invStatus).map(invoice => <InvoiceList invoice={invoice}/>)}
       </div>
     </>
   );

@@ -20,9 +20,8 @@
         'image' => $this -> image ,
         'chat_id' => $this -> chat_id ,
         'sender_id' => $this -> sender_id ,
-        'admin_id' => $this -> admin_id ,
-        'created_at' => $this -> created_at ,
-        'updated_at' => $this -> updated_at ,
+        'receiver_id' => $this -> receiver_id ,
+        'time_sent' => $this->time_sent
       ];
     }
   }

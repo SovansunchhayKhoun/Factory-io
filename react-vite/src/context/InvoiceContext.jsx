@@ -2,11 +2,6 @@ import {createContext, useContext, useEffect, useState} from "react";
 import Axios from "axios";
 import {useQuery} from "@tanstack/react-query";
 import {useAuthContext} from "./AuthContext.jsx";
-import InvoiceProductContext from "./InvoiceProductContext.jsx";
-import ProductContext from "./ProductContext.jsx";
-import CartContext from "./CartContext.jsx";
-import {useParams} from "react-router-dom";
-
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 
@@ -17,6 +12,7 @@ export const InvoiceProvider = ({children}) => {
       return res.data.data;
     })
   });
+  const [invStatus, setInvStatus] = useState(-1);
   const [invoice, setInvoice] = useState({});
   const getInvoice = async (id) => {
     const apiItem = await Axios.get(`invoices/${id}`);
@@ -25,8 +21,8 @@ export const InvoiceProvider = ({children}) => {
   const {user} = useAuthContext();
   const [invoiceError, setInvoiceError] = useState([]);
   const [address, setAddress] = useState('');
-  const handleAddressChange = (e) => {
-    setAddress(e.target.value);
+  const handleAddressChange = event => {
+    setAddress(event.target.value);
   }
 
   const scrollTop = (fromTop) => {
@@ -48,7 +44,6 @@ export const InvoiceProvider = ({children}) => {
       payment_pic: 'No pic',
       item_count: cartItem.length,
     };
-
     try {
       await Axios.post('invoices', invoice);
       setLoading(true);
@@ -58,19 +53,40 @@ export const InvoiceProvider = ({children}) => {
           checkOut(item);
         });
       }, 3000);
+      setAddress('');
     } catch (e) {
       scrollTop(0);
       console.log(e.response.data.errors);
-      setInvoiceError(e.response.data.errors);
-      setTimeout(() => {
-        setInvoiceError(['']);
-      }, 3000);
+      cartItem.addressError = 'The Address field is required';
+      // setInvoiceError(e.response.data.errors);
+      // setTimeout(() => {
+      //   setInvoiceError([]);
+      // }, 3000);
     }
   }
 
   const {data: items} = useQuery(['items'], () => {
     return Axios.get('products').then((res) => res.data.data);
   });
+
+  const handleQty = (invProd, setInvProd, item) => event => {
+    // console.log(event.target.value)
+    if (event.target.value === '') {
+      invProd.find((inv) => inv.id === item.id).qty = item.qty;
+    } else if (Number(event.target.value)) {
+      invProd.find((inv) => inv.id === item.id).qty = Number(event.target.value);
+    }
+  }
+
+  const updateInvProd = (invProd) => {
+    invProd.forEach(async (inv) => {
+      try {
+        await Axios.put(`invoice_products/${inv.id}`, inv);
+      } catch (e) {
+        console.log(e.response.data.errors);
+      }
+    })
+  }
 
   const updateOrderStatus = (order) => {
     switch (order.status) {
@@ -89,16 +105,6 @@ export const InvoiceProvider = ({children}) => {
     }
   }
 
-  const updateInvProd = (invProd) => {
-    invProd.forEach(async (inv) => {
-      try {
-        await Axios.put(`invoice_products/${inv.id}`, inv);
-      } catch (e) {
-        console.log(e.response.data.errors);
-      }
-    })
-  }
-
   const checkInvoiceItemQty = (invoice_product) => {
     // const {invoice_product} = order;
     const stockArr = [];
@@ -107,24 +113,12 @@ export const InvoiceProvider = ({children}) => {
       stockItem.qty = stockItem.qty - inv_prod.qty;
       stockArr.push(stockItem);
     })
-    console.log(stockArr);
-    console.log(stockArr.some((prod) => prod.qty < 0));
     return stockArr.some((prod) => prod.qty < 0); // true if some stock item is less than 0
-  }
-
-  const handleQty = (invProd, setInvProd, item) => event => {
-    // console.log(event.target.value)
-    if (event.target.value === '') {
-      invProd.find((inv) => inv.id === item.id).qty = item.qty;
-    } else if (Number(event.target.value)) {
-      invProd.find((inv) => inv.id === item.id).qty = Number(event.target.value);
-    }
   }
 
   const acceptOrder = async (order, invProd) => {
     const {invoice_product} = order;
     updateInvProd(invProd, order);
-
     if (checkInvoiceItemQty(invoice_product) && (order.status === -1 || order.status === 1 || order.status === -2)) {
       order.status = -2;
       order.noStock = true;
@@ -152,15 +146,17 @@ export const InvoiceProvider = ({children}) => {
 
   return (
     <InvoiceContext.Provider value={{
-      handleQty,
       setAddress,
+      address,
+      invStatus,
+      setInvStatus,
+      handleQty,
       invoices,
       isLoading,
       invoicesReFetch,
       storeInvoice,
       invoiceError,
       setInvoiceError,
-      // getInvoice,
       declineOrder,
       acceptOrder,
       handleAddressChange

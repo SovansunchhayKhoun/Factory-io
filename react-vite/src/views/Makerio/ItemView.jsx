@@ -1,14 +1,15 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
 import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
+import {useAuthContext} from "../../context/AuthContext.jsx";
 
 export const ItemView = (props) => {
   let {id} = useParams();
   const {item, getItem} = useContext(ProductContext);
   const {addToCart, cartItem} = useContext(CartContext);
-
+  const {token} = useAuthContext();
   useEffect(() => {
     getItem(id);
   }, []);
@@ -29,8 +30,16 @@ export const ItemView = (props) => {
       </div>
       <section className="mt-12 flex justify-center gap-x-12">
         <div className="flex items-center border-2 border-tealBase p-4">
-          <img className="max-w-[350px] max-h-[350px] min-w-[350px] min-h-[350px] object-contain"
-               src={`/assets/images/${item?.image ?? 'makerio.png'}`} alt={`${item.name}`}/>
+
+          {
+            (item?.image === null || item?.image === undefined)
+              ? <img className="max-w-[350px] max-h-[350px] min-w-[350px] min-h-[350px] object-contain" src="/assets/images/makerio.png" alt={item.name}/>
+              :<img className="max-w-[350px] max-h-[350px] min-w-[350px] min-h-[350px] object-contain" src={`http://127.0.0.1:8000/${item.image}`} alt={item.name}/>
+          }
+
+          {/*<img className="max-w-[350px] max-h-[350px] min-w-[350px] min-h-[350px] object-contain"*/}
+          {/*     // src={`/assets/images/${item?.image ?? 'makerio.png'}`} alt={`${item.name}`}/>*/}
+          {/*     src={`http://127.0.0.1:8000/${item.image}`}/>*/}
         </div>
         <div className="text-lg shadow-2xl rounded-xl p-4">
           <div className="mb-2 font-bold text-blueBase">${item.price}</div>
@@ -43,9 +52,11 @@ export const ItemView = (props) => {
 
           </div>
           <div className="flex justify-end items-center">
-            <button className="rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300"
+            <button className={`${item.status === 0 && 'hidden'} rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300`}
                     onClick={() => {
-                      addToCart(item, currentQty);
+                      if(token) {
+                        addToCart(item, currentQty);
+                      }
                     }}>
               <img src="/assets/images/cart-icon.png" alt=""/>
             </button>

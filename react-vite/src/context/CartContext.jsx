@@ -5,23 +5,22 @@ import InvoiceContext from "./InvoiceContext.jsx";
 import invoiceContext from "./InvoiceContext.jsx";
 import {useAuthContext} from "./AuthContext.jsx";
 import InvoiceProductContext from "./InvoiceProductContext.jsx";
+import {redirect, useNavigate, useNavigation} from "react-router-dom";
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
-
 const CartContext = createContext();
 export const CartProvider = ({children}) => {
   const {items} = useContext(ProductContext);
-  const {invoices, isLoading, address} = useContext(InvoiceContext);
+  const {invoices, isLoading} = useContext(InvoiceContext);
   const [cartError, setCartError] = useState([]);
   const [success, setSuccess] = useState(false);
   const [cartItem, setCartItem] = useState([]);
   const totalPrice = cartItem.reduce((total, i) => total += i.price * i.qty, 0);
-  const {user} = useAuthContext();
+  const {token, user} = useAuthContext();
   const {invoiceProduct, invoiceProductReFetch} = useContext(InvoiceProductContext);
   useEffect(() => {
     invoiceProductReFetch();
   }, []);
-
   const storeItem = (item) => {
     if (itemExist(item)) {
       // find and update that existed item qty
@@ -31,7 +30,6 @@ export const CartProvider = ({children}) => {
       setCartItem([...cartItem]);
     } else if (!itemExist(item)) {
       setCartItem([...cartItem, {
-        // invoice_id: latestInvoice,
         user_id: user.id,
         id: item.id, // referenced from stock items
         product_id: item.id, //for cart product database
@@ -41,26 +39,25 @@ export const CartProvider = ({children}) => {
         qty: 1,
         status: item.status,
         cart_item_price: item.price * 1,
+        image: item.image,
       }]);
     }
     saveLocalCartItem(cartItem);
   }
 
   const addToCart = (item) => {
-    if (user !== null) {
-      if (item.qty) {
-        storeItem(item);
-        // if item doesnt exist in cart, save item
-        !cartItem.find((i) => item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
-          ...item,
-          // invoice_id: latestInvoice,
-          user_id: user.id,
-          product_id: item.id,
-          type: item.type,
-          qty: 1,
-          cart_item_price: item.price * 1,
-        })])
-      }
+    if (item.qty) {
+      storeItem(item);
+      // if item doesnt exist in cart, save item
+      !cartItem.find((i) => item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
+        ...item,
+        user_id: user.id,
+        product_id: item.id,
+        type: item.type,
+        qty: 1,
+        cart_item_price: item.price * 1,
+        image: item.image,
+      })])
     }
   }
 
@@ -86,17 +83,6 @@ export const CartProvider = ({children}) => {
     item.cart_item_price = stockItem.price * item.qty;
     setCartItem([...cartItem]);
     saveLocalCartItem(cartItem);
-
-    // if (item.qty < stockItem.qty) {
-    // }
-    // else {
-    //   item.errorStatus = "Item quantity cannot exceed stock quantity";
-    //   setCartItem([...cartItem]);
-    //   setTimeout(() => {
-    //     item.errorStatus = "";
-    //     setCartItem([...cartItem]);
-    //   }, 1500);
-    // }
   };
   const decreaseItemQty = (cart) => {
     // find original item
@@ -127,7 +113,6 @@ export const CartProvider = ({children}) => {
         clearCart();
         setCartItem([]);
       } catch (e) {
-        e.response.data.errors.address = 'The address field is required'
         console.log(e.response.data.errors)
         setCartError(e.response.data.errors)
       }
@@ -135,6 +120,7 @@ export const CartProvider = ({children}) => {
   }
 
   return <CartContext.Provider value={{
+    setCartError,
     cartItem,
     setCartItem,
     cartError,

@@ -1,5 +1,5 @@
 import {Link, useNavigate} from "react-router-dom";
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 import {useAuthContext} from "../../context/AuthContext.jsx";
@@ -21,8 +21,13 @@ export const ItemCard = (props) => {
           {name}
         </Link>
         <Link className="flex-2" to={"/maker-io/" + id}>
-          <img className="hover:scale-75 ease-in-out duration-300 " src={`/assets/images/${image ?? 'makerio.png'}`}
-               alt={`${name}`}/>
+
+          {
+            (image === null || image === undefined)
+              ? <img className="hover:scale-75 eas  e-in-out duration-300" src="/assets/images/makerio.png" alt={name}/>
+              : <img className="hover:scale-75 ease-in-out duration-300" src={`http://127.0.0.1:8000/${image}`}
+                     alt={name}/>
+          }
         </Link>
         <div className="flex-1 flex">
           <div className="mt-auto flex items-center">
@@ -49,6 +54,8 @@ export const ItemCard = (props) => {
             </button>
           </div>
         </div>
+        <div className="text-redBase text-sm">{cartError}{cartError.length !== 0 && !token &&
+          <Link className={'text-blueActive cursor-pointer font-semibold'} to="/signup"> Sign Up</Link>}</div>
       </div>
 
       {/*cart-item */}
