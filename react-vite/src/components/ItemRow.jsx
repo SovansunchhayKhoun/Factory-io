@@ -34,7 +34,6 @@ export const ItemRow = (props) => {
                 image === null || image === 'undefined'
                   ? <img className="w-[150px] mb-5" src="/assets/images/makerio.png"/>
                   :<img className="w-[150px] mb-5" src={`http://127.0.0.1:8000/${image}`}/>
-
               }
             </td>
             <td className="px-4 py-4 flex">

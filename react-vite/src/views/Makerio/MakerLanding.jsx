@@ -61,13 +61,10 @@ export const MakerLanding = () => {
               }else if(searchInput !== ""){
                 if(item.name.toLowerCase().includes(searchInput.toLowerCase()) || item.type.toLowerCase().includes(searchInput.toLowerCase()))
                 return item
-              }else if (type !== ""){
-                if(item.type.toLowerCase().includes(type.toLowerCase()))
-                  return item
               }
             }).map((item, key) => {
               return (
-                <ItemCard key={item.id} item={item} />
+                <ItemCard key={key} item={item} />
               );
             })}
           </div>

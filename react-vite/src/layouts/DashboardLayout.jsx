@@ -22,10 +22,10 @@ export const DashboardLayout = () => {
         <>
           <div className="flex h-screen overflow-hidden">
             {/* Sidebar */}
-            <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>
+            <Sidebar/>
             {/* Content area */}
             <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-              <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>
+              {/*<Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>*/}
               <Spinner
                 className="absolute top-1/2 left-1/2"
                 size="xl"
@@ -41,7 +41,7 @@ export const DashboardLayout = () => {
         return (
           <div className="flex h-screen overflow-hidden">
             {/* Sidebar */}
-            <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>
+            <Sidebar/>
             {/* Content area */}
             <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
               <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>

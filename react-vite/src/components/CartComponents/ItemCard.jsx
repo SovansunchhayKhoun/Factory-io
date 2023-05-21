@@ -54,7 +54,7 @@ export const ItemCard = (props) => {
             </button>
           </div>
         </div>
-        <div className="text-redBase text-sm">{cartError}{cartError.length !== 0 && !token &&
+        <div className="text-redBase text-sm">{!token &&
           <Link className={'text-blueActive cursor-pointer font-semibold'} to="/signup"> Sign Up</Link>}</div>
       </div>
 
