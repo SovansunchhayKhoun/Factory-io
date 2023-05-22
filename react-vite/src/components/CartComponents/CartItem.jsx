@@ -7,9 +7,7 @@ import UserContext from "../../context/UserContext.jsx";
 import {useAuthContext} from "../../context/AuthContext.jsx";
 export const CartItem = (props) => {
   const {item} = props;
-  const {items} =useContext(ProductContext);
   const {increaseItemQty, decreaseItemQty, cartItem, setCartItem, saveLocalCartItem} = useContext(CartContext);
-  const stockItem = items?.find((i) => i.id === item.product_id);
   const {token} = useAuthContext();
   if(token) {
     return (

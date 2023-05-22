@@ -14,7 +14,6 @@ import {PendingItem} from "../../components/CartComponents/PendingItem.jsx";
 export const OrderView = () => {
   const {invoices, isLoading, invoicesReFetch} = useContext(InvoiceContext);
   const {user, token} = useAuthContext();
-  // const {invoices, getInvoices} = useContext(InvoiceContext)
   useEffect(() => {
     invoicesReFetch();
   }, []);
@@ -59,6 +58,7 @@ export const OrderView = () => {
           <main>
             <div className="mb-12">
               <div className="font-bold mb-3">Orders</div>
+
               {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === -1).map((invoice) => {
                 return (
                   <>
@@ -97,6 +97,7 @@ export const OrderView = () => {
                   </>
                 );
               })}
+
             </div>
             <div>
               <div className="font-bold mb-3 text-blackFactory">History</div>
@@ -108,8 +109,9 @@ export const OrderView = () => {
 
               {invoices?.filter((invoice) => {
                 return (invoice.user_id === user?.id && invoice.status === 3)
-              }).map((invoice) =>
-                <InvoiceView key={invoice.id} invoice={invoice}/>
+              }).map((invoice) => {
+                  return <InvoiceView key={invoice.id} invoice={invoice}/>
+                }
               )}
             </div>
           </main>

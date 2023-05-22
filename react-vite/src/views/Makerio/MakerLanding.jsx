@@ -8,7 +8,6 @@ import {Pagination} from "@mui/material";
 import {Footer} from "../../components/Footer.jsx";
 
 export const MakerLanding = () => {
-  let navigate = useNavigate();
   const {items, getItems,searchInput,setSearchInput} = useContext(ProductContext);
 
   useEffect(() => {

@@ -1,26 +1,31 @@
 import {Link} from "react-router-dom";
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import {useAuthContext} from "../context/AuthContext.jsx";
 import CartContext from "../context/CartContext.jsx";
 import ChatContext from "../context/ChatContext.jsx";
+import InvoiceContext from "../context/InvoiceContext.jsx";
 
 export const NavBar = () => {
   const {onLogout, token, user} = useAuthContext()
   const {cartItem, getCartItem} = useContext(CartContext);
+  const {invoices} = useContext(InvoiceContext)
   useEffect(() => {
     getCartItem();
   }, []);
-  const {initChat, message, findChat} = useContext(ChatContext);
+  const {message, findChat} = useContext(ChatContext);
   const readMessage = message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id && msg.is_read === 0);
+  const orders = invoices?.filter((inv) => inv.user_id === user.id && inv.status !== 3);
+
   return (
     <nav className="z-50 fixed w-full top-0 bg-whiteFactory flex px-36 py-4 justify-between items-center">
       <div className="flex flex-row items-center">
         <Link to="/">
           <img width="100" src="/assets/images/makerio.png" alt=""/>
         </Link>
-        <Link className={"flex relative"} onClick={() => {initChat(user.username, 'admin')}} to="/customer-service">
+        <Link className={"flex relative"} to="/customer-service">
           <img className="w-[20px] h-[20px] ml-3" src="/assets/images/customer-service.png" alt=""/>
-          <span className={`${readMessage?.length === 0 && 'hidden'} absolute top-[-10px] right-[-10px] bg-tealActive w-[18px] h-[18px] rounded-[50%] flex items-center justify-center text-whiteFactory text-[12px]`}>
+          <span
+            className={`${readMessage?.length === 0 && 'hidden'} absolute top-[-10px] right-[-10px] bg-tealActive w-[18px] h-[18px] rounded-[50%] flex items-center justify-center text-whiteFactory text-[12px]`}>
             {readMessage?.length}
           </span>
         </Link>
@@ -66,8 +71,12 @@ export const NavBar = () => {
           </span>
         </div>
         <div className="highlight-hover">
-          <Link to="/order">
-            Order
+          <Link className="relative" to="/order">
+            <span>Order</span>
+            <span
+              className={`${orders?.length === 0 && 'hidden'} flex justify-center items-center w-[16px] h-[16px] absolute top-[-6px] right-[-16px] bg-tealActive text-whiteFactory rounded-[50%] text-[12px]`}>
+              {orders?.length}
+          </span>
           </Link>
         </div>
 
