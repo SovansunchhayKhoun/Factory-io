@@ -9,25 +9,8 @@ export const AcceptOrderButton = (props) => {
   const {acceptOrder} = useContext(InvoiceContext);
   const {updateProduct} = useContext(ProductContext);
   const [acceptOrderModalOpen, setAcceptOrderModalOpen] = useState(false)
-  const {invoice, invProd, setInvProd} = props;
+  const {invoice, invProd, setInvProd, buttonStyle} = props;
   const {invoice_product} = invoice;
-
-  const buttonStyle = (invoiceStatus) => {
-    switch (invoiceStatus) {
-      case -2:
-        return 'bg-orange-400 hover:bg-orange-500';
-      case -1:
-        return 'bg-blue-400 hover:bg-blue-500';
-      case 1:
-        return 'bg-green-400 hover:bg-green-500';
-      case 2:
-        return 'bg-blueBase hover:bg-blueHover';
-      case 3:
-        return 'bg-tealBase hover:tealHover';
-      default:
-        return 'bg-purple-400 hover:bg-purple-500'
-    }
-  }
 
   const AcceptOrderContent = () => {
     return (
@@ -53,7 +36,6 @@ export const AcceptOrderButton = (props) => {
             {invoice.status === -1 && 'Accept Order'}
             {invoice.status === 1 && 'Deliver Order'}
             {invoice.status === 2 && 'Arrived'}
-            {/*{invoice.status === 3 && 'Arrived'}*/}
           </button>
           <button type="submit"
                   onClick={() => setModalOpen(!modalOpen)}
@@ -72,7 +54,7 @@ export const AcceptOrderButton = (props) => {
         setAcceptOrderModalOpen(true);
       }}
               aria-controls={invoice?.id}
-              className={`${buttonStyle(invoice.status)} cursor-pointer px-2 py-1 rounded-md bg-tealActive`}>
+              className={`${buttonStyle(invoice.status)} cursor-pointer px-2 py-1 rounded-md`}>
         {invoice.status === -1 && 'Accept'}
         {invoice.status === -2 && 'No Stock'}
         {invoice.status === 1 && 'Deliver'}

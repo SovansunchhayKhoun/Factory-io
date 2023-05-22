@@ -31,8 +31,8 @@ export const Chat = () => {
 
   return (
     <>
-      <main className="min-w-full m-auto">
-        <div className="min-w-full border rounded lg:grid lg:grid-cols-3">
+      <div className="mx-2 w-full h-full">
+        <div className="min-w-full h-full rounded lg:grid lg:grid-cols-3">
           <div className="border-r border-gray-300 lg:col-span-1">
 
             {/*Search Bar*/}
@@ -56,7 +56,7 @@ export const Chat = () => {
               <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
               {chat?.map((ch) => {
                 const {users, messages} = ch;
-                const readMessages = messages.filter((msg) => msg.is_read === 0);
+                const unreadMessages = messages.filter((msg) => msg.is_read === 0 && msg.sender_id !== 'admin');
                 if (messages.length > 0) {
                   return (
                     <li
@@ -81,13 +81,13 @@ export const Chat = () => {
                         </div>
                         <div className="flex justify-between pr-12">
                           <span
-                            className={`${readMessages.length > 0 && 'font-semibold'}` +
+                            className={`${unreadMessages.length > 0 && 'font-semibold'}` +
                               " block ml-2 text-sm text-gray-600"}>
                             {getLatestMessage('admin', users[0].username)?.msg_content}
                           </span>
-                          <span className={`${readMessages.length === 0 && 'hidden'}` +
+                          <span className={`${unreadMessages.length === 0 && 'hidden'}` +
                             " w-[20px] h-[20px] bg-blueBase text-whiteFactory flex justify-center items-center rounded-[50%] text-xs"}>
-                            {readMessages.length}
+                            {unreadMessages.length}
                           </span>
                         </div>
                       </div>
@@ -101,8 +101,10 @@ export const Chat = () => {
 
           <div className={`lg:col-span-2 lg:block ${Object.keys(activeUser).length === 0 && 'm-auto'}`}>
             <div
-              className={`${Object.keys(activeUser).length === 0 ? 'flex justify-center bg-blueBase text-whiteFactory px-3 py-1 rounded-3xl text-sm' : 'hidden'}`}>
-              Select a chat to start messaging
+              className={`${Object.keys(activeUser).length === 0 ? 'w-full bg-blueBase text-whiteFactory px-3 py-1 rounded-3xl text-sm' : 'hidden'}`}>
+              <div>
+                Select a chat to start messaging
+              </div>
             </div>
             <div className={`${Object.keys(activeUser).length === 0 && 'hidden'} w-full`}>
               <div className="relative flex items-center p-3 border-b border-gray-300">
@@ -178,7 +180,7 @@ export const Chat = () => {
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </>
   );
 };

@@ -8,10 +8,8 @@ export const ItemCard = (props) => {
   const navigate = useNavigate()
 
   const {name, price, id, image, status} = props.item;
-  let {qty} = props.item;
-  const {cartItem, addToCart} = useContext(CartContext);
+  const {addToCart} = useContext(CartContext);
   const {token} = useAuthContext()
-  const itemCart = cartItem.find((i) => i.id === id);
 
   return (
     <>
@@ -36,7 +34,6 @@ export const ItemCard = (props) => {
             </div>
             <div className="mr-3 text-[#8A0000]">
               <span className="font-bold">
-                {/*{currentQty === 0 ? "Out of Stock" : "In Stock"}*/}
                 {status === 1 ? 'In Stock' : 'Out of Stock'}
               </span>
             </div>

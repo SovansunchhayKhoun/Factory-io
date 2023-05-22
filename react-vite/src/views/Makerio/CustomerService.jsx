@@ -7,14 +7,14 @@ import {Link} from "react-router-dom";
 
 export const CustomerService = () => {
   const {user, token} = useAuthContext();
-  const {messageReFetch, message, sendMessage, handleMessage, findChat, setSeen} = useContext(ChatContext);
+  const {messageReFetch, message, sendMessage, handleMessage, findChat, setSeen, initChat} = useContext(ChatContext);
   useEffect(() => {
+    initChat(user.username, 'admin');
     messageReFetch();
     setSeen(message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id), user.username)
   }, []);
-
-
   const [messageInput, setMessageInput] = useState('');
+
   if(token) {
     return (
       <>
@@ -60,8 +60,7 @@ export const CustomerService = () => {
                 placeholder="Type your message…"/>
               <button onClick={() => {
                 sendMessage(setMessageInput)
-              }}
-                      className="bg-[#1C64F2] text-whiteFactory font-semibold rounded-md px-3 py-1 flex items-center hover:bg-blue-700 cursor-pointer">
+              }} className="bg-[#1C64F2] text-whiteFactory font-semibold rounded-md px-3 py-1 flex items-center hover:bg-blue-700 cursor-pointer">
                 send
               </button>
             </div>

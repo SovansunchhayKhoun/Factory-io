@@ -11,7 +11,7 @@ export const PendingItem = (props) => {
         const {image, name, price} = products[0];
         return (
           <>
-            <div key={(inv_prd.id + id)}
+            <div
               className="min-h-[150px] px-12 py-3 flex mb-3 items-center justify-between border-2 border-tealActive shadow-2xl">
               <div className="flex items-center gap-x-6">
                 <div className="max-w-[100px]">

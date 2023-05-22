@@ -57,6 +57,7 @@ export const InvoiceProvider = ({children}) => {
         });
       }, 3000);
       setAddress('');
+      await invoicesReFetch();
     } catch (e) {
       scrollTop(0);
       console.log(e.response.data.errors);
