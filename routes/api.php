@@ -29,7 +29,7 @@ Route::middleware('auth:sanctum')->group(function (){
 
 });
 Route::put('v1/users/{id}/change-password',[UserController::class,'changePassword']);
-Route::post('v1/products/{id}/change-image',[ProductController::class,'changeImage']);
+//Route::put('v1/products/update/{id}',[ProductController::class,'update']);
 Route::get('v1/getAdmin',[UserController::class,'getAdmins']);
 Route::post('/signup',[AuthController::class,'signup']);
 Route::post('/login',[AuthController::class,'login']);

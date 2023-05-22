@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateInvoiceRequest;
 use App\Http\Resources\V1\InvoiceResource;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller
 {
@@ -21,7 +22,8 @@ class InvoiceController extends Controller
     $data = $request->validated();
     if($request->file('payment_pic')){
       $filename = $request->file('payment_pic')->getClientOriginalName();
-      $filepath = $request->file('payment_pic')->storeAs('invoices',$filename);
+      Storage::disk('invoices')->put($filename, file_get_contents($data['payment_pic']));
+      $filepath = 'storage/invoices/' . $filename;
       $data['payment_pic'] = $filepath;
     }
     Invoice::create($data);

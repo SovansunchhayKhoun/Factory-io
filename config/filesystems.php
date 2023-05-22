@@ -44,6 +44,21 @@ return [
             'throw' => false,
         ],
 
+      'products' => [
+        'driver' => 'local',
+        'root' => storage_path('app/public/products'),
+        'url' => env('APP_URL').'/storage',
+        'visibility' => 'public',
+        'throw' => false,
+      ],
+      'invoices' => [
+        'driver' => 'local',
+        'root' => storage_path('app/public/invoices'),
+        'url' => env('APP_URL').'/storage',
+        'visibility' => 'public',
+        'throw' => false,
+      ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -70,8 +85,8 @@ return [
     */
 
     'links' => [
-        public_path('products') => storage_path('app/products'),
-        public_path('invoices') => storage_path('app/invoices'),
+        public_path('storage\products') => storage_path('app/storage/products'),
+        public_path('storage\invoices') => storage_path('app/storage/products'),
     ],
 
 ];

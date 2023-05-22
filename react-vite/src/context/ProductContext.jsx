@@ -1,5 +1,6 @@
 import {createContext, useState, useEffect} from "react";
 import Axios from "axios";
+import axios from "axios";
 
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
@@ -10,6 +11,7 @@ export const ProductProvider = ({children}) => {
   const [items, setItems] = useState([]);
   const [item, setItem] = useState({});
   const [searchInput,setSearchInput] = useState('')
+
 
   const [formValues, setFormValues] = useState({
     name: "",
@@ -70,12 +72,11 @@ export const ProductProvider = ({children}) => {
     })
   }
 
-  const updateItem = async (e) => {
-    e.preventDefault()
-
-    formValues.qty > 0 ? formValues.status = 1 : formValues.status = 0;
+  const updateItem = async (formData) => {
     try {
-      await Axios.put("products/" + item.id, formValues)
+      await Axios.post("http://127.0.0.1:8000/api/v1/products/"+ item.id, formData, {
+        headers:{'Content-Type':"multipart/form-data"},
+      } );
       resetFormValues()
       history.back()
     } catch (msg) {
