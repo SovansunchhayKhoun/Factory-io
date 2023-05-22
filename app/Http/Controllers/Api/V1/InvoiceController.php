@@ -17,7 +17,13 @@ class InvoiceController extends Controller
 
   public function store (StoreInvoiceRequest $request )
   {
-    Invoice::create($request->validated ());
+    $data = $request->validated();
+    if($request->file('payment_pic')){
+      $filename = $request->file('payment_pic')->getClientOriginalName();
+      $filepath = $request->file('payment_pic')->storeAs('invoices',$filename);
+      $data['payment_pic'] = $filepath;
+    }
+    Invoice::create($data);
     return response()->json ('Invoice Created');
   }
 

@@ -29,7 +29,7 @@ const style = {
 
 export default function CheckoutButton() {
   const {cartItem, getCartItem, checkOut, totalPrice, success, setSuccess} = useContext(CartContext);
-  const {storeInvoice, address} = useContext(InvoiceContext);
+  const {storeInvoice, address,paymentPic} = useContext(InvoiceContext);
   const {user, token} = useAuthContext();
   const [loadingSuccess, setLoadingSuccess] = useState(false);
 
@@ -120,7 +120,7 @@ export default function CheckoutButton() {
                     if (token) {
                       if (cartItem.length > 0) {
                         setSuccess(false);
-                        storeInvoice(totalPrice, cartItem, checkOut, setLoadingSuccess);
+                        storeInvoice(totalPrice, cartItem, checkOut, setLoadingSuccess,paymentPic);
                       }
                     }
                   }}>Confirm

@@ -14,11 +14,11 @@
     {
       Schema ::create ( 'invoices' , function ( Blueprint $table ) {
         $table -> id ();
-        $table -> timestamp ( 'date' );
+        $table -> timestamp ( 'date' )->nullable();
         $table -> double ( 'totalPrice' );
         $table -> tinyInteger ( 'status' ) -> default ( 0 );
         $table -> string ( 'address' );
-        $table -> text ( 'payment_pic' );
+        $table -> text ( 'payment_pic' )->nullable();
         $table-> integer ('item_count')->default (0);
         $table -> foreignId ( 'user_id' ) -> references ( 'id' ) -> on ( 'users' ) -> onDelete ( 'cascade' );
         $table -> timestamps ();

@@ -9,7 +9,7 @@ import * as React from "react";
 
 export const Payment = (props) => {
   const {totalPrice, cartError} = useContext(CartContext);
-  const {invoiceError} = useContext(InvoiceContext);
+  const {invoiceError,setPaymentPic} = useContext(InvoiceContext);
   const options = [
     {value: '1', text: 'ABA - $$$'},
     {value: '2', text: 'ABA - KHR'},
@@ -59,10 +59,7 @@ export const Payment = (props) => {
           <p className="font-bold text-[#D9D9D9]">
             Submit Screenshot
           </p>
-          <label className="text-center text-xs font-bold text-[#989A9C] bg-whiteFactory py-1">
-            Select Image
-            <input type="file" id="files" className="opacity-0 w-[50%]"/>
-          </label>
+             <input type="file" id="files" className="opacity-1 w-full" onChange={(e) => setPaymentPic(e.target.files[0])}/>
         </div>
       </div>
       <div className="flex justify-between px-12 mt-6 ">

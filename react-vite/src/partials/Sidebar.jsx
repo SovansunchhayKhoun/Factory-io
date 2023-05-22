@@ -431,6 +431,7 @@ const Sidebar = () => {
     {name: "Dashboard", link: "/admin/dashboard", icon: MdOutlineDashboard},
     {name: "Users", link: "/admin/users", icon: AiOutlineUser},
     {name: "Inventory", link: "/admin/inventory", icon: FiFolder},
+    {name: "Order", link: "/admin/orders",icon: FiShoppingCart}
     // {name: "messages", link: "/", icon: FiMessageSquare},
     // {name: "analytics", link: "/", icon: TbReportAnalytics, margin: true},
     // {name: "Cart", link: "/", icon: FiShoppingCart},

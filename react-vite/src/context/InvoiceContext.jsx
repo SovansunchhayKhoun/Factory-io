@@ -14,6 +14,7 @@ export const InvoiceProvider = ({children}) => {
   });
   const [invStatus, setInvStatus] = useState(-1);
   const [invoice, setInvoice] = useState({});
+  const [paymentPic, setPaymentPic] = useState('');
   const getInvoice = async (id) => {
     const apiItem = await Axios.get(`invoices/${id}`);
     setInvoice(apiItem.data.data);
@@ -32,7 +33,7 @@ export const InvoiceProvider = ({children}) => {
     });
   }
 
-  const storeInvoice = async (total, cartItem, checkOut, setLoading) => {
+  const storeInvoice = async (total, cartItem, checkOut, setLoading,paymentPic) => {
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
     const invoice = {
@@ -41,11 +42,13 @@ export const InvoiceProvider = ({children}) => {
       status: -1,
       address: address,
       totalPrice: total,
-      payment_pic: 'No pic',
+      payment_pic: paymentPic,
       item_count: cartItem.length,
     };
     try {
-      await Axios.post('invoices', invoice);
+      await Axios.post('invoices', invoice, {
+        headers: {'Content-Type' : "multipart/form-data"}
+      });
       setLoading(true);
       setTimeout(() => {
         setLoading(false);
@@ -159,7 +162,9 @@ export const InvoiceProvider = ({children}) => {
       setInvoiceError,
       declineOrder,
       acceptOrder,
-      handleAddressChange
+      handleAddressChange,
+      paymentPic,
+      setPaymentPic
     }}>
       {children}
     </InvoiceContext.Provider>
