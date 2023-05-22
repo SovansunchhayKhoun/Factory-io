@@ -85,8 +85,8 @@ return [
     */
 
     'links' => [
-        public_path('storage\products') => storage_path('app/storage/products'),
-        public_path('storage\invoices') => storage_path('app/storage/products'),
+        public_path('products') => storage_path('app/public/products'),
+        public_path('invoices') => storage_path('app/public/invoices'),
     ],
 
 ];

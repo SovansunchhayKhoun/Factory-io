@@ -29,7 +29,7 @@
             if($request->hasFile('image')){
               $filename = $request->file('image')->getClientOriginalName();
               Storage::disk('products')->put($filename, file_get_contents($data['image']));
-              $filepath = 'storage/products/' . $filename;
+              $filepath = 'products/' . $filename;
               $data['image'] = $filepath;
             }
             Product ::create ( $data);
@@ -46,7 +46,7 @@
             $data = $request->validated();
             if($request->file('image')){
               //delete old pic
-              $filename = substr($product->image,17);
+              $filename = substr($product->image,9);
               $storage = Storage::disk('products');
               if ($storage->exists($filename)){
                 $storage->delete($filename);
@@ -55,7 +55,7 @@
               //save new pic
               $filename = $request->file('image')->getClientOriginalName();
               Storage::disk('products')->put($filename, file_get_contents($data['image']));
-              $filepath = 'storage/products/' . $filename;
+              $filepath = 'products/' . $filename;
               $data['image'] = $filepath;
             }
             $product -> update ( $data );
@@ -65,7 +65,7 @@
 
         public function destroy ( Product $product )
         {
-          $filename = substr($product->image,17);
+          $filename = substr($product->image,9);
             $storage = Storage::disk('products');
             if ($storage->exists($filename)){
               $storage->delete($filename);
