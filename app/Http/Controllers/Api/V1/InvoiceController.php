@@ -23,7 +23,7 @@ class InvoiceController extends Controller
     if($request->file('payment_pic')){
       $filename = $request->file('payment_pic')->getClientOriginalName();
       Storage::disk('invoices')->put($filename, file_get_contents($data['payment_pic']));
-      $filepath = 'storage/invoices/' . $filename;
+      $filepath = 'invoices/' . $filename;
       $data['payment_pic'] = $filepath;
     }
     Invoice::create($data);
