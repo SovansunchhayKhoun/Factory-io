@@ -28,7 +28,7 @@ class UpdateProductRequest extends FormRequest
           'status' => ['required'],
           'description' => [ 'required' ],
           'qty' => [ 'required','numeric', 'min:0 ' ] ,
-          'image' => 'image|nullable',
+          'image' => 'nullable',
           'name' =>   [ 'required' ,Rule ::unique ( 'products' ) -> ignore ( $this -> product )],
         ];
     }
