@@ -10,7 +10,7 @@ class Message extends Model
 {
     use HasFactory;
     protected $fillable = [
-      'msg_content', 'image', 'receiver_id', 'sender_id', 'chat_id', 'time_sent'
+      'msg_content', 'image', 'receiver_id', 'sender_id', 'chat_id', 'time_sent', 'is_read'
     ];
     public function chat() : BelongsTo
     {

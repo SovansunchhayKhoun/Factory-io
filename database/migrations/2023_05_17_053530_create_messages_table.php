@@ -18,6 +18,7 @@
         $table -> string ( 'sender_id' );
         $table -> string ( 'receiver_id' );
         $table -> timestamp ( 'time_sent' );
+        $table -> tinyInteger ('is_read');
         $table -> timestamps ();
       } );
     }

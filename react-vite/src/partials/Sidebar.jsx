@@ -1,4 +1,4 @@
-import  { useContext} from 'react';
+import {useContext} from 'react';
 import InvoiceContext from "../context/InvoiceContext.jsx";
 
 import React, {useState} from "react";
@@ -75,83 +75,83 @@ const Sidebar = () => {
               </h2>
             </Link>
           ))}
-            <NavLink
-              onClick={() => {
-                setInvStatus(-1)
-              }}
-              end
-              to="/admin/orders"
-              className={'block transition duration-150 truncate ' + (invStatus === -1 ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')}
-            >
-                                       <span
-                                         className="flex items-center gap-x-2 text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                         Pending
-                                         <div
-                                           className={`${notificationCounter(-1) || 'hidden'} flex items-center justify-center text-[12px] w-[20px] h-[20px] rounded-[50%] bg-indigo-500 text-whiteFactory`}>
-                                           {notificationCounter(-1)}
-                                         </div>
-                                       </span>
-            </NavLink>
-            <NavLink
-              end
-              onClick={() => {
-                setInvStatus(1)
-              }}
-              to="/admin/orders"
-              className={'block transition duration-150 truncate ' + (invStatus === 1 ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')}
-            >
-                                       <span
-                                         className="flex items-center gap-x-2 text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                         Accepted
-                                         <div
-                                           className={`${notificationCounter(1) || 'hidden'} flex items-center justify-center text-[12px] w-[20px] h-[20px] rounded-[50%] bg-indigo-500 text-whiteFactory`}>{notificationCounter(1)}</div>
-                                       </span>
-            </NavLink>
-            <NavLink
-              onClick={() => {
-                setInvStatus(2)
-              }}
-              end
-              to="/admin/orders"
-              className={'block transition duration-150 truncate ' + (invStatus === 2 ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')}
-            >
-                                       <span
-                                         className="flex items-center gap-x-2 text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                         Delivering
-                                         <div
-                                           className={`${notificationCounter(2) || 'hidden'} flex items-center justify-center text-[12px] w-[20px] h-[20px] rounded-[50%] bg-indigo-500 text-whiteFactory`}>{notificationCounter(2)}</div>
-                                       </span>
-            </NavLink>
-            <NavLink
-              onClick={() => {
-                setInvStatus(3)
-              }}
-              end
-              to="/admin/orders"
-              className={'block transition duration-150 truncate ' + (invStatus === 3 ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')}
-            >
-                                       <span
-                                         className="flex items-center gap-x-2 text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                         Arrived
-                                       <div
-                                         className={`${notificationCounter(3) || 'hidden'} flex items-center justify-center text-[12px] w-[20px] h-[20px] rounded-[50%] bg-indigo-500 text-whiteFactory`}>{notificationCounter(3)}</div>
-                                       </span>
-            </NavLink>
-            <NavLink
-              onClick={() => {
-                setInvStatus(-2)
-              }}
-              end
-              to="/admin/orders"
-              className={'block transition duration-150 truncate ' + (invStatus === -2 ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')}
-            >
-                                       <span
-                                         className="flex items-center gap-x-2 text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                         No Stock
-                                         <div
-                                           className={`${notificationCounter(-2) || 'hidden'} flex items-center justify-center text-[12px] w-[20px] h-[20px] rounded-[50%] bg-indigo-500 text-whiteFactory`}>{notificationCounter(-2)}</div>
-                                       </span>
-            </NavLink>
+          <NavLink
+            onClick={() => {
+              setInvStatus(-1)
+            }}
+            end
+            to="/admin/orders"
+            className={'block transition duration-150 truncate ' + (invStatus === -1 ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')}
+          >
+           <span
+             className="flex items-center gap-x-2 text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+             Pending
+             <div
+               className={`${notificationCounter(-1) || 'hidden'} flex items-center justify-center text-[12px] w-[20px] h-[20px] rounded-[50%] bg-indigo-500 text-whiteFactory`}>
+               {notificationCounter(-1)}
+             </div>
+           </span>
+          </NavLink>
+          <NavLink
+            end
+            onClick={() => {
+              setInvStatus(1)
+            }}
+            to="/admin/orders"
+            className={'block transition duration-150 truncate ' + (invStatus === 1 ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')}
+          >
+           <span
+             className="flex items-center gap-x-2 text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+             Accepted
+             <div
+               className={`${notificationCounter(1) || 'hidden'} flex items-center justify-center text-[12px] w-[20px] h-[20px] rounded-[50%] bg-indigo-500 text-whiteFactory`}>{notificationCounter(1)}</div>
+           </span>
+          </NavLink>
+          <NavLink
+            onClick={() => {
+              setInvStatus(2)
+            }}
+            end
+            to="/admin/orders"
+            className={'block transition duration-150 truncate ' + (invStatus === 2 ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')}
+          >
+           <span
+             className="flex items-center gap-x-2 text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+             Delivering
+             <div
+               className={`${notificationCounter(2) || 'hidden'} flex items-center justify-center text-[12px] w-[20px] h-[20px] rounded-[50%] bg-indigo-500 text-whiteFactory`}>{notificationCounter(2)}</div>
+           </span>
+          </NavLink>
+          <NavLink
+            onClick={() => {
+              setInvStatus(3)
+            }}
+            end
+            to="/admin/orders"
+            className={'block transition duration-150 truncate ' + (invStatus === 3 ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')}
+          >
+           <span
+             className="flex items-center gap-x-2 text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+             Arrived
+           <div
+             className={`${notificationCounter(3) || 'hidden'} flex items-center justify-center text-[12px] w-[20px] h-[20px] rounded-[50%] bg-indigo-500 text-whiteFactory`}>{notificationCounter(3)}</div>
+           </span>
+          </NavLink>
+          <NavLink
+            onClick={() => {
+              setInvStatus(-2)
+            }}
+            end
+            to="/admin/orders"
+            className={'block transition duration-150 truncate ' + (invStatus === -2 ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')}
+          >
+           <span
+             className="flex items-center gap-x-2 text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+             No Stock
+             <div
+               className={`${notificationCounter(-2) || 'hidden'} flex items-center justify-center text-[12px] w-[20px] h-[20px] rounded-[50%] bg-indigo-500 text-whiteFactory`}>{notificationCounter(-2)}</div>
+           </span>
+          </NavLink>
         </div>
 
       </div>

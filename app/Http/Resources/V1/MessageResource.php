@@ -21,7 +21,8 @@
         'chat_id' => $this -> chat_id ,
         'sender_id' => $this -> sender_id ,
         'receiver_id' => $this -> receiver_id ,
-        'time_sent' => $this->time_sent
+        'time_sent' => $this->time_sent,
+        'is_read' => $this->is_read,
       ];
     }
   }

@@ -19,7 +19,7 @@ export const Chat = () => {
     message,
     messageReFetch,
     getLatestMessage,
-
+    setSeen,
   } = useContext(ChatContext);
 
   useEffect(() => {
@@ -56,13 +56,15 @@ export const Chat = () => {
               <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
               {chat?.map((ch) => {
                 const {users, messages} = ch;
+                const readMessages = messages.filter((msg) => msg.is_read === 0);
                 if (messages.length > 0) {
                   return (
                     <li
                       onClick={() => {
                         initChat('admin', users[0].username);
-                        setMessageInput('')
-                        setActiveUser(users[0])
+                        setSeen(messages, 'admin');
+                        setMessageInput('');
+                        setActiveUser(users[0]);
                       }}
                       key={users[0].id}
                       className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">
@@ -77,10 +79,17 @@ export const Chat = () => {
                             {/*25 minutes*/}
                           </span>
                         </div>
-                        <span
-                          className="block ml-2 text-sm text-gray-600 font-semibold">
-                          {getLatestMessage('admin', users[0].username)?.msg_content}
-                        </span>
+                        <div className="flex justify-between pr-12">
+                          <span
+                            className={`${readMessages.length > 0 && 'font-semibold'}` +
+                              " block ml-2 text-sm text-gray-600"}>
+                            {getLatestMessage('admin', users[0].username)?.msg_content}
+                          </span>
+                          <span className={`${readMessages.length === 0 && 'hidden'}` +
+                            " w-[20px] h-[20px] bg-blueBase text-whiteFactory flex justify-center items-center rounded-[50%] text-xs"}>
+                            {readMessages.length}
+                          </span>
+                        </div>
                       </div>
                     </li>
                   )

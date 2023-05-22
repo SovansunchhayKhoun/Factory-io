@@ -20,4 +20,9 @@ class MessageController extends Controller
       Message::create($request->validated ());
       return response () -> json ('Message Created');
     }
+
+    public function update (MessageRequest $request, Message $message) {
+      $message->update($request->validated ());
+      return response () -> json ('Message updated');
+    }
 }

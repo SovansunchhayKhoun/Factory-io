@@ -10,15 +10,19 @@ export const NavBar = () => {
   useEffect(() => {
     getCartItem();
   }, []);
-  const {initChat} = useContext(ChatContext);
+  const {initChat, message, findChat} = useContext(ChatContext);
+  const readMessage = message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id && msg.is_read === 0);
   return (
     <nav className="z-50 fixed w-full top-0 bg-whiteFactory flex px-36 py-4 justify-between items-center">
       <div className="flex flex-row items-center">
         <Link to="/">
           <img width="100" src="/assets/images/makerio.png" alt=""/>
         </Link>
-        <Link onClick={() => {initChat(user.username, 'admin')}} to="/customer-service">
+        <Link className={"flex relative"} onClick={() => {initChat(user.username, 'admin')}} to="/customer-service">
           <img className="w-[20px] h-[20px] ml-3" src="/assets/images/customer-service.png" alt=""/>
+          <span className={`${readMessage?.length === 0 && 'hidden'} absolute top-[-10px] right-[-10px] bg-tealActive w-[18px] h-[18px] rounded-[50%] flex items-center justify-center text-whiteFactory text-[12px]`}>
+            {readMessage?.length}
+          </span>
         </Link>
       </div>
       <div className="flex items-center gap-x-12">

@@ -7,10 +7,12 @@ import {Link} from "react-router-dom";
 
 export const CustomerService = () => {
   const {user, token} = useAuthContext();
-  const {messageReFetch, message, sendMessage, handleMessage, findChat} = useContext(ChatContext);
+  const {messageReFetch, message, sendMessage, handleMessage, findChat, setSeen} = useContext(ChatContext);
   useEffect(() => {
     messageReFetch();
+    setSeen(message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id), user.username)
   }, []);
+
 
   const [messageInput, setMessageInput] = useState('');
   if(token) {
@@ -37,10 +39,10 @@ export const CustomerService = () => {
               }).map(msg => {
                 if (msg.sender_id === user.username) {
                   return (
-                    <Sender time={msg.time_sent} messageContent={msg.msg_content}/>
+                    <Sender key={msg.id} time={msg.time_sent} messageContent={msg.msg_content}/>
                   );
                 } else {
-                  return <Replier time={msg.time_sent} messageContent={msg.msg_content}/>
+                  return <Replier key={msg.id} time={msg.time_sent} messageContent={msg.msg_content}/>
                 }
               })
               }

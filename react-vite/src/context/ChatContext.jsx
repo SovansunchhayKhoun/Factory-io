@@ -30,6 +30,21 @@ export const ChatProvider = ({children}) => {
     return findChat(sender, receiver)?.messages[findChat(sender, receiver)?.messages.length - 1];
   }
 
+  const setSeen = (userMessage, receiver) => {
+    userMessage?.forEach(async (usrMsg) => {
+      if(usrMsg.sender_id !== receiver) {
+        usrMsg.is_read = 1;
+        try {
+          await Axios.patch(`message/${usrMsg.id}`, usrMsg);
+        } catch (e) {
+          console.log(e.response.data.errors);
+        }
+      } else {
+        console.log('true');
+      }
+    })
+  };
+
   const initChat = async (sender, receiver) => {
     const newChat = {
       sender_id: sender,
@@ -58,6 +73,7 @@ export const ChatProvider = ({children}) => {
       sender_id: user?.username,
       msg_content: event.target.value.trim(),
       time_sent: currentDate,
+      is_read: 0,
     });
   }
 
@@ -74,6 +90,7 @@ export const ChatProvider = ({children}) => {
   return (
     <>
       <ChatContext.Provider value={{
+        setSeen,
         getLatestMessage,
         findChat,
         initChat,
