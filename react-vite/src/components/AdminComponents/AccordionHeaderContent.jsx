@@ -5,7 +5,7 @@ import {useAuthContext} from "../../context/AuthContext.jsx";
 
 export const AccordionHeaderContent = (props) => {
   const {invProd, setInvProd} = props;
-  const {id, date, totalPrice, status, noStock} = props.invoice;
+  const {id, date, totalPrice, status, noStock,payment_pic} = props.invoice;
   const {user} = useAuthContext();
 
   // console.log('acc')
@@ -34,6 +34,9 @@ export const AccordionHeaderContent = (props) => {
         </div>
         <div>
           Total Price: <span className="font-bold text-blueBase">${totalPrice}</span>
+        </div>
+        <div>
+          <img width={100} src={`http://127.0.0.1:8000/${payment_pic}`}/>
         </div>
         <div className={`${user.acc_type !== 0 && "hidden"} flex text-whiteFactory gap-x-2 mt-1`}>
           <AcceptOrderButton invProd={invProd} setInvProd={setInvProd} invoice={props.invoice}/>
