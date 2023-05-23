@@ -4,10 +4,10 @@ import ProductContext from "../context/ProductContext.jsx";
 import Axios from "axios";
 
 export const ItemRow = (props) => {
-  const {getItems} = useContext(ProductContext)
+  const {itemsQueryReFetch} = useContext(ProductContext)
   const deleteItem = async (id) => {
     await Axios.delete("http://127.0.0.1:8000/api/v1/products/" + id)
-    getItems()
+    itemsQueryReFetch();
   }
 
   const {id,name,qty,price,description,image} = props.item

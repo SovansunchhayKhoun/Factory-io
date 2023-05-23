@@ -10,10 +10,10 @@ import {InvoiceList} from "../../components/AdminComponents/InvoiceComponents/In
 import {Outlet, useParams} from "react-router-dom";
 
 export const AdminOrder = () => {
-  const {getItems} = useContext(ProductContext)
+  const {itemsQueryReFetch} = useContext(ProductContext)
   const {invoices, isLoading, invStatus} = useContext(InvoiceContext);
   useEffect(() => {
-    getItems();
+    itemsQueryReFetch();
   }, []);
 
   return (

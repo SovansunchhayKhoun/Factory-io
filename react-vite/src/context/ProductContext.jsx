@@ -1,6 +1,7 @@
-import {createContext, useState, useEffect} from "react";
+import {createContext, useState, useEffect, useCallback} from "react";
 import Axios from "axios";
 import axios from "axios";
+import {useQuery} from "@tanstack/react-query";
 
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
@@ -10,8 +11,7 @@ const ProductContext = createContext();
 export const ProductProvider = ({children}) => {
   const [items, setItems] = useState([]);
   const [item, setItem] = useState({});
-  const [searchInput,setSearchInput] = useState('')
-
+  const [searchInput, setSearchInput] = useState('')
 
   const [formValues, setFormValues] = useState({
     name: "",
@@ -22,13 +22,41 @@ export const ProductProvider = ({children}) => {
     status: "",
     image: "",
   })
+
   const [errors, setErrors] = useState([]);
-  const getItems = async () => {
-    const apiItems = await Axios.get("products");
-    setItems(apiItems.data.data);
+  // const getItems = useCallback(async () => {
+  //   const apiItems = await Axios.get("products");
+  //   setItems(apiItems.data.data);
+  //   console.log('mount product')
+  // }, []);
+
+  const {data: itemsQuery, refetch: itemsQueryReFetch} = useQuery(['items'], () => {
+    return Axios.get('products').then((res) => {
+      setItems(res.data.data);
+      return res.data.data
+    });
+  });
+
+  const getItem = async (id) => {
+    const response = await Axios.get(`products/${id}`)
+    const apiItem = response.data.data;
+    setItem(apiItem);
+    setFormValues({
+      name: apiItem.name,
+      qty: apiItem.qty,
+      type: apiItem.type,
+      price: apiItem.price,
+      description: apiItem.description,
+      image: apiItem.image,
+      status: apiItem.status,
+    })
   };
 
-
+  // const getItems = async () => {
+  //   const apiItems = await Axios.get("products");
+  //   setItems(apiItems.data.data);
+  //   console.log('mount')
+  // };
 
   const storeItem = async (formValues) => {
     try {
@@ -45,21 +73,6 @@ export const ProductProvider = ({children}) => {
     setFormValues({...formValues, [name]: value})
   }
 
-  const getItem = async (id) => {
-    const response = await Axios.get(`products/${id}`)
-    const apiItem = response.data.data
-    setItem(apiItem);
-    setFormValues({
-      name: apiItem.name,
-      qty: apiItem.qty,
-      type: apiItem.type,
-      price: apiItem.price,
-      description: apiItem.description,
-      image: apiItem.image,
-      status: apiItem.status,
-    })
-  };
-
   const resetFormValues = () => {
     setFormValues({
       name: "",
@@ -74,9 +87,9 @@ export const ProductProvider = ({children}) => {
 
   const updateItem = async (formData) => {
     try {
-      await Axios.post("http://127.0.0.1:8000/api/v1/products/"+ item.id, formData, {
-        headers:{'Content-Type':"multipart/form-data"},
-      } );
+      await Axios.post("http://127.0.0.1:8000/api/v1/products/" + item.id, formData, {
+        headers: {'Content-Type': "multipart/form-data"},
+      });
       resetFormValues()
       history.back()
     } catch (msg) {
@@ -91,7 +104,7 @@ export const ProductProvider = ({children}) => {
   const updateProduct = async (cartItem) => {
     const stockItem = items.find((item) => item.id === cartItem.product_id)
     stockItem.qty = stockItem.qty - cartItem.qty;
-    if(stockItem.qty === 0) {
+    if (stockItem.qty === 0) {
       stockItem.status = 0;
     }
     try {
@@ -105,12 +118,13 @@ export const ProductProvider = ({children}) => {
   return <ProductContext.Provider
     value={{
       items,
+      itemsQueryReFetch,
       item,
       formValues,
       setFormValues,
       errors,
       storeItem,
-      getItems,
+      // getItems,
       getItem,
       onChange,
       updateItem,

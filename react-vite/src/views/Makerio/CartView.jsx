@@ -10,11 +10,11 @@ import {useAuthContext} from "../../context/AuthContext.jsx";
 export const CartView = () => {
   const {cartItem, getCartItem} = useContext(CartContext);
   const {handleAddressChange, address} = useContext(InvoiceContext);
-  const {getItems} = useContext(ProductContext);
+  const {itemsQueryReFetch} = useContext(ProductContext);
   const {user, token} = useAuthContext();
   useEffect(() => {
     getCartItem();
-    getItems();
+    itemsQueryReFetch();
   }, []);
 
   if (token) {

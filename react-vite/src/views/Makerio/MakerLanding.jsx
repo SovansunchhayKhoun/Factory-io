@@ -8,10 +8,10 @@ import {Pagination} from "@mui/material";
 import {Footer} from "../../components/Footer.jsx";
 
 export const MakerLanding = () => {
-  const {items, getItems,searchInput,setSearchInput} = useContext(ProductContext);
+  const {items, searchInput, itemsQueryReFetch, setSearchInput} = useContext(ProductContext);
 
   useEffect(() => {
-    getItems();
+    itemsQueryReFetch();
   }, []);
 
   return (

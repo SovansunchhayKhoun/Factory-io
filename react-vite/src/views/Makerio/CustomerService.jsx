@@ -11,7 +11,7 @@ export const CustomerService = () => {
   useEffect(() => {
     initChat(user.username, 'admin');
     messageReFetch();
-    setSeen(message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id), user.username)
+    setSeen(message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id), user.username);
   }, []);
   const [messageInput, setMessageInput] = useState('');
 

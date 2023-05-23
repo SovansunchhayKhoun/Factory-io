@@ -9,6 +9,7 @@ import {dividerClasses} from "@mui/material";
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 export const Chat = () => {
   const [activeUser, setActiveUser] = useState({});
+  const {users, getUsers} = useContext(UserContext);
   const {
     chatReFetch,
     chat,
@@ -24,7 +25,8 @@ export const Chat = () => {
 
   useEffect(() => {
     messageReFetch();
-    chatReFetch()
+    chatReFetch();
+    getUsers();
   }, []);
 
   const [messageInput, setMessageInput] = useState('');
@@ -54,47 +56,93 @@ export const Chat = () => {
             {/*User List*/}
             <ul className="overflow-auto h-[32rem]">
               <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
-              {chat?.map((ch) => {
-                const {users, messages} = ch;
-                const unreadMessages = messages.filter((msg) => msg.is_read === 0 && msg.sender_id !== 'admin');
-                if (messages.length > 0) {
-                  return (
-                    <li
-                      onClick={() => {
-                        initChat('admin', users[0].username);
-                        setSeen(messages, 'admin');
-                        setMessageInput('');
-                        setActiveUser(users[0]);
-                      }}
-                      key={users[0].id}
-                      className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">
-                      <img className="object-cover w-10 h-10 rounded-full"
-                           src="/assets/images/seangly.jpg" alt="username"/>
-                      <div className="w-full pb-2">
-                        <div className="flex justify-between">
+              {/*{chat?.map((ch) => {*/}
+              {/*  const {users, messages} = ch;*/}
+              {/*  const unreadMessages = messages.filter((msg) => msg.is_read === 0 && msg.sender_id !== 'admin');*/}
+              {/*  // if (messages.length > 0) {*/}
+              {/*  return (*/}
+              {/*    <li*/}
+              {/*      onClick={() => {*/}
+              {/*        initChat('admin', users[0].username);*/}
+              {/*        setSeen(messages, 'admin');*/}
+              {/*        setMessageInput('');*/}
+              {/*        messageReFetch();*/}
+              {/*        setActiveUser(users[0]);*/}
+              {/*      }}*/}
+              {/*      key={users[0].id}*/}
+              {/*      className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">*/}
+              {/*      <img className="object-cover w-10 h-10 rounded-full"*/}
+              {/*           src="/assets/images/seangly.jpg" alt="username"/>*/}
+              {/*      <div className="w-full pb-2">*/}
+              {/*        <div className="flex justify-between">*/}
+              {/*            <span className="block ml-2 font-semibold text-gray-600">*/}
+              {/*              {users[0].username}*/}
+              {/*            </span>*/}
+              {/*          <span className="block ml-2 text-sm text-gray-600">*/}
+              {/*              /!*25 minutes*!/*/}
+              {/*            </span>*/}
+              {/*        </div>*/}
+              {/*        <div className="flex justify-between pr-12">*/}
+              {/*            <span*/}
+              {/*              className={`${unreadMessages.length > 0 && 'font-semibold'}` +*/}
+              {/*                " block ml-2 text-sm text-gray-600"}>*/}
+              {/*              {getLatestMessage('admin', users[0].username)?.msg_content}*/}
+              {/*            </span>*/}
+              {/*          <span className={`${unreadMessages.length === 0 && 'hidden'}` +*/}
+              {/*            " w-[20px] h-[20px] bg-blueBase text-whiteFactory flex justify-center items-center rounded-[50%] text-xs"}>*/}
+              {/*              {unreadMessages.length}*/}
+              {/*            </span>*/}
+              {/*        </div>*/}
+              {/*      </div>*/}
+              {/*    </li>*/}
+              {/*  )*/}
+              {/*  // }*/}
+              {/*})}*/}
+
+              {users.map((usr) => {
+                const unreadMessages = message?.filter((msg) => msg.is_read === 0 && msg.sender_id !== 'admin');
+                const userNotification = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr.username);
+                return (
+                  <li
+                    onClick={() => {
+                      initChat('admin', usr.username);
+                      setSeen(unreadMessages, 'admin');
+                      setMessageInput('');
+                      messageReFetch();
+                      setActiveUser(usr);
+                    }}
+                    key={usr.id}
+                    className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">
+                    <img className="object-cover w-10 h-10 rounded-full"
+                         src="/assets/images/seangly.jpg" alt="username"/>
+                    <div className="w-full pb-2">
+                      <div className="flex justify-between">
                           <span className="block ml-2 font-semibold text-gray-600">
-                            {users[0].username}
+                            {usr.username}
                           </span>
-                          <span className="block ml-2 text-sm text-gray-600">
+                        <span className="block ml-2 text-sm text-gray-600">
                             {/*25 minutes*/}
                           </span>
-                        </div>
-                        <div className="flex justify-between pr-12">
-                          <span
-                            className={`${unreadMessages.length > 0 && 'font-semibold'}` +
-                              " block ml-2 text-sm text-gray-600"}>
-                            {getLatestMessage('admin', users[0].username)?.msg_content}
-                          </span>
-                          <span className={`${unreadMessages.length === 0 && 'hidden'}` +
-                            " w-[20px] h-[20px] bg-blueBase text-whiteFactory flex justify-center items-center rounded-[50%] text-xs"}>
-                            {unreadMessages.length}
-                          </span>
-                        </div>
                       </div>
-                    </li>
-                  )
-                }
-              })}
+                      <div className="flex justify-between pr-12">
+                        <span
+                          className={`${userNotification?.length > 0 && 'font-semibold'}` +
+                            " block ml-2 text-sm text-gray-600"}>
+                          {getLatestMessage('admin', usr.username)?.msg_content}
+                        </span>
+                        <span className={`${userNotification?.length === 0 && 'hidden'}` +
+                          " w-[20px] h-[20px] bg-blueBase text-whiteFactory flex justify-center items-center rounded-[50%] text-xs"}>
+                            {/*{getLatestMessage('admin', usr.username)?.length}*/}
+                          {userNotification?.length}
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                )
+              })
+              }
+
+
             </ul>
             {/*User List*/}
           </div>

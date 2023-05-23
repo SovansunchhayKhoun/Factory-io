@@ -16,7 +16,7 @@ export const OrderView = () => {
   const {user, token} = useAuthContext();
   useEffect(() => {
     invoicesReFetch();
-  }, []);
+  }, [invoices]);
 
   const [open, setOpen] = useState(1);
   const handleOpen = (value) => {

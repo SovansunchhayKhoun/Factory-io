@@ -12,12 +12,13 @@ const CartContext = createContext();
 export const CartProvider = ({children}) => {
   const {items} = useContext(ProductContext);
   const {invoices, isLoading} = useContext(InvoiceContext);
+  const {invoiceProduct, invoiceProductReFetch} = useContext(InvoiceProductContext);
+
+  const [cartItem, setCartItem] = useState([]);
   const [cartError, setCartError] = useState([]);
   const [success, setSuccess] = useState(false);
-  const [cartItem, setCartItem] = useState([]);
   const totalPrice = cartItem.reduce((total, i) => total += i.price * i.qty, 0);
   const {token, user} = useAuthContext();
-  const {invoiceProduct, invoiceProductReFetch} = useContext(InvoiceProductContext);
   useEffect(() => {
     invoiceProductReFetch();
   }, []);

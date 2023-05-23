@@ -8,9 +8,11 @@ import {AiOutlineUser, AiOutlineCheckCircle} from "react-icons/ai";
 import {FiMessageSquare, FiFolder} from "react-icons/fi";
 import {TbRoad, TbHomeCheck, TbPackageOff} from "react-icons/tb"
 import {Link, NavLink} from "react-router-dom";
+import ChatContext from "../context/ChatContext.jsx";
 
 const Sidebar = () => {
   const {invoices, setInvStatus, invStatus} = useContext(InvoiceContext);
+  const {message, messageReFetch} = useContext(ChatContext)
   const notificationCounter = status => {
     const invoiceType = invoices?.filter((inv) => inv.status === status);
     if (invoiceType?.length > 0) {
@@ -25,7 +27,7 @@ const Sidebar = () => {
     {name: "Dashboard", link: "/admin/dashboard", icon: MdOutlineDashboard},
     {name: "Users", link: "/admin/users", icon: AiOutlineUser},
     {name: "Inventory", link: "/admin/inventory", icon: FiFolder},
-    {name: "Customer Service", link: "/admin/customer-service", icon: FiMessageSquare},
+    {name: "Customer Service", link: "/admin/customer-service", icon: FiMessageSquare, notification: message?.filter((msg) => msg.is_read === 0 && msg.sender_id !== 'admin').length},
     {name: "Pending", link: "/admin/orders", icon: MdOutlinePending, handleClick: -1, notification: notificationCounter(-1)},
     {name: "Accepted", link: "/admin/orders", icon: AiOutlineCheckCircle, handleClick: 1, notification: notificationCounter(1)},
     {name: "Delivering", link: "/admin/orders", icon: TbRoad, handleClick: 2, notification: notificationCounter(2)},

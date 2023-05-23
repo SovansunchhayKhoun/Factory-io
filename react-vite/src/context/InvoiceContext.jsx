@@ -12,6 +12,7 @@ export const InvoiceProvider = ({children}) => {
       return res.data.data;
     })
   });
+  const {user} = useAuthContext();
   const [invStatus, setInvStatus] = useState(-1);
   const [invoice, setInvoice] = useState({});
   const [paymentPic, setPaymentPic] = useState('');
@@ -19,7 +20,6 @@ export const InvoiceProvider = ({children}) => {
     const apiItem = await Axios.get(`invoices/${id}`);
     setInvoice(apiItem.data.data);
   };
-  const {user} = useAuthContext();
   const [address, setAddress] = useState('');
   const handleAddressChange = event => {
     setAddress(event.target.value);

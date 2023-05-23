@@ -31,16 +31,18 @@ export const ChatProvider = ({children}) => {
   }
 
   const setSeen = (userMessage, receiver) => {
+    console.log(userMessage);
+    if (userMessage?.length === 0) {
+      return;
+    }
     userMessage?.forEach(async (usrMsg) => {
-      if(usrMsg.sender_id !== receiver) {
+      if (usrMsg.sender_id !== receiver) {
         usrMsg.is_read = 1;
         try {
           await Axios.patch(`message/${usrMsg.id}`, usrMsg);
         } catch (e) {
           console.log(e.response.data.errors);
         }
-      } else {
-        console.log('true');
       }
     })
   };
@@ -57,6 +59,8 @@ export const ChatProvider = ({children}) => {
       } catch (msg) {
         console.log(msg.response.data.errors);
       }
+    } else {
+      await messageReFetch();
     }
   }
 

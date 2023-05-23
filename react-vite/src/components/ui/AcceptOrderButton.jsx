@@ -29,8 +29,13 @@ export const AcceptOrderButton = (props) => {
         <div className={`flex gap-x-2`}>
           <button disabled={invoice.status === 3 && true} type="submit"
                   onClick={() => {
-                    updateInvProd(invoice_product);
-                    checkInvoiceItemQty(invoice);
+                    if(invoice.status <= 1) {
+                      updateInvProd(invoice_product);
+                      checkInvoiceItemQty(invoice);
+                    } else {
+                      updateOrderStatus(invoice);
+                      updateOrder(invoice);
+                    }
                     if (invoice.status === 2) {
                       invoice_product.forEach((product) => {
                         updateProduct(product);

@@ -9,10 +9,10 @@ import CreateItemModal from "../../components/Modals/CreateItemModal.jsx";
 
 
 export const Inventory = () => {
+  const {items, itemsQueryReFetch} = useContext(ProductContext)
   useEffect(() => {
-    getItems();
+    itemsQueryReFetch();
   }, []);
-  const {items, getItems} = useContext(ProductContext)
   const [createItemModalOpen, setCreateItemModalOpen] = useState(false)
 
   return (

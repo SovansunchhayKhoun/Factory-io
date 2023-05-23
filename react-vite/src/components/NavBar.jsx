@@ -9,11 +9,12 @@ export const NavBar = () => {
   const {onLogout, token, user} = useAuthContext()
   const {cartItem, getCartItem} = useContext(CartContext);
   const {invoices} = useContext(InvoiceContext)
+  const {message, findChat} = useContext(ChatContext);
+
   useEffect(() => {
     getCartItem();
   }, []);
-  const {message, findChat} = useContext(ChatContext);
-  const readMessage = message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id && msg.is_read === 0);
+  const readMessage = message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id && msg.is_read === 0 && msg.sender_id !== user.username);
   const orders = invoices?.filter((inv) => inv.user_id === user.id && inv.status !== 3);
 
   return (
