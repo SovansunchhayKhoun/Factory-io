@@ -63,7 +63,9 @@ export const NavBar = () => {
           </Link>
         </div>
         <div className="highlight-hover relative">
-          <Link to="/cart">
+          <Link to={
+            token ? "/cart" : "/login"
+          }>
             Cart
           </Link>
           <span
@@ -72,7 +74,9 @@ export const NavBar = () => {
           </span>
         </div>
         <div className="highlight-hover">
-          <Link className="relative" to="/order">
+          <Link className="relative" to={
+            token ? "/order" : "/login"
+          }>
             <span>Order</span>
             <span
               className={`${orders?.length === 0 && 'hidden'} flex justify-center items-center w-[16px] h-[16px] absolute top-[-6px] right-[-16px] bg-tealActive text-whiteFactory rounded-[50%] text-[12px]`}>
