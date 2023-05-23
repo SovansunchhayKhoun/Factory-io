@@ -4,18 +4,22 @@ import ChatContext from "../../context/ChatContext.jsx";
 import {Sender} from "../../components/ChatComponent/Sender.jsx";
 import {Replier} from "../../components/ChatComponent/Replier.jsx";
 import {Link} from "react-router-dom";
+import UserContext from "../../context/UserContext.jsx";
+import Axios from "axios";
+
+``
 
 export const CustomerService = () => {
   const {user, token} = useAuthContext();
-  const {messageReFetch, message, sendMessage, handleMessage, findChat, setSeen, initChat} = useContext(ChatContext);
-  useEffect(() => {
-    initChat(user.username, 'admin');
-    messageReFetch();
-    setSeen(message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id), user.username);
-  }, []);
-  const [messageInput, setMessageInput] = useState('');
+  if (token) {
+    const {messageReFetch, message, sendMessage, handleMessage, findChat, setSeen} = useContext(ChatContext);
+    const [messageInput, setMessageInput] = useState('');
 
-  if(token) {
+    useEffect(() => {
+      messageReFetch();
+      setSeen(message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id), user.username);
+    }, []);
+
     return (
       <>
         <main className="flex flex-col items-center w-full min-h-screen text-gray-800">
@@ -50,7 +54,9 @@ export const CustomerService = () => {
 
             <div className="flex items-center gap-x-2 bg-gray-300 p-4">
               <input
-                onKeyDown={event => {event.key === 'Enter' && sendMessage(setMessageInput)}}
+                onKeyDown={event => {
+                  event.key === 'Enter' && sendMessage(setMessageInput)
+                }}
                 value={messageInput}
                 onChange={event => {
                   setMessageInput(event.target.value);
@@ -59,8 +65,9 @@ export const CustomerService = () => {
                 className="w-full flex items-center h-10 rounded px-3 text-sm" type="text"
                 placeholder="Type your message…"/>
               <button onClick={() => {
-                sendMessage(setMessageInput)
-              }} className="bg-[#1C64F2] text-whiteFactory font-semibold rounded-md px-3 py-1 flex items-center hover:bg-blue-700 cursor-pointer">
+                sendMessage(setMessageInput);
+              }}
+                      className="bg-[#1C64F2] text-whiteFactory font-semibold rounded-md px-3 py-1 flex items-center hover:bg-blue-700 cursor-pointer">
                 send
               </button>
             </div>

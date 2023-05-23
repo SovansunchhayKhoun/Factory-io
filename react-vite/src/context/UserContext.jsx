@@ -1,5 +1,6 @@
 import {createContext, useState, useEffect} from "react";
 import Axios from "axios";
+import {useQuery} from "@tanstack/react-query";
 
 
 Axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
@@ -27,6 +28,13 @@ export const UserProvider = ({children}) => {
     const apiItems = await Axios.get("getAdmin");
     setAdmin(apiItems.data.data[0])
   }
+  const {data: usersQuery, refetch: usersQueryReFetch} = useQuery(['users'], () => {
+    return Axios.get('users').then(res => {
+      setUsers(res.data.data);
+      return res.data.data;
+    })
+  })
+
   const getUsers = async () => {
     const apiItems = await Axios.get("users");
     setUsers(apiItems.data.data);
@@ -107,6 +115,8 @@ export const UserProvider = ({children}) => {
 
   return <UserContext.Provider
     value={{
+      usersQuery,
+      usersQueryReFetch,
       users,
       user,
       formValues,

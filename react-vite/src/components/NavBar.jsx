@@ -23,7 +23,9 @@ export const NavBar = () => {
         <Link to="/">
           <img width="100" src="/assets/images/makerio.png" alt=""/>
         </Link>
-        <Link className={"flex relative"} to="/customer-service">
+        <Link
+        // onClick={() => {initChat(user.username, 'admin')}}
+          className={"flex relative"} to="/customer-service">
           <img className="w-[20px] h-[20px] ml-3" src="/assets/images/customer-service.png" alt=""/>
           <span
             className={`${readMessage?.length === 0 && 'hidden'} absolute top-[-10px] right-[-10px] bg-tealActive w-[18px] h-[18px] rounded-[50%] flex items-center justify-center text-whiteFactory text-[12px]`}>
