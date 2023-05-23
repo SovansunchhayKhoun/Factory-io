@@ -20,7 +20,6 @@ export const InvoiceProvider = ({children}) => {
     setInvoice(apiItem.data.data);
   };
   const {user} = useAuthContext();
-  const [invoiceError, setInvoiceError] = useState([]);
   const [address, setAddress] = useState('');
   const handleAddressChange = event => {
     setAddress(event.target.value);
@@ -32,8 +31,9 @@ export const InvoiceProvider = ({children}) => {
       behavior: "smooth",
     });
   }
+  const [invoiceError, setInvoiceError] = useState([]);
 
-  const storeInvoice = async (total, cartItem, checkOut, setLoading,paymentPic) => {
+  const storeInvoice = async (total, cartItem, checkOut, setLoading, paymentPic) => {
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
     const invoice = {
@@ -47,7 +47,7 @@ export const InvoiceProvider = ({children}) => {
     };
     try {
       await Axios.post('invoices', invoice, {
-        headers: {'Content-Type' : "multipart/form-data"}
+        headers: {'Content-Type': "multipart/form-data"}
       });
       setLoading(true);
       setTimeout(() => {
@@ -62,10 +62,7 @@ export const InvoiceProvider = ({children}) => {
       scrollTop(0);
       console.log(e.response.data.errors);
       cartItem.addressError = 'The Address field is required';
-      // setInvoiceError(e.response.data.errors);
-      // setTimeout(() => {
-      //   setInvoiceError([]);
-      // }, 3000);
+      setInvoiceError(e.response.data.error);
     }
   }
 
@@ -82,8 +79,8 @@ export const InvoiceProvider = ({children}) => {
     }
   }
 
-  const updateInvProd = (invProd) => {
-    invProd.forEach(async (inv) => {
+  const updateInvProd = (invoice_product) => {
+    invoice_product.forEach(async (inv) => {
       try {
         await Axios.put(`invoice_products/${inv.id}`, inv);
       } catch (e) {
@@ -92,51 +89,47 @@ export const InvoiceProvider = ({children}) => {
     })
   }
 
-  const updateOrderStatus = (order) => {
-    switch (order.status) {
-      case -2:
-        order.status = -1;
-        break;
-      case -1:
-        order.status = 1;
-        break;
-      case 1:
-        order.status = 2;
-        break;
-      case 2:
-        order.status = 3;
-        break;
-    }
-  }
-
-  const checkInvoiceItemQty = (invoice_product) => {
-    // const {invoice_product} = order;
-    const stockArr = [];
-    invoice_product.forEach((inv_prod) => {
-      const stockItem = items.find((item) => inv_prod.product_id === item.id)
-      stockItem.qty = stockItem.qty - inv_prod.qty;
-      stockArr.push(stockItem);
-    })
-    return stockArr.some((prod) => prod.qty < 0); // true if some stock item is less than 0
-  }
-
-  const acceptOrder = async (order, invProd) => {
-    const {invoice_product} = order;
-    updateInvProd(invProd, order);
-    if (checkInvoiceItemQty(invoice_product) && (order.status === -1 || order.status === 1 || order.status === -2)) {
-      order.status = -2;
-      order.noStock = true;
-    } else {
-      updateOrderStatus(order);
-    }
+  const updateOrder = async (invoice) => {
     try {
-      await Axios.patch(`invoices/${order.id}`, order);
+      await Axios.patch(`invoices/${invoice.id}`, invoice);
       await invoicesReFetch();
     } catch (e) {
       console.log(e.response.data.errors)
       setInvoiceError(e.response.data.errors);
     }
   };
+
+  const updateOrderStatus = (invoice) => {
+    switch (invoice.status) {
+      case -1:
+        invoice.status = 1;
+        break;
+      case 1:
+        invoice.status = 2;
+        break;
+      case 2:
+        invoice.status = 3;
+        break;
+    }
+  }
+  const checkInvoiceItemQty = async (invoice) => {
+    const {invoice_product} = invoice;
+    let stockArr = [];
+    invoice_product.forEach((inv_prod) => {
+      const stockItem = items.find((item) => inv_prod.product_id === item.id);
+      const tempObj = {...stockItem, qty: stockItem.qty - inv_prod.qty}
+      stockArr.push(tempObj);
+    })
+    if (stockArr.some((prod) => prod.qty < 0)) {
+      invoice.status = -2;
+    } else if (invoice.status === -2) {
+      invoice.status = -1;
+      updateOrderStatus(invoice);
+    } else {
+      updateOrderStatus(invoice);
+    }
+    await updateOrder(invoice);
+  }
 
   const declineOrder = async (order) => {
     try {
@@ -150,6 +143,10 @@ export const InvoiceProvider = ({children}) => {
 
   return (
     <InvoiceContext.Provider value={{
+      updateInvProd,
+      updateOrder,
+      updateOrderStatus,
+      checkInvoiceItemQty,
       setAddress,
       address,
       invStatus,
@@ -162,7 +159,6 @@ export const InvoiceProvider = ({children}) => {
       invoiceError,
       setInvoiceError,
       declineOrder,
-      acceptOrder,
       handleAddressChange,
       paymentPic,
       setPaymentPic

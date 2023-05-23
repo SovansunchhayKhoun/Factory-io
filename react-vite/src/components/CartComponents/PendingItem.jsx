@@ -3,7 +3,7 @@ import React, {useContext} from "react";
 import CartContext from "../../context/CartContext.jsx";
 
 export const PendingItem = (props) => {
-  const {invoice_product, id, date, status} = props.invoice
+  const {invoice_product, date, status} = props.invoice
   return (
     <>
       {invoice_product.map((inv_prd) => {
@@ -11,7 +11,7 @@ export const PendingItem = (props) => {
         const {image, name, price} = products[0];
         return (
           <>
-            <div
+            <div key={inv_prd.id}
               className="min-h-[150px] px-12 py-3 flex mb-3 items-center justify-between border-2 border-tealActive shadow-2xl">
               <div className="flex items-center gap-x-6">
                 <div className="max-w-[100px]">
