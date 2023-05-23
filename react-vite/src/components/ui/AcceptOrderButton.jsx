@@ -6,7 +6,13 @@ import InvoiceContext from "../../context/InvoiceContext.jsx";
 import ProductContext from "../../context/ProductContext.jsx";
 
 export const AcceptOrderButton = (props) => {
-  const {acceptOrder} = useContext(InvoiceContext);
+  const {
+    acceptOrder,
+    checkInvoiceItemQty,
+    updateOrderStatus,
+    updateOrder,
+    updateInvProd
+  } = useContext(InvoiceContext);
   const {updateProduct} = useContext(ProductContext);
   const [acceptOrderModalOpen, setAcceptOrderModalOpen] = useState(false)
   const {invoice, invProd, setInvProd, buttonStyle} = props;
@@ -23,7 +29,8 @@ export const AcceptOrderButton = (props) => {
         <div className={`flex gap-x-2`}>
           <button disabled={invoice.status === 3 && true} type="submit"
                   onClick={() => {
-                    acceptOrder(invoice, invProd);
+                    updateInvProd(invoice_product);
+                    checkInvoiceItemQty(invoice);
                     if (invoice.status === 2) {
                       invoice_product.forEach((product) => {
                         updateProduct(product);

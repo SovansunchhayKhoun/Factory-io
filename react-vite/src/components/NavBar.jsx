@@ -66,7 +66,7 @@ export const NavBar = () => {
             Cart
           </Link>
           <span
-            className={cartItem.length === 0 ? 'hidden' : " absolute top-[-10px] right-[-24px] bg-redBase text-whiteFactory px-2 py-1 rounded-3xl text-xs"}>
+            className={cartItem.length === 0 ? 'hidden' : " flex justify-center items-center w-[16px] h-[16px] absolute top-[-6px] right-[-16px] bg-redBase text-whiteFactory rounded-[50%] text-[12px]"}>
             {cartItem.reduce((total, i) => total += i.qty, 0)}
           </span>
         </div>
@@ -76,7 +76,7 @@ export const NavBar = () => {
             <span
               className={`${orders?.length === 0 && 'hidden'} flex justify-center items-center w-[16px] h-[16px] absolute top-[-6px] right-[-16px] bg-tealActive text-whiteFactory rounded-[50%] text-[12px]`}>
               {orders?.length}
-          </span>
+            </span>
           </Link>
         </div>
 
