@@ -181,10 +181,12 @@ export const Chat = () => {
                           <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
                             <span className="block">{msg.msg_content}</span>
                             <span>
-                              <img className="max-w-[200px]" src={`http://127.0.0.1:8000/${msg.image}`}/>
+                              {/*<img className="max-w-[200px]" src={`http://127.0.0.1:8000/${msg.image}`}/>*/}
+                              {msg.image && <img className="max-w-[250px]" src='/assets/images/abtus.jpg'/>}
                             </span>
+                            <span className={`${msg.image ? 'text-xs block text-grayFactory' : 'hidden'}`}>{msg.time_sent}</span>
                           </div>
-                          <span className="text-xs block text-grayFactory">{msg.time_sent}</span>
+                          <span className={`${msg.image && 'hidden'} text-xs block text-grayFactory`}>{msg.time_sent}</span>
                         </li>
                       );
                     }

@@ -33,7 +33,7 @@ export const InvoiceProvider = ({children}) => {
   }
   const [invoiceError, setInvoiceError] = useState([]);
 
-  const storeInvoice = async (total, cartItem, checkOut, setLoading, paymentPic) => {
+  const storeInvoice = async (total, cartItem, checkOut, paymentPic, setModalOpen, setLoadingSuccess) => {
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
     const invoice = {
@@ -49,16 +49,16 @@ export const InvoiceProvider = ({children}) => {
       await Axios.post('invoices', invoice, {
         headers: {'Content-Type': "multipart/form-data"}
       });
-      setLoading(true);
       setTimeout(() => {
-        setLoading(false);
-        cartItem.forEach((item) => {
-          checkOut(item);
-        });
+        setLoadingSuccess(true);
+        // cartItem.forEach((item) => {
+        //   checkOut(item);
+        // });
       }, 3000);
       setAddress('');
       await invoicesReFetch();
     } catch (e) {
+      setModalOpen(false);
       scrollTop(0);
       console.log(e.response.data.errors);
       cartItem.addressError = 'The Address field is required';

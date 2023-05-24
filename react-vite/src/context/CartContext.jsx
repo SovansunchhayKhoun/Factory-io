@@ -108,7 +108,7 @@ export const CartProvider = ({children}) => {
 
   const checkOut = async (item) => {
     if (!isLoading) {
-      item.invoice_id = invoices?.slice(-1)[0]?.id + 1 || invoiceProduct?.slice(-1)[0]?.invoice_id + 1 || 1;
+      item.invoice_id = invoices?.slice(-1)[0]?.id || invoiceProduct?.slice(-1)[0]?.invoice_id || 1;
       try {
         await Axios.post('invoice_products', item);
         clearCart();

@@ -8,14 +8,15 @@ import {AccordionBodyContent} from "../AdminComponents/AccordionBodyContent.jsx"
 function AdminPopUp({id, modalOpen, setModalOpen, content}) {
   const modalContent = useRef(null);
   // close on click outside
-  useEffect(() => {
-    const clickHandler = ({target}) => {
-      if (!modalOpen || modalContent.current.contains(target)) return
-      setModalOpen(false);
-    };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
-  });
+  // useEffect(() => {
+  //   const clickHandler = ({target}) => {
+  //     if (!modalOpen || modalContent.current.contains(target)) return
+  //     setModalOpen(false);
+  //   };
+  //   document.addEventListener('click', clickHandler);
+  //   return () => document.removeEventListener('click', clickHandler);
+  // });
+
   // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({keyCode}) => {
