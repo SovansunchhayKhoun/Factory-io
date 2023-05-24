@@ -23,7 +23,8 @@ export default function Signup() {
             lastName: lastNameRef.current.value,
             password: passwordRef.current.value,
             password_confirmation: passwordConfirmationRef.current.value,
-            phoneNumber: phoneNumberRef.current.value
+            phoneNumber: phoneNumberRef.current.value,
+            username: firstNameRef.current.value + lastNameRef.current.value
         }
         console.log(formValues)
         axiosClient.post('/signup', formValues)
@@ -34,8 +35,8 @@ export default function Signup() {
             })
             .catch(err => {
                 const response = err.response
+                    console.log(response.data)
                 if (response && response.status === 422) {
-                    console.log(response.data.errors)
                     setErrors(response.data.errors)
                 }
             })

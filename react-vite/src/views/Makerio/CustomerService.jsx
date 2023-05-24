@@ -6,6 +6,7 @@ import {Replier} from "../../components/ChatComponent/Replier.jsx";
 import {Link} from "react-router-dom";
 import UserContext from "../../context/UserContext.jsx";
 import Axios from "axios";
+import {useQuery} from "@tanstack/react-query";
 
 ``
 
@@ -14,7 +15,6 @@ export const CustomerService = () => {
   if (token) {
     const {messageReFetch, message, sendMessage, handleMessage, findChat, setSeen} = useContext(ChatContext);
     const [messageInput, setMessageInput] = useState('');
-
     useEffect(() => {
       messageReFetch();
       setSeen(message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id), user.username);
