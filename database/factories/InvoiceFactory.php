@@ -17,8 +17,11 @@
         public function definition ()
         {
             return [
-                'date' => fake () -> date ( 'Y-m-d' , 'now' ) ,
+                'date' => fake () -> date ( 'Y-m-d h-m-s' , 'now' ) ,
                 'status' => 0 ,
+              'payment_pic' => 'null',
+              'user_id' => 1,
+              'item_count' => fake()->numberBetween(1,10),
                 'totalPrice' => fake () -> numberBetween ( 5 , 200 ) ,
                 'address' => 'Bridge 2, National Road 6A, Sangkat Prek Leap, Khan Chroy Changva, Phnom Penh' ,
             ];

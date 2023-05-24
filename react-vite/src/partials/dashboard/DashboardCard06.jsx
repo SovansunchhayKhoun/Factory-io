@@ -1,18 +1,20 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import DoughnutChart from '../../charts/DoughnutChart';
 
 // Import utilities
 import { tailwindConfig } from '../../utils/Utils';
+import UserContext from "../../context/UserContext.jsx";
 
 function DashboardCard06() {
+  const {usersQuery} = useContext(UserContext)
 
   const chartData = {
-    labels: ['United States', 'Italy', 'Other'],
+    labels: ['Male', 'Female'],
     datasets: [
       {
-        label: 'Top Countries',
+        label: 'Total',
         data: [
-          35, 30, 35,
+          usersQuery.filter((user) => user.gender === 'Male').length, usersQuery.filter((user) => user.gender === 'Female').length
         ],
         backgroundColor: [
           tailwindConfig().theme.colors.indigo[500],
@@ -32,7 +34,7 @@ function DashboardCard06() {
   return (
     <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white shadow-lg rounded-sm border border-slate-200">
       <header className="px-5 py-4 border-b border-slate-100">
-        <h2 className="font-semibold text-slate-800">Top Countries</h2>
+        <h2 className="font-semibold text-blackFactory">Overall Customer: {usersQuery.length}</h2>
       </header>
       {/* Chart built with Chart.js 3 */}
       {/* Change the height attribute to adjust the chart height */}
