@@ -24,6 +24,10 @@ class UserController extends Controller
     public function getAdmins(){
       return AdminResource::collection(Admin::all());
     }
+
+    public function getAdmin(Admin $user){
+      return new AdminResource($user);
+    }
     public function store(StoreUserRequest $request)
     {
       $data = $request->validated();

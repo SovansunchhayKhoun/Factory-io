@@ -4,14 +4,40 @@ import ProductContext from "../../context/ProductContext.jsx";
 import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 import {useAuthContext} from "../../context/AuthContext.jsx";
+import {ItemCard} from "../../components/CartComponents/ItemCard.jsx";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import {Card} from "flowbite-react";
+import {ItemCardCarousel} from "../../components/CartComponents/ItemCardCarousel.jsx";
+
 
 export const ItemView = (props) => {
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: {max: 4000, min: 3000},
+      items: 7
+    },
+    desktop: {
+      breakpoint: {max: 3000, min: 1024},
+      items: 5
+    },
+    tablet: {
+      breakpoint: {max: 1024, min: 464},
+      items: 3
+    },
+    mobile: {
+      breakpoint: {max: 464, min: 0},
+      items: 2
+    }
+  };
   let {id} = useParams();
-  const {item, getItem} = useContext(ProductContext);
+  const {item, getItem, items, itemsQueryReFetch} = useContext(ProductContext);
   const {addToCart, cartItem} = useContext(CartContext);
   const {token} = useAuthContext();
   useEffect(() => {
     getItem(id);
+    itemsQueryReFetch()
   }, []);
 
   const itemCart = cartItem.find((i) => i.id === item.id);
@@ -19,7 +45,7 @@ export const ItemView = (props) => {
 
   let navigate = useNavigate();
   return (
-    <main className="px-36">
+    <main>
       <div className="w-[50%] flex items-center justify-between">
         <button onClick={() => {
           navigate(-1)
@@ -31,8 +57,10 @@ export const ItemView = (props) => {
       <section className="mt-12 flex justify-center gap-x-12">
         <div className="flex items-center border-2 border-tealBase p-4">
           {(item?.image === null || item?.image === undefined)
-              ? <img className="max-w-[350px] max-h-[350px] min-w-[350px] min-h-[350px] object-contain" src="/assets/images/makerio.png" alt={item.name}/>
-              :<img className="max-w-[350px] max-h-[350px] min-w-[350px] min-h-[350px] object-contain" src={`http://127.0.0.1:8000/${item.image}`} alt={item.name}/>
+            ? <img className="max-w-[350px] max-h-[350px] min-w-[350px] min-h-[350px] object-contain"
+                   src="/assets/images/makerio.png" alt={item.name}/>
+            : <img className="max-w-[350px] max-h-[350px] min-w-[350px] min-h-[350px] object-contain"
+                   src={`http://127.0.0.1:8000/${item.image}`} alt={item.name}/>
           }
         </div>
         <div className="text-lg shadow-2xl rounded-xl p-4">
@@ -46,17 +74,32 @@ export const ItemView = (props) => {
 
           </div>
           <div className="flex justify-end items-center">
-            <button className={`${item.status === 0 && 'hidden'} rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300`}
-                    onClick={() => {
-                      if(token) {
-                        addToCart(item, currentQty);
-                      }
-                    }}>
+            <button
+              className={`${item.status === 0 && 'hidden'} rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300`}
+              onClick={() => {
+                if (token) {
+                  addToCart(item, currentQty);
+                }
+              }}>
               <img src="/assets/images/cart-icon.png" alt=""/>
             </button>
           </div>
         </div>
       </section>
+      <div className="mt-16 mb-16">
+        <div className="mb-3 text-tealHover font-semibold">Related items</div>
+        <Carousel itemClass={'flex'} responsive={responsive}>
+          {
+            items.filter(itemFilter => itemFilter.type === item.type && itemFilter.id !== item.id)
+              .map((item, key) => {
+              return (
+                  <ItemCardCarousel item={item} key={key}/>
+              )
+            })}
+
+        </Carousel>
+      </div>
+
     </main>
   );
 };

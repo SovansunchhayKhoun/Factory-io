@@ -27,7 +27,7 @@ class MessageRequest extends FormRequest
           'chat_id' => ['required'],
           'sender_id' => ['required'],
           'receiver_id' => ['required'],
-          'time_sent' => ['required'],
+          'time_sent' => 'nullable',
           'is_read' => ['required']
         ];
     }

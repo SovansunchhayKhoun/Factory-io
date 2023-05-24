@@ -7,6 +7,7 @@ Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const ChatContext = createContext();
 export const ChatProvider = ({children}) => {
   const [chatCopy, setChatCopy] = useState([]);
+  const [messageImage,setMessageImage] = useState('')
   const {data: chat, refetch: chatReFetch, isLoading: chatLoading} = useQuery(['chat'], () => {
     return Axios.get('chat').then((res) => {
       setChatCopy(res.data.data);
@@ -78,17 +79,19 @@ export const ChatProvider = ({children}) => {
       msg_content: event.target.value.trim(),
       time_sent: currentDate,
       is_read: 0,
+      image: messageImage
     });
   }
 
   const sendMessage = async (setMessageInput) => {
-    try {
-      await Axios.post('message', messagePost);
-      await messageReFetch();
-      setMessageInput('');
-    } catch (msg) {
-      console.log(msg.response.data.errors);
-    }
+    console.log(messagePost)
+    // try {
+    //   await Axios.post('message', messagePost);
+    //   await messageReFetch();
+    //   setMessageInput('');
+    // } catch (msg) {
+    //   console.log(msg.response.data.errors);
+    // }
   }
 
   return (
@@ -104,6 +107,7 @@ export const ChatProvider = ({children}) => {
         sendMessage,
         message,
         messageReFetch,
+        setMessageImage
       }}>
         {children}
       </ChatContext.Provider>

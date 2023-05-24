@@ -37,52 +37,39 @@ export const NavBar = () => {
             Home
           </Link>
         </div>
-        {
-          token ? (
-              <>
-                {
-                  user['acc_type'] === 0 ? (
-                    <>
-                      <div className="highlight-hover">
-                        <Link to="/admin/dashboard">
-                          Dashboard
-                        </Link>
-                      </div>
-                    </>
-                  ) : null
-                }
-              </>
-            ) :
-            null
-        }
-
-        <div>
-          <Link to="/">
-            <img className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110" width="100"
-                 src="/assets/images/factory.png" alt=""/>
-          </Link>
-        </div>
         <div className="highlight-hover relative">
-          <Link to={
-            token ? "/cart" : "/login"
-          }>
-            Cart
-          </Link>
-          <span
-            className={cartItem.length === 0 ? 'hidden' : " flex justify-center items-center w-[16px] h-[16px] absolute top-[-6px] right-[-16px] bg-redBase text-whiteFactory rounded-[50%] text-[12px]"}>
+          {
+            user['acc_type'] === 0 ? <>
+                  <Link to="/admin/dashboard">
+                    Dashboard
+                  </Link>
+              </> :
+              <><Link to={
+                token ? "/cart" : "/login"
+              }>
+                Cart
+              </Link>
+                <span
+                  className={cartItem.length === 0 ? 'hidden' : " flex justify-center items-center w-[16px] h-[16px] absolute top-[-6px] right-[-16px] bg-redBase text-whiteFactory rounded-[50%] text-[12px]"}>
             {cartItem.reduce((total, i) => total += i.qty, 0)}
-          </span>
+          </span></>
+          }
+
         </div>
         <div className="highlight-hover">
-          <Link className="relative" to={
-            token ? "/order" : "/login"
-          }>
-            <span>Order</span>
-            <span
-              className={`${orders?.length === 0 && 'hidden'} flex justify-center items-center w-[16px] h-[16px] absolute top-[-6px] right-[-16px] bg-tealActive text-whiteFactory rounded-[50%] text-[12px]`}>
+          {
+            user['acc_type'] === 0 ? null :
+              <><Link className="relative" to={
+                token ? "/order" : "/login"
+              }>
+                <span>Order</span>
+                <span
+                  className={`${orders?.length === 0 && 'hidden'} flex justify-center items-center w-[16px] h-[16px] absolute top-[-6px] right-[-16px] bg-tealActive text-whiteFactory rounded-[50%] text-[12px]`}>
               {orders?.length}
             </span>
-          </Link>
+              </Link></>
+          }
+
         </div>
 
       </div>
@@ -91,9 +78,14 @@ export const NavBar = () => {
             <>
               <div className='flex'>
                 <div className="mr-6 highlight-hover text-[#3C3C3C] font-semibold">
-                  <Link to={`/user/${user.id}`}>
-                    {user?.firstName}
-                  </Link>
+                  {
+                    user['acc_type'] === 0 ? <p>
+                      {user?.firstName}
+                    </p> :
+                      <Link to={`/user/${user.id}`}>
+                        {user?.firstName}
+                      </Link>
+                  }
                 </div>
                 <div className="highlight-hover text-[#3C3C3C]">
                   <a onClick={onLogout}>
