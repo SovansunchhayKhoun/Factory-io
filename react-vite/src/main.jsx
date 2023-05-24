@@ -19,8 +19,7 @@ import {ChatProvider} from "./context/ChatContext.jsx";
 
 const client = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
-  // <React.StrictMode>
-  // </React.StrictMode>
+  <React.StrictMode>
     <QueryClientProvider client={client}>
       <AuthContext>
         <UserProvider>
@@ -38,4 +37,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </UserProvider>
       </AuthContext>
     </QueryClientProvider>
+  </React.StrictMode>
 );

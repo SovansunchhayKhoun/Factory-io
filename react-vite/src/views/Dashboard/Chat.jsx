@@ -214,15 +214,15 @@ export const Chat = () => {
                   {/*</svg>*/}
 
                 <input onKeyDown={event => {
-                  event.key === 'Enter' && sendMessage(setMessageInput)
+                  event.key === 'Enter' && sendMessage('admin', activeUser?.username, setMessageInput)
                 }} value={messageInput} onChange={event => {
                   setMessageInput(event.target.value);
-                  handleMessage(activeUser, event)
+                  handleMessage(event)
                 }} type="text" placeholder="Message"
                        className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
                        name="message" required/>
                 <button onClick={() => {
-                  sendMessage(setMessageInput)
+                  sendMessage('admin', activeUser?.username, setMessageInput)
                 }} type="">
                   <svg className="w-5 h-5 text-gray-500 origin-center transform rotate-90"
                        xmlns="http://www.w3.org/2000/svg"

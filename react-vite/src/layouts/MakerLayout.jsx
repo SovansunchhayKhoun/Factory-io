@@ -18,16 +18,13 @@ export const MakerLayout = () => {
     usersQuery?.forEach((users) => {
       initChat(users.username, 'admin');
     })
-  }, [usersQuery])
-
-  useEffect(() => {
     if (token) {
       axiosClient.get('/user')
         .then(({data}) => {
           setUser(data)
         })
     }
-  }, []);
+  }, [usersQuery]);
 
   return (
     <>

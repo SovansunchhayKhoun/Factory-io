@@ -17,7 +17,6 @@ class MessageController extends Controller
 //      return Message->all();
     }
     public function store(MessageRequest $request) {
-
       $data = $request->validated();
       if($request->hasFile('image')){
         $filename = $request->file('image')->getClientOriginalName();

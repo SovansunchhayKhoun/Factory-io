@@ -65,30 +65,33 @@ export const ChatProvider = ({children}) => {
     return chatCopy.find((chat) => ((chat.sender_id === sender && chat.receiver_id === receiver) || (chat.sender_id === receiver && chat.receiver_id === sender)));
   }
 
-  const handleMessage = (receiver, event) => {
-    const tempDate = new Date();
-    const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
+  const handleMessage = (event) => {
     setMessagePost({
-      receiver_id: receiver.username,
-      // chat_id: findChat(user?.username, receiver.username)?.id || chatCopy?.slice(-1)[0].id + 1 || 1,
-      chat_id: findChat(user?.username, receiver.username)?.id,
-      sender_id: user?.username,
       msg_content: event.target.value.trim(),
-      time_sent: currentDate,
-      is_read: 0,
-      image: messageImage
     });
   }
 
-  const sendMessage = async (setMessageInput) => {
-    console.log(messagePost)
-    // try {
-    //   await Axios.post('message', messagePost);
-    //   await messageReFetch();
-    //   setMessageInput('');
-    // } catch (msg) {
-    //   console.log(msg.response.data.errors);
-    // }
+  const sendMessage = async (sender, receiver, setMessageInput) => {
+    const tempDate = new Date();
+    const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
+    messagePost.image= messageImage;
+    if(messagePost.image || messagePost.msg_content) {
+      messagePost.receiver_id= receiver;
+      messagePost.chat_id= findChat(user?.username, receiver)?.id;
+      messagePost.sender_id= user?.username;
+      messagePost.time_sent= currentDate;
+      messagePost.is_read= 0;
+      setMessagePost({...messagePost});
+      console.log(JSON.stringify(messagePost))
+      console.log(messagePost);
+      try {
+        await Axios.post('message', messagePost);
+        await messageReFetch();
+        setMessageInput('');
+      } catch (msg) {
+        console.log(msg.response.data.errors);
+      }
+    }
   }
 
   return (

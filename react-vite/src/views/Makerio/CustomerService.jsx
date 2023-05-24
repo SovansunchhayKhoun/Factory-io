@@ -55,17 +55,17 @@ export const CustomerService = () => {
             <div className="flex items-center gap-x-2 bg-gray-300 p-4">
               <input
                 onKeyDown={event => {
-                  event.key === 'Enter' && sendMessage(setMessageInput)
+                  event.key === 'Enter' && sendMessage(user.username, 'admin', setMessageInput)
                 }}
                 value={messageInput}
                 onChange={event => {
                   setMessageInput(event.target.value);
-                  handleMessage({username: 'admin'}, event)
+                  handleMessage(event)
                 }}
                 className="w-full flex items-center h-10 rounded px-3 text-sm" type="text"
                 placeholder="Type your message…"/>
               <button onClick={() => {
-                sendMessage(setMessageInput);
+                sendMessage(user.username, 'admin', setMessageInput);
               }}
                       className="bg-[#1C64F2] text-whiteFactory font-semibold rounded-md px-3 py-1 flex items-center hover:bg-blue-700 cursor-pointer">
                 send
