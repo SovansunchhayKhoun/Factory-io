@@ -143,6 +143,7 @@ export const InvoiceProvider = ({children}) => {
 
   return (
     <InvoiceContext.Provider value={{
+      scrollTop,
       updateInvProd,
       updateOrder,
       updateOrderStatus,

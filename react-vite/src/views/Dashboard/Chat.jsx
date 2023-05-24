@@ -21,6 +21,7 @@ export const Chat = () => {
     messageReFetch,
     getLatestMessage,
     setSeen,
+    setMessageImage
   } = useContext(ChatContext);
 
   useEffect(() => {
@@ -179,6 +180,9 @@ export const Chat = () => {
                         <li key={msg.id} className="flex items-center gap-x-2 justify-start">
                           <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
                             <span className="block">{msg.msg_content}</span>
+                            <span>
+                              <img className="max-w-[200px]" src={`http://127.0.0.1:8000/${msg.image}`}/>
+                            </span>
                           </div>
                           <span className="text-xs block text-grayFactory">{msg.time_sent}</span>
                         </li>
@@ -197,14 +201,17 @@ export const Chat = () => {
                           d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
                 </button>
-                <button>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-gray-500" fill="none"
-                       viewBox="0 0 24 24"
-                       stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                          d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
-                  </svg>
-                </button>
+                <input
+                type="file"
+                accept="image/png, image/jpeg,image/jpg"
+                onChange={e=>setMessageImage(e.target.files[0])}
+                />
+                  {/*<svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-gray-500" fill="none"*/}
+                  {/*     viewBox="0 0 24 24"*/}
+                  {/*     stroke="currentColor">*/}
+                  {/*  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"*/}
+                  {/*        d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>*/}
+                  {/*</svg>*/}
 
                 <input onKeyDown={event => {
                   event.key === 'Enter' && sendMessage(setMessageInput)

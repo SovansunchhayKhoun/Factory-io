@@ -58,6 +58,13 @@ return [
         'visibility' => 'public',
         'throw' => false,
       ],
+      'messages' => [
+        'driver' => 'local',
+        'root' => storage_path('app/public/messages'),
+        'url' => env('APP_URL').'/storage',
+        'visibility' => 'public',
+        'throw' => false,
+      ],
 
         's3' => [
             'driver' => 's3',
@@ -87,6 +94,7 @@ return [
     'links' => [
         public_path('products') => storage_path('app/public/products'),
         public_path('invoices') => storage_path('app/public/invoices'),
+        public_path('messages') => storage_path('app/public/messages'),
     ],
 
 ];

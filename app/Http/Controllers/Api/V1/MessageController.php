@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MessageRequest;
 use App\Http\Resources\V1\MessageResource;
 use App\Models\Message;
+use Illuminate\Support\Facades\Storage;
 
 class MessageController extends Controller
 {
@@ -16,8 +17,15 @@ class MessageController extends Controller
 //      return Message->all();
     }
     public function store(MessageRequest $request) {
-//      dd($request);
-      Message::create($request->validated ());
+
+      $data = $request->validated();
+      if($request->hasFile('image')){
+        $filename = $request->file('image')->getClientOriginalName();
+        $filepath = 'messages/' . $filename;
+        Storage::disk('messages')->put($filename, file_get_contents($data['image']));
+        $data['image'] = $filepath;
+      }
+      Message::create($data);
       return response () -> json ('Message Created');
     }
 

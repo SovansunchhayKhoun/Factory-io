@@ -12,7 +12,7 @@
     {
       Schema ::create ( 'messages' , function ( Blueprint $table ) {
         $table -> id ();
-        $table -> text ( 'msg_content' );
+        $table -> text ( 'msg_content' )->nullable();
         $table -> text ( 'image' ) -> nullable ();
         $table -> foreignId ( 'chat_id' ) -> references ( 'id' ) -> on ( 'chats' );
         $table -> string ( 'sender_id' );

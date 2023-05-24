@@ -26,6 +26,7 @@ import {ChangePasswordView} from "./views/ChangePasswordView.jsx";
 import {InvoiceList} from "./components/AdminComponents/InvoiceComponents/InvoiceList.jsx";
 import {CustomerService} from "./views/Makerio/CustomerService.jsx";
 import {Chat} from "./views/Dashboard/Chat.jsx";
+import {AdminView} from "./views/AdminView.jsx";
 
 
 const router = createBrowserRouter([
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: 'user/:id',
         element: <UserView/>
+      },
+      {
+        path: 'admin/:id',
+        element: <AdminView/>
       },
       {
         path: '/maker-io/user/:id/change-password',
