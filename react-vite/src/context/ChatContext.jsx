@@ -1,4 +1,4 @@
-import {createContext, useEffect, useState} from "react";
+import {createContext, useCallback, useEffect, useState} from "react";
 import Axios from "axios";
 import {useQuery} from "@tanstack/react-query";
 import {useAuthContext} from "./AuthContext.jsx";
@@ -32,7 +32,6 @@ export const ChatProvider = ({children}) => {
   }
 
   const setSeen = (userMessage, receiver) => {
-    console.log(userMessage);
     if (userMessage?.length === 0) {
       return;
     }
@@ -53,17 +52,14 @@ export const ChatProvider = ({children}) => {
       sender_id: sender,
       receiver_id: receiver,
     }
-
     if (!checkChatExist(newChat)) {
       try {
         await Axios.post('chat', newChat);
       } catch (msg) {
         console.log(msg.response.data.errors);
       }
-    } else {
-      await messageReFetch();
     }
-  }
+  };
 
   const findChat = (sender, receiver) => {
     return chatCopy.find((chat) => ((chat.sender_id === sender && chat.receiver_id === receiver) || (chat.sender_id === receiver && chat.receiver_id === sender)));
@@ -74,7 +70,8 @@ export const ChatProvider = ({children}) => {
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
     setMessagePost({
       receiver_id: receiver.username,
-      chat_id: findChat(user?.username, receiver.username).id,
+      // chat_id: findChat(user?.username, receiver.username)?.id || chatCopy?.slice(-1)[0].id + 1 || 1,
+      chat_id: findChat(user?.username, receiver.username)?.id,
       sender_id: user?.username,
       msg_content: event.target.value.trim(),
       time_sent: currentDate,
@@ -97,6 +94,7 @@ export const ChatProvider = ({children}) => {
   return (
     <>
       <ChatContext.Provider value={{
+        checkChatExist,
         setSeen,
         getLatestMessage,
         findChat,
