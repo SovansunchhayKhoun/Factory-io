@@ -27,6 +27,7 @@ import {InvoiceList} from "./components/AdminComponents/InvoiceComponents/Invoic
 import {CustomerService} from "./views/Makerio/CustomerService.jsx";
 import {Chat} from "./views/Dashboard/Chat.jsx";
 import {AdminView} from "./views/AdminView.jsx";
+import {GoogleMaps} from "./views/GoogleMaps.jsx";
 
 
 const router = createBrowserRouter([
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
   //
   //   ]
   // },
+  {
+    path: '/google',
+    element: <GoogleMaps/>
+  },
   {
     path: '/',
     element: <MakerLayout/>,
