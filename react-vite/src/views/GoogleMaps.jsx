@@ -1,5 +1,4 @@
-import {GoogleMap, useJsApiLoader} from "@react-google-maps/api";
-
+import {GoogleMap, useJsApiLoader, Marker} from "@react-google-maps/api";
 
 const center = {lat:11.65309141165872, lng: 104.91172658264043 }
 export const GoogleMaps = () => {
@@ -20,9 +19,12 @@ export const GoogleMaps = () => {
   return (
     <>
       <main>
-        <GoogleMap center={center} mapContainerStyle={{width: 100+"vw", height: 100+"vh"}} zoom={15}>
-
-        </GoogleMap>
+        <div>
+          <GoogleMap center={center} mapContainerStyle={{width: 100+"dvw", height: 100+"dvh"}} zoom={15}>
+            <Marker position={center}/>
+          </GoogleMap>
+          <button className="absolute top-0">Button</button>
+        </div>
       </main>
     </>
   );

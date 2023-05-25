@@ -7,13 +7,16 @@ import InvoiceContext from "../../context/InvoiceContext.jsx";
 
 function DashboardCard04() {
   const {invoices} = useContext(InvoiceContext)
+
   const chartData = {
     labels: invoices.map((invoice) => invoice.date),
     datasets: [
       // Light blue bars
       {
         label: 'Total',
-        data: invoices.map((invoice) => invoice.totalPrice),
+        data: invoices.map((invoice) => {
+          return  invoice.totalPrice
+        }),
         backgroundColor: tailwindConfig().theme.colors.blue[400],
         hoverBackgroundColor: tailwindConfig().theme.colors.blue[500],
         barPercentage: 0.66,

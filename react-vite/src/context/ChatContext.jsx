@@ -74,7 +74,9 @@ export const ChatProvider = ({children}) => {
   const sendMessage = async (sender, receiver, setMessageInput) => {
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
-    messagePost.image= messageImage;
+    if(messageImage){
+      messagePost.image= messageImage;
+    }
     if(messagePost.image || messagePost.msg_content) {
       messagePost.receiver_id= receiver;
       messagePost.chat_id= findChat(user?.username, receiver)?.id;
@@ -85,11 +87,13 @@ export const ChatProvider = ({children}) => {
       console.log(JSON.stringify(messagePost))
       console.log(messagePost);
       try {
-        await Axios.post('message', messagePost);
+        await Axios.post('message', messagePost, {
+          headers: {'Content-Type': "multipart/form-data"}
+        });
         await messageReFetch();
         setMessageInput('');
       } catch (msg) {
-        console.log(msg.response.data.errors);
+        console.log(msg);
       }
     }
   }

@@ -10,9 +10,10 @@ Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 export const Chat = () => {
   const [activeUser, setActiveUser] = useState({});
   const {users, getUsers} = useContext(UserContext);
+  // const [messageImage, setMessageImage] = useState('')
+
   const {
     chatReFetch,
-    chat,
     findChat,
     initChat,
     handleMessage,
@@ -169,9 +170,15 @@ export const Chat = () => {
                     if (msg.receiver_id === activeUser?.username) {
                       return (
                         <li key={msg.id} className="flex justify-end items-center gap-x-2">
-                          <span className="text-xs block text-grayFactory">{msg.time_sent}</span>
+                          {/*<span className="text-xs block text-grayFactory">{msg.time_sent}</span>*/}
+                          <span className={`${msg.image && 'hidden'} text-xs block text-grayFactory`}>{msg.time_sent}</span>
                           <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
                             <span className="block">{msg.msg_content}</span>
+                            <span>
+                              {/*<img className="max-w-[200px]" src={`http://127.0.0.1:8000/${msg.image}`}/>*/}
+                              {msg.image && <img className="max-w-[250px]" src='/assets/images/abtus.jpg'/>}
+                            </span>
+                            <span className={`${msg.image ? 'text-xs block text-grayFactory' : 'hidden'}`}>{msg.time_sent}</span>
                           </div>
                         </li>
                       );
@@ -225,7 +232,7 @@ export const Chat = () => {
                        name="message" required/>
                 <button onClick={() => {
                   sendMessage('admin', activeUser?.username, setMessageInput)
-                }} type="">
+                }}>
                   <svg className="w-5 h-5 text-gray-500 origin-center transform rotate-90"
                        xmlns="http://www.w3.org/2000/svg"
                        viewBox="0 0 20 20" fill="currentColor">
