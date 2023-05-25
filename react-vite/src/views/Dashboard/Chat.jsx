@@ -131,6 +131,7 @@ export const Chat = () => {
                           className={`${userNotification?.length > 0 && 'font-semibold'}` +
                             " block ml-2 text-sm text-gray-600"}>
                           {getLatestMessage('admin', usr.username)?.msg_content}
+                          {getLatestMessage('admin', usr.username)?.image && `${usr.username} sent a photo`}
                         </span>
                         <span className={`${userNotification?.length === 0 && 'hidden'}` +
                           " w-[20px] h-[20px] bg-blueBase text-whiteFactory flex justify-center items-center rounded-[50%] text-xs"}>
@@ -176,7 +177,7 @@ export const Chat = () => {
                             <span className="block">{msg.msg_content}</span>
                             <span>
                               {/*<img className="max-w-[200px]" src={`http://127.0.0.1:8000/${msg.image}`}/>*/}
-                              {msg.image && <img className="max-w-[250px]" src='/assets/images/abtus.jpg'/>}
+                              {msg.image && <img className="max-w-[250px]" src={`http://127.0.0.1:8000/${msg.image}`}/>}
                             </span>
                             <span className={`${msg.image ? 'text-xs block text-grayFactory' : 'hidden'}`}>{msg.time_sent}</span>
                           </div>
@@ -189,7 +190,7 @@ export const Chat = () => {
                             <span className="block">{msg.msg_content}</span>
                             <span>
                               {/*<img className="max-w-[200px]" src={`http://127.0.0.1:8000/${msg.image}`}/>*/}
-                              {msg.image && <img className="max-w-[250px]" src='/assets/images/abtus.jpg'/>}
+                              {msg.image && <img className="max-w-[250px]" src={`http://127.0.0.1:8000/${msg.image}`}/>}
                             </span>
                             <span className={`${msg.image ? 'text-xs block text-grayFactory' : 'hidden'}`}>{msg.time_sent}</span>
                           </div>
@@ -224,12 +225,13 @@ export const Chat = () => {
 
                 <input onKeyDown={event => {
                   event.key === 'Enter' && sendMessage('admin', activeUser?.username, setMessageInput)
-                }} value={messageInput} onChange={event => {
+                }} value={messageInput}
+                 onChange={event => {
                   setMessageInput(event.target.value);
                   handleMessage(event)
                 }} type="text" placeholder="Message"
-                       className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
-                       name="message" required/>
+               className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
+               name="message" required/>
                 <button onClick={() => {
                   sendMessage('admin', activeUser?.username, setMessageInput)
                 }}>

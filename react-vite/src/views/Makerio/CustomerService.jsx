@@ -12,9 +12,17 @@ import {useQuery} from "@tanstack/react-query";
 
 export const CustomerService = () => {
   const {user, token} = useAuthContext();
+  const [messageInput, setMessageInput] = useState('');
   if (token) {
-    const {messageReFetch, message, sendMessage, handleMessage, findChat, setSeen} = useContext(ChatContext);
-    const [messageInput, setMessageInput] = useState('');
+    const {
+      messageReFetch,
+      message,
+      sendMessage,
+      handleMessage,
+      findChat,
+      setSeen,
+      setMessageImage
+    } = useContext(ChatContext);
     useEffect(() => {
       messageReFetch();
       setSeen(message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id), user.username);
@@ -43,16 +51,22 @@ export const CustomerService = () => {
               }).map(msg => {
                 if (msg.sender_id === user.username) {
                   return (
-                    <Sender key={msg.id} time={msg.time_sent} messageContent={msg.msg_content}/>
+                    <Sender key={msg.id} time={msg.time_sent} messageContent={msg.msg_content} image={msg.image}/>
                   );
                 } else {
-                  return <Replier key={msg.id} time={msg.time_sent} messageContent={msg.msg_content}/>
+                  return <Replier key={msg.id} time={msg.time_sent} messageContent={msg.msg_content} image={msg.image}/>
                 }
               })
               }
             </div>
 
             <div className="flex items-center gap-x-2 bg-gray-300 p-4">
+              <input
+                type="file"
+                accept="image/png, image/jpeg, image/jpg"
+                onChange={e => setMessageImage(e.target.files[0])}
+              />
+
               <input
                 onKeyDown={event => {
                   event.key === 'Enter' && sendMessage(user.username, 'admin', setMessageInput)

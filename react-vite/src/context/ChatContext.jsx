@@ -92,12 +92,12 @@ export const ChatProvider = ({children}) => {
         });
         await messageReFetch();
         setMessageInput('');
+        setMessagePost({});
       } catch (msg) {
         console.log(msg);
       }
     }
   }
-
   return (
     <>
       <ChatContext.Provider value={{
