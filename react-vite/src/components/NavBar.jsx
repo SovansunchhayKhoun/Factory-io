@@ -4,12 +4,18 @@ import {useAuthContext} from "../context/AuthContext.jsx";
 import CartContext from "../context/CartContext.jsx";
 import ChatContext from "../context/ChatContext.jsx";
 import InvoiceContext from "../context/InvoiceContext.jsx";
+import ProductContext from "../context/ProductContext.jsx";
 
 export const NavBar = () => {
   const {onLogout, token, user} = useAuthContext()
   const {cartItem, getCartItem} = useContext(CartContext);
   const {invoices} = useContext(InvoiceContext)
   const {message, findChat} = useContext(ChatContext);
+  const {items, searchInput, itemsQueryReFetch, setSearchInput} = useContext(ProductContext);
+
+  useEffect(() => {
+    itemsQueryReFetch();
+  }, []);
 
   useEffect(() => {
     getCartItem();
@@ -34,9 +40,20 @@ export const NavBar = () => {
         </Link>
       </div>
       <div className="flex items-center gap-x-12">
+        <div className="w-[384px]">
+          <input type="text"
+                 className="w-[100%] px-12 search-bar py-2"
+                 onChange={event => {
+                   setSearchInput(event.target.value)
+                 }}
+          />
+        </div>
+
+      </div>
+      <div className="flex items-end gap-x-6">
         <div className="highlight-hover text-[#8A0000]">
           <Link to="/maker-io">
-            Home
+            <img src="/assets/images/homeicon.png" alt=""/>
           </Link>
         </div>
         <div className="highlight-hover relative">
@@ -49,7 +66,7 @@ export const NavBar = () => {
               <><Link to={
                 token ? "/cart" : "/login"
               }>
-                Cart
+                <img src="/assets/images/carticon.png" alt=""/>
               </Link>
                 <span
                   className={cartItem.length === 0 ? 'hidden' : " flex justify-center items-center w-[16px] h-[16px] absolute top-[-6px] right-[-16px] bg-redBase text-whiteFactory rounded-[50%] text-[12px]"}>
@@ -64,7 +81,7 @@ export const NavBar = () => {
               <><Link className="relative" to={
                 token ? "/order" : "/login"
               }>
-                <span>Order</span>
+                <img src="/assets/images/ordericon.png" alt=""/>
                 <span
                   className={`${orders?.length === 0 && 'hidden'} flex justify-center items-center w-[16px] h-[16px] absolute top-[-6px] right-[-16px] bg-tealActive text-whiteFactory rounded-[50%] text-[12px]`}>
               {orders?.length}
@@ -85,18 +102,11 @@ export const NavBar = () => {
                       {user?.firstName}
                     </p> :
                       <Link to={`/user/${user.id}`}>
-                        {user?.firstName}
+                        <img src="/assets/images/pficon.png" alt="" />
                       </Link>
                   }
                 </div>
-                <div className="highlight-hover text-[#3C3C3C]">
-                  <a onClick={onLogout}>
-                    <div className="flex flex-row items-center">
-                      Logout
-                      <img className="w-[18px] h-[18px] ml-1.5" src="/assets/images/logout.png"/>
-                    </div>
-                  </a>
-                </div>
+
               </div>
             </>
           ) :
