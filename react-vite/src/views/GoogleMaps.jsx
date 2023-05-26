@@ -1,13 +1,36 @@
-import {GoogleMap, useJsApiLoader, Marker} from "@react-google-maps/api";
+import {GoogleMap, useJsApiLoader, Marker, Autocomplete} from "@react-google-maps/api";
+import {useEffect, useState} from "react";
 
-const center = {lat:11.65309141165872, lng: 104.91172658264043 }
 export const GoogleMaps = () => {
+  const [longitude, setLongitude] = useState(0);
+  const [latitude, setLatitude] = useState(0);
+  const [marker, setMarker] = useState([]);
+  const [map, setMap] = useState(/** @type google.maps.Map */ (null));
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position.coords)
+      const {latitude, longitude} = position.coords;
+      setLatitude(latitude);
+      setLongitude(longitude);
+      setMarker([{lat: latitude, lng: longitude}])
+    })
+  }, []);
+
+  const currentLocation = () => {
+    navigator.geolocation.getCurrentPosition(position => {
+      const {longitude, latitude} = position.coords;
+      setMarker([{
+        lng: longitude,
+        lat: latitude
+      }])
+    })
+  }
 
   const {isLoaded} = useJsApiLoader({
-      googleMapsApiKey: import.meta.env.VITE_APP_GOOGLE_MAPS_API_KEY
+      googleMapsApiKey: import.meta.env.VITE_APP_GOOGLE_MAPS_API_KEY,
     }
   );
-
   if (!isLoaded) {
     return (
       <main>
@@ -20,10 +43,32 @@ export const GoogleMaps = () => {
     <>
       <main>
         <div>
-          <GoogleMap center={center} mapContainerStyle={{width: 100+"dvw", height: 100+"dvh"}} zoom={15}>
-            <Marker position={center}/>
+          <GoogleMap center={{lat: latitude, lng: longitude}} zoom={15}
+                     mapContainerStyle={{width: 50 + "dvw", height: 100 + "dvh"}}
+                     onLoad={map => setMap(map)}
+                     onClick={event => {
+                       setMarker(current => [
+                         {
+                           lat: event.latLng.lat(),
+                           lng: event.latLng.lng()
+                         }
+                       ])
+                     }}
+          >
+            {marker.map((mark, index) => <Marker key={index} position={mark}/>)}
           </GoogleMap>
-          <button className="absolute top-0">Button</button>
+          <button
+            onClick={() => {
+              // map.panTo({lat: latitude, lng: longitude})
+              map.panTo(marker[0])
+            }}
+            className="absolute top-0">Button
+          </button>
+          <button onClick={() => {
+            currentLocation()
+          }}>
+            Current Locaton
+          </button>
         </div>
       </main>
     </>
