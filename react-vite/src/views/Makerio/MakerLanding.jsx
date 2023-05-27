@@ -21,30 +21,35 @@ export const MakerLanding = () => {
           <section className="font-bold">
             Product
           </section>
-          <div className="w-[384px]">
-            <input type="text"
-                   className="w-[100%] px-12 search-bar py-2"
-                   onChange={event => {
-                     setSearchInput(event.target.value)
-                   }}
-            />
-          </div>
+          {/*<div className="w-[384px]">*/}
+          {/*  <input type="text"*/}
+          {/*         className="w-[100%] px-12 search-bar py-1 border-none"*/}
+          {/*         onChange={event => {*/}
+          {/*           setSearchInput(event.target.value)*/}
+          {/*         }}*/}
+          {/*  />*/}
+          {/*</div>*/}
           <div className="flex gap-x-6 font-bold mb-6">
-            <div className="highlight-hover" onClick={() => {
+            <div className={`${searchInput === '' && 'text-tealHover'} highlight-hover`} onClick={() => {
               setSearchInput('')
-            }}>All</div>
-            <div className="highlight-hover" onClick={() => {
+            }}>All
+            </div>
+            <div className={`${searchInput === 'sensor' && 'text-tealHover'} highlight-hover`} onClick={() => {
               setSearchInput('sensor')
-            }}>Sensors</div>
-            <div className="highlight-hover" onClick={() => {
+            }}>Sensors
+            </div>
+            <div className={`${searchInput === 'microcontroller' && 'text-tealHover'} highlight-hover`} onClick={() => {
               setSearchInput('microcontroller')
-            }}>Micro-Controller</div>
-            <div className="highlight-hover" onClick={() => {
+            }}>Micro-Controller
+            </div>
+            <div className={`${searchInput === 'arduino' && 'text-tealHover'} highlight-hover`} onClick={() => {
               setSearchInput('arduino')
-            }}>Arduino</div>
-            <div className="highlight-hover" onClick={() => {
+            }}>Arduino
+            </div>
+            <div className={`${searchInput === 'steam' && 'text-tealHover'} highlight-hover`} onClick={() => {
               setSearchInput('steam')
-            }}>Steam</div>
+            }}>Steam
+            </div>
           </div>
         </div>
 
@@ -55,15 +60,15 @@ export const MakerLanding = () => {
             {items.length === 0 && <div>No Items</div>}
             {/*warning if no items in database*/}
             {items.filter((item) => {
-              if (searchInput === ""){
+              if (searchInput === "") {
                 return item
-              }else if(searchInput !== ""){
-                if(item.name.toLowerCase().includes(searchInput.toLowerCase()) || item.type.toLowerCase().includes(searchInput.toLowerCase()))
-                return item
+              } else if (searchInput !== "") {
+                if (item.name.toLowerCase().includes(searchInput.toLowerCase()) || item.type.toLowerCase().includes(searchInput.toLowerCase()))
+                  return item
               }
             }).map((item, key) => {
               return (
-                <ItemCard key={key} item={item} />
+                <ItemCard key={key} item={item}/>
               );
             })}
           </div>
