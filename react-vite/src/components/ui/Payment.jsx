@@ -21,7 +21,7 @@ export const Payment = (props) => {
   };
   return (
     <>
-      <div className="flex justify-between">
+      <div className="px-48 flex justify-between mb-12">
         <div className="w-[50%]">
           <GoogleMaps height={250}/>
         </div>
@@ -62,9 +62,9 @@ export const Payment = (props) => {
             <img className={`object-contain w-[200px] h-[200px]`} src="/assets/images/qr-riel.jpg" alt=""/>}
         </div>
         <div className="flex flex-col">
-          <p className="font-bold text-[#D9D9D9]">
+          <label htmlFor="files" className="cursor-pointer font-bold text-[#D9D9D9]">
             Submit Screenshot
-          </p>
+          </label>
           <input type="file" id="files" className="opacity-1 w-full"
                  onChange={(e) => setPaymentPic(e.target.files[0])}/>
         </div>

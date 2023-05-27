@@ -149,7 +149,7 @@ export const GoogleMaps = (props) => {
             {marker.map((mark, index) => <MarkerF key={index} position={mark}/>)}
           </GoogleMap>
         </div>
-        <div>{JSON.stringify(marker[0])}</div>
+        {/*<div>{JSON.stringify(marker[0])}</div>*/}
       </div>
     </>
   );
