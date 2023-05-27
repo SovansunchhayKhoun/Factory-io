@@ -1,33 +1,38 @@
 import {useAuthContext} from "../../context/AuthContext.jsx";
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import ChatContext from "../../context/ChatContext.jsx";
 import {Sender} from "../../components/ChatComponent/Sender.jsx";
 import {Replier} from "../../components/ChatComponent/Replier.jsx";
 import {Link} from "react-router-dom";
-import UserContext from "../../context/UserContext.jsx";
-import Axios from "axios";
-import {useQuery} from "@tanstack/react-query";
-
-``
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import {Card} from "flowbite-react";
+import {ImagePreview} from "../../components/ImagePreview.jsx";
+import * as trace_events from "trace_events";
 
 export const CustomerService = () => {
+  const {
+    messageReFetch,
+    message,
+    sendMessage,
+    handleMessage,
+    findChat,
+    setSeen,
+    setMessageImage,
+    messageImage,
+  } = useContext(ChatContext);
+
   const {user, token} = useAuthContext();
   const [messageInput, setMessageInput] = useState('');
+  const [open, setOpen] = useState(false);
+
   if (token) {
-    const {
-      messageReFetch,
-      message,
-      sendMessage,
-      handleMessage,
-      findChat,
-      setSeen,
-      setMessageImage
-    } = useContext(ChatContext);
     useEffect(() => {
-      messageReFetch();
+      // messageReFetch();
       setSeen(message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id), user.username);
     }, []);
-
     return (
       <>
         <main className="flex flex-col items-center w-full min-h-screen text-gray-800">
@@ -59,14 +64,24 @@ export const CustomerService = () => {
               })
               }
             </div>
-
             <div className="flex items-center gap-x-2 bg-gray-300 p-4">
+              <label htmlFor="file_upload" className="cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                     stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round"
+                        d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"/>
+                </svg>
+              </label>
               <input
+                className="hidden"
+                id="file_upload"
                 type="file"
                 accept="image/png, image/jpeg, image/jpg"
-                onChange={e => setMessageImage(e.target.files[0])}
+                onChange={e => {
+                  setMessageImage(e.target.files[0])
+                  e.target.files[0] && setOpen(true);
+                }}
               />
-
               <input
                 onKeyDown={event => {
                   event.key === 'Enter' && sendMessage(user.username, 'admin', setMessageInput)
@@ -74,16 +89,23 @@ export const CustomerService = () => {
                 value={messageInput}
                 onChange={event => {
                   setMessageInput(event.target.value);
-                  handleMessage(event)
+                  handleMessage(event, setMessageInput)
                 }}
                 className="w-full flex items-center h-10 rounded px-3 text-sm" type="text"
                 placeholder="Type your message…"/>
               <button onClick={() => {
                 sendMessage(user.username, 'admin', setMessageInput);
               }}
-                      className="bg-[#1C64F2] text-whiteFactory font-semibold rounded-md px-3 py-1 flex items-center hover:bg-blue-700 cursor-pointer">
+                className="bg-[#1C64F2] text-whiteFactory font-semibold rounded-md px-3 py-1 flex items-center hover:bg-blue-700 cursor-pointer">
                 send
               </button>
+              <ImagePreview
+                messageInput={messageInput}
+                setMessageImage={setMessageImage}
+                handleMessage={handleMessage}
+                setOpen={setOpen} open={open}
+                messageImage={messageImage} setMessageInput={setMessageInput}
+                sendMessage={sendMessage} sender={user?.username} receiver={'admin'}/>
             </div>
           </div>
         </main>
@@ -107,3 +129,4 @@ export const CustomerService = () => {
     );
   }
 };
+

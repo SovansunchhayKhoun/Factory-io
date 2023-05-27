@@ -65,7 +65,7 @@ export const Payment = (props) => {
           <label htmlFor="files" className="cursor-pointer font-bold text-[#D9D9D9]">
             Submit Screenshot
           </label>
-          <input type="file" id="files" className="opacity-1 w-full"
+          <input type="file" id="files" accept="image/*"
                  onChange={(e) => setPaymentPic(e.target.files[0])}/>
         </div>
       </div>
