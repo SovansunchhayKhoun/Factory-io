@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import {Card} from "flowbite-react";
 import {ImagePreview} from "../../components/ImagePreview.jsx";
 import * as trace_events from "trace_events";
+import InvoiceContext from "../../context/InvoiceContext.jsx";
 
 export const CustomerService = () => {
   const {
@@ -27,8 +28,12 @@ export const CustomerService = () => {
   const {user, token} = useAuthContext();
   const [messageInput, setMessageInput] = useState('');
   const [open, setOpen] = useState(false);
+  const {scrollDown} = useContext(InvoiceContext);
 
   if (token) {
+    useEffect(() => {
+      scrollDown(0)
+    }, []);
     useEffect(() => {
       // messageReFetch();
       setSeen(message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id), user.username);
