@@ -1,18 +1,18 @@
 import Axios from "axios";
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import UserContext from "../../context/UserContext.jsx";
 import {act} from "react-dom/test-utils";
 import {useAuthContext} from "../../context/AuthContext.jsx";
 import ChatContext from "../../context/ChatContext.jsx";
 import {dividerClasses} from "@mui/material";
+import {ImagePreview} from "../../components/ImagePreview.jsx";
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 export const Chat = () => {
   const [activeUser, setActiveUser] = useState({});
   const {users, getUsers} = useContext(UserContext);
-  // const [messageImage, setMessageImage] = useState('')
-
   const {
+    messageImage,
     chatReFetch,
     findChat,
     initChat,
@@ -25,13 +25,14 @@ export const Chat = () => {
     setMessageImage
   } = useContext(ChatContext);
 
-  useEffect(() => {
-    messageReFetch();
-    chatReFetch();
-    getUsers();
-  }, []);
+  // useEffect(() => {
+  //   // messageReFetch();
+  //   // chatReFetch();
+  //   // getUsers();
+  // }, []);
 
   const [messageInput, setMessageInput] = useState('');
+  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -58,49 +59,6 @@ export const Chat = () => {
             {/*User List*/}
             <ul className="overflow-auto h-[32rem]">
               <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
-              {/*{chat?.map((ch) => {*/}
-              {/*  const {users, messages} = ch;*/}
-              {/*  const unreadMessages = messages.filter((msg) => msg.is_read === 0 && msg.sender_id !== 'admin');*/}
-              {/*  // if (messages.length > 0) {*/}
-              {/*  return (*/}
-              {/*    <li*/}
-              {/*      onClick={() => {*/}
-              {/*        initChat('admin', users[0].username);*/}
-              {/*        setSeen(messages, 'admin');*/}
-              {/*        setMessageInput('');*/}
-              {/*        messageReFetch();*/}
-              {/*        setActiveUser(users[0]);*/}
-              {/*      }}*/}
-              {/*      key={users[0].id}*/}
-              {/*      className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">*/}
-              {/*      <img className="object-cover w-10 h-10 rounded-full"*/}
-              {/*           src="/assets/images/seangly.jpg" alt="username"/>*/}
-              {/*      <div className="w-full pb-2">*/}
-              {/*        <div className="flex justify-between">*/}
-              {/*            <span className="block ml-2 font-semibold text-gray-600">*/}
-              {/*              {users[0].username}*/}
-              {/*            </span>*/}
-              {/*          <span className="block ml-2 text-sm text-gray-600">*/}
-              {/*              /!*25 minutes*!/*/}
-              {/*            </span>*/}
-              {/*        </div>*/}
-              {/*        <div className="flex justify-between pr-12">*/}
-              {/*            <span*/}
-              {/*              className={`${unreadMessages.length > 0 && 'font-semibold'}` +*/}
-              {/*                " block ml-2 text-sm text-gray-600"}>*/}
-              {/*              {getLatestMessage('admin', users[0].username)?.msg_content}*/}
-              {/*            </span>*/}
-              {/*          <span className={`${unreadMessages.length === 0 && 'hidden'}` +*/}
-              {/*            " w-[20px] h-[20px] bg-blueBase text-whiteFactory flex justify-center items-center rounded-[50%] text-xs"}>*/}
-              {/*              {unreadMessages.length}*/}
-              {/*            </span>*/}
-              {/*        </div>*/}
-              {/*      </div>*/}
-              {/*    </li>*/}
-              {/*  )*/}
-              {/*  // }*/}
-              {/*})}*/}
-
               {users.map((usr) => {
                 const unreadMessages = message?.filter((msg) => msg.is_read === 0 && msg.sender_id !== 'admin');
                 const userNotification = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr.username);
@@ -123,7 +81,7 @@ export const Chat = () => {
                             {usr.username}
                           </span>
                         <span className="block ml-2 text-sm text-gray-600">
-                            {/*25 minutes*/}
+                            25 minutes
                           </span>
                       </div>
                       <div className="flex justify-between pr-12">
@@ -144,8 +102,6 @@ export const Chat = () => {
                 )
               })
               }
-
-
             </ul>
             {/*User List*/}
           </div>
@@ -203,32 +159,38 @@ export const Chat = () => {
               </div>
 
               <div className="flex items-center justify-between w-full p-3 border-t border-gray-300">
-                <button>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-500" fill="none"
+                <label htmlFor="file_upload" className="cursor-pointer">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-gray-500" fill="none"
                        viewBox="0 0 24 24"
                        stroke="currentColor">
-                    <path strokeLinecap='round' cap="round" strokeLinejoin="round" strokeWidth="2"
-                          d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                          d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
                   </svg>
-                </button>
-                <input
-                type="file"
-                accept="image/png, image/jpeg,image/jpg"
-                onChange={e=>setMessageImage(e.target.files[0])}
-                />
-                  {/*<svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-gray-500" fill="none"*/}
-                  {/*     viewBox="0 0 24 24"*/}
-                  {/*     stroke="currentColor">*/}
-                  {/*  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"*/}
-                  {/*        d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>*/}
-                  {/*</svg>*/}
+                </label>
 
+                <input
+                  className={"hidden"}
+                  id="file_upload"
+                  type="file"
+                  accept="image/png, image/jpeg,image/jpg"
+                  onChange={e=> {
+                    setMessageImage(e.target.files[0])
+                    e.target.files[0] && setOpen(true);
+                  }}
+                />
+                <ImagePreview
+                  messageInput={messageInput}
+                  setMessageImage={setMessageImage}
+                  handleMessage={handleMessage}
+                  setOpen={setOpen} open={open}
+                  messageImage={messageImage} setMessageInput={setMessageInput}
+                  sendMessage={sendMessage} receiver={activeUser?.username} sender={'admin'}/>
                 <input onKeyDown={event => {
                   event.key === 'Enter' && sendMessage('admin', activeUser?.username, setMessageInput)
                 }} value={messageInput}
                  onChange={event => {
                   setMessageInput(event.target.value);
-                  handleMessage(event)
+                  handleMessage(event, setMessageInput)
                 }} type="text" placeholder="Message"
                className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
                name="message" required/>
