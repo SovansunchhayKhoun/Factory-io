@@ -17,4 +17,9 @@
         {
             return $this -> belongsToMany ( Invoice::class );
         }
+
+        public function Review ()
+        {
+          return $this->hasMany(Review::class);
+        }
     }
