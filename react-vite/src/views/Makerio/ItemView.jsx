@@ -9,6 +9,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import {Card} from "flowbite-react";
 import {ItemCardCarousel} from "../../components/CartComponents/ItemCardCarousel.jsx";
+import {ProductReview} from "../../components/ProductReview.jsx";
 
 
 export const ItemView = (props) => {
@@ -86,6 +87,7 @@ export const ItemView = (props) => {
           </div>
         </div>
       </section>
+      <ProductReview/>
       <div className="mt-16 mb-16">
         <div className="mb-3 text-tealHover font-semibold">Related items</div>
         <Carousel itemClass={'flex'} responsive={responsive}>
