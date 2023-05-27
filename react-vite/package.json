@@ -17,6 +17,7 @@
     "@heroicons/react": "^2.0.17",
     "@iconify/react": "^4.1.0",
     "@mui/material": "^5.12.3",
+    "@reach/combobox": "^0.18.0",
     "@react-google-maps/api": "^2.18.1",
     "@tanstack/react-query": "^4.29.5",
     "axios": "^1.4.0",
@@ -31,7 +32,8 @@
     "react-icons": "^4.8.0",
     "react-loading": "^2.0.3",
     "react-multi-carousel": "^2.8.3",
-    "react-router-dom": "^6.11.1"
+    "react-router-dom": "^6.11.1",
+    "use-places-autocomplete": "^4.0.0"
   },
   "devDependencies": {
     "@material-tailwind/react": "^2.0.1",

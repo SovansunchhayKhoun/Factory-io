@@ -6,31 +6,39 @@ import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 import {Link} from "react-router-dom";
 import {useAuthContext} from "../../context/AuthContext.jsx";
+import {GoogleMap} from "@react-google-maps/api";
+import {GoogleMaps} from "../GoogleMaps.jsx";
+import {AddressForm} from "../../components/AddressForm.jsx";
 
 export const CartView = () => {
   const {cartItem, getCartItem} = useContext(CartContext);
-  const {handleAddressChange, address, scrollTop} = useContext(InvoiceContext);
-  const {itemsQueryReFetch} = useContext(ProductContext);
-  const {user, token} = useAuthContext();
   useEffect(() => {
     scrollTop(0);
     getCartItem();
-    itemsQueryReFetch();
+    // itemsQueryReFetch();
   }, []);
+  const {handleAddressChange, address, scrollTop} = useContext(InvoiceContext);
+  const {itemsQueryReFetch} = useContext(ProductContext);
+  const {user, token} = useAuthContext();
 
   if (token) {
     return (
       <main>
-        <div className="flex justify-between mb-3">
+        {/*<AddressForm />*/}
+        <div className="w-full flex mb-3 justify-between">
           <div className="font-bold text-blueBase text-lg">Cart</div>
-          <div className="w-[40%] flex flex-col">
+          <div className="flex flex-col w-[40%]">
             Test Address, Address for testing
-            <input className="font-semibold bg-tealActive text-blackFactory px-3 py-2 rounded-md" value={address.toString()} onChange={handleAddressChange} placeholder={`#, Street, District, City, Country`}/>
+            <input className="font-semibold bg-tealActive text-blackFactory px-3 py-2 rounded-md"
+                   value={address.toString()} onChange={handleAddressChange}
+                   placeholder={`#, Street, District, City, Country`}/>
             <span className="text-sm text-redBase">
-              {cartItem.addressError}
+                {cartItem.addressError}
             </span>
           </div>
         </div>
+        {/*<div className="flex justify-between">*/}
+        {/*</div>*/}
         <div className="flex flex-col gap-y-3 pb-6 border-b-2 border-tealActive mb-6">
           {cartItem.length === 0 && 'Empty Cart'}
           {cartItem.map((item, pos) => {
