@@ -77,16 +77,18 @@ export const CartProvider = ({children}) => {
   }
 
   const handleQty = (event, item) => {
-    if(!Number(event.target.value)){
-      console.log('true')
+    item.warning = '';
+    if (!Number(event.target.value)) {
+      item.warning = 'Item quantity cannot be set to 0';
+      event.target.value = '';
     } else {
       item.qty = Number(event.target.value);
-      setCartItem([...cartItem])
     }
+    setCartItem([...cartItem])
+    saveLocalCartItem(cartItem);
   }
 
   const increaseItemQty = (item) => {
-    console.log(item)
     // find original item
     // const stockItem = items.find((i) => i.id === cart.id);
     // // set variable for cart item

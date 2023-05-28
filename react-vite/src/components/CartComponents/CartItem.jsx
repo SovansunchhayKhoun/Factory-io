@@ -55,7 +55,7 @@ export const CartItem = (props) => {
                   setItemQty(Number(event.target.value));
                   handleQty(event, item)
                 }}
-                className="text-center"
+                className="text-center text-sm border-tealActive w-[20%]"
                 placeholder={item.qty}
               />
               <button
@@ -64,7 +64,7 @@ export const CartItem = (props) => {
                   increaseItemQty(item)
                 }}>+
               </button>
-              <div>{itemQty}</div>
+            <span className="text-redBase text-xs">{item.warning}</span>
             </div>
             <p><span className="underline underline-offset-2">Sub-total:</span> <span
               className="font-bold text-redBase">${item.qty * item.price}</span></p>
@@ -86,3 +86,4 @@ export const CartItem = (props) => {
     );
   }
 };
+
