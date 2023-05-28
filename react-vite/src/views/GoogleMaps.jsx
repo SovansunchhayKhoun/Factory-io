@@ -13,7 +13,7 @@ import {
   ComboboxOptionText,
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
-
+const libraries = ['places'];
 export const GoogleMaps = (props) => {
   const {height} = props;
   useEffect(() => {
@@ -31,7 +31,7 @@ export const GoogleMaps = (props) => {
   const [map, setMap] = useState(/** @type google.maps.Map */ (null));
   const {isLoaded} = useJsApiLoader({
       googleMapsApiKey: import.meta.env.VITE_APP_GOOGLE_MAPS_API_KEY,
-      libraries: ['places']
+      libraries
     }
   );
   const [selected, setSelected] = useState(null);

@@ -5,11 +5,21 @@ import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 import UserContext from "../../context/UserContext.jsx";
 import {useAuthContext} from "../../context/AuthContext.jsx";
+
 export const CartItem = (props) => {
   const {item} = props;
-  const {increaseItemQty, decreaseItemQty, cartItem, setCartItem, saveLocalCartItem} = useContext(CartContext);
+  const {
+    increaseItemQty,
+    decreaseItemQty,
+    cartItem,
+    setCartItem,
+    saveLocalCartItem,
+    handleQty,
+    setItemQty,
+    itemQty
+  } = useContext(CartContext);
   const {token} = useAuthContext();
-  if(token) {
+  if (token) {
     return (
       <div className="px-12 py-3 flex items-center justify-between border-2 border-tealActive shadow-2xl">
         <div className="flex items-center gap-x-6">
@@ -28,26 +38,43 @@ export const CartItem = (props) => {
             </Link>
             <div className="mb-1 text-blackFactory">Item Type: Arduino</div>
             <div className="mb-1 flex items-center gap-x-2">
-              <button className="transition duration-150 px-3 py-1 hover:rounded-[50%] hover:bg-whiteFactory active:bg-grayFactory" onClick={() => {
-                decreaseItemQty(item)
-              }}>-
+              <button
+                className="transition duration-150 px-3 py-1 hover:rounded-[50%] hover:bg-whiteFactory active:bg-grayFactory"
+                onClick={() => {
+                  decreaseItemQty(item)
+                }}>-
               </button>
-              <span className="py-1 text-center border-[0.13rem] border-tealActive text-sm w-8">
-                {item.qty}
-              </span>
-              <button className="transition duration-150 px-3 py-1 hover:rounded-[50%] hover:bg-whiteFactory active:bg-grayFactory" onClick={() => {
-                increaseItemQty(item)
-              }}>+
+              {/*<span className="py-1 text-center border-[0.13rem] border-tealActive text-sm w-8">*/}
+              {/*  {item.qty}*/}
+              {/*</span>*/}
+
+              <input
+                type="text"
+                min="1"
+                onChange={event => {
+                  setItemQty(Number(event.target.value));
+                  handleQty(event, item)
+                }}
+                className="text-center"
+                placeholder={item.qty}
+              />
+              <button
+                className="transition duration-150 px-3 py-1 hover:rounded-[50%] hover:bg-whiteFactory active:bg-grayFactory"
+                onClick={() => {
+                  increaseItemQty(item)
+                }}>+
               </button>
+              <div>{itemQty}</div>
             </div>
-            <p><span className="underline underline-offset-2">Sub-total:</span> <span className="font-bold text-redBase">${item.qty*item.price}</span></p>
+            <p><span className="underline underline-offset-2">Sub-total:</span> <span
+              className="font-bold text-redBase">${item.qty * item.price}</span></p>
             <p className="text-redBase text-xs">
               {item.errorStatus}
             </p>
           </div>
         </div>
         <div>
-          <button onClick={() =>{
+          <button onClick={() => {
             cartItem.splice(cartItem.indexOf(item), 1);
             saveLocalCartItem(cartItem);
             setCartItem([...cartItem]);
