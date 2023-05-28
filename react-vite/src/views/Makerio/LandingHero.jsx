@@ -94,7 +94,7 @@ export const LandingHero = () => {
             }}
             className="cursor-pointer max-w-[300px] min-h-[150px] shadow-2xl border border-[#59C3CB] rounded-lg p-6 flex flex-col transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
             <div className="flex-1 w-[200px]">
-              <img src="/assets/images/Sound-Detection-Sensor-Module.jpg"
+              <img src="/assets/images/mproc.jpg"
                    alt=""/>
             </div>
             <div className="mt-auto flex items-center justify-between">
@@ -118,7 +118,7 @@ export const LandingHero = () => {
           <div
             className="cursor-pointer max-w-[300px] min-h-[150px] shadow-2xl border border-[#59C3CB] rounded-lg p-6 flex flex-col transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
             <div className="flex-1 w-[200px]">
-              <img src="/assets/images/Sound-Detection-Sensor-Module.jpg"
+              <img src="/assets/images/toolpic.jpg"
                    alt=""/>
             </div>
             <div className="mt-auto flex items-center justify-between">
@@ -139,12 +139,12 @@ export const LandingHero = () => {
             }}
             className="cursor-pointer max-w-[300px] min-h-[150px] shadow-2xl border border-[#59C3CB] rounded-lg p-6 flex flex-col transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
             <div className="flex-1 w-[200px]">
-              <img src="/assets/images/Sound-Detection-Sensor-Module.jpg"
+              <img src="/assets/images/electro.jpg"
                    alt=""/>
             </div>
             <div className="mt-auto flex items-center justify-between">
               <div className="mr-3 font-bold text-[#00727A]">
-                Resistor
+                Electronic Component
               </div>
               <div className="mr-3 text-[#8A0000]">
               </div>
@@ -160,7 +160,7 @@ export const LandingHero = () => {
             }}
             className="cursor-pointer max-w-[300px] min-h-[150px] shadow-2xl border border-[#59C3CB] rounded-lg p-6 flex flex-col transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
             <div className="flex-1 w-[200px]">
-              <img src="/assets/images/Sound-Detection-Sensor-Module.jpg"
+              <img src="/assets/images/battery.jpg"
                    alt=""/>
             </div>
             <div className="mt-auto flex items-center justify-between">

@@ -49,8 +49,8 @@ export const ItemCard = (props) => {
             </button>
           </div>
         </div>
-        <div className="text-redBase text-sm">{!token &&
-          <Link className={'text-blueActive cursor-pointer font-semibold'} to="/signup"> Sign Up</Link>}</div>
+        {/*<div className="text-redBase text-sm">{!token &&*/}
+        {/*  <Link className={'text-blueActive cursor-pointer font-semibold'} to="/signup"> Sign Up</Link>}</div>*/}
       </div>
 
       {/*cart-item */}

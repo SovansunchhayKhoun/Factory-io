@@ -13,6 +13,15 @@ import {ProductReview} from "../../components/ProductReview.jsx";
 
 
 export const ItemView = (props) => {
+  let {id} = useParams();
+  const {item, getItem, items, itemsQueryReFetch} = useContext(ProductContext);
+  const {scrollTop} = useContext(InvoiceContext);
+  useEffect(() => {
+    getItem(id);
+    itemsQueryReFetch();
+    scrollTop(0);
+  }, []);
+
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -32,15 +41,8 @@ export const ItemView = (props) => {
       items: 2
     }
   };
-  let {id} = useParams();
-  const {item, getItem, items, itemsQueryReFetch} = useContext(ProductContext);
   const {addToCart, cartItem} = useContext(CartContext);
   const {token} = useAuthContext();
-  useEffect(() => {
-    getItem(id);
-    itemsQueryReFetch()
-  }, []);
-
   const itemCart = cartItem.find((i) => i.id === item.id);
   const currentQty = item.qty - (itemCart?.qty || 0);
 

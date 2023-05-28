@@ -26,8 +26,7 @@ export const ItemRow = (props) => {
             <td className="px-6 py-4">
               $ {price}
             </td>
-            <td className="px-6 py-4">
-              {description}
+            <td dangerouslySetInnerHTML={{__html: description}} className="px-6 py-4">
             </td>
             <td className="px-6 py-4">
               {

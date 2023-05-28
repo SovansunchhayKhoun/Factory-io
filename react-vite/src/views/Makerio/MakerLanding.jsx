@@ -10,9 +10,9 @@ import {Footer} from "../../components/Footer.jsx";
 export const MakerLanding = () => {
   const {items, searchInput, itemsQueryReFetch, setSearchInput} = useContext(ProductContext);
 
-  useEffect(() => {
-    itemsQueryReFetch();
-  }, []);
+  // useEffect(() => {
+  //   itemsQueryReFetch();
+  // }, []);
 
   return (
     <>

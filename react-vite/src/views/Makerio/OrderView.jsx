@@ -12,13 +12,13 @@ import {Link, Navigate} from "react-router-dom";
 import {PendingItem} from "../../components/CartComponents/PendingItem.jsx";
 
 export const OrderView = () => {
-  const {invoices, isLoading, invoicesReFetch} = useContext(InvoiceContext);
-  const {user, token} = useAuthContext();
   useEffect(() => {
     invoicesReFetch();
-  }, [invoices]);
+  }, []);
+  const {invoices, isLoading, invoicesReFetch} = useContext(InvoiceContext);
+  const {user, token} = useAuthContext();
 
-  const [open, setOpen] = useState(1);
+  const [open, setOpen] = useState(0);
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
@@ -62,11 +62,11 @@ export const OrderView = () => {
               {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === -1).map((invoice) => {
                 return (
                   <>
-                    <div key={invoice.id} className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
+                    <div className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
                       <span className={`font-semibold`}>
                         Order #{invoice.id}
                       </span>
-                      <PendingItem invoice={invoice}/>
+                      <PendingItem key={invoice.id} invoice={invoice}/>
                     </div>
                   </>
                 );
@@ -75,11 +75,11 @@ export const OrderView = () => {
               {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === 1).map((invoice) => {
                 return (
                   <>
-                    <div key={invoice.id} className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
+                    <div className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
                       <span className={`font-semibold`}>
                         Order #{invoice.id}
                       </span>
-                      <PendingItem invoice={invoice}/>
+                      <PendingItem key={invoice.id} invoice={invoice}/>
                     </div>
                   </>
                 );
@@ -88,11 +88,11 @@ export const OrderView = () => {
               {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === 2).map((invoice) => {
                 return (
                   <>
-                    <div key={invoice.id} className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
+                    <div className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
                       <span className={`font-semibold`}>
                         Order #{invoice.id}
                       </span>
-                      <PendingItem invoice={invoice}/>
+                      <PendingItem key={invoice.id} invoice={invoice}/>
                     </div>
                   </>
                 );

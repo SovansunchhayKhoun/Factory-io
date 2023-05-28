@@ -6,6 +6,7 @@ import {useAuthContext} from "../../context/AuthContext.jsx";
 import CheckoutButton from "../Modals/CheckoutButton.jsx";
 import {Link} from "react-router-dom";
 import * as React from "react";
+import {GoogleMaps} from "../../views/GoogleMaps.jsx";
 
 export const Payment = (props) => {
   const {totalPrice, cartError} = useContext(CartContext);
@@ -20,15 +21,20 @@ export const Payment = (props) => {
   };
   return (
     <>
-      <div className="flex flex-col items-end px-6">
-        <div>
-          <span className="underline underline-offset-[2px]">Exchange Rate:</span> <span
-          className="font-bold text-grayFactory">&#x17DB;{(4100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
+      <div className="px-48 flex justify-between mb-12">
+        <div className="w-[50%]">
+          <GoogleMaps height={250}/>
         </div>
-        <div className="text-end mb-6">Total: <span
-          className="font-bold text-blueActive">${totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} </span>
-          <span
-            className="font-bold text-tealBase">| &#x17DB;{(totalPrice * 4100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
+        <div className="flex flex-col items-end px-6">
+          <div>
+            <span className="underline underline-offset-[2px]">Exchange Rate:</span> <span
+            className="font-bold text-grayFactory">&#x17DB;{(4100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
+          </div>
+          <div className="text-end mb-6">Total: <span
+            className="font-bold text-blueActive">${totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} </span>
+            <span
+              className="font-bold text-tealBase">| &#x17DB;{(totalPrice * 4100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
+          </div>
         </div>
       </div>
       <div className="flex justify-between items-center bg-tealActive py-12 px-48">
@@ -56,10 +62,10 @@ export const Payment = (props) => {
             <img className={`object-contain w-[200px] h-[200px]`} src="/assets/images/qr-riel.jpg" alt=""/>}
         </div>
         <div className="flex flex-col">
-          <p className="font-bold text-[#D9D9D9]">
+          <label htmlFor="files" className="cursor-pointer font-bold text-[#D9D9D9]">
             Submit Screenshot
-          </p>
-          <input type="file" id="files" className="opacity-1 w-full"
+          </label>
+          <input type="file" id="files" accept="image/*"
                  onChange={(e) => setPaymentPic(e.target.files[0])}/>
         </div>
       </div>
