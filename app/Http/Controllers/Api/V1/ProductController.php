@@ -71,6 +71,7 @@
               $storage->delete($filename);
             }
             $product -> delete ();
+            $product->reviews()->delete();
             return response () -> json ( 'Product deleted' );
         }
     }

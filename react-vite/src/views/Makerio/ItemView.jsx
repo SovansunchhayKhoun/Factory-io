@@ -89,7 +89,7 @@ export const ItemView = (props) => {
           </div>
         </div>
       </section>
-      <ProductReview/>
+      <ProductReview item={item}/>
       <div className="mt-16 mb-16">
         <div className="mb-3 text-tealHover font-semibold">Related items</div>
         <Carousel itemClass={'flex'} responsive={responsive}>
