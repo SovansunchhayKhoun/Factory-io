@@ -9,7 +9,7 @@ export const ChangePasswordView = () => {
     getUser(id)
   },[])
   return (
-    <main>
+    <>
       <form className="mt-24">
         {errors.data && console.log(errors.data.errors)}
         <div className="flex items-center justify-center h-1/2 flex-col">
@@ -60,6 +60,6 @@ export const ChangePasswordView = () => {
           </div>
         </div>
       </form>
-    </main>
+    </>
         )
         }

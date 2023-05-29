@@ -10,7 +10,7 @@ export const Replier = (props) => {
             <div>
               <div className={`${image ? 'p-0' : 'p-3'} ${messageContent ? 'bg-gray-300' : 'bg-transparent'} rounded-r-lg rounded-bl-lg`}>
                 <p className={`${image && 'p-3'} text-sm`}>{messageContent}</p>
-                {image && <img className="max-w-[250px] object-contain" src={`http://127.0.0.1:8000/${image}`}/>}
+                {image && <img className="md:max-w-[250px] max-w-[156px] object-contain" src={`http://127.0.0.1:8000/${image}`}/>}
               </div>
               <div className="">
               </div>

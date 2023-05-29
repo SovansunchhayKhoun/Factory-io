@@ -30,9 +30,6 @@ function AdminPopUp({id, modalOpen, setModalOpen, content}) {
     modalOpen
   }, [modalOpen]);
 
-  // const {invoices, declineOrder} = useContext(InvoiceContext);
-  // const invoice = invoices.find((invoice) => invoice.id === id);
-
   return (
     <>
       {/* Modal backdrop */}

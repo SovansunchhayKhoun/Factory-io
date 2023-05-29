@@ -79,11 +79,11 @@ const router = createBrowserRouter([
         element: <UserView/>,
         errorElement: <ErrorBoundary />
       },
-      {
-        path: 'admin/:id',
-        element: <AdminView/>,
-        errorElement: <ErrorBoundary />
-      },
+      // {
+      //   path: 'admin/:id',
+      //   element: <AdminView/>,
+      //   errorElement: <ErrorBoundary />
+      // },
       {
         path: '/maker-io/user/:id/change-password',
         element: <ChangePasswordView/>,
@@ -103,11 +103,11 @@ const router = createBrowserRouter([
         path: 'order',
         element: <OrderView />,
       },
-      {
-        path: 'customer-service',
-        element: <CustomerService />,
-        errorElement: <ErrorBoundary />
-      }
+      // {
+      //   path: 'customer-service',
+      //   element: <CustomerService />,
+      //   errorElement: <ErrorBoundary />
+      // }
     ],
   },
   {

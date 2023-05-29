@@ -48,7 +48,7 @@ export const ItemView = (props) => {
 
   let navigate = useNavigate();
   return (
-    <main>
+    <>
       <div className="w-[50%] flex items-center justify-between">
         <button onClick={() => {
           navigate(-1)
@@ -96,14 +96,13 @@ export const ItemView = (props) => {
           {
             items.filter(itemFilter => itemFilter.type === item.type && itemFilter.id !== item.id)
               .map((item, key) => {
-              return (
+                return (
                   <ItemCardCarousel item={item} key={key}/>
-              )
-            })}
+                )
+              })}
 
         </Carousel>
       </div>
-
-    </main>
+    </>
   );
 };

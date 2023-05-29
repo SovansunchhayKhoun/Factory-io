@@ -12,6 +12,12 @@ export const ProductProvider = ({children}) => {
   const [items, setItems] = useState([]);
   const [item, setItem] = useState({});
   const [searchInput, setSearchInput] = useState('')
+  const {data: itemsQuery, refetch: itemsQueryReFetch, isLoading: itemsLoading} = useQuery(['items'], () => {
+    return Axios.get('products').then((res) => {
+      setItems(res.data.data);
+      return res.data.data
+    });
+  });
 
   const [formValues, setFormValues] = useState({
     name: "",
@@ -29,13 +35,6 @@ export const ProductProvider = ({children}) => {
   //   setItems(apiItems.data.data);
   //   console.log('mount product')
   // }, []);
-
-  const {data: itemsQuery, refetch: itemsQueryReFetch} = useQuery(['items'], () => {
-    return Axios.get('products').then((res) => {
-      setItems(res.data.data);
-      return res.data.data
-    });
-  });
 
   const getItem = async (id) => {
     const response = await Axios.get(`products/${id}`)
@@ -117,6 +116,7 @@ export const ProductProvider = ({children}) => {
 
   return <ProductContext.Provider
     value={{
+      itemsLoading,
       items,
       itemsQueryReFetch,
       item,

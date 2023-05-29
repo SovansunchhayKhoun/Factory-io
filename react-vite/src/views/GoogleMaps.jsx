@@ -84,9 +84,9 @@ export const GoogleMaps = (props) => {
 
   if (!isLoaded) {
     return (
-      <main>
+      <>
         Loading...
-      </main>
+      </>
     )
   }
   return (
@@ -108,7 +108,7 @@ export const GoogleMaps = (props) => {
 
       <div className="">
         <div className="relative flex gap-x-2">
-          <div className="absolute z-50">
+          <div className="absolute z-20">
             <button className="border bg-blueBase text-whiteFactory px-2 py-1"
                     onClick={() => {
                       // map.panTo({lat: latitude, lng: longitude})
