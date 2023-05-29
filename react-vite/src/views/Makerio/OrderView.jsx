@@ -26,106 +26,101 @@ export const OrderView = () => {
   if (token) {
     if (isLoading) {
       return (
-        <main>
-          <Fragment>
-            <Accordion className="bg-[rgba(0,0,0,0.1)] border-2 border-tealActive px-2 rou nded-lg mb-6 shadow-2xl"
-                       open={open === 1}>
-              <AccordionHeader className={`text-[16px] text-blackFactory`} onClick={() => handleOpen(1)}>
-                <div>
-                  <Spinner
-                    size="xl"
-                    color="purple"
-                    aria-label="Purple spinner example"
-                  />
-                  <span className="ml-3 font-semibold">Loading...</span>
-                </div>
-              </AccordionHeader>
-            </Accordion>
-          </Fragment>
-        </main>
+        <Fragment>
+          <Accordion className="bg-[rgba(0,0,0,0.1)] border-2 border-tealActive px-2 rou nded-lg mb-6 shadow-2xl"
+                     open={open === 1}>
+            <AccordionHeader className={`text-[16px] text-blackFactory`} onClick={() => handleOpen(1)}>
+              <div>
+                <Spinner
+                  size="xl"
+                  color="purple"
+                  aria-label="Purple spinner example"
+                />
+                <span className="ml-3 font-semibold">Loading...</span>
+              </div>
+            </AccordionHeader>
+          </Accordion>
+        </Fragment>
       );
     }
 
     if (invoices?.filter((invoice) => invoice.user_id === user?.id).length === 0) {
       return (
-        <main>
+        <div>
           No orders have been placed yet <Link to={'/maker-io'}></Link>
-        </main>
+        </div>
       );
     } else {
       return (
         <>
-          <main>
-            <div className="mb-12">
-              <div className="font-bold mb-3">Orders</div>
+          <div className="mb-12">
+            <div className="font-bold mb-3">Orders</div>
 
-              {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === -1).map((invoice) => {
-                return (
-                  <>
-                    <div className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
+            {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === -1).map((invoice) => {
+              return (
+                <>
+                  <div className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
                       <span className={`font-semibold`}>
                         Order #{invoice.id}
                       </span>
-                      <PendingItem key={invoice.id} invoice={invoice}/>
-                    </div>
-                  </>
-                );
-              })}
+                    <PendingItem key={invoice.id} invoice={invoice}/>
+                  </div>
+                </>
+              );
+            })}
 
-              {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === 1).map((invoice) => {
-                return (
-                  <>
-                    <div className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
+            {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === 1).map((invoice) => {
+              return (
+                <>
+                  <div className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
                       <span className={`font-semibold`}>
                         Order #{invoice.id}
                       </span>
-                      <PendingItem key={invoice.id} invoice={invoice}/>
-                    </div>
-                  </>
-                );
-              })}
+                    <PendingItem key={invoice.id} invoice={invoice}/>
+                  </div>
+                </>
+              );
+            })}
 
-              {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === 2).map((invoice) => {
-                return (
-                  <>
-                    <div className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
+            {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === 2).map((invoice) => {
+              return (
+                <>
+                  <div className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
                       <span className={`font-semibold`}>
                         Order #{invoice.id}
                       </span>
-                      <PendingItem key={invoice.id} invoice={invoice}/>
-                    </div>
-                  </>
-                );
-              })}
+                    <PendingItem key={invoice.id} invoice={invoice}/>
+                  </div>
+                </>
+              );
+            })}
 
-            </div>
-            <div>
-              <div className="font-bold mb-3 text-blackFactory">History</div>
-              {invoices?.filter((invoice) => {
-                return (invoice.user_id === user?.id && invoice.status === 3)
-              }).length === 0 && (
-                <div>No orders have arrived yet... <Link className="text-tealHover font-semibold" to="/maker-io"><br/>Maybe be browse some more products?</Link></div>
-              )}
+          </div>
+          <div>
+            <div className="font-bold mb-3 text-blackFactory">History</div>
+            {invoices?.filter((invoice) => {
+              return (invoice.user_id === user?.id && invoice.status === 3)
+            }).length === 0 && (
+              <div>No orders have arrived yet... <Link className="text-tealHover font-semibold" to="/maker-io"><br/>Maybe
+                be browse some more products?</Link></div>
+            )}
 
-              {invoices?.filter((invoice) => {
-                return (invoice.user_id === user?.id && invoice.status === 3)
-              }).map((invoice) => {
-                  return <InvoiceView key={invoice.id} invoice={invoice}/>
-                }
-              )}
-            </div>
-          </main>
+            {invoices?.filter((invoice) => {
+              return (invoice.user_id === user?.id && invoice.status === 3)
+            }).map((invoice) => {
+                return <InvoiceView key={invoice.id} invoice={invoice}/>
+              }
+            )}
+          </div>
         </>
       );
     }
   } else {
     return (
-      <>
-        <main>
-          <Link to={'/login'}>Sign in</Link>
-          <Link to={'/signup'}>Sign Up</Link>
-        </main>
-      </>
+      <div>
+        <Link to={'/login'}>Sign in</Link>
+        <Link to={'/signup'}>Sign Up</Link>
+      </div>
     );
   }
 };

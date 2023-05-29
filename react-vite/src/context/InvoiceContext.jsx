@@ -32,10 +32,7 @@ export const InvoiceProvider = ({children}) => {
     });
   }
   const scrollDown = (fromBottom) => {
-    window.scrollTo({
-      bottom: fromBottom,
-      behavior: "smooth",
-    });
+    window.scrollTo(0, document.body.scrollHeight);
   }
   const [invoiceError, setInvoiceError] = useState([]);
 

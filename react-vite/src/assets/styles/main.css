@@ -4,10 +4,10 @@
 }
 
 main {
-  margin-top: 4.5rem;
-  padding-left: 9rem;
-  padding-right: 9rem;
-  padding-bottom: 3rem;
+  /*margin-top: 4.5rem;*/
+  /*padding-left: 9rem;*/
+  /*padding-right: 9rem;*/
+  /*padding-bottom: 3rem;*/
 }
 
 .highlight-hover {
@@ -26,10 +26,11 @@ main {
   text-decoration: underline;
 }
 
-.items-display {
-  display: grid;
-  grid-template-columns: repeat(4, 300px);
-}
+/*.items-display {*/
+/*  display: grid;*/
+/*  grid-template-columns: repeat(4, 300px);*/
+/*}*/
+
 .card-container{
   display: grid;
   grid-template-columns: repeat(5, 1fr);

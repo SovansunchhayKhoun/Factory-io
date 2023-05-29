@@ -36,9 +36,6 @@ export default function CheckoutButton() {
   const {user, token} = useAuthContext();
   const [loadingSuccess, setLoadingSuccess] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalLoading, setModalLoading] = useState(false);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     getCartItem();
