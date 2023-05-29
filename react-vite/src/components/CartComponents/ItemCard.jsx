@@ -3,6 +3,7 @@ import React, {useContext, useEffect, useState} from "react";
 import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 import {useAuthContext} from "../../context/AuthContext.jsx";
+import {Tooltip} from "flowbite-react";
 
 export const ItemCard = (props) => {
   const navigate = useNavigate()
@@ -25,7 +26,7 @@ export const ItemCard = (props) => {
                      alt={name}/>
           }
         </Link>
-        <div className="flex-1 flex">
+        <div className="flex-1 flex flex-col items-center">
           <div className="mt-auto flex items-center">
             <div className="mr-3 font-bold text-[#00727A]">
               {price}$
@@ -35,18 +36,26 @@ export const ItemCard = (props) => {
                 {status === 1 ? 'In Stock' : 'Out of Stock'}
               </span>
             </div>
-            <button
-              className={" rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300"}
+            <Tooltip
+              className="text-tealBase border-2 border-tealBase"
+              content={props.item.tooltip && 'Item has been added to cart'}
+              trigger="click"
+              style="light"
+              animation="duration-500"
+            >
+              <button
+                className={" rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300"}
+                onClick={() => {
+                  if (token) {
+                    addToCart(props.item);
+                  } else {
+                    navigate('/login')
+                  }
+                }}>
+                <img width="36" src="/assets/images/cart-icon.png" alt=""/>
+              </button>
+            </Tooltip>
 
-              onClick={() => {
-                if (token) {
-                  addToCart(props.item);
-                } else {
-                  navigate('/login')
-                }
-              }}>
-              <img width="36" src="/assets/images/cart-icon.png" alt=""/>
-            </button>
           </div>
         </div>
         {/*<div className="text-redBase text-sm">{!token &&*/}

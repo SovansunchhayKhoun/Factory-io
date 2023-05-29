@@ -50,6 +50,7 @@ export const CartProvider = ({children}) => {
   const addToCart = (item) => {
     if (item.qty) {
       storeItem(item);
+      item.tooltip = true;
       // if item doesnt exist in cart, save item
       !cartItem.find((i) => item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
         ...item,
@@ -79,7 +80,7 @@ export const CartProvider = ({children}) => {
   const handleQty = (event, item) => {
     item.warning = '';
     if (!Number(event.target.value)) {
-      item.warning = 'Item quantity cannot be set to 0';
+      item.warning = 'Item quantity must be at least 1';
       event.target.value = '';
     } else {
       item.qty = Number(event.target.value);
