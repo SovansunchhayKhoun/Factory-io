@@ -37,7 +37,7 @@ export const CustomerService = ({setModalOpen}) => {
     return (
       <div className="flex flex-col items-center h-screen text-gray-800">
         <div
-          className="flex flex-col flex-grow md:min-w-[700px]  bg-white border-blackFactory border shadow-xl rounded-lg mb-48">
+          className="flex flex-col flex-grow md:min-w-[700px] bg-white border-blackFactory border shadow-xl rounded-lg mb-48 overflow-hidden">
           <div className="flex justify-between bg-blueBase text-whiteFactory px-4 py-2">
             <div>
               Customer Service
@@ -46,8 +46,9 @@ export const CustomerService = ({setModalOpen}) => {
               event.stopPropagation();
               setModalOpen(false);
             }}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                   stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
               </svg>
             </button>
           </div>
@@ -127,7 +128,21 @@ export const CustomerService = ({setModalOpen}) => {
     return (
       <div className="flex flex-col items-center w-full min-h-screen text-gray-800">
         <div
-          className="flex flex-col flex-grow w-full max-w-xl bg-white border-blackFactory border shadow-xl rounded-lg overflow-hidden">
+          className="flex flex-col flex-grow md:min-w-[700px] bg-white border-blackFactory border shadow-xl rounded-lg mb-48 overflow-hidden">
+          <div className="flex justify-between bg-blueBase text-whiteFactory px-4 py-2">
+            <div>
+              Customer Service
+            </div>
+            <button className="transition duration-300 hover:rounded-[50%] hover:bg-blackFactory" onClick={event => {
+              event.stopPropagation();
+              setModalOpen(false);
+            }}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                   stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
           <div className="flex flex-col flex-grow h-0 p-4 overflow-auto">
             <div>
               You need an account to contact us
