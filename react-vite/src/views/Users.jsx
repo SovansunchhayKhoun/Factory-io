@@ -8,6 +8,7 @@ import CreateUserModal from "../components/CreateUserModal.jsx";
 
 export const Users = () => {
   const {users,getUsers} = useContext(UserContext)
+  const [searchInput, setSearchInput] = useState('')
   useEffect(()=>{
     getUsers();
   },[])
@@ -16,7 +17,7 @@ export const Users = () => {
     <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
       <WelcomeBanner title={`Users`}/>
       <div className="flex justify-between">
-        <input className="rounded rounded-md border border-slate-600 w-2/3"/>
+        <input className="rounded rounded-md border border-slate-600 w-2/3 py-2 px-4" onChange={(e) => setSearchInput(e.target.value)}/>
         <button
           className={`bg-blue-600 px-4 py-2 rounded rounded-lg text-whiteFactory dark:text-whiteFactory-500 ${createUserModalOpen && 'bg-blue-900'}`}
           onClick={(e) => { e.stopPropagation(); setCreateUserModalOpen(true); }}
@@ -74,7 +75,13 @@ export const Users = () => {
             </tr>
           }
           {
-            users.map((user,key) => {
+            users.filter((user) => {
+              if(user.username.toLowerCase().includes(searchInput.toLowerCase())|| user.firstName.toLowerCase().includes(searchInput.toLowerCase()) || user.lastName.toLowerCase().includes(searchInput.toLowerCase())){
+                return user
+              }else if (searchInput === ''){
+                return user
+              }
+            }).map((user,key) => {
               return <UserRow key={key} user={user}/>
             })
           }

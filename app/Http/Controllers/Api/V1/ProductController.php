@@ -70,8 +70,8 @@
             if ($storage->exists($filename)){
               $storage->delete($filename);
             }
-            $product -> delete ();
             $product->reviews()->delete();
+            $product -> delete ();
             return response () -> json ( 'Product deleted' );
         }
     }

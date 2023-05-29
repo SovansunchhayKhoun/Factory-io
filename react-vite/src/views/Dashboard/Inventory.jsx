@@ -14,7 +14,7 @@ export const Inventory = () => {
     itemsQueryReFetch();
   }, []);
   const [createItemModalOpen, setCreateItemModalOpen] = useState(false)
-
+  const [searchInput,setSearchInput] = useState('')
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
       <WelcomeBanner title={`Inventory`}/>
@@ -25,10 +25,10 @@ export const Inventory = () => {
       >
         Create Item
       </button>
-
+      <input className="rounded rounded-md border border-slate-600 w-2/3 py-2 px-4" onChange={(e) => setSearchInput(e.target.value)}/>
       <CreateItemModal id="create-item-modal" modalOpen={createItemModalOpen} setModalOpen={setCreateItemModalOpen}/>
 
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-20">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-8">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
@@ -74,7 +74,13 @@ export const Inventory = () => {
               </tr>
             }
             {
-              items.map((item,key) => {
+              items.filter((item) => {
+                if(item.name.toLowerCase().includes(searchInput.toLowerCase()) || item.type.toLowerCase().includes(searchInput.toLowerCase())) {
+                  return item
+                }else if (searchInput === ''){
+                  return item
+                }
+              }).map((item,key) => {
                 return <ItemRow key={key} item={item}/>
             })
             }

@@ -4,21 +4,21 @@ import ProductContext from "../../context/ProductContext.jsx";
 import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 import {useAuthContext} from "../../context/AuthContext.jsx";
-import {ItemCard} from "../../components/CartComponents/ItemCard.jsx";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import {Card} from "flowbite-react";
 import {ItemCardCarousel} from "../../components/CartComponents/ItemCardCarousel.jsx";
 import {ProductReview} from "../../components/ProductReview.jsx";
 
 
+
 export const ItemView = (props) => {
   let {id} = useParams();
-  const {item, getItem, items, itemsQueryReFetch} = useContext(ProductContext);
+  const {item, getItem, items, itemsQueryReFetch,reviewsQueryReFetch} = useContext(ProductContext);
   const {scrollTop} = useContext(InvoiceContext);
   useEffect(() => {
     getItem(id);
     itemsQueryReFetch();
+    reviewsQueryReFetch();
     scrollTop(0);
   }, []);
 
@@ -45,10 +45,10 @@ export const ItemView = (props) => {
   const {token} = useAuthContext();
   const itemCart = cartItem.find((i) => i.id === item.id);
   const currentQty = item.qty - (itemCart?.qty || 0);
-
   let navigate = useNavigate();
   return (
     <main>
+
       <div className="w-[50%] flex items-center justify-between">
         <button onClick={() => {
           navigate(-1)

@@ -9,6 +9,13 @@ Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const ProductContext = createContext();
 
 export const ProductProvider = ({children}) => {
+  const [reviews, setReviews] = useState([]);
+  const {data: reviewsQuery, refetch: reviewsQueryReFetch} = useQuery(['reviews'], () => {
+    return Axios.get('reviews').then((res) => {
+      setReviews(res.data.data);
+      return res.data.data
+    });
+  });
   const [items, setItems] = useState([]);
   const [item, setItem] = useState({});
   const [searchInput, setSearchInput] = useState('')
@@ -130,7 +137,9 @@ export const ProductProvider = ({children}) => {
       updateItem,
       updateProduct,
       searchInput,
-      setSearchInput
+      setSearchInput,
+      reviewsQueryReFetch,
+      reviews
     }}>{children}</ProductContext.Provider>;
 };
 

@@ -11,6 +11,7 @@ Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 export const Chat = () => {
   const [activeUser, setActiveUser] = useState({});
   const {users, getUsers} = useContext(UserContext);
+  const [searchInput,setSearchInput] = useState('')
   const {
     messageImage,
     chatReFetch,
@@ -51,7 +52,9 @@ export const Chat = () => {
                 </span>
                 <input type="search" className="block w-full py-2 pl-10 bg-gray-100 rounded outline-none"
                        name="search"
-                       placeholder="Search..." required/>
+                       placeholder="Search..."
+                       onChange={(e) => setSearchInput(e.target.value)}
+                       required/>
               </div>
             </div>
             {/*Search Bar*/}
@@ -59,7 +62,13 @@ export const Chat = () => {
             {/*User List*/}
             <ul className="overflow-auto h-[32rem]">
               <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
-              {users.map((usr) => {
+              {users.filter((user) => {
+                if(user.username.toLowerCase().includes(searchInput.toLowerCase())){
+                  return user
+                }else if (searchInput === ''){
+                  return user
+                }
+              }).map((usr) => {
                 const unreadMessages = message?.filter((msg) => msg.is_read === 0 && msg.sender_id !== 'admin');
                 const userNotification = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr.username);
                 return (
