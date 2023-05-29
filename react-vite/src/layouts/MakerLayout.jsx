@@ -29,9 +29,9 @@ export const MakerLayout = () => {
   return (
     <>
       <div className="min-h-screen flex flex-col overflow-auto">
-        <NavBar/>
+        {/*<NavBar/>*/}
         {/*<Outlet/>*/}
-        {/*<Footer/>*/}
+        <Footer/>
       </div>
     </>
   );
