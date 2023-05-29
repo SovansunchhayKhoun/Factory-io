@@ -30,8 +30,8 @@ export const MakerLayout = () => {
     <>
       <div className="min-h-screen flex flex-col overflow-auto">
         <NavBar/>
-        <Outlet/>
-        <Footer/>
+        {/*<Outlet/>*/}
+        {/*<Footer/>*/}
       </div>
     </>
   );
