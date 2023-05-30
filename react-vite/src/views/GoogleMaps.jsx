@@ -43,6 +43,8 @@ export const GoogleMaps = (props) => {
         lat: latitude
       }])
     })
+    console.log(latitude)
+    console.log(longitude)
   }
 
   const PlacesAutoComplete = ({setMarker}) => {
@@ -115,7 +117,7 @@ export const GoogleMaps = (props) => {
                       map.panTo(marker[0])
                     }}>Pan Current Location
             </button>
-            <button title="Current Location" className="bg-white px-2 py-2" onClick={() => {
+            <button title="Current Location" className="bg-white shadow-xl px-2 py-2" onClick={() => {
               currentLocation()
             }}>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
