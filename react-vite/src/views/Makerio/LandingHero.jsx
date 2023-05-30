@@ -8,8 +8,8 @@ export const LandingHero = () => {
   return (
     <>
       <div>
-        <div className="flex lg:flex-row justify-center columns-2 md:flex-col flex-col mb-20">
-          <div className="mr-12 lg:w-1/2 md:w-full ">
+        <div className="flex mt-10 lg:flex-row justify-center columns-2 md:flex-col flex-col mb-20">
+          <div className="ml-12 mt-10 lg:w-1/2 md:w-full ">
               <span className="font-bold lg:text-4xl leading-10 md:text-2xl">
                 Shop your component with us
               </span>
@@ -24,11 +24,11 @@ export const LandingHero = () => {
               GET STARTED
             </Link>
           </div>
-          <div className=" mr-10 justify-end ">
+          <div className=" mr-5 justify-end ">
             <img className="w-[500px] h-[220px]" src="/assets/images/MQ4-Gas-Sensor.jpg" alt=""/>
           </div>
         </div>
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col justify-center ml-24 mr-24">
             <span className="font-bold leading-4">
               Featured on
             </span>
