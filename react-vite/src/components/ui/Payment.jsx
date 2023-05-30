@@ -40,23 +40,28 @@ export const Payment = (props) => {
         </div>
       </div>
       {/*payment ui*/}
-      <div className="md:flex md:flex-row md:justify-between md:items-center bg-tealActive
-        2xl:px-48 xl:px-24 lg:px-20 md:px-12 md:py-6
-        overflow-hidden py-6 flex flex-col gap-2 items-center">
-        <div className="lg:flex lg:flex-row
-          md:flex md:flex-col md:gap-y-3 md:items-center flex flex-col items-center">
+      <div
+        className="bg-tealActive min-[1920px]:px-48 lg:px-12
+        lg:flex lg:justify-between lg:border lg: border-blackFactory
+        md:py-6 md:flex md:flex-row md:justify-around md:items-start
+        p-2 flex flex-col gap-2 justify-center overflow-hidden">
+        {/*left section parent*/}
+        <div className="lg:flex-1 lg:flex lg:flex-row lg:items-start
+          md:flex md:flex-col md:gap-y-3 md:items-start
+          grid grid-cols-3 gap-2">
           {/*payment method selection*/}
           <div className="lg:flex lg:flex-col lg:mr-6
-            md:flex md:flex-row md:gap-x-2
-            flex gap-x-2 items-center
+            md:flex md:flex-col md:gap-x-2 md:px-0 md:order-1
+            flex flex-col gap-x-2
             ">
-            <h1 className="tracking-wider text-whiteFactory font-bold text-[24px]">Payment</h1>
+            <h1 className="tracking-wider text-whiteFactory font-bold
+            md:text-[24px] text-[14px]">Payment
+            </h1>
             <select
               value={selected}
               onChange={handleChange}
-              className="bg-whiteFactory py-[2px] rounded-sm w-full text-blackFactory text-center font-bold"
-              name=""
-              id="">
+              className="bg-whiteFactory py-0 px-2 rounded-sm w-full
+              md:text-base text-blackFactory font-semibold text-[10px]">
               {options.map((option) => {
                 return (
                   <option key={option.value} value={option.value}>
@@ -66,35 +71,75 @@ export const Payment = (props) => {
               })}
             </select>
           </div>
-          {/*payment method selection*/}
-          {selected === 1 &&
-            <img className={`object-contain w-[200px] h-[200px] md:mt-0 mt-2`} src="/assets/images/qr-dollars.jpg"
-                 alt=""/>}
-          {selected === 2 &&
-            <img className={`object-contain w-[200px] h-[200px] md:mt-0 mt-2`} src="/assets/images/qr-riel.jpg"
-                 alt=""/>}
-        </div>
+          <div className="md:hidden"></div> {/* for grid*/}
+          <div className="md:hidden"></div> {/* for grid*/}
+          <div className="md:hidden"></div> {/* for grid*/}
+          <div className="md:order-2">
+            {/*payment method selection*/}
+            {selected === 1 &&
+              <img className={`object-contain
+              md:w-[200px] md:h-[200px] md:mt-0 mt-2
+              `} src="/assets/images/qr-dollars.jpg"
+                   alt=""/>}
 
-        <div className="flex flex-col md:px-0 gap-2">
-          <div className="flex items-center gap-2">
-            <label htmlFor="files" className="cursor-pointer font-bold text-[#D9D9D9]">
-              Submit Screenshot
-            </label>
-            {paymentPic && <button className="" onClick={() => {
-              setPaymentPic('')
-            }}><img className="w-[20px] h-[20px]" src="/assets/images/trashcan.png" alt=""/></button>}
+            {selected === 2 &&
+              <img className={`object-contain
+              md:w-[200px] md:h-[200px] md:mt-0 mt-2
+              `} src="/assets/images/qr-riel.jpg"
+                   alt=""/>}
           </div>
-          <div className="xl:flex xl:flex-col lg:flex lg:flex-col flex flex-col gap-2">
-            <input className='md:inline-block hidden' type="file" id="files" accept="image/*"
-                   onChange={(e) => setPaymentPic(e.target.files[0])}/>
+          <div className="md:hidden"></div> {/* for grid*/}
+        </div>
+        {/*right section parent*/}
+        <div className="lg:flex-1 lg:flex lg:flex-col
+           md:flex md:flex-col
+           grid grid-cols-3 gap-2 md:px-0">
+          <div className="">
+            <p className="md:font-bold text-[#D9D9D9] md:text-base text-[12px] whitespace-nowrap">
+              Submit Screenshot
+            </p>
+            <label
+              className="cursor-pointer lg:inline-flex md:px-3 md:py-1 md:w-60
+                flex px-2 py-[0.1rem] bg-whiteFactory rounded-lg text-[#989A9C]
+                md:text-base text-[12px]" htmlFor="files">
+              Select Image
+              <input className='hidden' type="file"
+                id="files" accept="image/*"
+                onChange={(e) => setPaymentPic(e.target.files[0])}/>
+            </label>
+          </div>
+          <div className="md:hidden"></div> {/* for grid*/}
+          <div className="md:hidden"></div> {/* for grid*/}
+          <div className="md:hidden"></div> {/* for grid*/}
+          <div className="flex flex-col gap-y-2 md:items-start items-center">
             {paymentPic && (
               <>
+                <div className="">
+                  <img className="md:w-[250px] object-contain"
+                       src={URL.createObjectURL(paymentPic)} alt=""/>
+                </div>
                 <div className="flex gap-x-2">
-                  <img className="md:max-w-[250px] max-w-[220px] object-contain" src={URL.createObjectURL(paymentPic)} alt=""/>
+                  <button className="rounded-md md:text-base text-[14px] bg-redHover text-whiteFactory px-2 py-1"
+                          onClick={() => {
+                            setPaymentPic('')
+                          }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                    </svg>
+                  </button>
+                  <label
+                    className="text-center rounded-md md:text-base text-[14px] text-whiteFactory bg-blueBase px-2 py-1"
+                    htmlFor="files">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                    </svg>
+
+                  </label>
                 </div>
               </>
             )}
           </div>
+          <div className="md:hidden"></div> {/* for grid*/}
         </div>
       </div>
 
