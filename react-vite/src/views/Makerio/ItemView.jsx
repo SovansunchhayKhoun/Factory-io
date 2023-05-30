@@ -83,7 +83,7 @@ export const ItemView = (props) => {
         {/*product description*/}
         <div
           className="xl:flex-grow-0 flex-1 flex flex-col xl:min-w-[500px] xl:min-h-[500px]
-          lg:min-w-[300px] lg:text-lg shadow-2xl rounded-[20px] border border-black p-4 ">
+          lg:min-w-[300px] lg:text-lg shadow-2xl rounded-[20px] p-4 ">
           <div className="lg:text-lg md:text-base text-sm mb-2 font-bold text-blueBase">${item.price}</div>
           <div className="lg:text-lg md:text-base text-sm mb-2 font-bold text-tealBase">{item.name}</div>
           <div className="lg:text-lg md:text-base text-sm mb-2 text-blackFactory">Item Type: <span

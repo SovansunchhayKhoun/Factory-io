@@ -108,17 +108,20 @@ export const GoogleMaps = (props) => {
 
       <div className="">
         <div className="relative flex gap-x-2">
-          <div className="absolute z-20">
+          <div className="absolute bottom-0 z-20">
             <button className="border bg-blueBase text-whiteFactory px-2 py-1"
                     onClick={() => {
                       // map.panTo({lat: latitude, lng: longitude})
                       map.panTo(marker[0])
                     }}>Pan Current Location
             </button>
-            <button className="border bg-tealActive text-whiteFactory px-2 py-1" onClick={() => {
+            <button title="Current Location" className="bg-white px-2 py-2" onClick={() => {
               currentLocation()
             }}>
-              Current Location
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                <path className="text-tealBase" strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path className="text-tealBase" strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+              </svg>
             </button>
             <PlacesAutoComplete setMarker={setMarker}/>
           </div>

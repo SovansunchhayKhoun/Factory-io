@@ -76,15 +76,15 @@ export const Payment = (props) => {
         </div>
 
         <div className="flex flex-col md:px-0 gap-2">
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex items-center gap-2">
             <label htmlFor="files" className="cursor-pointer font-bold text-[#D9D9D9]">
               Submit Screenshot
             </label>
             {paymentPic && <button className="" onClick={() => {
-              setPaymentPic(null)
+              setPaymentPic('')
             }}><img className="w-[20px] h-[20px]" src="/assets/images/trashcan.png" alt=""/></button>}
           </div>
-          <div className="xl:flex xl:flex-row lg:flex lg:flex-col flex flex-col gap-2">
+          <div className="xl:flex xl:flex-col lg:flex lg:flex-col flex flex-col gap-2">
             <input className='md:inline-block hidden' type="file" id="files" accept="image/*"
                    onChange={(e) => setPaymentPic(e.target.files[0])}/>
             {paymentPic && (

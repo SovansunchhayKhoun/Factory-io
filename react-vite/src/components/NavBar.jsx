@@ -85,7 +85,7 @@ export const NavBar = (props) => {
         {/*right section*/}
         <div className="md:flex md:items-center md:gap-x-6 hidden">
           {/*home icon*/}
-          <div className="highlight-hover text-[#8A0000]">
+          <div title="Home" className="highlight-hover text-[#8A0000]">
             <Link to="/maker-io">
               <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35" fill="none">
                 <path
@@ -97,7 +97,7 @@ export const NavBar = (props) => {
           </div>
 
           {/*cart icon*/}
-          <div className="highlight-hover relative">
+          <div title="Cart" className="highlight-hover relative">
             {
               user['acc_type'] === 0 ?
                 <Link to="/admin/dashboard">
@@ -117,14 +117,14 @@ export const NavBar = (props) => {
                   </Link>
                   <span
                     className={cartItem.length === 0 ? 'hidden' : " flex justify-center items-center w-[16px] h-[16px] absolute top-[-6px] right-[-16px] bg-redBase text-whiteFactory rounded-[50%] text-[12px]"}>
-            {cartItem.reduce((total, i) => total += i.qty, 0)}
-                </span>
+                      {cartItem.reduce((total, i) => total += i.qty, 0)}
+                  </span>
                 </>
             }
           </div>
 
           {/*order icon*/}
-          <div className="highlight-hover">
+          <div title="Current Orders" className="highlight-hover">
             {
               user['acc_type'] === 0 ? null :
                 <><Link className="relative" to={
@@ -141,9 +141,10 @@ export const NavBar = (props) => {
                   </svg>
                   <span
                     className={`${orders?.length === 0 && 'hidden'} flex justify-center items-center w-[16px] h-[16px] absolute top-[-6px] right-[-16px] bg-tealActive text-whiteFactory rounded-[50%] text-[12px]`}>
-              {orders?.length}
-            </span>
-                </Link></>
+                    {orders?.length}
+                  </span>
+                </Link>
+                </>
             }
           </div>
 

@@ -79,7 +79,8 @@ export default function CheckoutButton() {
                     cartItem.forEach((item) => {
                       checkOut(item);
                     })
-                  }} className="w-full transition duration-500 bg-blueBase text-whiteFactory px-2 py-1 rounded-md hover:bg-blueActive active:bg-bluehover">Confirm
+                  }} className="w-full transition duration-500 bg-blueBase text-whiteFactory px-2 py-1 rounded-md hover:bg-blueActive active:bg-bluehover">
+                    Confirm
                   </button>
                 </div>
               </div>

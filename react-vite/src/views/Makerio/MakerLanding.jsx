@@ -42,7 +42,7 @@ export const MakerLanding = () => {
         {/*</div>*/}
       </div>
       {/*display item */}
-      <div className="xl:px-48 flex flex-col gap-4 justify-center">
+      <div className="min-[1920px]:px-48 flex flex-col gap-4 justify-center">
         <Dropdown style={{background: "none"}} inline label={<CateLabel/>}>
           <div className="w-[270px]">
             <Dropdown.Item className="highlight-hover font-bold" onClick={() => {
@@ -86,8 +86,8 @@ export const MakerLanding = () => {
             </Dropdown.Item>
           </div>
         </Dropdown>
-        <div className="grid 2xl:grid-cols-5 auto-rows-fr gap-12
-        xl:grid-cols-3
+        <div className="grid min-[1920px]:grid-cols-5 auto-rows-fr gap-12
+        xl:grid-cols-4
         lg:grid-cols-3
         md:grid-cols-2
         ">

@@ -19,7 +19,6 @@ export const CartProvider = ({children}) => {
   const [success, setSuccess] = useState(false);
   const totalPrice = cartItem.reduce((total, i) => total += i.price * i.qty, 0);
   const {token, user} = useAuthContext();
-
   // useEffect(() => {
   //   invoiceProductReFetch();
   // }, []);
@@ -120,6 +119,7 @@ export const CartProvider = ({children}) => {
 
   const checkOut = async (item) => {
     await invoiceProductReFetch();
+    console.log(item);
     if (!isLoading) {
       item.invoice_id = invoices?.slice(-1)[0]?.id || invoiceProduct?.slice(-1)[0]?.invoice_id || 1;
       try {
