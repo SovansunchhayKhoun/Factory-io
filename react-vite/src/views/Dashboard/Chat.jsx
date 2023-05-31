@@ -6,6 +6,7 @@ import {useAuthContext} from "../../context/AuthContext.jsx";
 import ChatContext from "../../context/ChatContext.jsx";
 import {dividerClasses} from "@mui/material";
 import {ImagePreview} from "../../components/ImagePreview.jsx";
+import {ImageExpand} from "../../components/ImageExpand.jsx";
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 export const Chat = () => {
@@ -34,6 +35,8 @@ export const Chat = () => {
 
   const [messageInput, setMessageInput] = useState('');
   const [open, setOpen] = useState(false);
+  const [handleSenderExpand, setHandleSenderExpand] = useState(0);
+  const [handleReplierExpand, setHandleReplierExpand] = useState(0);
 
   return (
     <>
@@ -142,7 +145,15 @@ export const Chat = () => {
                             <span className="block">{msg.msg_content}</span>
                             <span>
                               {/*<img className="max-w-[200px]" src={`http://127.0.0.1:8000/${msg.image}`}/>*/}
-                              {msg.image && <img className="max-w-[250px]" src={`http://127.0.0.1:8000/${msg.image}`}/>}
+                              {msg.image && (
+                                <>
+                                  <img alt="" onClick={(e) => {
+                                    e.stopPropagation();
+                                    console.log(msg.image)
+                                  }} className="max-w-[250px]" src={`http://127.0.0.1:8000/${msg.image}`}/>
+                                </>
+                              )
+                              }
                             </span>
                             <span className={`${msg.image ? 'text-xs block text-grayFactory' : 'hidden'}`}>{msg.time_sent}</span>
                           </div>
@@ -155,7 +166,16 @@ export const Chat = () => {
                             <span className="block">{msg.msg_content}</span>
                             <span>
                               {/*<img className="max-w-[200px]" src={`http://127.0.0.1:8000/${msg.image}`}/>*/}
-                              {msg.image && <img className="max-w-[250px]" src={`http://127.0.0.1:8000/${msg.image}`}/>}
+                              {msg.image && (
+                                <>
+                                  <img onClick={(e) => {
+                                    e.stopPropagation();
+                                    setHandleReplierExpand(1);
+                                  }} className="max-w-[250px]" src={`http://127.0.0.1:8000/${msg.image}`}/>
+
+                                </>
+                                )
+                              }
                             </span>
                             <span className={`${msg.image ? 'text-xs block text-grayFactory' : 'hidden'}`}>{msg.time_sent}</span>
                           </div>
