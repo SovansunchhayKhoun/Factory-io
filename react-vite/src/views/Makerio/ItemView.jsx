@@ -75,7 +75,7 @@ export const ItemView = (props) => {
                    src="/assets/images/makerio.png" alt={item.name}/>
             : <img
               className="xl:min-w-[500px] xl:min-h-[500px]
-              lg:max-w-[300px]
+              lg:max-w-[500px]
               object-contain"
               src={`http://127.0.0.1:8000/${item.image}`} alt={item.name}/>
           }
