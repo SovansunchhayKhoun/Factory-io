@@ -22,7 +22,7 @@ export const UserView = () => {
   return (
     <>
       <div className="flex items-center justify-center h-1/2 flex-col">
-        <img className="w-[150px] mb-5" src="/assets/images/pngegg.png"/>
+        <img className="w-[150px] mb-5 rounded-[75px] shadow-2xl" src={`https://robohash.org/${user.username}`}/>
         <h1 className="mb-[25px] font-semibold text-2xl">{user.firstName} {user.lastName}</h1>
         <div className="flex flex-col items-center justify-center">
           <div className="flex mb-2 w-[500px] gap-5">

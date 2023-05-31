@@ -109,6 +109,17 @@ function ReviewModal({
           <div
             className="max-w-[1000px] p-6 bg-white border border-gray-200 rounded-lg shadow mx-auto min-w-[600px] mt-16 flex flex-col gap-4">
             <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">WRITE A REVIEW</h5>
+            <button onClick={e => {
+              e.stopPropagation()
+              setModalOpen(false)
+              setDescription('')
+              setTitle('')
+            }}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                   stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
             <div className="flex flex-col">
               <label htmlFor="title" className="mb-2">Title: </label>
               <input className="py-2 px-4 border border-blackFactory rounded-md" id="title" name="title" onChange={e => setTitle(e.target.value)} value={title}/>

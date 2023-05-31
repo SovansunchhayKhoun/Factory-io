@@ -19,7 +19,7 @@ export const AuthContext = ({children}) => {
   const onLogout = (event) => {
     event.preventDefault();
     localStorage.removeItem('CART_ITEM');
-    localStorage.removeItem('USER_CREDENTIALS')
+    // localStorage.removeItem('USER_CREDENTIALS')
     AxiosClient.post('/logout').then(() => {
       setUser({})
       setToken(null)

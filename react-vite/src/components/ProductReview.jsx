@@ -30,13 +30,13 @@ export const ProductReview = (props) => {
           reviews.length === 0 ? <div>No review yet !</div> : null
         }
         {
-          reviews.map((review, key) => {
+          reviews.filter((review) => review.product_id === id).map((review, key) => {
             return (
               <div>
                 <div className="flex flex-col">
                   <div className="flex gap-4">
                     <div>
-                      <img className="max-w-[50px]" src="/assets/images/pngegg.png" />
+                      <img className="max-w-[50px] rounded-3xl shadow-xl" src={`https://robohash.org/${review.user[0].username}`} />
                     </div>
                     <div>
                       <div className="text-blackFactory font-semibold">

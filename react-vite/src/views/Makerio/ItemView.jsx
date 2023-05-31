@@ -110,19 +110,19 @@ export const ItemView = (props) => {
         </div>
       </section>
 
-      {/*<ProductReview item={item}/>*/}
-      {/*<div className="mt-16 mb-16">*/}
-      {/*  <div className="mb-3 text-tealHover font-semibold">Related items</div>*/}
-      {/*  <Carousel itemClass={'flex'} responsive={responsive}>*/}
-      {/*    {*/}
-      {/*      items.filter(itemFilter => itemFilter.type === item.type && itemFilter.id !== item.id)*/}
-      {/*        .map((item, key) => {*/}
-      {/*          return (*/}
-      {/*            <ItemCardCarousel item={item} key={key}/>*/}
-      {/*          )*/}
-      {/*        })}*/}
-      {/*  </Carousel>*/}
-      {/*</div>*/}
+      <ProductReview item={item}/>
+      <div className="mt-16 mb-16">
+        <div className="mb-3 text-tealHover font-semibold">Related items</div>
+        <Carousel itemClass={'flex'} responsive={responsive}>
+          {
+            items.filter(itemFilter => itemFilter.type === item.type && itemFilter.id !== item.id)
+              .map((item, key) => {
+                return (
+                  <ItemCardCarousel item={item} key={key}/>
+                )
+              })}
+        </Carousel>
+      </div>
     </>
   );
 };

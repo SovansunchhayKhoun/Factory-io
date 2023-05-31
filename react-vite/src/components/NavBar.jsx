@@ -20,15 +20,16 @@ import {CustomerService} from "../views/Makerio/CustomerService.jsx";
 
 
 export const NavBar = (props) => {
+  const {onLogout, token, user} = useAuthContext()
   const {items, searchInput, itemsQueryReFetch, setSearchInput} = useContext(ProductContext);
   const {cartItem, getCartItem} = useContext(CartContext);
+
   useEffect(() => {
     itemsQueryReFetch();
     getCartItem();
   }, []);
 
   const location = useLocation();
-  const {onLogout, token, user} = useAuthContext()
   const {invoices} = useContext(InvoiceContext)
   const {message, findChat} = useContext(ChatContext);
 
@@ -153,6 +154,13 @@ export const NavBar = (props) => {
             <ProfileDropdown user={user} arrowIcon={true}/>
             :
             <NoAccount />
+          }
+
+          {user?.acc_type === 0 &&
+            <button className="transition ease-out duration-300 bg-redBase text-whiteFactory px-4 py-1 rounded-[20px] hover:bg-redHover"
+                    onClick={event => {onLogout(event)}}>
+            Sign out
+            </button>
           }
         </div>
 
