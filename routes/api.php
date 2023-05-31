@@ -11,16 +11,17 @@ use App\Http\Controllers\Api\V1\UserController;
   use App\Http\Controllers\Auth\AdminAuthController;
 use App\Models\Review;
 use Illuminate\Http\Request;
-  use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
   Route ::group ( [ 'prefix' => 'v1' ] , function () {
     Route ::apiResource ( 'products' , ProductController::class );
     Route ::apiResource ( 'invoices' , InvoiceController::class );
     Route ::apiResource ( 'invoice_products' , InvoiceProductController::class );
-    Route ::apiResource ( 'users' , UserController::class );
     Route ::apiResource ( 'chat' , ChatController::class );
     Route ::apiResource ( 'message' , MessageController::class );
     Route::apiResource('reviews', ReviewController::class);
+    Route ::apiResource ( 'users' , UserController::class );
   } );
 
 Route::middleware('auth:sanctum')->group(function (){

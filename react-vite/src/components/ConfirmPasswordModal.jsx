@@ -2,6 +2,7 @@
 import React, {useRef, useEffect, useState, useContext} from 'react';
 import Transition from '../utils/Transition.jsx';
 import UserContext from "../context/UserContext.jsx";
+import {useParams} from "react-router-dom";
 
 
 function ConfirmPasswordModal({
@@ -10,7 +11,7 @@ function ConfirmPasswordModal({
                            // eslint-disable-next-line react/prop-types
                            modalOpen,
                            // eslint-disable-next-line react/prop-types
-                           setModalOpen
+                           setModalOpen,
                          }) {
 
   const modalContent = useRef(null);
@@ -84,7 +85,7 @@ function ConfirmPasswordModal({
             <button type="submit"
               // onClick={() => setModalOpen(!modalOpen)}
                     className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-              Create
+              Confirm
             </button>
           </form>
 

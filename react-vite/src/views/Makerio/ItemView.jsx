@@ -16,7 +16,7 @@ export const ItemView = (props) => {
   useEffect(() => {
     getItem(id);
     itemsQueryReFetch();
-    // reviewsQueryReFetch();
+    reviewsQueryReFetch();
     scrollTop(0);
   }, []);
 

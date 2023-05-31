@@ -9,6 +9,7 @@ const UserContext = createContext();
 
 export const UserProvider = ({children}) => {
   const [users, setUsers] = useState([]);
+  const [isLoading,setIsLoading] = useState(false)
   const [user, setUser] = useState({});
   const [admin,setAdmin] = useState({});
   const [formValues, setFormValues] = useState({
@@ -57,20 +58,27 @@ export const UserProvider = ({children}) => {
   }
 
   const getUser = async (id) => {
-    const response = await Axios.get(`users/${id}`)
-    const apiItem = response.data.data
-    setUser(apiItem);
-    setFormValues({
-      firstName: apiItem.firstName,
-      lastName: apiItem.lastName,
-      gender: apiItem.gender,
-      phoneNumber: apiItem.phoneNumber,
-      email: apiItem.email,
-      username:apiItem.username,
-      password:"",
-      new_password:"",
-      password_confirmation:"",
-    })
+    setIsLoading(true)
+    try {
+      const response = await Axios.get(`users/${id}`)
+      const apiItem = response.data.data
+      setUser(apiItem);
+      setFormValues({
+        firstName: apiItem.firstName,
+        lastName: apiItem.lastName,
+        gender: apiItem.gender,
+        phoneNumber: apiItem.phoneNumber,
+        email: apiItem.email,
+        username:apiItem.username,
+        password:"",
+        new_password:"",
+        password_confirmation:"",
+      })
+      setIsLoading(false)
+    }catch (e) {
+      console.log(e)
+    }
+
   };
 
   const updateUser = async (e) => {
@@ -105,6 +113,7 @@ export const UserProvider = ({children}) => {
     try {
       await Axios.put("users/" + user.id + "/change-password", formValues)
       resetFormValues()
+      setErrors({})
       history.back()
     } catch (msg) {
       if (msg.response.status === 422) {
@@ -129,7 +138,8 @@ export const UserProvider = ({children}) => {
       updateUser,
       updatePassword,
       getAdmin,
-      admin
+      admin,
+      isLoading
     }}>{children}</UserContext.Provider>;
 };
 

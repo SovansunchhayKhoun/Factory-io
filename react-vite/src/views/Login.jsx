@@ -10,7 +10,7 @@ export default function Login(){
     const emailRef = useRef();
     const passwordRef = useRef();
     const [errors, setErrors] = useState(null)
-    const {setUser,setToken,token,user} = useAuthContext()
+    const {setUser,setToken,token} = useAuthContext()
     const navigate = useNavigate()
     const {getAdmin,admin} = useContext(UserContext)
     useEffect(() => {
