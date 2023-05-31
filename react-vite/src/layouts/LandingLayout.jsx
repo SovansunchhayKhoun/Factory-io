@@ -7,23 +7,33 @@ import {useAuthContext} from "../context/AuthContext.jsx";
 import axiosClient from "../axios-client.js";
 
 export const LandingLayout = () => {
-  const {setUser,token} = useAuthContext()
+  const {setUser,token,isLoading,setIsLoading} = useAuthContext()
   useEffect(() => {
     if(token){
-      axiosClient.get('/user')
-        .then(({data})=>{
-          setUser(data)
-        })
+      setIsLoading(true)
+      try {
+        axiosClient.get('/user')
+          .then(({data})=>{
+            setUser(data)
+            setIsLoading(false)
+          })
+      }catch (e){
+        setIsLoading(false)
+        console.log(e)
+      }
     }
   }, []);
-  return (
-    <>
-      <div className="min-h-screen flex flex-col overflow-hidden">
-        <LandingNavBar />
-        <Outlet/>
-        <Footer />
-      </div>
-    </>
-  );
+  if(!isLoading){
+    return (
+      <>
+        <div className="min-h-screen flex flex-col overflow-hidden">
+          <LandingNavBar />
+          <Outlet/>
+          <Footer />
+        </div>
+      </>
+    );
+  }
+
 
 };

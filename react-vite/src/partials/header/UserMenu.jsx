@@ -4,9 +4,18 @@ import Transition from '../../utils/Transition';
 
 import UserAvatar from '../../images/user-avatar-32.png';
 import {useAuthContext} from "../../context/AuthContext.jsx";
+import AxiosClient from "../../axios-client.js";
 
 function UserMenu() {
-  const {onLogout,user} = useAuthContext()
+  const {user,setUser,setToken} = useAuthContext()
+  const onLogout = (event) => {
+    event.preventDefault();
+    localStorage.removeItem('CART_ITEM');
+    AxiosClient.post('/logout').then(() => {
+      setUser({})
+      setToken(null)
+    })
+  }
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 

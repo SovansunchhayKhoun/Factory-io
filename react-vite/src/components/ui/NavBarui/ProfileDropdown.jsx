@@ -2,9 +2,11 @@ import {Dropdown} from "flowbite-react";
 import {Link} from "react-router-dom";
 import React from "react";
 import {useAuthContext} from "../../../context/AuthContext.jsx";
+import AxiosClient from "../../../axios-client.js";
 
 export const ProfileDropdown = ({user, arrowIcon}) => {
-  const {onLogout} = useAuthContext();
+
+  const {onLogout} = useAuthContext()
     return (
         <>
           {user?.acc_type !== 0 && <Dropdown arrowIcon={arrowIcon} inline label={

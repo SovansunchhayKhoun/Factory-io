@@ -16,21 +16,28 @@ const StateContext = createContext({
 export const AuthContext = ({children}) => {
   const [user, setUser] = useState({});
   const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
-  const onLogout = (event) => {
-    event.preventDefault();
-    localStorage.removeItem('CART_ITEM');
-    // localStorage.removeItem('USER_CREDENTIALS')
-    AxiosClient.post('/logout').then(() => {
-      setUser({})
-      setToken(null)
-    })
-  }
   const setToken = (token) => {
     _setToken(token)
     if (token) {
       localStorage.setItem('ACCESS_TOKEN', token);
     } else {
       localStorage.removeItem('ACCESS_TOKEN');
+    }
+  }
+
+  const [isLoading,setIsLoading] = useState(false)
+  const onLogout = (event) => {
+    event.preventDefault();
+    setIsLoading(true)
+    localStorage.removeItem('CART_ITEM');
+    try {
+      AxiosClient.post('/logout').then(() => {
+        setUser({})
+        setToken(null)
+        setIsLoading(false)
+      })
+    }catch (e){
+      setIsLoading(false)
     }
   }
 
@@ -41,6 +48,8 @@ export const AuthContext = ({children}) => {
       setUser,
       setToken,
       onLogout,
+      isLoading,
+      setIsLoading
     }}>
       {children}
     </StateContext.Provider>
