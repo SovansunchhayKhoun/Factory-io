@@ -11,7 +11,7 @@ export const Sender = (props) => {
         <div>
           <div className={`${image ? 'p-0' : 'p-3'} ${messageContent ? 'bg-blue-600' : 'bg-transparent'} text-white rounded-l-lg rounded-br-lg`}>
             <p className={`${image && 'p-3'} text-sm`}>{messageContent}</p>
-            {image && <img alt="" className="max-w-[250px] object-contain bg-white" src={`http://127.0.0.1:8000/${image}`}/>}
+            {image && <img alt="" className="border md:max-w-[250px] max-w-[156px] object-contain bg-white" src={`http://127.0.0.1:8000/${image}`}/>}
           </div>
           <span className="text-xs text-gray-500 leading-none">{time}</span>
         </div>

@@ -4,6 +4,7 @@
 
     use Illuminate\Database\Eloquent\Factories\HasFactory;
     use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Database\Eloquent\Relations\HasMany;
 
     class Product extends Model
     {
@@ -18,8 +19,10 @@
             return $this -> belongsToMany ( Invoice::class );
         }
 
-        public function Review ()
+        public function reviews ()
         {
-          return $this->hasMany(Review::class);
+          return $this->hasMany(Review::class,'product_id','id');
         }
+
+
     }

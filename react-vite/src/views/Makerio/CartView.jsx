@@ -23,7 +23,7 @@ export const CartView = () => {
 
   if (token) {
     return (
-      <main>
+      <>
         {/*<AddressForm />*/}
         <div className="w-full flex mb-3 justify-between">
           <div className="font-bold text-blueBase text-lg">Cart</div>
@@ -57,16 +57,14 @@ export const CartView = () => {
         <div className={`${cartItem.length === 0 && 'hidden'}`}>
           <Payment/>
         </div>
-      </main>
+      </>
     );
   } else {
     return (
-      <>
-        <main>
-          <Link to={'/login'}>Sign in</Link>
-          <Link to={'/signup'}>Sign Up</Link>
-        </main>
-      </>
+      <div>
+        <Link to={'/login'}>Sign in</Link>
+        <Link to={'/signup'}>Sign Up</Link>
+      </div>
     );
   }
 };

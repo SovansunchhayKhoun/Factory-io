@@ -20,7 +20,7 @@ export const AdminView = () => {
     return <Navigate to="/"/>
   }
   return (
-    <main>
+    <>
       <div className="flex items-center justify-center h-1/2 flex-col">
         <img className="w-[150px] mb-5" src="/assets/images/pngegg.png"/>
         <h1 className="mb-[25px] font-semibold text-2xl">{admin.username}</h1>
@@ -121,8 +121,6 @@ export const AdminView = () => {
           }
         </div>
       </div>
-
-    </main>
-
+    </>
   )
 }

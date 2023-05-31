@@ -10,6 +10,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@mui/styled-engine": "^5.13.2",
         "@react-google-maps/api": "^2.18.1",
         "chart.js": "^4.3.0",
         "chartjs-adapter-moment": "^1.0.1",

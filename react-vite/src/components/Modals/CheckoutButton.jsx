@@ -36,9 +36,6 @@ export default function CheckoutButton() {
   const {user, token} = useAuthContext();
   const [loadingSuccess, setLoadingSuccess] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalLoading, setModalLoading] = useState(false);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     getCartItem();
@@ -82,7 +79,8 @@ export default function CheckoutButton() {
                     cartItem.forEach((item) => {
                       checkOut(item);
                     })
-                  }} className="w-full transition duration-500 bg-blueBase text-whiteFactory px-2 py-1 rounded-md hover:bg-blueActive active:bg-bluehover">Confirm
+                  }} className="w-full transition duration-500 bg-blueBase text-whiteFactory px-2 py-1 rounded-md hover:bg-blueActive active:bg-bluehover">
+                    Confirm
                   </button>
                 </div>
               </div>

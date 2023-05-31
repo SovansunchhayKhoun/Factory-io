@@ -31,6 +31,9 @@ export const InvoiceProvider = ({children}) => {
       behavior: "smooth",
     });
   }
+  const scrollDown = (fromBottom) => {
+    window.scrollTo(0, document.body.scrollHeight);
+  }
   const [invoiceError, setInvoiceError] = useState([]);
 
   const storeInvoice = async (total, cartItem, checkOut, paymentPic, setModalOpen, setLoadingSuccess) => {
@@ -143,6 +146,7 @@ export const InvoiceProvider = ({children}) => {
 
   return (
     <InvoiceContext.Provider value={{
+      scrollDown,
       scrollTop,
       updateInvProd,
       updateOrder,

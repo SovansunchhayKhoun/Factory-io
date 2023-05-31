@@ -11,6 +11,7 @@ Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 export const Chat = () => {
   const [activeUser, setActiveUser] = useState({});
   const {users, getUsers} = useContext(UserContext);
+  const [searchInput,setSearchInput] = useState('')
   const {
     messageImage,
     chatReFetch,
@@ -51,7 +52,9 @@ export const Chat = () => {
                 </span>
                 <input type="search" className="block w-full py-2 pl-10 bg-gray-100 rounded outline-none"
                        name="search"
-                       placeholder="Search..." required/>
+                       placeholder="Search..."
+                       onChange={(e) => setSearchInput(e.target.value)}
+                       required/>
               </div>
             </div>
             {/*Search Bar*/}
@@ -59,7 +62,13 @@ export const Chat = () => {
             {/*User List*/}
             <ul className="overflow-auto h-[32rem]">
               <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
-              {users.map((usr) => {
+              {users.filter((user) => {
+                if(user.username.toLowerCase().includes(searchInput.toLowerCase())){
+                  return user
+                }else if (searchInput === ''){
+                  return user
+                }
+              }).map((usr) => {
                 const unreadMessages = message?.filter((msg) => msg.is_read === 0 && msg.sender_id !== 'admin');
                 const userNotification = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr.username);
                 return (
@@ -74,7 +83,7 @@ export const Chat = () => {
                     key={usr.id}
                     className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">
                     <img className="object-cover w-10 h-10 rounded-full"
-                         src="/assets/images/seangly.jpg" alt="username"/>
+                         src={`https://robohash.org/${usr.username}`} alt="username"/>
                     <div className="w-full pb-2">
                       <div className="flex justify-between">
                           <span className="block ml-2 font-semibold text-gray-600">
@@ -116,7 +125,7 @@ export const Chat = () => {
             <div className={`${Object.keys(activeUser).length === 0 && 'hidden'} w-full`}>
               <div className="relative flex items-center p-3 border-b border-gray-300">
                 <img className="object-contain w-10 h-10 rounded-full"
-                     src="/assets/images/doung.jpg" alt="username"/>
+                     src={`https://robohash.org/${activeUser?.username}`} alt="username"/>
                 <span className="block ml-2 font-bold text-gray-600">{activeUser?.username}</span>
                 <span className="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3">
               </span>

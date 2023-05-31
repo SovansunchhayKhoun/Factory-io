@@ -13,15 +13,15 @@ export const CartProvider = ({children}) => {
   const {items} = useContext(ProductContext);
   const {invoices, isLoading} = useContext(InvoiceContext);
   const {invoiceProduct, invoiceProductReFetch} = useContext(InvoiceProductContext);
-
+  const [itemQty, setItemQty] = useState('');
   const [cartItem, setCartItem] = useState([]);
   const [cartError, setCartError] = useState([]);
   const [success, setSuccess] = useState(false);
   const totalPrice = cartItem.reduce((total, i) => total += i.price * i.qty, 0);
   const {token, user} = useAuthContext();
-  useEffect(() => {
-    invoiceProductReFetch();
-  }, []);
+  // useEffect(() => {
+  //   invoiceProductReFetch();
+  // }, []);
   const storeItem = (item) => {
     if (itemExist(item)) {
       // find and update that existed item qty
@@ -49,6 +49,7 @@ export const CartProvider = ({children}) => {
   const addToCart = (item) => {
     if (item.qty) {
       storeItem(item);
+      item.tooltip = true;
       // if item doesnt exist in cart, save item
       !cartItem.find((i) => item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
         ...item,
@@ -75,25 +76,33 @@ export const CartProvider = ({children}) => {
     localStorage.setItem('CART_ITEM', JSON.stringify(itemSave ?? []));
   }
 
-  const increaseItemQty = (cart) => {
-    // find original item
-    const stockItem = items.find((i) => i.id === cart.id);
-    // set variable for cart item
-    const item = cartItem.find((i) => i.id === cart.id);
+  const handleQty = (event, item) => {
+    item.warning = '';
+    if (Number(event.target.value) >= 1) {
+      event.target.value = event.target.value.replace(/[^0-9]/g, '');
+      event.target.value = event.target.value.replace(/(\..*)\./g, '$1');
+      item.qty = Number(event.target.value)
+    } else if (!Number(event.target.value)) {
+      item.qty = 1;
+      item.warning = 'Item quantity must be at least 1';
+      event.target.value = '';
+      setItemQty('')
+    }
+    setCartItem([...cartItem])
+    saveLocalCartItem(cartItem);
+  }
+
+  const increaseItemQty = (item) => {
     item.qty = item.qty + 1;
-    item.cart_item_price = stockItem.price * item.qty;
+    setItemQty(item.qty);
+    item.cart_item_price = item.price * item.qty;
     setCartItem([...cartItem]);
     saveLocalCartItem(cartItem);
   };
-  const decreaseItemQty = (cart) => {
-    // find original item
-    const stockItem = items.find((i) => i.id === cart.id);
-    // set variable for cart item
-    const item = cartItem.find((i) => i.id === cart.id);
+  const decreaseItemQty = (item) => {
     item.qty > 1 ? item.qty = item.qty - 1 : cartItem.splice(cartItem.indexOf(item), 1);
-
-    item.cart_item_price = stockItem.price * item.qty;
-
+    setItemQty(item.qty);
+    item.cart_item_price = item.price * item.qty;
     setCartItem([...cartItem]);
     saveLocalCartItem(cartItem);
   };
@@ -107,6 +116,8 @@ export const CartProvider = ({children}) => {
   }
 
   const checkOut = async (item) => {
+    await invoiceProductReFetch();
+    console.log(item);
     if (!isLoading) {
       item.invoice_id = invoices?.slice(-1)[0]?.id || invoiceProduct?.slice(-1)[0]?.invoice_id || 1;
       try {
@@ -121,6 +132,9 @@ export const CartProvider = ({children}) => {
   }
 
   return <CartContext.Provider value={{
+    setItemQty,
+    itemQty,
+    handleQty,
     setCartError,
     cartItem,
     setCartItem,
