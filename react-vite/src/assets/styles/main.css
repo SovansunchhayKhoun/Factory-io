@@ -5,6 +5,18 @@
   font-family: 'Poppins', Arial, serif;
 }
 
+/*hide spin button of input number*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/*hide spin button of input number*/
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 body {
   font-family: 'Poppins', Arial, serif;
 }

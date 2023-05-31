@@ -1,10 +1,9 @@
 <?php
 
-use App\Http\Controllers\Auth\AdminAuthController;
 use App\Models\Invoice;
-  use App\Models\Product;
-  use App\Models\User;
-  use Illuminate\Support\Facades\Route;
+use App\Models\Product;
+use App\Models\User;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,24 +16,22 @@ use App\Models\Invoice;
 |
 */
 
-Route ::get ( '/' , function () {
-//    $users = User::all();
-//    $products = Product ::all ();
-//    $invoices = Invoice ::all ();
-//
-//    foreach ( $invoices as $invoice ) {
-//        foreach ( $invoice -> products as $item ) {
-//            echo $item -> name . "<br>";
-//        }
-//    }
-//
-//    foreach ($users as $user) {
-//      foreach ($user -> invoices as $item ){
-//        echo $item->id . "<br>";
-//      }
-//    }
-//
-//    return view ( 'welcome' , compact ( 'products', 'users' , 'invoices' ) );
-} );
-
-
+Route::get('/', function () {
+    //    $users = User::all();
+    //    $products = Product ::all ();
+    //    $invoices = Invoice ::all ();
+    //
+    //    foreach ( $invoices as $invoice ) {
+    //        foreach ( $invoice -> products as $item ) {
+    //            echo $item -> name . "<br>";
+    //        }
+    //    }
+    //
+    //    foreach ($users as $user) {
+    //      foreach ($user -> invoices as $item ){
+    //        echo $item->id . "<br>";
+    //      }
+    //    }
+    //
+    //    return view ( 'welcome' , compact ( 'products', 'users' , 'invoices' ) );
+});

@@ -1,29 +1,29 @@
 <?php
 
-    namespace App\Http\Resources\V1;
+namespace App\Http\Resources\V1;
 
-    use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-    class ProductResource extends JsonResource
+class ProductResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     */
+    public function toArray($request)
     {
-        /**
-         * Transform the resource into an array.
-         *
-         * @param \Illuminate\Http\Request $request
-         * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
-         */
-        public function toArray ( $request )
-        {
-            return [
-                'id' => $this -> id ,
-                'name' => $this -> name ,
-                'price' => $this -> price,
-                'qty' => $this->qty,
-                'status' => $this->status,
-                'type' => $this->type,
-                'description' => $this->description,
-                'image' => $this->image
-                // 'picture' => $this->picture,
-            ];
-        }
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'price' => $this->price,
+            'qty' => $this->qty,
+            'status' => $this->status,
+            'type' => $this->type,
+            'description' => $this->description,
+            'image' => $this->image,
+            // 'picture' => $this->picture,
+        ];
     }
+}

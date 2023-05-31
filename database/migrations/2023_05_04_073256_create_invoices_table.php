@@ -1,28 +1,29 @@
 <?php
 
-  use Illuminate\Database\Migrations\Migration;
-  use Illuminate\Database\Schema\Blueprint;
-  use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-  return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up ()
+    public function up()
     {
-      Schema ::create ( 'invoices' , function ( Blueprint $table ) {
-        $table -> id ();
-        $table -> timestamp ( 'date' )->nullable();
-        $table -> double ( 'totalPrice' );
-        $table -> tinyInteger ( 'status' ) -> default ( 0 );
-        $table -> string ( 'address' );
-        $table -> text ( 'payment_pic' )->nullable();
-        $table-> integer ('item_count')->default (0);
-        $table -> foreignId ( 'user_id' ) -> references ( 'id' ) -> on ( 'users' ) -> onDelete ( 'cascade' );
-        $table -> timestamps ();
-      } );
+        Schema::create('invoices', function (Blueprint $table) {
+            $table->id();
+            $table->timestamp('date')->nullable();
+            $table->double('totalPrice');
+            $table->tinyInteger('status')->default(0);
+            $table->string('address');
+            $table->text('payment_pic')->nullable();
+            $table->integer('item_count')->default(0);
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -30,8 +31,8 @@
      *
      * @return void
      */
-    public function down ()
+    public function down()
     {
-      Schema ::dropIfExists ( 'invoices' );
+        Schema::dropIfExists('invoices');
     }
-  };
+};

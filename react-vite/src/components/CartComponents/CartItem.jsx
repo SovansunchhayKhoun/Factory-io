@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
 import {Link} from "react-router-dom"
 import CartContext from "../../context/CartContext.jsx";
@@ -18,6 +18,9 @@ export const CartItem = (props) => {
     setItemQty,
     itemQty
   } = useContext(CartContext);
+  useEffect(() => {
+    setItemQty(item.qty);
+  }, [item.qty])
   const {token} = useAuthContext();
   if (token) {
     return (
@@ -51,6 +54,8 @@ export const CartItem = (props) => {
               <input
                 type="text"
                 min="1"
+                value={itemQty}
+                pattern="/[^0-9]/g"
                 onChange={event => {
                   setItemQty(Number(event.target.value));
                   handleQty(event, item)
@@ -64,7 +69,7 @@ export const CartItem = (props) => {
                   increaseItemQty(item)
                 }}>+
               </button>
-            <span className="text-redBase text-xs">{item.warning}</span>
+              <span className="text-redBase text-xs">{item.warning}</span>
             </div>
             <p><span className="underline underline-offset-2">Sub-total:</span> <span
               className="font-bold text-redBase">${item.qty * item.price}</span></p>

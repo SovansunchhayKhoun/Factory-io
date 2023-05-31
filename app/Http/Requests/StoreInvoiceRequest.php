@@ -1,17 +1,17 @@
 <?php
 
-  namespace App\Http\Requests;
+namespace App\Http\Requests;
 
-  use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-  class StoreInvoiceRequest extends FormRequest
-  {
+class StoreInvoiceRequest extends FormRequest
+{
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize () : bool
+    public function authorize(): bool
     {
-      return true;
+        return true;
     }
 
     /**
@@ -19,16 +19,16 @@
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
-    public function rules () : array
+    public function rules(): array
     {
-      return [
-        'user_id' => [ 'required' ] ,
-        'date' => [ 'required' ] ,
-        'status' => [ 'required' ] ,
-        'payment_pic' => ['required'],
-        'address' => [ 'required'] ,
-        'item_count' =>['required', 'min: 1', 'not_in:0'],
-        'totalPrice' => [ 'required' , 'numeric' , 'min:1' , 'not_in:0' ] ,
-      ];
+        return [
+            'user_id' => ['required'],
+            'date' => ['required'],
+            'status' => ['required'],
+            'payment_pic' => ['required'],
+            'address' => ['required'],
+            'item_count' => ['required', 'min: 1', 'not_in:0'],
+            'totalPrice' => ['required', 'numeric', 'min:1', 'not_in:0'],
+        ];
     }
-  }
+}

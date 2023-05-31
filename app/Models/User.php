@@ -27,7 +27,7 @@ class User extends Authenticatable
         'bio',
         'pfp',
         'username',
-        'gender'
+        'gender',
     ];
 
     /**
@@ -48,17 +48,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function invoices () : HasMany
+
+    public function invoices(): HasMany
     {
-      return $this -> hasMany (Invoice::class);
+        return $this->hasMany(Invoice::class);
     }
 
-    public function chats () {
-      return $this->hasMany (Chat::class);
+    public function chats()
+    {
+        return $this->hasMany(Chat::class);
     }
 
-  public function reviews ()
+  public function reviews()
   {
-    return $this->hasMany(Review::class,'user_id','id');
+      return $this->hasMany(Review::class, 'user_id', 'id');
+  }
+
+  public function address()
+  {
+      return $this->hasMany(Address::class, 'username', 'id');
   }
 }

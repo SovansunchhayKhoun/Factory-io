@@ -1,29 +1,29 @@
 <?php
 
-    namespace Database\Factories;
+namespace Database\Factories;
 
-    use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Invoice>
+ */
+class InvoiceFactory extends Factory
+{
     /**
-     * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Invoice>
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
      */
-    class InvoiceFactory extends Factory
+    public function definition()
     {
-        /**
-         * Define the model's default state.
-         *
-         * @return array<string, mixed>
-         */
-        public function definition ()
-        {
-            return [
-                'date' => fake () -> date ( 'Y-m-d h-m-s' , 'now' ) ,
-                'status' => 0 ,
-              'payment_pic' => 'null',
-              'user_id' => 1,
-              'item_count' => fake()->numberBetween(1,10),
-                'totalPrice' => fake () -> numberBetween ( 5 , 200 ) ,
-                'address' => 'Bridge 2, National Road 6A, Sangkat Prek Leap, Khan Chroy Changva, Phnom Penh' ,
-            ];
-        }
+        return [
+            'date' => fake()->date('Y-m-d h-m-s', 'now'),
+            'status' => 0,
+            'payment_pic' => 'null',
+            'user_id' => 1,
+            'item_count' => fake()->numberBetween(1, 10),
+            'totalPrice' => fake()->numberBetween(5, 200),
+            'address' => 'Bridge 2, National Road 6A, Sangkat Prek Leap, Khan Chroy Changva, Phnom Penh',
+        ];
     }
+}

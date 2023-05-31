@@ -23,7 +23,7 @@ class ChatRequest extends FormRequest
     {
         return [
             'sender_id' => ['required'],
-            'receiver_id' => ['required']
+            'receiver_id' => ['required'],
         ];
     }
 }

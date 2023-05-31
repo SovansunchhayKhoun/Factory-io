@@ -12,23 +12,30 @@ export const Footer = () => {
         <div className="flex items-center gap-x-2">
           <div>
             <Link to="#to-factory">
-              <img className="xl:w-[130px] lg:w-[120px] md:w-[110px] w-[100px]" src="/assets/images/factory.png" alt=""/>
+              <img className="xl:w-[130px] lg:w-[120px] md:w-[140px] w-[120px]" src="/assets/images/factory.png"
+                   alt=""/>
             </Link>
           </div>
         </div>
-        <div className="flex items-center">
-        <span className="mr-3">
-          Follow us on:
-        </span>
-          <Link to="https://www.facebook.com/SolutionOfDigital?mibextid=LQQJ4d">
-            <img className="mr-3 xl:w-[32px] lg:w-[24px] md:w-[12px] w-[24px]" src="/assets/images/facebook-icon.png" alt=""/>
-          </Link>
-          <Link to="https://www.linkedin.com/company/factory-io/">
-            <img className="mr-3 xl:w-[32px] lg:w-[24px] md:w-[12px] w-[24px]" src="/assets/images/linkedin-icon.png" alt=""/>
-          </Link>
-          <Link to="https://www.tiktok.com/@factory.io?_t=8c9CGPPLRS6&_r=1">
-            <img className="mr-3 xl:w-[32px] lg:w-[24px] md:w-[12px] w-[24px]" src="/assets/images/tiktok-icon.png" alt=""/>
-          </Link>
+
+        <div className="md:flex md:flex-row md:items-center md:gap-x-3 flex flex-col justify-center items-center">
+          <span className="md:text-base text-[14px]">
+            Follow us on
+          </span>
+          <div className="flex gap-x-3">
+            <Link to="https://www.facebook.com/SolutionOfDigital?mibextid=LQQJ4d">
+              <img className="xl:w-[32px] md:w-[24px] w-[20px]" src="/assets/images/facebook-icon.png"
+                   alt=""/>
+            </Link>
+            <Link to="https://www.linkedin.com/company/factory-io/">
+              <img className="xl:w-[32px] md:w-[24px] w-[20px]" src="/assets/images/linkedin-icon.png"
+                   alt=""/>
+            </Link>
+            <Link to="https://www.tiktok.com/@factory.io?_t=8c9CGPPLRS6&_r=1">
+              <img className="xl:w-[32px] md:w-[24px] w-[20px]" src="/assets/images/tiktok-icon.png"
+                   alt=""/>
+            </Link>
+          </div>
         </div>
       </footer>
     </>

@@ -19,13 +19,13 @@ export const ProductProvider = ({children}) => {
   const [items, setItems] = useState([]);
   const [item, setItem] = useState({});
   const [searchInput, setSearchInput] = useState('')
+
   const {data: itemsQuery, refetch: itemsQueryReFetch, isLoading: itemsLoading} = useQuery(['items'], () => {
     return Axios.get('products').then((res) => {
       setItems(res.data.data);
       return res.data.data
     });
   });
-
   const [formValues, setFormValues] = useState({
     name: "",
     price: "",

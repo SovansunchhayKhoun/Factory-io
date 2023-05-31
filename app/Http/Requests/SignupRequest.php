@@ -1,18 +1,18 @@
 <?php
 
-  namespace App\Http\Requests;
+namespace App\Http\Requests;
 
-  use Illuminate\Foundation\Http\FormRequest;
-  use Illuminate\Validation\Rules\Password;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
-  class SignupRequest extends FormRequest
-  {
+class SignupRequest extends FormRequest
+{
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize () : bool
+    public function authorize(): bool
     {
-      return true;
+        return true;
     }
 
     /**
@@ -20,23 +20,23 @@
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
-    public function rules () : array
+    public function rules(): array
     {
-      return [
-        'firstName' => 'required|string|max:55' ,
-        'lastName' => 'required|string|max:55' ,
-        'phoneNumber' => 'required|string|max:55' ,
-        'email' => 'required|email|unique:users,email' ,
-        'username' => ['required'],
-        'password' => [
-          'required' ,
-          'confirmed' ,
-          Password ::min ( 8 )
-            -> numbers ()
-            -> mixedCase ()
-            -> letters ()
-            -> symbols ()
-        ]
-      ];
+        return [
+            'firstName' => 'required|string|max:55',
+            'lastName' => 'required|string|max:55',
+            'phoneNumber' => 'required|string|max:55',
+            'email' => 'required|email|unique:users,email',
+            'username' => ['required'],
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->numbers()
+                    ->mixedCase()
+                    ->letters()
+                    ->symbols(),
+            ],
+        ];
     }
-  }
+}

@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Invoice;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,11 +18,11 @@ class ProductFactory extends Factory
     {
         return [
             'name' => fake()->name,
-            'price' => fake ()->numberBetween ( 5, 70),
+            'price' => fake()->numberBetween(5, 70),
             'qty' => 10,
             'status' => 1,
             'type' => 'Arduino Board',
-            'description' => fake()->text (150)
+            'description' => fake()->text(150),
         ];
     }
 }
