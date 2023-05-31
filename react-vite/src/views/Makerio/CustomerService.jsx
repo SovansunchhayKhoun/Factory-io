@@ -30,10 +30,11 @@ export const CustomerService = ({setModalOpen}) => {
   const [open, setOpen] = useState(false);
   const {scrollDown} = useContext(InvoiceContext);
   if (token) {
-    useEffect(() => {
-      // messageReFetch();
-      setSeen(message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id), user.username);
-    }, []);
+    // useEffect(() => {
+    //   // messageReFetch();
+    //   setSeen(message?.filter((msg) => (msg.chat_id === findChat(user.username, 'admin')?.id) && msg.is_read === 0), user.username);
+    // }, []);
+
     return (
       <div className="flex flex-col items-center h-screen text-gray-800">
         <div

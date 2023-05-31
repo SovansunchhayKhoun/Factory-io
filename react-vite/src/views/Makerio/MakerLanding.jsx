@@ -15,39 +15,66 @@ export const MakerLanding = () => {
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
-  const [cate, setCate] = useState('All');
+  const [category, setCategory] = useState('All');
   // useEffect(() => {
   //   itemsQueryReFetch();
   // }, []);
+
+  useEffect(() => {
+    switch (searchInput) {
+      case 'sensor':
+        setCategory('Sensor');
+        break;
+      case 'microcontroller':
+        setCategory('Micro-Controller');
+        break;
+      case 'microprocessor':
+        setCategory('Micro-Processor');
+        break;
+      case 'tools':
+        setCategory('Tools');
+        break;
+      case 'resistor':
+        setCategory('Resistor');
+        break;
+      case 'electronic':
+        setCategory('Electronic Component');
+        break;
+      case 'battery':
+        setCategory('Battery');
+        break;
+      case 'arduino':
+        setCategory('Arduino')
+        break;
+      case 'steam':
+        setCategory('Steam');
+        break;
+      default:
+        setCategory('All');
+        break;
+    }
+  }, [searchInput]);
+
   const CateLabel = () => {
     return (
       <span className="font-bold text-tealHover">
-        {cate}
+        {category}
       </span>
     );
   }
+
   return (
-    <>
-      <div className="flex flex-col items-center gap-y-6">
-        <div className="font-bold">
-          Product
-        </div>
-        {/*<div className="w-[384px]">*/}
-        {/*  <input type="text"*/}
-        {/*         className="w-[100%] px-12 search-bar py-1 border-none"*/}
-        {/*         onChange={event => {*/}
-        {/*           setSearchInput(event.target.value)*/}
-        {/*         }}*/}
-        {/*  />*/}
-        {/*</div>*/}
+    <div className="flex flex-col gap-y-6 xl:py-6 lg:py-12 md:py-8 py-6">
+      <div className="font-bold flex flex-col items-center gap-y-6">
+        Product
       </div>
       {/*display item */}
-      <div className="min-[1920px]:px-48 flex flex-col gap-4 justify-center">
+      <div className="min-[1920px]:px-48 flex flex-col gap-6 justify-center">
         <Dropdown style={{background: "none"}} inline label={<CateLabel/>}>
           <div className="w-[270px]">
             <Dropdown.Item className="highlight-hover font-bold" onClick={() => {
               setSearchInput('')
-              setCate('All');
+              // setCategory('All');
             }}>
               <div className={`${searchInput === '' && 'text-tealHover'}`}>
                 All
@@ -55,7 +82,7 @@ export const MakerLanding = () => {
             </Dropdown.Item>
             <Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {
               setSearchInput('sensor')
-              setCate('Sensors');
+              // setCategory('Sensors');
             }}>
               <div className={`${searchInput === 'sensor' && 'text-tealHover'}`}>
                 Sensors
@@ -63,7 +90,7 @@ export const MakerLanding = () => {
             </Dropdown.Item>
             <Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {
               setSearchInput('microcontroller')
-              setCate('Micro-Controllers');
+              // setCategory('Micro-Controllers');
             }}>
               <div className={`${searchInput === 'microcontroller' && 'text-tealHover'}`}>
                 Micro-Controller
@@ -71,7 +98,7 @@ export const MakerLanding = () => {
             </Dropdown.Item>
             <Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {
               setSearchInput('arduino')
-              setCate('Arduino');
+              // setCategory('Arduino');
             }}>
               <div className={`${searchInput === 'arduino' && 'text-tealHover'}`}>
                 Arduino
@@ -79,17 +106,19 @@ export const MakerLanding = () => {
             </Dropdown.Item>
             <Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {
               setSearchInput('steam')
-              setCate('Steam');
+              // setCategory('Steam');
             }}>
               <div className={`${searchInput === 'steam' && 'text-tealHover'}`}>Steam
               </div>
             </Dropdown.Item>
           </div>
         </Dropdown>
-        <div className="grid min-[1920px]:grid-cols-5 auto-rows-fr gap-12
-        xl:grid-cols-4
-        lg:grid-cols-4
-        md:grid-cols-2
+
+        <div className="grid auto-rows-fr gap-12
+          min-[1920px]:grid-cols-5
+          xl:grid-cols-4 xl:px-8
+          lg:grid-cols-3
+          md:grid-cols-2 md:px-12
         ">
           {itemsLoading &&
             <div
@@ -114,7 +143,7 @@ export const MakerLanding = () => {
           })}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

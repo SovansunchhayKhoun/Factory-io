@@ -10,46 +10,47 @@ use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     public function login(LoginRequest $request)
     {
         $credentials = $request->validated();
-        if (!Auth::attempt($credentials)){
+        if (! Auth::attempt($credentials)) {
             return response([
-                'message' => 'Provided email or password is incorrect'
-            ],422);
+                'message' => 'Provided email or password is incorrect',
+            ], 422);
         }
-        /** @var  User $user */
+        /** @var User $user */
         $user = Auth::user();
         $token = $user->createToken('main')->plainTextToken;
 
-        return response(compact('user','token'));
+        return response(compact('user', 'token'));
     }
 
-  public function loginAsAdmin(AdminRequest $request){
-    $credentials = $request->validated();
-    if (Auth::guard('admin')->attempt([
-      'email' => $credentials['email'],
-      'password' => $credentials['password']
-    ])){
-      /* @var Admin $user */
-      $user = Auth::guard('admin')->user();
-      $token = $user->createToken('main')->plainTextToken;
-      return response(compact('user','token'));
-    }else{
-      return response([
-        'message' => 'Provided email or password is incorrect'
-      ],422);
-    }}
+  public function loginAsAdmin(AdminRequest $request)
+  {
+      $credentials = $request->validated();
+      if (Auth::guard('admin')->attempt([
+          'email' => $credentials['email'],
+          'password' => $credentials['password'],
+      ])) {
+          /* @var Admin $user */
+          $user = Auth::guard('admin')->user();
+          $token = $user->createToken('main')->plainTextToken;
 
-    public function signup (SignupRequest $request)
+          return response(compact('user', 'token'));
+      } else {
+          return response([
+              'message' => 'Provided email or password is incorrect',
+          ], 422);
+      }
+  }
+
+    public function signup(SignupRequest $request)
     {
         $data = $request->validated();
-        /** @var  User $user */
+        /** @var User $user */
         $user = User::create([
             'firstName' => $data['firstName'],
             'lastName' => $data['lastName'],
@@ -61,14 +62,16 @@ class AuthController extends Controller
 
         $token = $user->createToken('main')->plainTextToken;
 
-        return response(compact('user','token'));
+        return response(compact('user', 'token'));
 
     }
+
     public function logout(Request $request)
     {
-        /** @var  User $user */
+        /** @var User $user */
         $user = $request->user();
         $user->currentAccessToken()->delete();
-        return response('',204);
+
+        return response('', 204);
     }
 }

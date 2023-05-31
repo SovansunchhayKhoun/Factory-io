@@ -1,32 +1,31 @@
 <?php
 
-  namespace App\Models;
+namespace App\Models;
 
-  use Illuminate\Database\Eloquent\Factories\HasFactory;
-  use Illuminate\Database\Eloquent\Model;
-  use Illuminate\Database\Eloquent\Relations\HasMany;
-  use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-  class Chat extends Model
-  {
+class Chat extends Model
+{
     use HasFactory;
 
     protected $fillable = [
-      'sender_id' , 'receiver_id'
+        'sender_id', 'receiver_id',
     ];
 
-    public function message () : HasMany
+    public function message(): HasMany
     {
-      return $this -> hasMany ( Message::class );
+        return $this->hasMany(Message::class);
     }
 
-    public function user ()
+    public function user()
     {
-      return $this -> belongsTo ( User::class );
+        return $this->belongsTo(User::class);
     }
 
-    public function admin ()
+    public function admin()
     {
-      return $this -> belongsTo ( Admin::class );
+        return $this->belongsTo(Admin::class);
     }
-  }
+}

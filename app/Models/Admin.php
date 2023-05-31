@@ -12,6 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 class Admin extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
     protected $guard = 'admin';
 
     /**
@@ -28,7 +29,7 @@ class Admin extends Authenticatable
         'bio',
         'pfp',
         'username',
-        'gender'
+        'gender',
     ];
 
     /**
@@ -49,8 +50,9 @@ class Admin extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function invoices () : HasMany
+
+    public function invoices(): HasMany
     {
-      return $this -> hasMany (Invoice::class);
+        return $this->hasMany(Invoice::class);
     }
 }

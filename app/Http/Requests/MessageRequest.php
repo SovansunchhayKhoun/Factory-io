@@ -22,13 +22,13 @@ class MessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-          'msg_content' => ['nullable'],
-          'image' => ['nullable'],
-          'chat_id' => ['required'],
-          'sender_id' => ['required'],
-          'receiver_id' => ['required'],
-          'time_sent' => 'nullable',
-          'is_read' => ['required']
+            'msg_content' => ['nullable'],
+            'image' => ['nullable'],
+            'chat_id' => ['required'],
+            'sender_id' => ['required'],
+            'receiver_id' => ['required'],
+            'time_sent' => 'nullable',
+            'is_read' => ['required'],
         ];
     }
 }

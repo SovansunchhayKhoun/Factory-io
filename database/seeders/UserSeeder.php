@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -13,16 +12,16 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-      DB::table('admins')->insert([
-        'firstName' => 'Admin',
-        'lastName' => 'Admin',
-        'gender' => 'Male',
-        'phoneNumber' => '012792811',
-        'email' => 'admin@domain.com',
-        'username' => 'admin',
-        'password' => bcrypt('admin'),
-        'bio' => 'Backend Dev'
-      ]);
+        DB::table('admins')->insert([
+            'firstName' => 'Admin',
+            'lastName' => 'Admin',
+            'gender' => 'Male',
+            'phoneNumber' => '012792811',
+            'email' => 'admin@domain.com',
+            'username' => 'admin',
+            'password' => bcrypt('admin'),
+            'bio' => 'Backend Dev',
+        ]);
         DB::table('users')->insert([
             'firstName' => 'Rethtihpong',
             'lastName' => 'Em',
@@ -31,7 +30,7 @@ class UserSeeder extends Seeder
             'email' => 'rithtipongem@gmail.com',
             'username' => 'RpongEM',
             'password' => bcrypt('1234'),
-            'bio' => 'Backend Dev'
+            'bio' => 'Backend Dev',
         ]);
         DB::table('users')->insert([
             'firstName' => 'Sunchhay',
@@ -41,7 +40,7 @@ class UserSeeder extends Seeder
             'email' => 'sunchhay@gmail.com',
             'username' => 'JustChhayXP',
             'password' => bcrypt('1234'),
-            'bio' => 'Backend Dev'
+            'bio' => 'Backend Dev',
         ]);
         DB::table('users')->insert([
             'firstName' => 'Thydatepin',
@@ -51,7 +50,7 @@ class UserSeeder extends Seeder
             'email' => 'tepin@gmail.com',
             'username' => 'CharmZz',
             'password' => bcrypt('1234'),
-            'bio' => 'Frontend Dev'
+            'bio' => 'Frontend Dev',
         ]);
     }
 }

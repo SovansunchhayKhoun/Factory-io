@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class InvoiceProduct extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-      'product_id', 'invoice_id', 'user_id', 'cart_item_price', 'qty'
+        'product_id', 'invoice_id', 'user_id', 'cart_item_price', 'qty',
     ];
 }

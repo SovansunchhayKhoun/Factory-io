@@ -23,13 +23,13 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-          'price' => [ 'required' ] ,
-          'type' => [ 'required' ] ,
-          'status' => ['required'],
-          'description' => [ 'required' ],
-          'qty' => [ 'required','numeric', 'min:0 ' ] ,
-          'image' => 'nullable',
-          'name' =>   [ 'required' ,Rule ::unique ( 'products' ) -> ignore ( $this -> product )],
+            'price' => ['required'],
+            'type' => ['required'],
+            'status' => ['required'],
+            'description' => ['required'],
+            'qty' => ['required', 'numeric', 'min:0 '],
+            'image' => 'nullable',
+            'name' => ['required', Rule::unique('products')->ignore($this->product)],
         ];
     }
 }

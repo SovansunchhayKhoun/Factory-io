@@ -14,17 +14,15 @@ export const ItemCard = (props) => {
     <>
       {/*cart-item */}
       <div className="flex justify-center">
-        <div className="md:min-w-[270px] shadow-2xl border border-[#59C3CB] p-6 flex flex-col items-center">
+        <div className="min-[1920px]:max-w-[300px] xl:max-w-[260px] lg:max-w-[250px] md:max-w-[250px] max-w-[260px] shadow-2xl border-2 border-tealActive p-6 flex flex-col items-center">
           <Link className="flex-1 text-center font-semibold" to={"/maker-io/" + id}>
             {name}
           </Link>
           <Link className="flex-2" to={"/maker-io/" + id}>
-
             {
               (image === null || image === undefined)
-                ? <img className="hover:scale-75 ease-in-out duration-300" src="/assets/images/makerio.png" alt={name}/>
-                : <img className="hover:scale-75 ease-in-out duration-300" src={`http://127.0.0.1:8000/${image}`}
-                       alt={name}/>
+                ? <img className="hover:scale-75 ease-in-out duration-300 object-contain" src="/assets/images/makerio.png" alt={name}/>
+                : <img className="hover:scale-75 ease-in-out duration-300 object-contain" src={`http://127.0.0.1:8000/${image}`} alt={name}/>
             }
           </Link>
           <div className="flex-1 flex flex-col items-center">

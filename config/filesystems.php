@@ -44,27 +44,27 @@ return [
             'throw' => false,
         ],
 
-      'products' => [
-        'driver' => 'local',
-        'root' => storage_path('app/public/products'),
-        'url' => env('APP_URL').'/storage',
-        'visibility' => 'public',
-        'throw' => false,
-      ],
-      'invoices' => [
-        'driver' => 'local',
-        'root' => storage_path('app/public/invoices'),
-        'url' => env('APP_URL').'/storage',
-        'visibility' => 'public',
-        'throw' => false,
-      ],
-      'messages' => [
-        'driver' => 'local',
-        'root' => storage_path('app/public/messages'),
-        'url' => env('APP_URL').'/storage',
-        'visibility' => 'public',
-        'throw' => false,
-      ],
+        'products' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/products'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+        'invoices' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/invoices'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+        'messages' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/messages'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
 
         's3' => [
             'driver' => 's3',

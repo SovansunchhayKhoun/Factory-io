@@ -9,12 +9,15 @@ use App\Models\Chat;
 
 class ChatController extends Controller
 {
-    public function index () {
-      return ChatResource::collection (Chat::all ());
-    }
-    public function store (ChatRequest $request) {
-      Chat::create($request->validated ());
-      return response () -> json ('Chat created');
+    public function index()
+    {
+        return ChatResource::collection(Chat::all());
     }
 
+    public function store(ChatRequest $request)
+    {
+        Chat::create($request->validated());
+
+        return response()->json('Chat created');
+    }
 }

@@ -1,17 +1,17 @@
 <?php
 
-  namespace App\Http\Requests;
+namespace App\Http\Requests;
 
-  use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-  class AddressRequest extends FormRequest
-  {
+class AddressRequest extends FormRequest
+{
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize () : bool
+    public function authorize(): bool
     {
-      return true;
+        return true;
     }
 
     /**
@@ -19,14 +19,14 @@
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
-    public function rules () : array
+    public function rules(): array
     {
-      return [
-        'username' => [ 'required' ] ,
-        'invoice_id' => [ 'required' ] ,
-        'longitude' => [ 'nullable' ] ,
-        'latitude' => [ 'nullable' ] ,
-        'street_num' => [ 'nullable' ]
-      ];
+        return [
+            'username' => ['required'],
+            'invoice_id' => ['required'],
+            'longitude' => ['nullable'],
+            'latitude' => ['nullable'],
+            'street_num' => ['nullable'],
+        ];
     }
-  }
+}
