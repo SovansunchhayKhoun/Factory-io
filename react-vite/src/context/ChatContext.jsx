@@ -89,8 +89,6 @@ export const ChatProvider = ({children}) => {
       messagePost.time_sent= currentDate;
       messagePost.is_read= 0;
       setMessagePost({...messagePost});
-      console.log(JSON.stringify(messagePost))
-      console.log(messagePost);
       try {
         await Axios.post('message', messagePost, {
           headers: {'Content-Type': "multipart/form-data"}

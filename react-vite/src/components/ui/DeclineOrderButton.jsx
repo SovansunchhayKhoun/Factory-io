@@ -12,17 +12,17 @@ export const DeclineOrderButton = (props) => {
   const DeclineOrderContent = () => {
     return (
       <div
-           className="text-blackFactory px-2 py-1 bg-white overflow-auto max-w-2xl w-full max-h-full rounded shadow-lg">
+        className="text-blackFactory px-2 py-1 bg-white overflow-auto max-w-2xl w-full max-h-full rounded shadow-lg">
         Are you sure to decline this order?
         <AccordionBodyContent invoice={invoice}/>
         <div className="flex gap-x-2">
           <button type="submit"
                   onClick={() => declineOrder(invoice)}
-                  className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  className="w-full text-white bg-redBase hover:bg-redHover font-medium rounded-lg text-sm px-5 py-2.5 text-center">
             Delete Order
           </button>
           <button type="submit"
-                  onClick={() => setModalOpen(!modalOpen)}
+                  onClick={() => setDeclineOrderModalOpen(!declineOrderModalOpen)}
                   className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             No
           </button>
@@ -31,11 +31,17 @@ export const DeclineOrderButton = (props) => {
     );
   };
 
-    return (
-        <>
-          <button disabled={!(invoice.status < 2) && true} onClick={(e) => { e.stopPropagation(); setDeclineOrderModalOpen(true); }}
-                  aria-controls={invoice.id} className={`${invoice.status < 2 ? 'bg-redBase text-whiteFactory' : 'bg-grayFactory text-blackFactory cursor-pointer'} px-2 py-1 rounded-md`}> Decline</button>
-          <AdminPopUp content={<DeclineOrderContent />} id={invoice.id} modalOpen={declineOrderModalOpen} setModalOpen={setDeclineOrderModalOpen}/>
-        </>
-    );
+  return (
+    <>
+      <button disabled={!(invoice.status < 2) && true} onClick={(e) => {
+        e.stopPropagation();
+        setDeclineOrderModalOpen(true);
+      }}
+              aria-controls={invoice.id}
+              className={`${invoice.status < 2 ? 'bg-redBase text-whiteFactory' : 'bg-grayFactory text-blackFactory cursor-pointer'} px-2 py-1 rounded-md`}> Decline
+      </button>
+      <AdminPopUp content={<DeclineOrderContent/>} id={invoice.id} modalOpen={declineOrderModalOpen}
+                  setModalOpen={setDeclineOrderModalOpen}/>
+    </>
+  );
 };

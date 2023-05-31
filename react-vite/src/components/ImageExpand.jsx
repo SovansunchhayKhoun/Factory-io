@@ -5,12 +5,12 @@ import {Card} from "flowbite-react";
 import React, {useContext, useEffect, useState} from "react";
 import ChatContext from "../context/ChatContext.jsx";
 
-export const ImageExpand = ({open, setOpen,content}) => {
+export const ImageExpand = ({open, setOpen, imgSrc}) => {
   // close on click outside
   useEffect(() => {
     const clickHandler = (event) => {
       if (!open) return
-        setOpen(false);
+      setOpen(false);
     };
     document.addEventListener('click', clickHandler);
     return () => document.removeEventListener('click', clickHandler);
@@ -21,7 +21,7 @@ export const ImageExpand = ({open, setOpen,content}) => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 70 + "%",
+    width: 65 + "%",
   };
 
   return (
@@ -34,7 +34,7 @@ export const ImageExpand = ({open, setOpen,content}) => {
         <Box sx={style}>
           <Typography variant="div" id="modal-modal-description" sx={{mt: 2}}>
             <div className="flex justify-center">
-              <img src={content} alt=""/>
+              <img src={imgSrc} alt=""/>
             </div>
           </Typography>
         </Box>

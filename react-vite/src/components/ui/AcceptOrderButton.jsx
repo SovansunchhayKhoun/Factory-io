@@ -17,7 +17,6 @@ export const AcceptOrderButton = (props) => {
   const [acceptOrderModalOpen, setAcceptOrderModalOpen] = useState(false)
   const {invoice, invProd, setInvProd, buttonStyle} = props;
   const {invoice_product} = invoice;
-
   const AcceptOrderContent = () => {
     return (
       <div
@@ -49,8 +48,9 @@ export const AcceptOrderButton = (props) => {
             {invoice.status === 1 && 'Deliver Order'}
             {invoice.status === 2 && 'Arrived'}
           </button>
-          <button type="submit"
-                  onClick={() => setModalOpen(!modalOpen)}
+          <button
+                  // onClick={() => setModalOpen(!modalOpen)}
+                  onClick={() => setAcceptOrderModalOpen(!acceptOrderModalOpen)}
                   className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             No
           </button>

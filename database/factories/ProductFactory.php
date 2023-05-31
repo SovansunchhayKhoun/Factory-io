@@ -23,6 +23,7 @@ class ProductFactory extends Factory
             'status' => 1,
             'type' => 'Arduino Board',
             'description' => fake()->text(150),
+            'image' => 'products/SN-DHT11-MOD (a)-800x800.jpg'
         ];
     }
 }
