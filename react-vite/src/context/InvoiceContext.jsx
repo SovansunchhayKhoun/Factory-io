@@ -74,10 +74,11 @@ export const InvoiceProvider = ({children}) => {
   });
 
   const handleQty = (invProd, setInvProd, item) => event => {
-    // console.log(event.target.value)
     if (event.target.value === '') {
       invProd.find((inv) => inv.id === item.id).qty = item.qty;
     } else if (Number(event.target.value)) {
+      event.target.value = event.target.value.replace(/[^0-9]/g, '');
+      event.target.value = event.target.value.replace(/(\..*)\./g, '$1');
       invProd.find((inv) => inv.id === item.id).qty = Number(event.target.value);
     }
   }

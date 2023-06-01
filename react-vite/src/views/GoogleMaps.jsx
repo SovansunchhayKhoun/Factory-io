@@ -14,8 +14,7 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 const libraries = ['places'];
-export const GoogleMaps = (props) => {
-  const {height} = props;
+export const GoogleMaps = ({height}) => {
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       const {latitude, longitude} = position.coords;
@@ -72,7 +71,7 @@ export const GoogleMaps = (props) => {
     return (
       <Combobox onSelect={handleSelect}>
         <ComboboxInput className="w-full p-1 border" placeholder={'search'} value={value}
-                       onChange={event => setValue(event.target.value)} disable={!ready}/>
+                       onChange={event => setValue(event.target.value)}/>
         <ComboboxPopover>
           <ComboboxList>
             {status === "OK" && data.map(({place_id, description}) => {

@@ -71,10 +71,10 @@ export const CustomerService = ({setModalOpen}) => {
             }).map(msg => {
               if (msg.sender_id === user.username) {
                 return (
-                  <Sender key={msg.id} time={msg.time_sent} messageContent={msg.msg_content} image={msg.image}/>
+                  <Sender setModalOpen={setModalOpen} key={msg.id} time={msg.time_sent} messageContent={msg.msg_content} image={msg.image}/>
                 );
               } else {
-                return <Replier key={msg.id} time={msg.time_sent} messageContent={msg.msg_content} image={msg.image}/>
+                return <Replier setModalOpen={setModalOpen} key={msg.id} time={msg.time_sent} messageContent={msg.msg_content} image={msg.image}/>
               }
             })
             }

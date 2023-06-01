@@ -6,12 +6,15 @@ import {useAuthContext} from "../../context/AuthContext.jsx";
 import ChatContext from "../../context/ChatContext.jsx";
 import {dividerClasses} from "@mui/material";
 import {ImagePreview} from "../../components/ImagePreview.jsx";
+import {ImageExpand} from "../../components/ImageExpand.jsx";
+import {AdminSend} from "../../components/AdminComponents/AdminSend.jsx";
+import {AdminReply} from "../../components/AdminComponents/AdminReply.jsx";
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 export const Chat = () => {
   const [activeUser, setActiveUser] = useState({});
   const {users, getUsers} = useContext(UserContext);
-  const [searchInput,setSearchInput] = useState('')
+  const [searchInput, setSearchInput] = useState('')
   const {
     messageImage,
     chatReFetch,
@@ -34,6 +37,33 @@ export const Chat = () => {
 
   const [messageInput, setMessageInput] = useState('');
   const [open, setOpen] = useState(false);
+
+  const GetLatestMsg = ({usr, userNotification}) => {
+    const WrapComponent = ({children}) => {
+      return (
+        <span
+          className={`${userNotification?.length > 0 && 'font-semibold'}` +
+            " block ml-2 text-sm text-gray-600"}>
+          {children}
+        </span>
+      );
+    }
+    if (getLatestMessage('admin', usr?.username)?.msg_content && getLatestMessage('admin', usr?.username)?.image) {
+      return (
+        <WrapComponent children={`${usr.username} sent a photo`}/>
+      );
+    }
+    if (getLatestMessage('admin', usr?.username)?.image) {
+      return (
+        <WrapComponent children={`${usr?.username} sent a photo`}/>
+      );
+    }
+    if (getLatestMessage('admin', usr?.username)?.msg_content) {
+      return (
+        <WrapComponent children={getLatestMessage('admin', usr?.username)?.msg_content}/>
+      )
+    }
+  }
 
   return (
     <>
@@ -63,14 +93,17 @@ export const Chat = () => {
             <ul className="overflow-auto h-[32rem]">
               <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
               {users.filter((user) => {
-                if(user.username.toLowerCase().includes(searchInput.toLowerCase())){
+                if (user.username.toLowerCase().includes(searchInput.toLowerCase())) {
                   return user
-                }else if (searchInput === ''){
+                } else if (searchInput === '') {
                   return user
                 }
               }).map((usr) => {
                 const unreadMessages = message?.filter((msg) => msg.is_read === 0 && msg.sender_id !== 'admin');
                 const userNotification = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr.username);
+
+                const pastTime = new Date(new Date() - new Date(getLatestMessage('admin', usr?.username)?.time_sent));
+
                 return (
                   <li
                     onClick={() => {
@@ -90,16 +123,11 @@ export const Chat = () => {
                             {usr.username}
                           </span>
                         <span className="block ml-2 text-sm text-gray-600">
-                            25 minutes
-                          </span>
+                          {getLatestMessage('admin', usr?.username) && pastTime?.getUTCHours() + "h" + pastTime?.getUTCMinutes() +"mn ago"}
+                        </span>
                       </div>
                       <div className="flex justify-between pr-12">
-                        <span
-                          className={`${userNotification?.length > 0 && 'font-semibold'}` +
-                            " block ml-2 text-sm text-gray-600"}>
-                          {getLatestMessage('admin', usr.username)?.msg_content}
-                          {getLatestMessage('admin', usr.username)?.image && `${usr.username} sent a photo`}
-                        </span>
+                        <GetLatestMsg usr={usr} userNotification={userNotification}/>
                         <span className={`${userNotification?.length === 0 && 'hidden'}` +
                           " w-[20px] h-[20px] bg-blueBase text-whiteFactory flex justify-center items-center rounded-[50%] text-xs"}>
                             {/*{getLatestMessage('admin', usr.username)?.length}*/}
@@ -135,32 +163,11 @@ export const Chat = () => {
                   {message?.filter(msg => msg.chat_id === findChat('admin', activeUser?.username)?.id).map((msg) => {
                     if (msg.receiver_id === activeUser?.username) {
                       return (
-                        <li key={msg.id} className="flex justify-end items-center gap-x-2">
-                          {/*<span className="text-xs block text-grayFactory">{msg.time_sent}</span>*/}
-                          <span className={`${msg.image && 'hidden'} text-xs block text-grayFactory`}>{msg.time_sent}</span>
-                          <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                            <span className="block">{msg.msg_content}</span>
-                            <span>
-                              {/*<img className="max-w-[200px]" src={`http://127.0.0.1:8000/${msg.image}`}/>*/}
-                              {msg.image && <img className="max-w-[250px]" src={`http://127.0.0.1:8000/${msg.image}`}/>}
-                            </span>
-                            <span className={`${msg.image ? 'text-xs block text-grayFactory' : 'hidden'}`}>{msg.time_sent}</span>
-                          </div>
-                        </li>
+                        <AdminSend msg={msg}/>
                       );
                     } else {
                       return (
-                        <li key={msg.id} className="flex items-center gap-x-2 justify-start">
-                          <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                            <span className="block">{msg.msg_content}</span>
-                            <span>
-                              {/*<img className="max-w-[200px]" src={`http://127.0.0.1:8000/${msg.image}`}/>*/}
-                              {msg.image && <img className="max-w-[250px]" src={`http://127.0.0.1:8000/${msg.image}`}/>}
-                            </span>
-                            <span className={`${msg.image ? 'text-xs block text-grayFactory' : 'hidden'}`}>{msg.time_sent}</span>
-                          </div>
-                          <span className={`${msg.image && 'hidden'} text-xs block text-grayFactory`}>{msg.time_sent}</span>
-                        </li>
+                        <AdminReply msg={msg}/>
                       );
                     }
                   })}
@@ -182,7 +189,7 @@ export const Chat = () => {
                   id="file_upload"
                   type="file"
                   accept="image/png, image/jpeg,image/jpg"
-                  onChange={e=> {
+                  onChange={e => {
                     setMessageImage(e.target.files[0])
                     e.target.files[0] && setOpen(true);
                   }}
@@ -197,12 +204,12 @@ export const Chat = () => {
                 <input onKeyDown={event => {
                   event.key === 'Enter' && sendMessage('admin', activeUser?.username, setMessageInput)
                 }} value={messageInput}
-                 onChange={event => {
-                  setMessageInput(event.target.value);
-                  handleMessage(event, setMessageInput)
-                }} type="text" placeholder="Message"
-               className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
-               name="message" required/>
+                       onChange={event => {
+                         setMessageInput(event.target.value);
+                         handleMessage(event, setMessageInput)
+                       }} type="text" placeholder="Message"
+                       className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
+                       name="message" required/>
                 <button onClick={() => {
                   sendMessage('admin', activeUser?.username, setMessageInput)
                 }}>

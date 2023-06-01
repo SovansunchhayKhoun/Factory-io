@@ -1,13 +1,20 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {Fragment, useContext, useEffect, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
+import AdminPopUp from "../Modals/AdminPopUp.jsx";
+import {GoogleMaps} from "../../views/GoogleMaps.jsx";
+import {ImageExpand} from "../ImageExpand.jsx";
+import {Accordion, AccordionBody, AccordionHeader} from "@material-tailwind/react";
 
 export const AccordionBodyContent = (props) => {
   const {invProd, setInvProd} = props;
   const {id, date, totalPrice, status, address, invoice_product, user} = props.invoice;
-  // const [invProd, setInvProd] = useState(invoice_product)
   const {items} = useContext(ProductContext);
   const {handleQty} = useContext(InvoiceContext);
+  const [open, setOpen] = useState(0);
+  const handleOpen = (value) => {
+    setOpen(open === value ? 0 : value);
+  };
 
   return (
     <div className="text-blackFactory font-semibold">
@@ -27,7 +34,35 @@ export const AccordionBodyContent = (props) => {
           </div>
           <div>Username: {user[0].username}
           </div>
-          <div className={`bg-[#D9D9D9] px-2 py-1 rounded-lg`}>Address: {address}</div>
+          <div className={`flex justify-between bg-[#D9D9D9] px-2 py-1 rounded-lg`}>
+            <div>
+              Address: {address}
+            </div>
+            <button>
+              <Fragment>
+                <Accordion open={open === 1}>
+                  <AccordionHeader className="border-0 p-0" onClick={() => handleOpen(1)}>
+                    <div>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                           stroke="currentColor" className={`w-6 h-6`}>
+                        <path className="text-tealHover" strokeLinecap="round" strokeLinejoin="round"
+                              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+                      </svg>
+                    </div>
+                  </AccordionHeader>
+                </Accordion>
+              </Fragment>
+            </button>
+          </div>
+        </div>
+        <div>
+          <Fragment>
+            <Accordion open={open === 1}>
+              <AccordionBody className={`mt-2 border-0 p-0 ${open ? '' : 'hidden'}`}>
+                <GoogleMaps height={400}/>
+              </AccordionBody>
+            </Accordion>
+          </Fragment>
         </div>
       </div>
       <div className={`accordion-item-body mb-3`}>
@@ -61,13 +96,12 @@ export const AccordionBodyContent = (props) => {
           {invoice_product.map((item) => {
             const stockItem = items?.find((i) => i.id === item.product_id);
             const inputStyle = 'border-none'
-
             return (
               <>
                 <div key={item.id}>
                   <input onChange={handleQty(invProd, setInvProd, item)}
                          min="1"
-                         className={`${props.invoice.status >= 2 && inputStyle} p-0 text-center max-w-[36px]`}
+                         className={`${props.invoice.status >= 2 && inputStyle} p-0 text-center max-w-[64px]`}
                          disabled={props.invoice.status >= 2}
                          type="text"
                          placeholder={item.qty}/>
