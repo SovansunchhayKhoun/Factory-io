@@ -3,6 +3,7 @@ import {ImageExpand} from "../ImageExpand.jsx";
 
 export const AdminReply = ({msg}) => {
   const [handleExpand, setHandleExpand] = useState(0);
+  const timePrefix = new Date(msg?.time_sent).getHours();
   return (
     <>
       <li key={msg?.id} className="flex items-center gap-x-2 justify-start">
@@ -21,10 +22,10 @@ export const AdminReply = ({msg}) => {
             <ImageExpand open={handleExpand} setOpen={setHandleExpand} imgSrc={`http://127.0.0.1:8000/${msg?.image}`}/>
           </span>
           <span
-            className={`${msg?.image ? 'text-xs block text-grayFactory' : 'hidden'}`}>{msg?.time_sent.slice(10).slice(0,6)}</span>
+            className={`${msg?.image ? 'text-xs block text-grayFactory' : 'hidden'}`}>{msg?.time_sent.slice(10).slice(0, 6) + `${timePrefix >= 12 ? ' PM' : ' AM'}`}</span>
         </div>
         <span
-          className={`${msg?.image && 'hidden'} text-xs block text-grayFactory`}>{msg?.time_sent.slice(10).slice(0,6)}</span>
+          className={`${msg?.image && 'hidden'} text-xs block text-grayFactory`}>{msg?.time_sent.slice(10).slice(0, 6) + `${timePrefix >= 12 ? ' PM' : ' AM'}`}</span>
       </li>
     </>
   );

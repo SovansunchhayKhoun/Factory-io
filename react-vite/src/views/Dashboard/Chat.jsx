@@ -101,8 +101,7 @@ export const Chat = () => {
               }).map((usr) => {
                 const unreadMessages = message?.filter((msg) => msg.is_read === 0 && msg.sender_id !== 'admin');
                 const userNotification = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr.username);
-
-                const pastTime = new Date(new Date() - new Date(getLatestMessage('admin', usr?.username)?.time_sent));
+                const timePrefix = new Date(getLatestMessage('admin', usr?.username)?.time_sent).getHours();
 
                 return (
                   <li
@@ -123,7 +122,7 @@ export const Chat = () => {
                             {usr.username}
                           </span>
                         <span className="block ml-2 text-sm text-gray-600">
-                          {getLatestMessage('admin', usr?.username) && pastTime?.getUTCHours() + "h" + pastTime?.getUTCMinutes() +"mn ago"}
+                          {getLatestMessage('admin', usr?.username) && getLatestMessage('admin', usr?.username).time_sent.slice(10).slice(0,6) + `${timePrefix >= 12 ? ' PM' : ' AM'}`}
                         </span>
                       </div>
                       <div className="flex justify-between pr-12">
