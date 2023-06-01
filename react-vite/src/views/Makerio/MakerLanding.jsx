@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom";
 import {ItemCard} from "../../components/CartComponents/ItemCard.jsx";
 import {useNavigate} from "react-router-dom";
-import React, {Fragment, useContext, useEffect, useState} from "react";
+import React, {Fragment, Suspense, useContext, useEffect, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
 import CartContext from "../../context/CartContext.jsx";
 import {Pagination} from "@mui/material";
@@ -138,7 +138,9 @@ export const MakerLanding = () => {
             }
           }).map((item, key) => {
             return (
-              <ItemCard key={key} item={item}/>
+              <Suspense fallback={<Spinner size="xl" color="purple"/>}>
+                <ItemCard key={key} item={item}/>
+              </Suspense>
             );
           })}
         </div>

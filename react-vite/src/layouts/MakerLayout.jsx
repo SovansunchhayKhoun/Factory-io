@@ -2,34 +2,36 @@ import {NavBar} from "../components/NavBar.jsx";
 import {Outlet} from "react-router-dom";
 import {Footer} from "../components/Footer.jsx";
 import {useAuthContext} from "../context/AuthContext.jsx";
-import {useContext, useEffect} from "react";
+import {lazy, Suspense, useContext, useEffect} from "react";
 import axiosClient from "../axios-client.js";
 import ChatContext from "../context/ChatContext.jsx";
 import UserContext from "../context/UserContext.jsx";
+import {Spinner} from "flowbite-react";
 
 export const MakerLayout = () => {
   const {usersQuery} = useContext(UserContext);
-  const {setUser, token,isLoading,setIsLoading} = useAuthContext()
+  const {setUser, token, isLoading, setIsLoading} = useAuthContext()
   const {initChat} = useContext(ChatContext);
   useEffect(() => {
     usersQuery?.forEach((users) => {
       initChat(users.username, 'admin');
     })
-    if(token){
+    if (token) {
       setIsLoading(true)
       try {
         axiosClient.get('/user')
-          .then(({data})=>{
+          .then(({data}) => {
             setUser(data)
             setIsLoading(false)
           })
-      }catch (e){
+      } catch (e) {
         setIsLoading(false)
         console.log(e)
       }
     }
   }, [usersQuery]);
-  if(!isLoading){
+
+  if (!isLoading) {
     return (
       <>
         <div className="min-h-screen flex flex-col overflow-auto">
