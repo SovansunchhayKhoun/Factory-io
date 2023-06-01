@@ -1,5 +1,5 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
-import React, {useContext, useEffect, useState} from "react";
+import React, {Suspense, useContext, useEffect, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
 import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
@@ -8,6 +8,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import {ItemCardCarousel} from "../../components/CartComponents/ItemCardCarousel.jsx";
 import {ProductReview} from "../../components/ProductReview.jsx";
+import {Spinner} from "flowbite-react";
 
 export const ItemView = (props) => {
   let {id} = useParams();
@@ -70,13 +71,13 @@ export const ItemView = (props) => {
         <div className="xl:flex-grow-0 flex-1 flex items-center justify-center border-2 border-tealBase p-4">
           {(item?.image === null || item?.image === undefined)
             ? <img className="xl:min-w-[500px] xl:min-h-[500px]
-              lg:max-w-[300px]
-              object-contain"
+                lg:max-w-[300px]
+                object-contain"
                    src="/assets/images/makerio.png" alt={item.name}/>
             : <img
               className="xl:min-w-[500px] xl:min-h-[500px]
-              lg:max-w-[500px]
-              object-contain"
+                lg:max-w-[500px]
+                object-contain"
               src={`http://127.0.0.1:8000/${item.image}`} alt={item.name}/>
           }
         </div>
