@@ -88,7 +88,7 @@ export const UserView = () => {
             </div>
           </div>
           <div>
-            <Link to={`/maker-io/user/${user.id}/change-password`}>Change Password</Link>
+            <Link to={`change-password`}>Change Password</Link>
             {
               isDisabled ?
                 <button

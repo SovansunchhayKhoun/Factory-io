@@ -69,7 +69,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorBoundary />
       },
       {
-        path: 'user/:id',
+        path: 'user',
         element: <UserView/>,
         errorElement: <ErrorBoundary />
       },
@@ -79,7 +79,7 @@ const router = createBrowserRouter([
       //   errorElement: <ErrorBoundary />
       // },
       {
-        path: '/maker-io/user/:id/change-password',
+        path: 'user/change-password',
         element: <ChangePasswordView/>,
         errorElement: <ErrorBoundary />
       },
