@@ -1,5 +1,5 @@
 import {GoogleMap, useJsApiLoader, Marker, Autocomplete, MarkerF} from "@react-google-maps/api";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng
@@ -13,19 +13,48 @@ import {
   ComboboxOptionText,
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
+import Axios from "axios";
+import InvoiceContext from "../context/InvoiceContext.jsx";
 const libraries = ['places'];
 export const GoogleMaps = ({height}) => {
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
+  const {address, setAddress} = useContext(InvoiceContext);
+  const getFormattedAddress =  async (lat, lng) => {
+    // const geoCoder = new google.maps.Geocoder();
+    const geoCode = new google.maps.Geocoder();
+    await geoCode.geocode({location: {lat, lng}}).then((
+      res) => {
+      if(res.results[0]) {
+        console.log(res.results[0].address_components)
+        // return <div>{res.results[0].formatted_address}</div>
+        setAddress(res.results[0].formatted_address);
+      } else {
+        return <div>no results</div>
+      }
+    })
+  }
+  const [longitude, setLongitude] = useState(0);
+  const [latitude, setLatitude] = useState(0);
+  const currentLocation = async () => {
+    navigator.geolocation.getCurrentPosition(position => {
+      const {longitude, latitude} = position.coords;
+      setMarker([{
+        lng: longitude,
+        lat: latitude
+      }])
+    })
+    await getFormattedAddress(latitude,longitude)
+  }
+
+  useEffect(  () => {
+    navigator.geolocation.getCurrentPosition(async (position) => {
       const {latitude, longitude} = position.coords;
       setLatitude(latitude);
       setLongitude(longitude);
+      await getFormattedAddress(latitude,longitude)
       setMarker([{lat: latitude, lng: longitude}])
     })
-  }, []);
+  }, [latitude,longitude]);
 
-  const [longitude, setLongitude] = useState(0);
-  const [latitude, setLatitude] = useState(0);
   const [marker, setMarker] = useState([]);
   const [map, setMap] = useState(/** @type google.maps.Map */ (null));
   const {isLoaded} = useJsApiLoader({
@@ -34,17 +63,14 @@ export const GoogleMaps = ({height}) => {
     }
   );
   const [selected, setSelected] = useState(null);
-  const currentLocation = () => {
-    navigator.geolocation.getCurrentPosition(position => {
-      const {longitude, latitude} = position.coords;
-      setMarker([{
-        lng: longitude,
-        lat: latitude
-      }])
-    })
-    console.log(latitude)
-    console.log(longitude)
-  }
+
+  // const getAddress = async (lat, lng) => {
+  //   const apiItem = await Axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${import.meta.env.VITE_APP_GOOGLE_MAPS_API_KEY}`)
+  //     .then((res) => {
+  //       console.log(res.data.results);
+  //       return res.data.results;
+  //     })
+  // }
 
   const PlacesAutoComplete = ({setMarker}) => {
     const {
@@ -61,8 +87,9 @@ export const GoogleMaps = ({height}) => {
 
       const results = await getGeocode({address})
       const {lat, lng} = await getLatLng(results[0]);
-      // setSelected({lat, lng});
+
       setMarker([{lat, lng}]);
+      await getFormattedAddress(lat,lng)
       setTimeout(() => {
         map.panTo({lat, lng})
       }, 100);
@@ -93,6 +120,7 @@ export const GoogleMaps = ({height}) => {
   return (
     <>
       <div className={'flex gap-x-2 mb-3'}>
+        <div>{address}</div>
         {/*<button className="border px-2 py-1"*/}
         {/*        onClick={() => {*/}
         {/*          // map.panTo({lat: latitude, lng: longitude})*/}
@@ -136,7 +164,7 @@ export const GoogleMaps = ({height}) => {
               fullscreenControl: true,
               zoomControl: true,
             }}
-            onClick={event => {
+            onClick={async (event) => {
               setTimeout(() => {
                 map.panTo({
                   lat: event.latLng.lat(),
@@ -149,6 +177,7 @@ export const GoogleMaps = ({height}) => {
                   lng: event.latLng.lng()
                 }
               ])
+              await getFormattedAddress(event.latLng.lat(),event.latLng.lng());
             }}>
             {marker.map((mark, index) => <MarkerF key={index} position={mark}/>)}
           </GoogleMap>
