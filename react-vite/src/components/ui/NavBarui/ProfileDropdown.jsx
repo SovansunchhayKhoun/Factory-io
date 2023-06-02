@@ -16,7 +16,7 @@ export const ProfileDropdown = ({user, arrowIcon}) => {
               {user?.username}
             </Dropdown.Header>
             <Dropdown.Item>
-              <Link to={`/user/${user?.id}`}>
+              <Link to={`/user`}>
                 Account
               </Link>
             </Dropdown.Item>
