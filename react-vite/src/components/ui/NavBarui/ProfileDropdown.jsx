@@ -6,23 +6,20 @@ import {AccordionDetails} from "@mui/material";
 import AdminPopUp from "../../Modals/AdminPopUp.jsx";
 
 export const ProfileDropdown = ({user, arrowIcon}) => {
-  const {onLogout, isLoading, setIsLoading} = useAuthContext()
+  const {onLogout, isLoading} = useAuthContext()
   const [modalOpen, setModalOpen] = useState(false);
-  const Content = () => {
-    return (
-      <>
-        <div className={`bg-white w-[400px] h-[400px] flex justify-center items-center`}>
-          <Spinner
-            size="xl"
-            color="purple"
-            aria-label="Purple spinner example"
-          />
-        </div>
-      </>
-    )
-  }
 
   let navigate = useNavigate();
+  if(isLoading) {
+    return (
+      <>
+        <div
+          className="flex justify-center items-center md:gap-x-2 md:px-2 md:py-1 gap-x-1 transition duration-500 cursor-pointer text-tealHover hover:text-whiteFactory hover:bg-tealBase rounded-md font-semibold">
+          <Spinner size="md" color={"purple"}/>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -48,7 +45,6 @@ export const ProfileDropdown = ({user, arrowIcon}) => {
             }, 2500)
           }}>
             Sign out
-            <AdminPopUp content={<Content/>} setModalOpen={setModalOpen} modalOpen={modalOpen} id={100}/>
           </button>
         </Dropdown.Item>
       </Dropdown>}

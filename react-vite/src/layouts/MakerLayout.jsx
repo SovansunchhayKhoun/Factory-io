@@ -31,17 +31,15 @@ export const MakerLayout = () => {
     }
   }, [usersQuery]);
 
-  if (!isLoading) {
-    return (
-      <>
-        <div className="min-h-screen flex flex-col overflow-auto">
-          <NavBar/>
-          <main className="xl:px-12 xl:pt-24 xl:pb-8 lg:px-16 md:px-12 md:pt-16 md:pb-2 pb-6 px-6 pt-14">
-            <Outlet/>
-          </main>
-          <Footer/>
-        </div>
-      </>
-    );
-  }
+  return (
+    <>
+      <div className="min-h-screen flex flex-col overflow-auto">
+        <NavBar/>
+        <main className="xl:px-12 xl:pt-24 xl:pb-8 lg:px-16 md:px-12 md:pt-16 md:pb-2 pb-6 px-6 pt-14">
+          <Outlet/>
+        </main>
+        <Footer/>
+      </div>
+    </>
+  );
 };
