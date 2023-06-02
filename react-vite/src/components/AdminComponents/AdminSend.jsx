@@ -4,13 +4,14 @@ import ChatContext from "../../context/ChatContext.jsx";
 
 export const AdminSend = ({msg}) => {
   const [handleExpand, setHandleExpand] = useState(0);
+  const timePrefix = new Date(msg?.time_sent).getHours();
 
   return (
     <>
       <li key={msg?.id} className="flex justify-end items-center gap-x-2">
         {/*<span className="text-xs block text-grayFactory">{msg?.time_sent}</span>*/}
         <span
-          className={`${msg?.image && 'hidden'} text-xs block text-grayFactory`}>{msg?.time_sent.slice(10).slice(0,6)}</span>
+          className={`${msg?.image && 'hidden'} text-xs block text-grayFactory`}>{msg?.time_sent.slice(10).slice(0,6) + ` ${timePrefix >= 12 ? ' PM' : ' AM'}`}</span>
         <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
           <span className="block">{msg?.msg_content}</span>
           <span>
@@ -25,7 +26,9 @@ export const AdminSend = ({msg}) => {
             <ImageExpand open={handleExpand} setOpen={setHandleExpand} imgSrc={`http://127.0.0.1:8000/${msg?.image}`}/>
           </span>
           <span
-            className={`${msg?.image ? 'text-xs block text-grayFactory' : 'hidden'}`}>{msg?.time_sent.slice(10).slice(0,6)}</span>
+            className={`${msg?.image ? 'text-xs block text-grayFactory' : 'hidden'}`}>
+            {msg?.time_sent.slice(10).slice(0,6) + ` ${timePrefix >= 12 ? ' PM' : ' AM'}`}
+          </span>
         </div>
       </li>
     </>

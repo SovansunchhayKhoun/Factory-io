@@ -1,10 +1,5 @@
-// eslint-disable-next-line no-unused-vars
 import React, {useRef, useEffect, useState, useContext} from 'react';
 import Transition from '../../utils/Transition.jsx';
-import ProductContext from "../../context/ProductContext.jsx";
-import InvoiceContext from "../../context/InvoiceContext.jsx";
-import {AccordionBodyContent} from "../AdminComponents/AccordionBodyContent.jsx";
-import {GoogleMaps} from "../../views/GoogleMaps.jsx";
 
 function AdminPopUp({id, modalOpen, setModalOpen, content}) {
   const modalContent = useRef(null);
@@ -27,8 +22,13 @@ function AdminPopUp({id, modalOpen, setModalOpen, content}) {
     document.addEventListener('keydown', keyHandler);
     return () => document.removeEventListener('keydown', keyHandler);
   });
+
   useEffect(() => {
     modalOpen
+  }, [modalOpen]);
+
+  useEffect(() => {
+      modalOpen ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'auto'
   }, [modalOpen]);
 
   return (
@@ -48,7 +48,7 @@ function AdminPopUp({id, modalOpen, setModalOpen, content}) {
       {/* Modal dialog */}
       <Transition
         id={id}
-        className="fixed inset-0 z-50 overflow-hidden flex items-start top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] mb-4 justify-center transform px-4 sm:px-6"
+        className="fixed inset-0 z-50 overflow-hidden flex items-center top-[50%] left-[50%] translate-x-[-50%] h-full translate-y-[-50%] mb-4 justify-center transform px-4 sm:px-6"
         role="dialog"
         aria-modal="true"
         show={modalOpen}
@@ -59,9 +59,9 @@ function AdminPopUp({id, modalOpen, setModalOpen, content}) {
         leaveStart="opacity-100 translate-y-0"
         leaveEnd="opacity-0 translate-y-4"
       >
+        <div ref={modalContent}>
           {content}
-        {/*<div ref={modalContent}>*/}
-        {/*</div>*/}
+        </div>
       </Transition>
     </>
   );

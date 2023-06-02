@@ -1,11 +1,10 @@
 import {Link, useLocation} from "react-router-dom";
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {Suspense, useContext, useEffect, useRef, useState} from "react";
 import {useAuthContext} from "../context/AuthContext.jsx";
 import CartContext from "../context/CartContext.jsx";
 import ChatContext from "../context/ChatContext.jsx";
 import InvoiceContext from "../context/InvoiceContext.jsx";
 import ProductContext from "../context/ProductContext.jsx";
-import {Avatar, Dropdown} from "flowbite-react";
 import {Fragment} from "react";
 import {
   Accordion,
@@ -17,9 +16,7 @@ import {NoAccount} from "./ui/NavBarui/NoAccount.jsx";
 import {DropdownMenu} from "./ui/NavBarui/DropdownMenu.jsx";
 import AdminPopUp from "./Modals/AdminPopUp.jsx";
 import {CustomerService} from "../views/Makerio/CustomerService.jsx";
-import AxiosClient from "../axios-client.js";
-import {useQuery} from "@tanstack/react-query";
-import axiosClient from "../axios-client.js";
+import {Spinner} from "flowbite-react";
 
 
 export const NavBar = (props) => {
@@ -167,7 +164,6 @@ export const NavBar = (props) => {
             :
             <NoAccount/>
           }
-
           {user?.acc_type === 0 &&
             <button
               className="transition ease-out duration-300 bg-redBase text-whiteFactory px-4 py-1 rounded-[20px] hover:bg-redHover"
