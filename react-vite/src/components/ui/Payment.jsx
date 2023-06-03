@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 import ProductContext from "../../context/ProductContext.jsx";
@@ -6,12 +6,12 @@ import {useAuthContext} from "../../context/AuthContext.jsx";
 import CheckoutButton from "../Modals/CheckoutButton.jsx";
 import {Link} from "react-router-dom";
 import * as React from "react";
-import {GoogleMaps} from "../../views/GoogleMaps.jsx";
-import {Card} from "flowbite-react";
+import {GoogleMapsContext} from "../../context/GoogleMapsContext.jsx";
 
 export const Payment = (props) => {
   const {totalPrice, cartError} = useContext(CartContext);
   const {invoiceError, setPaymentPic, paymentPic} = useContext(InvoiceContext);
+  const {GoogleMaps, placeId} = useContext(GoogleMapsContext);
   const options = [
     {value: '1', text: 'ABA - $$$'},
     {value: '2', text: 'ABA - KHR'},
@@ -20,6 +20,7 @@ export const Payment = (props) => {
   const handleChange = event => {
     setSelected(Number(event.target.value));
   };
+
   return (
     <>
       {/*google map and exchange rate ui*/}

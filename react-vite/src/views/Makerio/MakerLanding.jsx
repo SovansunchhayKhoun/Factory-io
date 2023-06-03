@@ -138,9 +138,7 @@ export const MakerLanding = () => {
             }
           }).map((item, key) => {
             return (
-              <Suspense fallback={<Spinner size="xl" color="purple"/>}>
-                <ItemCard key={key} item={item}/>
-              </Suspense>
+              <ItemCard key={key} item={item}/>
             );
           })}
         </div>

@@ -4,11 +4,6 @@ import ChatContext from "../../context/ChatContext.jsx";
 import {Sender} from "../../components/ChatComponent/Sender.jsx";
 import {Replier} from "../../components/ChatComponent/Replier.jsx";
 import {Link} from "react-router-dom";
-import Button from "@mui/material/Button";
-import Modal from "@mui/material/Modal";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import {Card} from "flowbite-react";
 import {ImagePreview} from "../../components/ImagePreview.jsx";
 import * as trace_events from "trace_events";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
@@ -20,15 +15,12 @@ export const CustomerService = ({setModalOpen}) => {
     sendMessage,
     handleMessage,
     findChat,
-    setSeen,
     setMessageImage,
     messageImage,
   } = useContext(ChatContext);
-
   const {user, token} = useAuthContext();
   const [messageInput, setMessageInput] = useState('');
   const [open, setOpen] = useState(false);
-  const {scrollDown} = useContext(InvoiceContext);
   if (token) {
     // useEffect(() => {
     //   // messageReFetch();

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->double('totalPrice');
             $table->tinyInteger('status')->default(0);
             $table->string('address');
+            $table->string ('placeId');
             $table->text('payment_pic')->nullable();
             $table->integer('item_count')->default(0);
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');

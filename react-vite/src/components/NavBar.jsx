@@ -31,7 +31,7 @@ export const NavBar = (props) => {
 
   const location = useLocation();
   const {invoices} = useContext(InvoiceContext)
-  const {message, findChat, setSeen} = useContext(ChatContext);
+  const {message, findChat, setSeen, initChat} = useContext(ChatContext);
 
   const readMessage = message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id && msg.is_read === 0 && msg.sender_id !== user.username);
   const orders = invoices?.filter((inv) => inv.user_id === user.id && inv.status !== 3);
@@ -61,10 +61,9 @@ export const NavBar = (props) => {
             onClick={event => {
               event.stopPropagation();
               setModalOpen(true);
+              initChat(user.username, 'admin')
               setSeen(readMessage, user.username);
             }} title="Customer Support">
-            {/*<img className="lg:w-[20px] lg:h-[20px] md:w-[20px] md:h-[20px] w-[20px] h-[20px]"*/}
-            {/*     src="/assets/images/customer-service.png" alt=""/>*/}
             <svg xmlns="http://www.w3.org/2000/svg"
                  className="md:w-[22px] md:h-[22px] w-[18px] h-[18px]" viewBox="0 0 30 30"
                  fill="none">

@@ -11,19 +11,15 @@ import {DashboardLayout} from "./layouts/DashboardLayout.jsx";
 import {Inventory} from "./views/Dashboard/Inventory.jsx";
 import { UserView } from "./views/UserView";
 import {AdminOrder} from "./views/Dashboard/AdminOrder.jsx";
-
 import {EditItem} from "./views/Dashboard/EditItem.jsx";
 import {OrderView} from "./views/Makerio/OrderView.jsx";
 import {LandingHero} from "./views/Makerio/LandingHero.jsx";
 import {Users} from "./views/Users.jsx";
 import {EditUser} from "./views/EditUser.jsx";
 import {ChangePasswordView} from "./views/ChangePasswordView.jsx";
-
 import {Chat} from "./views/Dashboard/Chat.jsx";
-
-import {GoogleMaps} from "./views/GoogleMaps.jsx";
 import {ErrorBoundary} from "./components/ErrorBoundary.jsx";
-
+import {useJsApiLoader} from "@react-google-maps/api";
 
 const router = createBrowserRouter([
   // {
@@ -50,13 +46,8 @@ const router = createBrowserRouter([
   //   ]
   // },
   {
-    path: '/google',
-    element: <GoogleMaps/>,
-    errorElement: <ErrorBoundary />
-  },
-  {
     path: '/',
-    element: <MakerLayout/>,
+    element: <MakerLayout />,
     children: [
       {
         path: '',

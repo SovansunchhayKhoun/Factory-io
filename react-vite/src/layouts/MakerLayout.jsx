@@ -7,16 +7,17 @@ import axiosClient from "../axios-client.js";
 import ChatContext from "../context/ChatContext.jsx";
 import UserContext from "../context/UserContext.jsx";
 import {Spinner} from "flowbite-react";
+import {useJsApiLoader} from "@react-google-maps/api";
 
 export const MakerLayout = () => {
   const {usersQuery} = useContext(UserContext);
-  const {setUser, token, isLoading, setIsLoading} = useAuthContext()
+  const {setUser, token, setIsLoading} = useAuthContext()
   const {initChat} = useContext(ChatContext);
   useEffect(() => {
-    usersQuery?.forEach((users) => {
-      initChat(users.username, 'admin');
-    })
     if (token) {
+      // usersQuery?.forEach( (users) => {
+      //   initChat(users.username, 'admin');
+      // })
       setIsLoading(true)
       try {
         axiosClient.get('/user')
@@ -29,8 +30,7 @@ export const MakerLayout = () => {
         console.log(e)
       }
     }
-  }, [usersQuery]);
-
+  }, []);
   return (
     <>
       <div className="min-h-screen flex flex-col overflow-auto">

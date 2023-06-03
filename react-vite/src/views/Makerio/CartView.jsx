@@ -6,20 +6,22 @@ import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 import {Link} from "react-router-dom";
 import {useAuthContext} from "../../context/AuthContext.jsx";
-import {GoogleMap} from "@react-google-maps/api";
-import {GoogleMaps} from "../GoogleMaps.jsx";
-import {AddressForm} from "../../components/AddressForm.jsx";
+import {GoogleMapsContext} from "../../context/GoogleMapsContext.jsx";
 
 export const CartView = () => {
   const {cartItem, getCartItem} = useContext(CartContext);
   useEffect(() => {
     scrollTop(0);
     getCartItem();
-    // itemsQueryReFetch();
   }, []);
-  const {handleAddressChange, address, scrollTop} = useContext(InvoiceContext);
-  const {itemsQueryReFetch} = useContext(ProductContext);
-  const {user, token} = useAuthContext();
+  const {scrollTop} = useContext(InvoiceContext);
+
+  const {token} = useAuthContext();
+  const {handleAddressChange, address, setTempAddress, tempAddress} = useContext(GoogleMapsContext);
+  useEffect(() => {
+    cartItem.addressError = ''
+    setTempAddress(address)
+  }, [address])
 
   if (token) {
     return (
@@ -28,13 +30,17 @@ export const CartView = () => {
         <div className="w-full flex mb-3 justify-between">
           <div className="font-bold text-blueBase text-lg">Cart</div>
           <div className="flex flex-col w-[40%]">
-            Test Address, Address for testing
-            <input className="font-semibold bg-tealActive text-blackFactory px-3 py-2 rounded-md"
-                   value={address.toString()} onChange={handleAddressChange}
-                   placeholder={`#, Street, District, City, Country`}/>
+            <input
+              className={"ring-2 ring-tealHover " +
+                "font-semibold bg-tealActive text-blackFactory px-3 py-2 rounded-md"}
+              value={cartItem.length > 0 ? tempAddress.toString() : ''}
+              onChange={event => {
+                handleAddressChange(event, cartItem)
+              }}
+              placeholder={`Enter your address`}/>
             <span className="text-sm text-redBase">
-                {cartItem.addressError}
-            </span>
+                  {cartItem.addressError}
+              </span>
           </div>
         </div>
         {/*<div className="flex justify-between">*/}

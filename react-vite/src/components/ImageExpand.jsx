@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {Card} from "flowbite-react";
 import React, {useContext, useEffect, useState} from "react";
-import ChatContext from "../context/ChatContext.jsx";
 
 export const ImageExpand = ({open, setOpen, imgSrc}) => {
   // close on click outside
