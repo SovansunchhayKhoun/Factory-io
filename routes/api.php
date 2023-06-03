@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
     Route ::apiResource ( 'message' , MessageController::class );
     Route::apiResource('reviews', ReviewController::class);
     Route ::apiResource ( 'users' , UserController::class );
+    Route::get('mostSoldItem', [InvoiceProductController::class, 'mostSoldItem']);
   } );
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -32,6 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 Route::put('v1/users/{id}/change-password', [UserController::class, 'changePassword']);
 //Route::put('v1/products/update/{id}',[ProductController::class,'update']);
+Route::get('v1/getAdmin', [UserController::class, 'getAdmins']);
 Route::get('v1/getAdmin', [UserController::class, 'getAdmins']);
 Route::post('/signup', [AuthController::class, 'signup']);
 Route::post('/login', [AuthController::class, 'login']);
