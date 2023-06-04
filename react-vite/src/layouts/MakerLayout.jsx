@@ -7,29 +7,33 @@ import axiosClient from "../axios-client.js";
 import ChatContext from "../context/ChatContext.jsx";
 import UserContext from "../context/UserContext.jsx";
 import {Spinner} from "flowbite-react";
+import InvoiceProductContext from "../context/InvoiceProductContext.jsx";
+import InvoiceContext from "../context/InvoiceContext.jsx";
 
 export const MakerLayout = () => {
   const {usersQuery} = useContext(UserContext);
-  const {setUser, token, isLoading, setIsLoading} = useAuthContext()
+  const {setUser, token, setToken, setIsLoading} = useAuthContext()
   const {initChat} = useContext(ChatContext);
+
   useEffect(() => {
     usersQuery?.forEach((users) => {
       initChat(users.username, 'admin');
     })
     if (token) {
       setIsLoading(true)
-      try {
-        axiosClient.get('/user')
-          .then(({data}) => {
-            setUser(data)
-            setIsLoading(false)
-          })
-      } catch (e) {
-        setIsLoading(false)
-        console.log(e)
-      }
+      axiosClient.get('/user')
+        .then(({data}) => {
+          setUser(data)
+          setIsLoading(false)
+        }).catch((e) => {
+        if(e.response.status === 401) {
+          setIsLoading(false);
+          setUser({})
+          setToken(null);
+        }
+      })
     }
-  }, [usersQuery]);
+  }, []);
 
   return (
     <>
