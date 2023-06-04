@@ -53,16 +53,14 @@ export const OrderView = () => {
     } else {
       return (
         <>
-          <div className="mb-12">
+          <div className="xl:p-0 md:py-6 py-2 mb-3">
             <div className="font-bold mb-3">Orders</div>
 
             {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === -1).map((invoice) => {
               return (
                 <>
-                  <div className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
-                      <span className={`font-semibold`}>
-                        Order #{invoice.id}
-                      </span>
+                  <div className="px-2 border-l-2 border-b-2 border-tealBase mb-3">
+
                     <PendingItem key={invoice.id} invoice={invoice}/>
                   </div>
                 </>
@@ -72,7 +70,7 @@ export const OrderView = () => {
             {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === 1).map((invoice) => {
               return (
                 <>
-                  <div className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
+                  <div className="px-2 border-l-2 border-b-2 border-tealBase mb-3">
                       <span className={`font-semibold`}>
                         Order #{invoice.id}
                       </span>
@@ -85,7 +83,7 @@ export const OrderView = () => {
             {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status === 2).map((invoice) => {
               return (
                 <>
-                  <div className="px-2 border-l-2 border-b-2 border-tealBase mb-12">
+                  <div className="px-2 border-l-2 border-b-2 border-tealBase mb-3">
                       <span className={`font-semibold`}>
                         Order #{invoice.id}
                       </span>
@@ -94,7 +92,6 @@ export const OrderView = () => {
                 </>
               );
             })}
-
           </div>
           <div>
             <div className="font-bold mb-3 text-blackFactory">History</div>

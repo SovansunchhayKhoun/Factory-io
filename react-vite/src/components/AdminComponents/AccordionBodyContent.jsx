@@ -34,8 +34,9 @@ export const AccordionBodyContent = (props) => {
 
   return (
     <div className="text-blackFactory font-semibold">
-      <div className="px-6">
-        <div className="flex justify-between mb-3">
+      <div className="lg:px-6 px-2">
+
+        <div className="flex justify-between mb-3 lg:text-base md:text-sm text-xs">
           <div className="font-bold">Order ID: {id}</div>
           <div className="text-tealActive">
             {status === -1 && 'Pending'}
@@ -44,7 +45,8 @@ export const AccordionBodyContent = (props) => {
             {status === 3 && 'Arrived'}
           </div>
         </div>
-        <div className="grid grid-cols-2 pr-12 gap-2 mb-3">
+
+        <div className="lg:text-sm md:text-xs grid grid-cols-2 lg:pr-16 gap-2 mb-3">
           <div>Order Date: {date}</div>
           <div>Phone Number: {user[0].phoneNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "-")}
           </div>
@@ -71,6 +73,8 @@ export const AccordionBodyContent = (props) => {
             </button>
           </div>
         </div>
+
+
         <div>
           <Fragment>
             <Accordion open={open === 1}>
@@ -93,7 +97,7 @@ export const AccordionBodyContent = (props) => {
           </Fragment>
         </div>
       </div>
-      <div className={`accordion-item-body mb-3`}>
+      <div className={`accordion-item-body lg:text-sm md:text-xs mb-3`}>
         <div>Item
           {
             invoice_product.map((item) => {
@@ -129,7 +133,9 @@ export const AccordionBodyContent = (props) => {
                 <div key={item.id}>
                   <input onChange={handleQty(invProd, setInvProd, item)}
                          min="1"
-                         className={`${props.invoice.status >= 2 && inputStyle} p-0 text-center max-w-[64px]`}
+                         className={`${props.invoice.status >= 2 && inputStyle} p-0 border text-center ${user[0]?.acc_type === 1 ?
+                           'lg:max-w-[32px] lg:text-sm md:text-xs md:max-w-[24px]' :
+                           'max-w[64px]'}`}
                          disabled={props.invoice.status >= 2}
                          type="text"
                          placeholder={item.qty}/>
@@ -155,9 +161,10 @@ export const AccordionBodyContent = (props) => {
         <div>Sub-total
           {invoice_product.map((item) => <div key={item.id}>${item.cart_item_price}</div>)}
         </div>
+
       </div>
       <hr className="border-b-1 border-blackFactory rounded-lg"/>
-      <div className={`accordion-item-body`}>
+      <div className={`accordion-item-body lg:text-base md:text-xs`}>
         <div>Grand Total</div>
         <div></div>
         {/* for Grid*/}

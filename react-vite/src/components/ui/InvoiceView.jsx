@@ -18,7 +18,6 @@ export const InvoiceView = (props) => {
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
-  const {getCenter} = useContext(GoogleMapsContext)
 
   return (
     <Fragment>

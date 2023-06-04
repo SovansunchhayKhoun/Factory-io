@@ -27,13 +27,13 @@ export const AccordionHeaderContent = (props) => {
   }
 
   return (
-    <div className="flex w-full justify-between items-center">
+    <div className="md:text-base text-[10px] px-3 flex w-full justify-between items-center">
       <div className="font-semibold flex flex-col">
         <div>
           Order ID: {id}
         </div>
         <div>
-          Order Date: {date}
+          Order Date: <span className="font-normal">{date}</span>
         </div>
         <div className="text-tealBase">
           {status === -1 && 'Pending'}

@@ -25,14 +25,16 @@ export const CartView = () => {
 
   if (token) {
     return (
-      <>
+      <div className={"xl:p-0 md:py-6"}>
         {/*<AddressForm />*/}
-        <div className="w-full flex mb-3 justify-between">
+        <div className="w-full flex md:flex-row md:gap-0 flex-col gap-y-3 md:mb-3 mb-6 justify-between">
           <div className="font-bold text-blueBase text-lg">Cart</div>
-          <div className="flex flex-col w-[40%]">
+          <div className="flex flex-col
+          xl:w-[50%]
+          lg:w-[60%] lg:text-base
+          md:w-[60%] md:text-xs">
             <input
-              className={"ring-2 ring-tealHover " +
-                "font-semibold bg-tealActive text-blackFactory px-3 py-2 rounded-md"}
+              className={"ring-2 ring-tealHover font-semibold bg-tealActive text-blackFactory px-3 py-2 rounded-md"}
               value={cartItem.length > 0 ? tempAddress.toString() : ''}
               onChange={event => {
                 handleAddressChange(event, cartItem)
@@ -63,7 +65,7 @@ export const CartView = () => {
         <div className={`${cartItem.length === 0 && 'hidden'}`}>
           <Payment/>
         </div>
-      </>
+      </div>
     );
   } else {
     return (

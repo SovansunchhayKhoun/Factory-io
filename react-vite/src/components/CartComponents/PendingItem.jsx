@@ -12,22 +12,30 @@ export const PendingItem = (props) => {
         return (
           <>
             <div
-              className="min-h-[150px] px-12 py-3 flex mb-3 items-center justify-between border-2 border-tealActive shadow-2xl">
-              <div className="flex items-center gap-x-6">
-                <div className="max-w-[100px]">
+              className="min-h-[150px] lg:px-12 md:px-6 px-3 md:py-3 py-1 flex mb-3 items-center justify-between border-2 border-tealActive shadow-2xl">
+              <div className="flex-1 flex items-center gap-x-6 lg:text-base md:text-sm text-[10px]">
+                <div className="md:max-w-[100px] max-w-[90px]">
                   {/*<img src={`/assets/images/${image}`} alt=""/>*/}
                   {
                     (image === null || image === undefined)
                       ? <img src="/assets/images/makerio.png" alt={name}/>
-                      :<img src={`http://127.0.0.1:8000/${image}`} alt={name}/>
+                      : <img src={`http://127.0.0.1:8000/${image}`} alt={name}/>
                   }
                 </div>
                 <div>
                   <Link to={`/maker-io/${products[0].id}`}>
-                    <div className="highlight-hover transition duration-150 mb-1 text-tealHover font-bold">{name} <sup className={`text-[13px] font-bold text-blueActive`}>x{inv_prd.qty}</sup></div>
+                    <div
+                      className="highlight-hover transition duration-150 mb-1 text-tealHover md:leading-0 leading-5 font-bold">{name}
+                      <sup
+                        className={`ml-1 md:text-[13px] md:leading-0 text-[10px] font-bold text-blueActive`}>x{inv_prd.qty}</sup>
+                    </div>
                   </Link>
-                  <div className="mb-1 text-blackFactory font-semibold">Order date: <span
-                    className="font-normal">{date}</span></div>
+                  <div className="mb-1 text-blackFactory font-semibold">
+                    <span className="md:inline hidden">
+                      Order date:
+                    </span>
+                    <span
+                      className="font-normal">{date}</span></div>
                   <div
                     className={`${status === -1 && 'text-redBase'} ${status === 1 && 'text-green-600'} ${status === 2 && 'text-tealBase'} mb-1 font-semibold text-blackFactory`}>
                     {status === -1 && 'Pending'}
@@ -36,8 +44,8 @@ export const PendingItem = (props) => {
                   </div>
                 </div>
               </div>
-              <div>
-                <span className="underline underline-offset-2">Sub-total:</span>
+
+              <div className="md:text-base text-xs">
                 <span className="font-bold text-redBase"> ${inv_prd.qty * price}</span>
               </div>
             </div>
