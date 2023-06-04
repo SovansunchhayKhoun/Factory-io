@@ -2,9 +2,11 @@ import {createContext, useContext, useEffect, useState} from "react";
 import Axios from "axios";
 import {useQuery} from "@tanstack/react-query";
 import {useAuthContext} from "./AuthContext.jsx";
+import {GoogleMap, MarkerF, useJsApiLoader} from "@react-google-maps/api";
+import {GoogleMapsContext} from "./GoogleMapsContext.jsx";
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
-
+const libraries = ['places'];
 const InvoiceContext = createContext();
 export const InvoiceProvider = ({children}) => {
   const {data: invoices, isLoading, refetch: invoicesReFetch} = useQuery(['invoices'], () => {
@@ -12,6 +14,7 @@ export const InvoiceProvider = ({children}) => {
       return res.data.data;
     })
   });
+  const {address, setAddress, placeId} = useContext(GoogleMapsContext)
   const {user} = useAuthContext();
   const [invStatus, setInvStatus] = useState(-1);
   const [invoice, setInvoice] = useState({});
@@ -20,10 +23,6 @@ export const InvoiceProvider = ({children}) => {
     const apiItem = await Axios.get(`invoices/${id}`);
     setInvoice(apiItem.data.data);
   };
-  const [address, setAddress] = useState('');
-  const handleAddressChange = event => {
-    setAddress(event.target.value);
-  }
 
   const scrollTop = (fromTop) => {
     window.scrollTo({
@@ -31,11 +30,7 @@ export const InvoiceProvider = ({children}) => {
       behavior: "smooth",
     });
   }
-  const scrollDown = (fromBottom) => {
-    window.scrollTo(0, document.body.scrollHeight);
-  }
   const [invoiceError, setInvoiceError] = useState([]);
-
   const storeInvoice = async (total, cartItem, checkOut, paymentPic, setModalOpen, setLoadingSuccess) => {
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
@@ -43,6 +38,7 @@ export const InvoiceProvider = ({children}) => {
       user_id: user.id,
       date: currentDate,
       status: -1,
+      placeId: placeId,
       address: address,
       totalPrice: total,
       payment_pic: paymentPic,
@@ -147,7 +143,6 @@ export const InvoiceProvider = ({children}) => {
 
   return (
     <InvoiceContext.Provider value={{
-      scrollDown,
       scrollTop,
       updateInvProd,
       updateOrder,
@@ -165,7 +160,6 @@ export const InvoiceProvider = ({children}) => {
       invoiceError,
       setInvoiceError,
       declineOrder,
-      handleAddressChange,
       paymentPic,
       setPaymentPic
     }}>

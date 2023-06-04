@@ -30,7 +30,7 @@ export const ProfileDropdown = ({user, arrowIcon}) => {
           {user?.username}
         </Dropdown.Header>
         <Dropdown.Item>
-          <Link className="h-full border w-full" to={`/user`}>
+          <Link className="h-full w-full" to={`/user`}>
             Account
           </Link>
         </Dropdown.Item>

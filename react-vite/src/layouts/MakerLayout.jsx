@@ -9,17 +9,18 @@ import UserContext from "../context/UserContext.jsx";
 import {Spinner} from "flowbite-react";
 import InvoiceProductContext from "../context/InvoiceProductContext.jsx";
 import InvoiceContext from "../context/InvoiceContext.jsx";
+import {useJsApiLoader} from "@react-google-maps/api";
 
-export const MakerLayout = () => {
+export const MakerLayout = () => {  
   const {usersQuery} = useContext(UserContext);
-  const {setUser, token, setToken, setIsLoading} = useAuthContext()
+  const {setUser, token, setIsLoading} = useAuthContext()
   const {initChat} = useContext(ChatContext);
 
   useEffect(() => {
-    usersQuery?.forEach((users) => {
-      initChat(users.username, 'admin');
-    })
     if (token) {
+      // usersQuery?.forEach( (users) => {
+      //   initChat(users.username, 'admin');
+      // })
       setIsLoading(true)
       axiosClient.get('/user')
         .then(({data}) => {
@@ -34,7 +35,6 @@ export const MakerLayout = () => {
       })
     }
   }, []);
-
   return (
     <>
       <div className="min-h-screen flex flex-col overflow-auto">

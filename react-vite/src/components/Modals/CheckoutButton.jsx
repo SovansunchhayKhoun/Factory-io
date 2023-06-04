@@ -15,6 +15,7 @@ import {Link, useNavigate} from "react-router-dom";
 import AdminPopUp from "./AdminPopUp.jsx";
 import {AccordionHeader} from "@material-tailwind/react";
 import {AccordionHeaderContent} from "../AdminComponents/AccordionHeaderContent.jsx";
+import {GoogleMapsContext} from "../../context/GoogleMapsContext.jsx";
 
 const style = {
   display: "flex",
@@ -32,7 +33,9 @@ const style = {
 
 export default function CheckoutButton() {
   const {cartItem, getCartItem, checkOut, totalPrice, success, setSuccess} = useContext(CartContext);
-  const {storeInvoice, address, paymentPic} = useContext(InvoiceContext);
+  const {storeInvoice, paymentPic, setPaymentPic} = useContext(InvoiceContext);
+  const {tempAddress, address} = useContext(GoogleMapsContext);
+
   const {user, token} = useAuthContext();
   const [loadingSuccess, setLoadingSuccess] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -79,7 +82,8 @@ export default function CheckoutButton() {
                     cartItem.forEach((item) => {
                       checkOut(item);
                     })
-                  }} className="w-full transition duration-500 bg-blueBase text-whiteFactory px-2 py-1 rounded-md hover:bg-blueActive active:bg-bluehover">
+                  }}
+                          className="w-full transition duration-500 bg-blueBase text-whiteFactory px-2 py-1 rounded-md hover:bg-blueActive active:bg-bluehover">
                     Confirm
                   </button>
                 </div>
@@ -120,8 +124,7 @@ export default function CheckoutButton() {
                     <div>Username:
                       {user?.username}
                     </div>
-                    <div className={`bg-[#D9D9D9] px-2 py-1 rounded-lg`}>Address:
-                      {address}
+                    <div className={`bg-[#D9D9D9] px-2 py-1 rounded-lg`}>Address: {tempAddress}
                     </div>
                   </div>
                   <div className={`flex mb-3 gap-x-6`}>
@@ -170,6 +173,7 @@ export default function CheckoutButton() {
                           // cartItem.forEach((item) => {
                           //   checkOut(item);
                           // })
+                          setPaymentPic('');
                         }
                       }
                     }}>Confirm

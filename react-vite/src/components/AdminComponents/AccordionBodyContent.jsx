@@ -2,17 +2,33 @@ import React, {Fragment, useContext, useEffect, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 import AdminPopUp from "../Modals/AdminPopUp.jsx";
-import {GoogleMaps} from "../../views/GoogleMaps.jsx";
 import {ImageExpand} from "../ImageExpand.jsx";
 import {Accordion, AccordionBody, AccordionHeader} from "@material-tailwind/react";
+import {GoogleMap, MarkerF, useJsApiLoader} from "@react-google-maps/api";
+import {GoogleMapsContext} from "../../context/GoogleMapsContext.jsx";
 
+const libraries = ['places'];
 export const AccordionBodyContent = (props) => {
+  const {isLoaded} = useJsApiLoader({
+      googleMapsApiKey: import.meta.env.VITE_APP_GOOGLE_MAPS_API_KEY,
+      libraries
+    }
+  );
+  const [map, setMap] = useState(/** @type google.maps.Map*/ (null))
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
   const {invProd, setInvProd} = props;
-  const {id, date, totalPrice, status, address, invoice_product, user} = props.invoice;
+  const {id, date, totalPrice, status, address, invoice_product, user, placeId} = props.invoice;
   const {items} = useContext(ProductContext);
   const {handleQty} = useContext(InvoiceContext);
   const [open, setOpen] = useState(0);
-  const handleOpen = (value) => {
+  const handleOpen = async (value) => {
+    const geoCode = new google.maps.Geocoder();
+    await geoCode.geocode({placeId: placeId})
+      .then(({results}) => {
+        setLatitude(results[0].geometry.location.lat())
+        setLongitude(results[0].geometry.location.lng())
+      })
     setOpen(open === value ? 0 : value);
   };
 
@@ -59,7 +75,19 @@ export const AccordionBodyContent = (props) => {
           <Fragment>
             <Accordion open={open === 1}>
               <AccordionBody className={`mt-2 border-0 p-0 ${open ? '' : 'hidden'}`}>
-                <GoogleMaps height={400}/>
+                <GoogleMap
+                  center={{lat: latitude, lng: longitude}}
+                  zoom={15}
+                  mapContainerStyle={{width: 100 + "%", height: 400 + "px"}}
+                  onLoad={map => setMap(map)}
+                  options={{
+                    disableDefaultUI: true,
+                    fullscreenControl: true,
+                    zoomControl: true
+                  }}
+                >
+                  <MarkerF position={{lat: latitude, lng: longitude}}/>
+                </GoogleMap>
               </AccordionBody>
             </Accordion>
           </Fragment>

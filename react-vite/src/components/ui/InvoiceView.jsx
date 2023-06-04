@@ -1,4 +1,4 @@
-import React, {Fragment, useContext, useState} from "react";
+import React, {Fragment, useContext, useEffect, useState} from "react";
 import {
   Accordion,
   AccordionHeader,
@@ -7,6 +7,7 @@ import {
 
 import {AccordionHeaderContent} from "../AdminComponents/AccordionHeaderContent.jsx";
 import {AccordionBodyContent} from "../AdminComponents/AccordionBodyContent.jsx";
+import {GoogleMapsContext} from "../../context/GoogleMapsContext.jsx";
 
 export const InvoiceView = (props) => {
   const {invoice} = props;
@@ -17,6 +18,7 @@ export const InvoiceView = (props) => {
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
+  const {getCenter} = useContext(GoogleMapsContext)
 
   return (
     <Fragment>
