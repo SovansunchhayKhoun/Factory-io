@@ -32,6 +32,9 @@ export const InvoiceProvider = ({children}) => {
   }
   const [invoiceError, setInvoiceError] = useState([]);
   // const storeInvoice = async (total, cartItem, paymentPic, setModalOpen, setLoadingSuccess) => {
+
+
+
   const storeInvoice = async (total, cartItem, paymentPic) => {
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
@@ -48,7 +51,8 @@ export const InvoiceProvider = ({children}) => {
     try {
       await Axios.post('invoices', invoice, {
         headers: {'Content-Type': "multipart/form-data"}
-      }).then((response) => console.log(response));
+      });
+
       setAddress('');
     } catch (e) {
       // setModalOpen(false);

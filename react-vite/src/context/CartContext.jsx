@@ -120,31 +120,29 @@ export const CartProvider = ({children}) => {
     localStorage.removeItem('CART_ITEM');
   }
 
-  const {storeInvoice, scrollTop, invoicesReFetch} = useContext(InvoiceContext);
+  const {storeInvoice, invoicesReFetch} = useContext(InvoiceContext);
 
   const checkOut = async (cartItem, paymentPic, setModalOpen, setLoadingSuccess) => {
     if (!isLoading) {
       await storeInvoice(totalPrice, cartItem, paymentPic)
-        // .then((response) => {
-        //   console.log(response);
-        // }).then(async () => {
-        //   await invoicesReFetch();
-        //   console.log(invoices)
-          // cartItem?.forEach((item) => {
-          //   // item.invoice_id = invoices?.slice(-1)[0]?.id + 1 || invoiceProduct?.slice(-1)[0]?.invoice_id + 1 || 1;
-          //   item.invoice_id = invoices?.slice(-1)[0]?.id;
-          //   item.user_id = user?.id
-          //   try {
-          //     Axios.post('invoice_products', item);
-          //     clearCart();
-          //     setCartItem([]);
-          //     // setLoadingSuccess(true);
-          //   } catch (e) {
-          //     console.log(e.response.data.errors)
-          //     setCartError(e.response.data.errors)
-          //   }
-          // })
-        // })
+      const lastInvoice = await Axios.get('getLastInv').then(({data}) => {
+        return data;
+      });
+      await invoicesReFetch();
+      cartItem?.forEach((item) => {
+        // item.invoice_id = invoices?.slice(-1)[0]?.id + 1 || invoiceProduct?.slice(-1)[0]?.invoice_id + 1 || 1;
+        item.invoice_id = lastInvoice?.id;
+        item.user_id = user?.id
+        try {
+          Axios.post('invoice_products', item);
+          clearCart();
+          setCartItem([]);
+          setLoadingSuccess(true);
+        } catch (e) {
+          console.log(e.response.data.errors)
+          setCartError(e.response.data.errors)
+        }
+      })
     }
   }
 

@@ -26,7 +26,13 @@ class InvoiceController extends Controller
             $data['payment_pic'] = $filepath;
         }
         Invoice::create($data);
-        return response()->json('Invoice Created');
+//        return InvoiceResource::collection (Invoice::all ());
+        return response()->json('Invoice created');
+    }
+
+    public function getLastInv() {
+//      dd(InvoiceResource::collection (Invoice::all ()));
+      return Invoice::latest('id')->first();
     }
 
     public function show(Invoice $invoice)
@@ -44,7 +50,7 @@ class InvoiceController extends Controller
     public function destroy(Invoice $invoice)
     {
         $invoice->delete();
-
+        $invoice->products->delete();
         return response()->json('Invoice deleted');
     }
 }

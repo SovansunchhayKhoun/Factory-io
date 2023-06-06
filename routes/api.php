@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
     Route::apiResource('reviews', ReviewController::class);
     Route ::apiResource ( 'users' , UserController::class );
     Route::get('mostSoldItem', [InvoiceProductController::class, 'mostSoldItem']);
+    Route::get('getLastInv', [InvoiceController::class, 'getLastInv']);
   } );
 
 Route::middleware('auth:sanctum')->group(function () {
