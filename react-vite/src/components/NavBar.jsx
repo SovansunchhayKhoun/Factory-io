@@ -114,9 +114,7 @@ export const NavBar = (props) => {
                 </Link>
                 :
                 <>
-                  <Link to={
-                    token ? "/cart" : "/login"
-                  }>
+                  <Link to={"/cart"}>
                     {/*<img src="/assets/images/carticon.png" alt=""/>*/}
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
                       <path
@@ -126,7 +124,7 @@ export const NavBar = (props) => {
                   </Link>
                   <span
                     className={cartItem.length === 0 ? 'hidden' : " flex justify-center items-center w-[16px] h-[16px] absolute top-[0px] right-[-6px] bg-redBase text-whiteFactory rounded-[50%] text-[12px]"}>
-                      {cartItem.reduce((total, i) => total += i.qty, 0)}
+                      {cartItem?.reduce((total, i) => total += i.qty, 0)}
                   </span>
                 </>
             }

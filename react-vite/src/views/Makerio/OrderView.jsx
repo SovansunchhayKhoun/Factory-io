@@ -60,7 +60,9 @@ export const OrderView = () => {
               return (
                 <>
                   <div className="px-2 border-l-2 border-b-2 border-tealBase mb-3">
-
+                      <span className={`font-semibold`}>
+                        Order #{invoice.id}
+                      </span>
                     <PendingItem key={invoice.id} invoice={invoice}/>
                   </div>
                 </>

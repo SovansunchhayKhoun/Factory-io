@@ -1,11 +1,12 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import ProductContext from "./ProductContext.jsx";
 import Axios from "axios";
-import InvoiceContext from "./InvoiceContext.jsx";
+import InvoiceContext, {InvoiceProvider} from "./InvoiceContext.jsx";
 import invoiceContext from "./InvoiceContext.jsx";
 import {useAuthContext} from "./AuthContext.jsx";
 import InvoiceProductContext from "./InvoiceProductContext.jsx";
 import {redirect, useNavigate, useNavigation} from "react-router-dom";
+import UserContext from "./UserContext.jsx";
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const CartContext = createContext();
@@ -19,6 +20,10 @@ export const CartProvider = ({children}) => {
   const [success, setSuccess] = useState(false);
   const totalPrice = cartItem.reduce((total, i) => total += i.price * i.qty, 0);
   const {token, user} = useAuthContext();
+  const {getUsers} = useContext(UserContext);
+  useEffect(() => {
+    getUsers();
+  }, []);
   // useEffect(() => {
   //   invoiceProductReFetch();
   // }, []);
@@ -31,7 +36,7 @@ export const CartProvider = ({children}) => {
       setCartItem([...cartItem]);
     } else if (!itemExist(item)) {
       setCartItem([...cartItem, {
-        user_id: user.id,
+        // user_id: user?.id,
         id: item.id, // referenced from stock items
         product_id: item.id, //for cart product database
         name: item.name,
@@ -115,19 +120,31 @@ export const CartProvider = ({children}) => {
     localStorage.removeItem('CART_ITEM');
   }
 
-  const checkOut = async (item) => {
-    await invoiceProductReFetch();
-    console.log(item);
+  const {storeInvoice, scrollTop, invoicesReFetch} = useContext(InvoiceContext);
+
+  const checkOut = async (cartItem, paymentPic, setModalOpen, setLoadingSuccess) => {
     if (!isLoading) {
-      item.invoice_id = invoices?.slice(-1)[0]?.id || invoiceProduct?.slice(-1)[0]?.invoice_id || 1;
-      try {
-        await Axios.post('invoice_products', item);
-        clearCart();
-        setCartItem([]);
-      } catch (e) {
-        console.log(e.response.data.errors)
-        setCartError(e.response.data.errors)
-      }
+      await storeInvoice(totalPrice, cartItem, paymentPic)
+        // .then((response) => {
+        //   console.log(response);
+        // }).then(async () => {
+        //   await invoicesReFetch();
+        //   console.log(invoices)
+          // cartItem?.forEach((item) => {
+          //   // item.invoice_id = invoices?.slice(-1)[0]?.id + 1 || invoiceProduct?.slice(-1)[0]?.invoice_id + 1 || 1;
+          //   item.invoice_id = invoices?.slice(-1)[0]?.id;
+          //   item.user_id = user?.id
+          //   try {
+          //     Axios.post('invoice_products', item);
+          //     clearCart();
+          //     setCartItem([]);
+          //     // setLoadingSuccess(true);
+          //   } catch (e) {
+          //     console.log(e.response.data.errors)
+          //     setCartError(e.response.data.errors)
+          //   }
+          // })
+        // })
     }
   }
 

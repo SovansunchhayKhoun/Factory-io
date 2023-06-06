@@ -16,9 +16,6 @@ export const MakerLanding = () => {
     setOpen(open === value ? 0 : value);
   };
   const [category, setCategory] = useState('All');
-  // useEffect(() => {
-  //   itemsQueryReFetch();
-  // }, []);
 
   useEffect(() => {
     switch (searchInput) {

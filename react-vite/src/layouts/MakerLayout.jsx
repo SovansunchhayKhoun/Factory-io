@@ -10,17 +10,13 @@ import {Spinner} from "flowbite-react";
 import InvoiceProductContext from "../context/InvoiceProductContext.jsx";
 import InvoiceContext from "../context/InvoiceContext.jsx";
 import {useJsApiLoader} from "@react-google-maps/api";
+import CartContext from "../context/CartContext.jsx";
 
-export const MakerLayout = () => {  
-  const {usersQuery} = useContext(UserContext);
+export const MakerLayout = () => {
   const {setUser, token, setIsLoading} = useAuthContext()
-  const {initChat} = useContext(ChatContext);
 
   useEffect(() => {
     if (token) {
-      // usersQuery?.forEach( (users) => {
-      //   initChat(users.username, 'admin');
-      // })
       setIsLoading(true)
       axiosClient.get('/user')
         .then(({data}) => {

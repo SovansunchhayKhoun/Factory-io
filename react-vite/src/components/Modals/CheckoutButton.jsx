@@ -33,7 +33,7 @@ const style = {
 
 export default function CheckoutButton() {
   const {cartItem, getCartItem, checkOut, totalPrice, success, setSuccess} = useContext(CartContext);
-  const {storeInvoice, paymentPic, setPaymentPic} = useContext(InvoiceContext);
+  const {storeInvoice, paymentPic, setPaymentPic, scrollTop} = useContext(InvoiceContext);
   const {tempAddress, address} = useContext(GoogleMapsContext);
 
   const {user, token} = useAuthContext();
@@ -42,6 +42,7 @@ export default function CheckoutButton() {
 
   useEffect(() => {
     getCartItem();
+    scrollTop(0);
   }, []);
 
   const TickComponent = () => {
@@ -79,9 +80,10 @@ export default function CheckoutButton() {
                   </p>
                   <button onClick={() => {
                     setModalOpen(false)
-                    cartItem.forEach((item) => {
-                      checkOut(item);
-                    })
+                    // cartItem.forEach(async (item) => {
+                    //   await checkOut(item);
+                    // })
+                    // storeInvoice(totalPrice, cartItem, checkOut, paymentPic, setModalOpen, setLoadingSuccess);
                   }}
                           className="w-full transition duration-500 bg-blueBase text-whiteFactory px-2 py-1 rounded-md hover:bg-blueActive active:bg-bluehover">
                     Confirm
@@ -95,6 +97,7 @@ export default function CheckoutButton() {
     )
   }
 
+  const navigate = useNavigate();
   if (cartItem.length > 0) {
     return (
       <>
@@ -102,8 +105,9 @@ export default function CheckoutButton() {
           <button
             className={`transition duration-500 hover:shadow-blueBase hover:shadow-md bg-redHover text-[18px] text-whiteFactory px-4 py-1 rounded-[20px]`}
             onClick={() => {
-              totalPrice > 0 && setSuccess(true);
-            }}>Check out
+              token ? totalPrice > 0 && setSuccess(true) : navigate('/login');
+            }}>
+            Check out
           </button>
           <AdminPopUp modalOpen={modalOpen} setModalOpen={setModalOpen} content={<Content/>} id={100}/>
           <Modal
@@ -164,15 +168,25 @@ export default function CheckoutButton() {
                     className={`transition duration-500 bg-tealActive text-whiteFactory px-1 py-2 min-w-[150px] rounded-md hover:bg-tealHover/80 active:bg-tealActive`}
                     onClick={(e) => {
                       if (token) {
+                        if(!address) {
+                          e.stopPropagation();
+                          cartItem.addressError = 'The Address field is required';
+                          setSuccess(false);
+                          return;
+                        }
+                        if (!paymentPic) {
+                          e.stopPropagation()
+                          cartItem.paymentError = 'Please include payment picture'
+                          setSuccess(false)
+                          return;
+                        }
                         if (cartItem.length > 0) {
                           e.stopPropagation();
                           setModalOpen(true);
                           setLoadingSuccess(false);
                           setSuccess(false);
-                          storeInvoice(totalPrice, cartItem, checkOut, paymentPic, setModalOpen, setLoadingSuccess);
-                          // cartItem.forEach((item) => {
-                          //   checkOut(item);
-                          // })
+                          checkOut(cartItem, paymentPic, setModalOpen, setLoadingSuccess);
+                          // storeInvoice(totalPrice, cartItem, checkOut, paymentPic, setModalOpen, setLoadingSuccess);
                           setPaymentPic('');
                         }
                       }

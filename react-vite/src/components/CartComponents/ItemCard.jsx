@@ -49,11 +49,7 @@ export const ItemCard = (props) => {
                 <button
                   className={" rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300"}
                   onClick={() => {
-                    if (token) {
-                      addToCart(props.item);
-                    } else {
-                      navigate('/login')
-                    }
+                    addToCart(props.item);
                   }}>
                   <img width="36" src="/assets/images/cart-icon.png" alt=""/>
                 </button>

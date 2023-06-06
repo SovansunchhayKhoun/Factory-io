@@ -26,7 +26,6 @@ class InvoiceController extends Controller
             $data['payment_pic'] = $filepath;
         }
         Invoice::create($data);
-
         return response()->json('Invoice Created');
     }
 

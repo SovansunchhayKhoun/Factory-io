@@ -23,56 +23,59 @@ export const CartView = () => {
     setTempAddress(address)
   }, [address])
 
-  if (token) {
-    return (
-      <div className={"xl:p-0 md:py-6"}>
-        {/*<AddressForm />*/}
-        <div className="w-full flex md:flex-row md:gap-0 flex-col gap-y-3 md:mb-3 mb-6 justify-between">
-          <div className="font-bold text-blueBase text-lg">Cart</div>
-          <div className="flex flex-col
+
+  return (
+    <div className={"xl:p-0 md:py-6"}>
+      {/*<AddressForm />*/}
+      <div className="w-full flex md:flex-row md:gap-0 flex-col gap-y-3 md:mb-3 mb-6 justify-between">
+        <div className="font-bold text-blueBase text-lg">Cart</div>
+        <div className="flex flex-col
           xl:w-[50%]
           lg:w-[60%] lg:text-base
           md:w-[60%] md:text-xs">
-            <input
-              className={"ring-2 ring-tealHover font-semibold bg-tealActive text-blackFactory px-3 py-2 rounded-md"}
-              value={cartItem.length > 0 ? tempAddress.toString() : ''}
-              onChange={event => {
-                handleAddressChange(event, cartItem)
-              }}
-              placeholder={`Enter your address`}/>
-            <span className="text-sm text-redBase">
+          <input
+            className={"ring-2 ring-tealHover font-semibold bg-tealActive text-blackFactory px-3 py-2 rounded-md"}
+            value={cartItem.length > 0 ? tempAddress.toString() : ''}
+            onChange={event => {
+              handleAddressChange(event, cartItem)
+            }}
+            placeholder={`Enter your address`}/>
+          <span className="text-sm text-redBase">
                   {cartItem.addressError}
               </span>
-          </div>
-        </div>
-        {/*<div className="flex justify-between">*/}
-        {/*</div>*/}
-        <div className="flex flex-col gap-y-3 pb-6 border-b-2 border-tealActive mb-6">
-          {cartItem.length === 0 && 'Empty Cart'}
-          {cartItem.map((item, pos) => {
-            if (item.id) {
-              return (
-                <CartItem key={pos} item={item}/>
-              );
-            }
-          })}
-        </div>
-        <Link
-          className={`${cartItem.length > 0 && 'hidden'} transition px-2 py-1 shadow-md shadow-blueBase duration-500 font-semibold text-blueActive cursor-pointer hover:text-whiteFactory hover:bg-blueBase`}
-          to={'/maker-io'}>
-          Browse product
-        </Link>
-        <div className={`${cartItem.length === 0 && 'hidden'}`}>
-          <Payment/>
         </div>
       </div>
-    );
-  } else {
-    return (
-      <div>
-        <Link to={'/login'}>Sign in</Link>
-        <Link to={'/signup'}>Sign Up</Link>
+      {/*<div className="flex justify-between">*/}
+      {/*</div>*/}
+      <div className="flex flex-col gap-y-3 pb-6 border-b-2 border-tealActive mb-6">
+        {cartItem.length === 0 && 'Empty Cart'}
+        {cartItem.map((item, pos) => {
+          if (item.id) {
+            return (
+              <CartItem key={pos} item={item}/>
+            );
+          }
+        })}
       </div>
-    );
-  }
+      <Link
+        className={`${cartItem.length > 0 && 'hidden'} transition px-2 py-1 shadow-md shadow-blueBase duration-500 font-semibold text-blueActive cursor-pointer hover:text-whiteFactory hover:bg-blueBase`}
+        to={'/maker-io'}>
+        Browse product
+      </Link>
+      <div className={`${cartItem.length === 0 && 'hidden'}`}>
+        <Payment/>
+      </div>
+    </div>
+  );
+
+  // if (token) {
+  //
+  // } else {
+  //   return (
+  //     <div>
+  //       <Link to={'/login'}>Sign in</Link>
+  //       <Link to={'/signup'}>Sign Up</Link>
+  //     </div>
+  //   );
+  // }
 };

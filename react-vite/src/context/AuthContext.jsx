@@ -25,18 +25,18 @@ export const AuthContext = ({children}) => {
     }
   }
 
-  const [isLoading,setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const onLogout = (event) => {
     event.preventDefault();
     setIsLoading(true)
-    localStorage.removeItem('CART_ITEM');
     try {
       AxiosClient.post('/logout').then(() => {
+        localStorage.removeItem('CART_ITEM');
         setUser({})
         setToken(null)
         setIsLoading(false)
       })
-    }catch (e){
+    } catch (e) {
       setIsLoading(false)
     }
   }
