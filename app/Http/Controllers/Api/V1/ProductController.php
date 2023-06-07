@@ -17,9 +17,13 @@ class ProductController extends Controller
         dd($data);
     }
 
+    public function getAllItems(){
+      return ProductResource::collection (Product::all ());
+    }
+
     public function index()
     {
-        return ProductResource::collection(Product::all());
+        return ProductResource::collection(Product::latest()->paginate(1));
     }
 
     public function store(StoreProductRequest $request)

@@ -8,49 +8,37 @@ import {Pagination} from "@mui/material";
 import {Footer} from "../../components/Footer.jsx";
 import {Spinner} from "flowbite-react";
 import {Dropdown} from "flowbite-react";
+import {useQuery, useQueryClient} from "@tanstack/react-query";
+import Axios from "axios";
 
 export const MakerLanding = () => {
-  const {items, searchInput, itemsQueryReFetch, setSearchInput, itemsLoading} = useContext(ProductContext);
+  const {
+    itemsQuery,
+    setItems,
+    items,
+    searchInput,
+    setSearchInput,
+    itemsQueryReFetch,
+    itemsLoading,
+    setPage,
+    page,
+    pageSum,
+    getType,
+  } = useContext(ProductContext);
+
   const [open, setOpen] = useState(0);
+  const handlePage = async (event, value) => {
+    setPage(value);
+  }
+
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
   const [category, setCategory] = useState('All');
 
   useEffect(() => {
-    switch (searchInput) {
-      case 'sensor':
-        setCategory('Sensor');
-        break;
-      case 'microcontroller':
-        setCategory('Micro-Controller');
-        break;
-      case 'microprocessor':
-        setCategory('Micro-Processor');
-        break;
-      case 'tools':
-        setCategory('Tools');
-        break;
-      case 'resistor':
-        setCategory('Resistor');
-        break;
-      case 'electronic':
-        setCategory('Electronic Component');
-        break;
-      case 'battery':
-        setCategory('Battery');
-        break;
-      case 'arduino':
-        setCategory('Arduino')
-        break;
-      case 'steam':
-        setCategory('Steam');
-        break;
-      default:
-        setCategory('All');
-        break;
-    }
-  }, [searchInput]);
+    setCategory(getType(searchInput));
+  }, [searchInput])
 
   const CateLabel = () => {
     return (
@@ -123,21 +111,21 @@ export const MakerLanding = () => {
               <Spinner size="xl" color="purple"/>
             </div>
           }
-          {/*/!*warning if no items in database*!/*/}
-          {/*{items.length === 0 && <div>No Items</div>}*/}
-          {/*warning if no items in database*/}
-          {items.filter((item) => {
-            if (searchInput === "") {
-              return item
-            } else if (searchInput !== "") {
-              if (item.name.toLowerCase().includes(searchInput.toLowerCase()) || item.type.toLowerCase().includes(searchInput.toLowerCase()))
-                return item
-            }
-          }).map((item, key) => {
-            return (
-              <ItemCard key={key} item={item}/>
-            );
-          })}
+          {items?.filter((item) => {
+              if (searchInput === "") {
+                return item;
+              } else if (searchInput !== "") {
+                if (item.name?.toLowerCase().includes(searchInput.toLowerCase()) || item.type.toLowerCase().includes(searchInput.toLowerCase()))
+                  return item;
+              }
+            }).map((item, key) => {
+              return (
+                <ItemCard key={key} item={item}/>
+              );
+            })}
+        </div>
+        <div className="flex justify-center">
+          <Pagination page={page} onChange={handlePage} count={pageSum}/>
         </div>
       </div>
     </div>

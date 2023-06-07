@@ -66,7 +66,7 @@ class ProductSeeder extends Seeder
             'price' => 2.5,
             'qty' => 10,
             'status' => 1,
-            'type' => 'MicroController',
+            'type' => 'microcontroller',
             'description' => 'MICROCONTROLLER   ATmega328P<br/>
           USB CONNECTOR   USB-B<br/>
           PINS  BUILT-IN LED PIN  13<br/>
@@ -87,7 +87,7 @@ class ProductSeeder extends Seeder
             'price' => 2.5,
             'qty' => 10,
             'status' => 1,
-            'type' => 'MicroController',
+            'type' => 'microcontroller',
             'description' => 'Operating Voltage: 2.2 to 3.6VDC<br/>
           Ultra-low power consumption<br/>
           32 GPIO: ADC(12), DAC(2), SPI(3), I2S(2), I2C(2), UART(3), PWM(32), SDIO(50 Mhz)<br/>
@@ -107,7 +107,7 @@ class ProductSeeder extends Seeder
             'price' => 2.5,
             'qty' => 10,
             'status' => 1,
-            'type' => 'MicroController',
+            'type' => 'microcontroller',
             'description' => 'Operating Voltage (logic level): 5V<br/>
           8 analog inputs ports: A0 ~ A7<br/>
           14 Digital input / output ports: TX, RX, D2 ~ D13<br/>
@@ -122,7 +122,7 @@ class ProductSeeder extends Seeder
             'price' => 2.5,
             'qty' => 10,
             'status' => 1,
-            'type' => 'MicroController',
+            'type' => 'microcontroller',
             'description' => 'MCU: RP2040<br/>
           Dual-core ARM Cortex M0+ processor, flexible clock running up to 133 MHz<br/>
           264kB of SRAM, and 2MB of on-board Flash memory<br/>
@@ -135,7 +135,7 @@ class ProductSeeder extends Seeder
         'price' => 2.5,
         'qty' => 10,
         'status' => 1,
-        'type' => 'MicroController',
+        'type' => 'microcontroller',
         'description' => 'The 4 leg RGB LED is an ideal component</br>
             that can be used in projects that require
             multicolor displays. A single RGB LED serves the purpose
@@ -156,7 +156,7 @@ class ProductSeeder extends Seeder
         'price' => 0.5,
         'qty' => 10,
         'status' => 1,
-        'type' => 'MicroController',
+        'type' => 'microcontroller',
         'description' => 'The 555 timer IC can operate over a wide</br>
         range of power supply voltages, typically from 4.5 volts to 18 volts,
          and can handle output currents up to 200 mA. It finds numerous applications
@@ -170,7 +170,7 @@ class ProductSeeder extends Seeder
         'price' => 0.5,
         'qty' => 10,
         'status' => 1,
-        'type' => 'MicroController',
+        'type' => 'microcontroller',
         'description' => 'This sealed digital temperature probe lets you precisely</br>
         measure temperatures in wet environments with a simple 1-Wire interface.
          The DS18B20 provides 9 to 12-bit (configurable) temperature readings

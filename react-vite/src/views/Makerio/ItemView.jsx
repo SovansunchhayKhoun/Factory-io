@@ -12,7 +12,7 @@ import {Spinner} from "flowbite-react";
 
 export const ItemView = (props) => {
   let {id} = useParams();
-  const {item, getItem, items, itemsQueryReFetch, reviewsQueryReFetch} = useContext(ProductContext);
+  const {item, getItem, items, itemsQueryReFetch, reviewsQueryReFetch, getType} = useContext(ProductContext);
   const {scrollTop} = useContext(InvoiceContext);
   useEffect(() => {
     getItem(id);
@@ -20,15 +20,6 @@ export const ItemView = (props) => {
     reviewsQueryReFetch();
     scrollTop(0);
   }, []);
-
-  const getType = () => {
-    switch (item.type) {
-      case 'sensor':
-        return 'Sensor';
-      case 'MicroController':
-        return 'Micro-Controller';
-    }
-  }
 
   const responsive = {
     superLargeDesktop: {
@@ -88,7 +79,7 @@ export const ItemView = (props) => {
           <div className="lg:text-lg md:text-base text-sm mb-2 font-bold text-blueBase">${item.price}</div>
           <div className="lg:text-lg md:text-base text-sm mb-2 font-bold text-tealBase">{item.name}</div>
           <div className="lg:text-lg md:text-base text-sm mb-2 text-blackFactory">Item Type: <span
-            className={`font-semibold`}>{getType()}</span></div>
+            className={`font-semibold`}>{getType(item?.type?.toLowerCase())}</span></div>
           <div
             className="lg:text-lg md:text-base text-sm mb-2 text-redBase font-bold">{currentQty === 0 ? "Out of Stock" : "In stock"}</div>
 

@@ -119,7 +119,9 @@ export const CartProvider = ({children}) => {
   const {storeInvoice, invoicesReFetch} = useContext(InvoiceContext);
 
   const checkOut = async (cartItem, paymentPic) => {
+    console.log(isLoading);
     if (!isLoading) {
+    console.log(isLoading);
       await storeInvoice(totalPrice, cartItem, paymentPic);
       await invoicesReFetch();
       const lastInvoice = await Axios.get('getLastInv').then(({data}) => {
