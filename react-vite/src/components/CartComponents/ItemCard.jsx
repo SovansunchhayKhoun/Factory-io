@@ -40,6 +40,7 @@ export const ItemCard = (props) => {
                 </span>
               </div>
               <Tooltip
+                arrow={false}
                 className="text-tealBase border-2 border-tealBase"
                 content={props.item.tooltip && 'Item has been added to cart'}
                 trigger="click"

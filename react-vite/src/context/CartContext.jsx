@@ -11,9 +11,7 @@ import UserContext from "./UserContext.jsx";
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const CartContext = createContext();
 export const CartProvider = ({children}) => {
-  const {items} = useContext(ProductContext);
-  const {invoices, isLoading} = useContext(InvoiceContext);
-  const {invoiceProduct, invoiceProductReFetch} = useContext(InvoiceProductContext);
+  const {isLoading} = useContext(InvoiceContext);
   const [itemQty, setItemQty] = useState('');
   const [cartItem, setCartItem] = useState([]);
   const [cartError, setCartError] = useState([]);
@@ -24,9 +22,7 @@ export const CartProvider = ({children}) => {
   useEffect(() => {
     getUsers();
   }, []);
-  // useEffect(() => {
-  //   invoiceProductReFetch();
-  // }, []);
+
   const storeItem = (item) => {
     if (itemExist(item)) {
       // find and update that existed item qty
@@ -52,9 +48,9 @@ export const CartProvider = ({children}) => {
   }
 
   const addToCart = (item) => {
+    item.tooltip = true;
     if (item.qty) {
       storeItem(item);
-      item.tooltip = true;
       // if item doesnt exist in cart, save item
       !cartItem.find((i) => item.id === i.product_id) && saveLocalCartItem([...cartItem, ({
         ...item,
@@ -122,27 +118,26 @@ export const CartProvider = ({children}) => {
 
   const {storeInvoice, invoicesReFetch} = useContext(InvoiceContext);
 
-  const checkOut = async (cartItem, paymentPic, setModalOpen, setLoadingSuccess) => {
+  const checkOut = async (cartItem, paymentPic) => {
     if (!isLoading) {
-      await storeInvoice(totalPrice, cartItem, paymentPic)
+      await storeInvoice(totalPrice, cartItem, paymentPic);
+      await invoicesReFetch();
       const lastInvoice = await Axios.get('getLastInv').then(({data}) => {
         return data;
       });
-      await invoicesReFetch();
       cartItem?.forEach((item) => {
-        // item.invoice_id = invoices?.slice(-1)[0]?.id + 1 || invoiceProduct?.slice(-1)[0]?.invoice_id + 1 || 1;
         item.invoice_id = lastInvoice?.id;
-        item.user_id = user?.id
+        item.user_id = user?.id;
         try {
           Axios.post('invoice_products', item);
           clearCart();
           setCartItem([]);
-          setLoadingSuccess(true);
         } catch (e) {
           console.log(e.response.data.errors)
           setCartError(e.response.data.errors)
         }
       })
+      await invoicesReFetch();
     }
   }
 

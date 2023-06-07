@@ -33,7 +33,24 @@ export const InvoiceProvider = ({children}) => {
   const [invoiceError, setInvoiceError] = useState([]);
   // const storeInvoice = async (total, cartItem, paymentPic, setModalOpen, setLoadingSuccess) => {
 
-
+  const validateInvoice = (e, cartItem, setSuccess) => {
+    if(!address) {
+      console.log('no address')
+      e.stopPropagation();
+      cartItem.addressError = 'The Address field is required';
+      setSuccess(false);
+      return false;
+    }
+    if (!paymentPic) {
+      console.log('no pic')
+      e.stopPropagation()
+      cartItem.paymentError = 'Please include payment picture'
+      setSuccess(false)
+      return false;
+    }
+    scrollTop(0);
+    return true;
+  };
 
   const storeInvoice = async (total, cartItem, paymentPic) => {
     const tempDate = new Date();
@@ -52,10 +69,8 @@ export const InvoiceProvider = ({children}) => {
       await Axios.post('invoices', invoice, {
         headers: {'Content-Type': "multipart/form-data"}
       });
-
       setAddress('');
     } catch (e) {
-      // setModalOpen(false);
       scrollTop(0);
       console.log(e.response.data.errors);
       setInvoiceError(e.response.data.error);
@@ -140,6 +155,7 @@ export const InvoiceProvider = ({children}) => {
 
   return (
     <InvoiceContext.Provider value={{
+      validateInvoice,
       scrollTop,
       updateInvProd,
       updateOrder,

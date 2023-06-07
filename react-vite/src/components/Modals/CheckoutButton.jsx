@@ -33,7 +33,7 @@ const style = {
 
 export default function CheckoutButton() {
   const {cartItem, getCartItem, checkOut, totalPrice, success, setSuccess} = useContext(CartContext);
-  const {storeInvoice, paymentPic, setPaymentPic, scrollTop} = useContext(InvoiceContext);
+  const {storeInvoice, paymentPic, setPaymentPic, scrollTop, validateInvoice} = useContext(InvoiceContext);
   const {tempAddress, address} = useContext(GoogleMapsContext);
 
   const {user, token} = useAuthContext();
@@ -152,12 +152,12 @@ export default function CheckoutButton() {
                   <hr className="border-b-1 border-blackFactory rounded-lg"/>
                   <div className={`accordion-item-body`}>
                     <div>Grand Total</div>
-                    <div></div>
                     {/* for Grid*/}
                     <div></div>
                     {/* for Grid*/}
                     <div></div>
                     {/* for Grid*/}
+                    <div></div>
                     <div>
                       ${totalPrice}
                     </div>
@@ -168,25 +168,12 @@ export default function CheckoutButton() {
                     className={`transition duration-500 bg-tealActive text-whiteFactory px-1 py-2 min-w-[150px] rounded-md hover:bg-tealHover/80 active:bg-tealActive`}
                     onClick={(e) => {
                       if (token) {
-                        if(!address) {
-                          e.stopPropagation();
-                          cartItem.addressError = 'The Address field is required';
-                          setSuccess(false);
-                          return;
-                        }
-                        if (!paymentPic) {
-                          e.stopPropagation()
-                          cartItem.paymentError = 'Please include payment picture'
-                          setSuccess(false)
-                          return;
-                        }
-                        if (cartItem.length > 0) {
+                        if (validateInvoice(e, cartItem, setSuccess)) {
                           e.stopPropagation();
                           setModalOpen(true);
                           setLoadingSuccess(false);
                           setSuccess(false);
-                          checkOut(cartItem, paymentPic, setModalOpen, setLoadingSuccess);
-                          // storeInvoice(totalPrice, cartItem, checkOut, paymentPic, setModalOpen, setLoadingSuccess);
+                          checkOut(cartItem, paymentPic);
                           setPaymentPic('');
                         }
                       }

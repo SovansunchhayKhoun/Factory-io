@@ -29,7 +29,7 @@ class StoreInvoiceRequest extends FormRequest
             'address' => ['required'],
             'placeId' => ['required'],
             'item_count' => ['required', 'min: 1', 'not_in:0'],
-            'totalPrice' => ['required', 'numeric', 'min:1', 'not_in:0'],
+            'totalPrice' => ['required', 'numeric', 'min:0', 'not_in:0'],
         ];
     }
 }

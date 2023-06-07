@@ -19,6 +19,7 @@ class InvoiceController extends Controller
     public function store(StoreInvoiceRequest $request)
     {
         $data = $request->validated();
+
         if ($request->file('payment_pic')) {
             $filename = $request->file('payment_pic')->getClientOriginalName();
             Storage::disk('invoices')->put($filename, file_get_contents($data['payment_pic']));
@@ -31,7 +32,6 @@ class InvoiceController extends Controller
     }
 
     public function getLastInv() {
-//      dd(InvoiceResource::collection (Invoice::all ()));
       return Invoice::latest('id')->first();
     }
 
