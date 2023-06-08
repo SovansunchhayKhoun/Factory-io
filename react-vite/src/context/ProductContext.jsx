@@ -156,6 +156,7 @@ export const ProductProvider = ({children}) => {
       setItems,
       itemsQueryReFetch,
       item,
+      setItem,
       formValues,
       setFormValues,
       errors,

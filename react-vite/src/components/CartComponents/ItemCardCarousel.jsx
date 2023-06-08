@@ -5,13 +5,13 @@ import InvoiceContext from "../../context/InvoiceContext.jsx";
 import {useAuthContext} from "../../context/AuthContext.jsx";
 import ProductContext from "../../context/ProductContext.jsx";
 
-export const ItemCardCarousel = (props) => {
+export const ItemCardCarousel = ({item}) => {
+  const {name, price, id, image, status} = item;
   const {getItem} = useContext(ProductContext);
   const {scrollTop} = useContext(InvoiceContext);
-  const navigate = useNavigate()
-  const {name, price, id, image, status} = props.item;
   const {addToCart} = useContext(CartContext);
   const {token} = useAuthContext()
+  const navigate = useNavigate()
   return (
     <>
       {/*cart-item */}
@@ -19,10 +19,7 @@ export const ItemCardCarousel = (props) => {
         <Link className="flex-1 text-center font-semibold text-xs" to={"/maker-io/" + id}>
           {name}
         </Link>
-        <Link className="flex-2" to={"/maker-io/" + id} onClick={() => {
-          getItem(id)
-          scrollTop(0);
-        }}>
+        <Link className="flex-2" to={"/maker-io/" + id}>
           {
             (image === null || image === undefined)
               ? <img className="hover:scale-75 ease-in-out duration-300" src="/assets/images/makerio.png" alt={name}/>
