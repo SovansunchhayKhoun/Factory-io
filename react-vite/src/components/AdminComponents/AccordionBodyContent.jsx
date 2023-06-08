@@ -73,8 +73,7 @@ export const AccordionBodyContent = (props) => {
 
         <div>
           <Fragment>
-            {/*<Accordion open={open === 1}>*/}
-            <Accordion open={true}>
+            <Accordion open={open === 1}>
               <AccordionBody className={`mt-2 border-0 p-0 ${open ? '' : 'hidden'}`}>
                 <GoogleMap
                   center={{lat: latitude, lng: longitude}}
@@ -113,22 +112,22 @@ export const AccordionBodyContent = (props) => {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
                 {/*for user view*/}
-                <div className="lg:max-w-[32px] lg:text-sm md:text-xs md:max-w-[20px] max-w-[12px]">
+                <div className={`${user?.acc_type !== 1 && 'hidden'} lg:max-w-[32px] lg:text-sm md:text-xs md:max-w-[20px] max-w-[12px]`}>
                   {item.qty}
                 </div>
                 {/*--for user view*/}
                 {/*for admin to update qty if no stock*/}
-                <input onChange={handleQty(invProd, setInvProd, item)}
-                       min="1"
-                       className={`${props.invoice.status >= 2 && inputStyle}
-                       ${user[0]?.acc_type === 1 ? 'hidden' : 'max-w-[64px]'}
-                       p-0 border text-center`}
-                       disabled={props.invoice.status >= 2}
-                       type="text"
-                       placeholder={item.qty}/>
-                <span
-                  className="text-redBase">{(item.qty > stockItem?.qty && status === -2) && ` Stock QTY: ${stockItem?.qty}`}</span>
-                {/*--for admin to update qty if no stock*/}
+                <div className="flex flex-col items-center gap-2">
+                  <input onChange={handleQty(invProd, setInvProd, item)}
+                         min="1"
+                         className={`${props.invoice.status >= 2 && inputStyle} max-w-[64px] p-0 border text-center`}
+                         disabled={props.invoice.status >= 2}
+                         type="text"
+                         placeholder={item.qty}/>
+                  <div
+                    className="text-redBase">{(item.qty > stockItem?.qty && status === -2) && ` Stock QTY: ${stockItem?.qty}`}</div>
+                  {/*--for admin to update qty if no stock*/}
+                </div>
               </div>
               {/*name*/}
               <div className='flex-1'>

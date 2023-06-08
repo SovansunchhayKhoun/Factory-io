@@ -2,7 +2,7 @@ import React, {Fragment, useContext, useEffect, useState} from "react";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 import {InvoiceView} from "../../components/ui/InvoiceView.jsx";
 import {useAuthContext} from "../../context/AuthContext.jsx";
-import {Spinner} from "flowbite-react";
+import {Progress, Spinner} from "flowbite-react";
 import {
   Accordion,
   AccordionHeader,
@@ -31,6 +31,26 @@ export const OrderView = () => {
                           Order #{invoice.id}
                         </span>
           <PendingItem invoice={invoice}/>
+          <Progress
+            textLabelPosition='outside'
+            color={
+              invoice.status === -2 ? "red" :
+                invoice.status === -1 ? "yellow" :
+                  invoice.status === 1 ? "blue" :
+                    invoice.status === 2 ? "purple" : "green"
+            }
+            labelText={true} size="lg" textLabel={
+            invoice.status === -2 ? "Order Frozen" :
+              invoice.status === -1 ? "Pending" :
+                invoice.status === 1 ? "Accepted" :
+                  invoice.status === 2 ? "Delivering" : "Arrived"
+          } className="mb-3"
+            progress={
+              invoice.status === -2 ? 5 :
+                invoice.status === -1 ? 25 :
+                  invoice.status === 1 ? 50 :
+                    invoice.status === 2 ? 75 : 100
+            }/>
         </div>
       </>
     )
@@ -67,14 +87,14 @@ export const OrderView = () => {
       return (
         <main>
           <div className="mb-3">
-            <div className="font-bold mb-3">Orders</div>
-              {invoices?.filter((invoice) => invoice.user_id === user?.id).map((invoice) => {
-                return (
-                  <>
-                    <Invoice key={invoice?.id} invoice={invoice}/>
-                  </>
-                );
-              })}
+            {/*<div className="font-bold">Orders</div>*/}
+            {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status !== 3).map((invoice) => {
+              return (
+                <>
+                  <Invoice key={invoice?.id} invoice={invoice}/>
+                </>
+              );
+            })}
           </div>
           <div>
             <div className="font-bold mb-3 text-blackFactory">History</div>

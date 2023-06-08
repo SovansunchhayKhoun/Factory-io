@@ -43,10 +43,6 @@ export const AccordionHeaderContent = (props) => {
         </div>
       </div>
       <div className="flex flex-col items-center">
-        {/*<div className="text-xs text-redBase">*/}
-        {/*  /!**Insufficient Product Quantity*!/*/}
-        {/*  {noStock && 'Some of the products are out of stock'}*/}
-        {/*</div>*/}
         <div>
           Total Price: <span className="font-bold text-blueBase">${totalPrice}</span>
         </div>

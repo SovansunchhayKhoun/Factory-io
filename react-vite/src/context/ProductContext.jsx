@@ -36,7 +36,7 @@ export const ProductProvider = ({children}) => {
     qty: "",
     type: "",
     description: "",
-    feature:"",
+    feature: "",
     status: "",
     image: "",
   })
@@ -118,7 +118,7 @@ export const ProductProvider = ({children}) => {
         headers: {'Content-Type': "multipart/form-data"},
       });
       resetFormValues()
-      itemsQueryReFetch()
+      await itemsQueryReFetch()
       history.back()
     } catch (msg) {
       console.log(msg.response.data.errors);
@@ -129,9 +129,9 @@ export const ProductProvider = ({children}) => {
     }
   }
 
-  const updateProduct = async (cartItem) => {
-    const stockItem = items.find((item) => item.id === cartItem.product_id)
-    stockItem.qty = stockItem.qty - cartItem.qty;
+  const updateProduct = async (product) => {
+    const stockItem = items.find((item) => item.id === product.product_id)
+    stockItem.qty = stockItem.qty - product.qty;
     if (stockItem.qty === 0) {
       stockItem.status = 0;
     }
@@ -161,7 +161,6 @@ export const ProductProvider = ({children}) => {
       setFormValues,
       errors,
       storeItem,
-      // getItems,
       getItem,
       onChange,
       updateItem,

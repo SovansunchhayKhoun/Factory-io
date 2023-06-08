@@ -53,6 +53,8 @@ export const NavBar = (props) => {
   const readMessage = message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id && msg.is_read === 0 && msg.sender_id !== user.username);
   const orders = invoices?.filter((inv) => inv.user_id === user.id && inv.status !== 3);
 
+  // console.log(invoices?.filter(inv => inv.user_id === user.id))
+
   const [open, setOpen] = useState(0);
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
