@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from "react";
 import userContext from "../context/UserContext.jsx";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useAuthContext} from "../context/AuthContext.jsx";
 
 export const ChangePasswordView = () => {
@@ -9,12 +9,22 @@ export const ChangePasswordView = () => {
   useEffect(() => {
     getUser(user.id)
   },[])
+  const navigate = useNavigate();
   if(!isLoading){
     return (
       <>
-        <form className="mt-24">
-          <div className="flex items-center justify-center h-1/2 flex-col">
+        <form className="">
+          <button onClick={(e)=>{
+            e.preventDefault();
+            navigate(-1)}}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+            </svg>
+          </button>
+          <div className="flex items-center justify-center flex-col">
+            <div className="font-bold mb-6">Change Password</div>
             {errors?.data && <span className="bg-red-600 px-4 py-4 rounded-md text-sm text-white">{errors?.data.message}</span>}
+
             <div className="flex flex-col items-center justify-center">
               <div className="mb-2 w-[500px]">
                 <label className="text-sm">Old password</label>
