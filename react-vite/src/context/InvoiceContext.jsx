@@ -33,19 +33,17 @@ export const InvoiceProvider = ({children}) => {
   const [invoiceError, setInvoiceError] = useState([]);
   // const storeInvoice = async (total, cartItem, paymentPic, setModalOpen, setLoadingSuccess) => {
 
-  const validateInvoice = (e, cartItem, setSuccess) => {
+  const validateInvoice = (e, cartItem, setModalOpen) => {
     if(!address) {
-      console.log('no address')
       e.stopPropagation();
       cartItem.addressError = 'The Address field is required';
-      setSuccess(false);
+      setModalOpen(false);
       return false;
     }
     if (!paymentPic) {
-      console.log('no pic')
       e.stopPropagation()
       cartItem.paymentError = 'Please include payment picture'
-      setSuccess(false)
+      setModalOpen(false)
       return false;
     }
     scrollTop(0);

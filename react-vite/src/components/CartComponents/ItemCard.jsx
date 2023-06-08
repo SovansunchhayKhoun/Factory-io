@@ -3,7 +3,7 @@ import React, {useContext, useEffect, useState} from "react";
 import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 import {useAuthContext} from "../../context/AuthContext.jsx";
-import {Spinner, Tooltip} from "flowbite-react";
+import {Tooltip} from "flowbite-react";
 import ProductContext from "../../context/ProductContext.jsx";
 
 export const ItemCard = (props) => {

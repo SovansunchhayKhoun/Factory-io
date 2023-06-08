@@ -23,7 +23,7 @@ export const MakerLayout = () => {
           setUser(data)
           setIsLoading(false)
         }).catch((e) => {
-        if(e.response.status === 401) {
+        if (e.response.status === 401) {
           setIsLoading(false);
           setUser({})
           setToken(null);
@@ -35,7 +35,12 @@ export const MakerLayout = () => {
     <>
       <div className="min-h-screen flex flex-col overflow-auto">
         <NavBar/>
-        <main className="xl:px-12 xl:pt-24 xl:pb-8 lg:px-16 md:px-12 md:pt-16 md:pb-2 pb-6 px-6 pt-14">
+        <main className="
+          min-[1920px]:px-36
+          xl:pb-8
+          lg:px-16
+          md:px-6 md:pt-24 md:pb-2
+          pb-6 px-6 pt-16">
           <Outlet/>
         </main>
         <Footer/>

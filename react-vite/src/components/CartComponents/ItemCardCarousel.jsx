@@ -15,11 +15,17 @@ export const ItemCardCarousel = ({item}) => {
   return (
     <>
       {/*cart-item */}
-      <div className="max-w-[200px] border border-[#59C3CB] p-6 flex flex-col items-center">
-        <Link className="flex-1 text-center font-semibold text-xs" to={"/maker-io/" + id}>
+      <div className="max-w-[250px] border border-[#59C3CB] p-6 flex flex-col items-center">
+        <Link className="flex-1 text-center font-semibold text-xs" onClick={()=>{
+          getItem(id)
+          scrollTop(0)
+        }} to={"/maker-io/" + id}>
           {name}
         </Link>
-        <Link className="flex-2" to={"/maker-io/" + id}>
+        <Link className="flex-2" onClick={()=>{
+          getItem(id)
+          scrollTop(0)
+        }} to={"/maker-io/" + id}>
           {
             (image === null || image === undefined)
               ? <img className="hover:scale-75 ease-in-out duration-300" src="/assets/images/makerio.png" alt={name}/>
@@ -51,8 +57,8 @@ export const ItemCardCarousel = ({item}) => {
             </button>
           </div>
         </div>
-        <div className="text-redBase text-sm">{!token &&
-          <Link className={'text-blueActive cursor-pointer font-semibold'} to="/signup"> Sign Up</Link>}</div>
+        {/*<div className="text-redBase text-sm">{!token &&*/}
+        {/*  <Link className={'text-blueActive cursor-pointer font-semibold'} to="/signup"> Sign Up</Link>}</div>*/}
       </div>
 
       {/*cart-item */}

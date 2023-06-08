@@ -23,7 +23,7 @@ import {useNavigate} from "react-router-dom";
 export const NavBar = (props) => {
   const {token, user, onLogout, isLoading} = useAuthContext()
   const [searchInput, setSearchInput] = useState('')
-  const {itemsQueryReFetch, items,getItem} = useContext(ProductContext);
+  const {itemsQueryReFetch, items, getItem} = useContext(ProductContext);
   const {cartItem, getCartItem} = useContext(CartContext);
   const [filteredItem, setFilteredItem] = useState([])
   const {scrollTop} = useContext(InvoiceContext);
@@ -39,7 +39,6 @@ export const NavBar = (props) => {
       })
     )
   }
-
 
 
   useEffect(() => {
@@ -63,10 +62,10 @@ export const NavBar = (props) => {
 
   return (
     <nav className=" z-50 fixed top-0 flex flex-col w-full bg-whiteFactory
-    xl:px-36 xl:py-4
-    lg:px-12 lg:py-3
+    min-[1920px]:px-36 min-[1920px]:py-4
+    lg:px-16 lg:py-3
     md:px-6 md:py-2
-    px-2 py-2">
+    px-6 py-2">
       <section className="flex justify-between items-center w-full">
         {/*left section*/}
         <div className="md:flex md:flex-row md:items-center md:gap-x-2 flex gap-x-1 items-center">
@@ -112,7 +111,7 @@ export const NavBar = (props) => {
           <div
             className={`flex flex-col gap-4 z-10 border border-gray-200 rounded-md absolute bg-white top-[75px] lg:w-[384px] cursor-pointer ${searchInput === "" && 'hidden'}`}>
             {filteredItem?.length === 0 && <div className="mx-auto mt-2"> No item found</div>}
-            {filteredItem?.slice(0,5).map((item, key) => {
+            {filteredItem?.slice(0, 5).map((item, key) => {
               return (
                 <Link to={`maker-io/${item.id}`} onClick={e => {
                   e.stopPropagation()
@@ -120,9 +119,9 @@ export const NavBar = (props) => {
                   setSearchInput("")
                 }} key={key} className="px-4 py-2 flex flex-row justify-between items-center hover:bg-gray-100">
                   <p>
-                      {item.name}
-                    </p>
-                    <img className="w-[50px]" src={`http://127.0.0.1:8000/${item.image}`} alt={item.name}/>
+                    {item.name}
+                  </p>
+                  <img className="w-[50px]" src={`http://127.0.0.1:8000/${item.image}`} alt={item.name}/>
                 </Link>
               )
             })}
@@ -144,8 +143,7 @@ export const NavBar = (props) => {
 
           {/*cart icon*/}
           <div title="Cart" className="highlight-hover p-2 hover:rounded-md hover:bg-blackFactory/5 relative">
-            {
-              user['acc_type'] === 0 ?
+            {user['acc_type'] === 0 ?
                 <Link to="/admin/dashboard">
                   Dashboard
                 </Link>

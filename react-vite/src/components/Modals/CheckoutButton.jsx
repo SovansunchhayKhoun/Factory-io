@@ -24,78 +24,25 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  // width: 400,
   backgroundColor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
-  p: 4,
+  p: 2,
 }
 
 export default function CheckoutButton() {
+  const {getType} = useContext(ProductContext);
   const {cartItem, getCartItem, checkOut, totalPrice, success, setSuccess} = useContext(CartContext);
-  const {storeInvoice, paymentPic, setPaymentPic, scrollTop, validateInvoice} = useContext(InvoiceContext);
+  const {paymentPic, setPaymentPic, scrollTop, validateInvoice} = useContext(InvoiceContext);
   const {tempAddress, address} = useContext(GoogleMapsContext);
-
   const {user, token} = useAuthContext();
-  const [loadingSuccess, setLoadingSuccess] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+
 
   useEffect(() => {
     getCartItem();
     scrollTop(0);
   }, []);
-
-  const TickComponent = () => {
-    return (
-      <>
-        <img src="/assets/images/icons8-tick.gif" alt=""/>
-      </>
-    );
-  }
-
-  const Content = () => {
-    return (
-      <>
-        <div className={`bg-white w-[400px] h-[400px] flex justify-center ${!loadingSuccess && 'items-center'}`}>
-          {!loadingSuccess && <Spinner
-            size="xl"
-            color="purple"
-            aria-label="Purple spinner example"
-          />}
-          {loadingSuccess && (
-            <>
-              <div className="grid grid-rows-3 p-12">
-                <div className="mb-auto mx-auto">
-                  <img width={150} src="/assets/images/makerio.png" alt=""/>
-                </div>
-                <div className="flex flex-col justify-center items-center">
-                  <TickComponent/>
-                  <div className="font-semibold text-blueBase">
-                    Thanks for your order
-                  </div>
-                </div>
-                <div className="mt-auto">
-                  <p className="text-xs text-grayFactory text-center mb-3">
-                    *Press confirm to ensure that your order will reach us
-                  </p>
-                  <button onClick={() => {
-                    setModalOpen(false)
-                    // cartItem.forEach(async (item) => {
-                    //   await checkOut(item);
-                    // })
-                    // storeInvoice(totalPrice, cartItem, checkOut, paymentPic, setModalOpen, setLoadingSuccess);
-                  }}
-                          className="w-full transition duration-500 bg-blueBase text-whiteFactory px-2 py-1 rounded-md hover:bg-blueActive active:bg-bluehover">
-                    Confirm
-                  </button>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-      </>
-    )
-  }
 
   const navigate = useNavigate();
   if (cartItem.length > 0) {
@@ -103,93 +50,112 @@ export default function CheckoutButton() {
       <>
         <div>
           <button
-            className={`transition duration-500 hover:shadow-blueBase hover:shadow-md bg-redHover text-[18px] text-whiteFactory px-4 py-1 rounded-[20px]`}
+            className={` transition duration-500 hover:shadow-blueBase hover:shadow-md bg-redHover text-[18px] text-whiteFactory px-4 py-1 rounded-[20px]`}
             onClick={() => {
-              token ? totalPrice > 0 && setSuccess(true) : navigate('/login');
+              token ? totalPrice > 0 && setModalOpen(true) : navigate('/login');
             }}>
             Check out
           </button>
-          <AdminPopUp modalOpen={modalOpen} setModalOpen={setModalOpen} content={<Content/>} id={100}/>
           <Modal
-            open={success}
+            open={modalOpen}
             // onClose={setSuccess(false)}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description">
             <Box sx={style}>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Are you sure to proceed order?
-              </Typography>
-              <Typography component={'div'} id="modal-modal-description" sx={{mt: 2}}>
-                <div className="text-blackFactory  mb-3 font-semibold">
-                  <div className="flex flex-col pr-12 gap-2 mb-3">
-                    <div>Phone Number:
-                      {user?.phoneNumber}
-                    </div>
-                    <div>Username:
-                      {user?.username}
-                    </div>
-                    <div className={`bg-[#D9D9D9] px-2 py-1 rounded-lg`}>Address: {tempAddress}
-                    </div>
-                  </div>
-                  <div className={`flex mb-3 gap-x-6`}>
-                    <div className="flex-2">Item
-                      {cartItem?.map((i, pos) => <div key={pos} className="whitespace-nowrap">{i.name}</div>)}
-                    </div>
-                    <div>Type
-                      {cartItem?.map((i, pos) => <div key={pos} className="whitespace-nowrap">{i.type}</div>)}
-                    </div>
-                    <div>Qty
-                      {cartItem?.map((i, pos) => <div key={pos} className="whitespace-nowrap">{i.qty}</div>)}
-                    </div>
-                    <div>Price
-                      {cartItem?.map((i, pos) => <div key={pos} className="whitespace-nowrap">${i.price}</div>)}
-                    </div>
-                    <div>Total
-                      {cartItem?.map((i, pos) => <div key={pos}
-                                                      className="whitespace-nowrap">${i.cart_item_price}</div>)}
-                    </div>
-                  </div>
-                  <hr className="border-b-1 border-blackFactory rounded-lg"/>
-                  <div className={`accordion-item-body`}>
-                    <div>Grand Total</div>
-                    {/* for Grid*/}
-                    <div></div>
-                    {/* for Grid*/}
-                    <div></div>
-                    {/* for Grid*/}
-                    <div></div>
-                    <div>
-                      ${totalPrice}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex gap-x-3 justify-center mt-3">
-                  <button
-                    className={`transition duration-500 bg-tealActive text-whiteFactory px-1 py-2 min-w-[150px] rounded-md hover:bg-tealHover/80 active:bg-tealActive`}
-                    onClick={(e) => {
-                      if (token) {
-                        if (validateInvoice(e, cartItem, setSuccess)) {
-                          e.stopPropagation();
-                          setModalOpen(true);
-                          setLoadingSuccess(false);
-                          setSuccess(false);
-                          checkOut(cartItem, paymentPic);
-                          setPaymentPic('');
+              <div className="md:w-full w-[270px]">
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                  Are you sure to proceed order?
+                </Typography>
+                <Typography component={'div'} id="modal-modal-description" sx={{mt: 2}}>
+
+                  <section className="flex flex-col gap-3 text-blackFactory mb-3 font-semibold">
+
+                    <section className="text-sm flex">
+                      <div className="flex flex-col gap-2">
+                        <div>Username:
+                          {user?.username}
+                        </div>
+                        <div className={`bg-[#D9D9D9] w-[90%] px-2 py-1 rounded-lg`}>
+                          {tempAddress}
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <div>Phone Number:</div>
+                        <div>
+                          {user?.phoneNumber}
+                        </div>
+                      </div>
+                    </section>
+                    <section className="">
+                      {cartItem.map((i) => {
+                        return (
+                          <>
+                            <div className={`text-sm items-center flex gap-x-2`}>
+                              <div className="flex items-center">
+                                <div className="whitespace-nowrap">{i.qty}</div>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                                     stroke="currentColor"
+                                     className="w-4 h-4">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                              </div>
+                              <div className="flex-1">
+                                <div className="w-[70%]">{i.name}</div>
+                                <div className="whitespace-nowrap text-redHover">{getType(i?.type)}</div>
+                              </div>
+                              <div className="text-right ">
+                                <div className="whitespace-nowrap">${i.cart_item_price}</div>
+                              </div>
+                            </div>
+                          </>
+                        )
+                      })}
+                    </section>
+
+                    <hr className="border-b-1 border-blackFactory rounded-lg"/>
+                    <section className={`text-sm flex justify-between`}>
+                      <div>Grand Total</div>
+                      <div>
+                        ${totalPrice}
+                      </div>
+                    </section>
+                  </section>
+
+                  <section className="flex gap-x-3 justify-center mt-3">
+                    <button
+                      disabled={!success}
+                      className={`${!success && 'bg-tealHover'}
+                      flex justify-center gap-x-3 flex-1 transition duration-500 bg-tealActive text-whiteFactory py-2 rounded-md hover:bg-tealHover/80 active:bg-tealActive`}
+                      onClick={(e) => {
+                        if (token) {
+                          if (validateInvoice(e, cartItem, setModalOpen)) {
+                            e.stopPropagation();
+                            setSuccess(false);
+                            checkOut(cartItem, paymentPic, setModalOpen);
+                            setPaymentPic('');
+                          }
                         }
-                      }
-                    }}>Confirm
-                  </button>
-                  <button
-                    className={`transition duration-500 bg-redBase text-whiteFactory px-1 py-2 min-w-[150px] rounded-md hover:bg-redHover active:bg-redActive`}
-                    onClick={() => {
-                      setSuccess(false)
-                    }}>Cancel
-                  </button>
-                </div>
-                <p className="text-xs text-grayFactory text-center mt-3">
-                  *Once order is accepted, you cannot cancel it
-                </p>
-              </Typography>
+                      }}>
+                      <span>Confirm</span>
+                      <div className={`${success && 'hidden'}`}>
+                        {!success && <Spinner color="purple" size="md"/>}
+                      </div>
+                    </button>
+                    <button
+                      disabled={!success}
+                      className={`${!success && 'bg-redHover'}
+                      flex-1 transition duration-500 bg-redBase text-whiteFactory py-2 rounded-md hover:bg-redHover active:bg-redActive`}
+                      onClick={() => {
+                        setModalOpen(false)
+                      }}>Cancel
+                    </button>
+                  </section>
+
+                  <p className="text-xs text-grayFactory text-center mt-3">
+                    *Once order is accepted, you cannot cancel it
+                  </p>
+                </Typography>
+              </div>
             </Box>
           </Modal>
         </div>

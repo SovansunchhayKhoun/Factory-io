@@ -11,41 +11,48 @@ import {ProductReview} from "../../components/ProductReview.jsx";
 import {Spinner} from "flowbite-react";
 
 export const ItemView = (props) => {
-  const {id} = useParams();
-  useEffect(() => {
-    getItem(id);
-  }, [id]);
+  let {id} = useParams();
   const {item, getItem, items, itemsQueryReFetch, reviewsQueryReFetch, getType} = useContext(ProductContext);
   const {scrollTop} = useContext(InvoiceContext);
-
   useEffect(() => {
+    getItem(id);
     itemsQueryReFetch();
     reviewsQueryReFetch();
     scrollTop(0);
   }, []);
-  const {addToCart, cartItem} = useContext(CartContext);
-  const {token} = useAuthContext();
-  const itemCart = cartItem.find((i) => i.id === item?.id);
-  const currentQty = item.qty - (itemCart?.qty || 0);
-  let navigate = useNavigate();
+
   const responsive = {
+    largeDesktop: {
+      breakpoint: {max: 4000, min: 2560},
+      items: 12
+    },
     desktop: {
-      breakpoint: {min: 1280},
+      breakpoint: {max: 2560, min: 1536},
+      items: 6
+    },
+    xl: {
+      // the naming can be any, depends on you.
+      breakpoint: {max: 1536, min: 1280},
       items: 5
     },
-    laptop: {
-      breakpoint: {min: 1024},
-      items: 4,
+    lg: {
+      breakpoint: {max: 1280, min: 1024},
+      items: 4
     },
-    table: {
-      breakpoint: {min: 768},
+    md: {
+      breakpoint: {max: 1024, min: 768},
       items: 3
     },
-    mobile: {
-      breakpoint: {max: 767},
+    sm: {
+      breakpoint: {max: 640, min: 0},
       items: 1
     }
   };
+
+  const {addToCart, cartItem} = useContext(CartContext);
+  const itemCart = cartItem.find((i) => i.id === item.id);
+  const currentQty = item.qty - (itemCart?.qty || 0);
+  let navigate = useNavigate();
   return (
     <>
       <div className="w-[50%] flex items-center justify-between">
@@ -101,16 +108,13 @@ export const ItemView = (props) => {
         </div>
       </section>
       <ProductReview item={item}/>
-      <div className="mt-16 mb-16">
-        <div className="mb-3 text-tealHover font-semibold">Related items</div>
-        <Carousel
-          itemClass={'flex justify-center'} responsive={responsive}>
-          {items?.filter(itemFiltered => itemFiltered?.type === item?.type && itemFiltered?.id !== item?.id)
+      <div className="mt-16">
+        <div className="mb-6 text-tealHover font-semibold">Related items</div>
+        <Carousel itemClass={'flex justify-center'} responsive={responsive}>
+          {items?.filter(itemFilter => itemFilter.type === item.type && itemFilter.id !== item.id)
             .map((item, key) => {
               return (
-                <>
-                  <ItemCardCarousel item={item} key={key}/>
-                </>
+                <ItemCardCarousel item={item} key={key}/>
               )
             })}
         </Carousel>

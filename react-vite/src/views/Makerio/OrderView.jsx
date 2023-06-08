@@ -59,14 +59,14 @@ export const OrderView = () => {
 
     if (invoices?.filter((invoice) => invoice.user_id === user?.id).length === 0) {
       return (
-        <div>
+        <main>
           No orders have been placed yet <Link to={'/maker-io'}></Link>
-        </div>
+        </main>
       );
     } else {
       return (
-        <>
-          <div className="xl:p-0 md:py-6 py-2 mb-3">
+        <main>
+          <div className="mb-3">
             <div className="font-bold mb-3">Orders</div>
               {invoices?.filter((invoice) => invoice.user_id === user?.id).map((invoice) => {
                 return (
@@ -92,15 +92,15 @@ export const OrderView = () => {
               }
             )}
           </div>
-        </>
+        </main>
       );
     }
   } else {
     return (
-      <div>
+      <main>
         <Link to={'/login'}>Sign in</Link>
         <Link to={'/signup'}>Sign Up</Link>
-      </div>
+      </main>
     );
   }
 };

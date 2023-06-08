@@ -48,7 +48,7 @@ function AdminPopUp({id, modalOpen, setModalOpen, content}) {
       {/* Modal dialog */}
       <Transition
         id={id}
-        className="fixed inset-0 z-50 overflow-hidden flex items-center top-[50%] left-[50%] translate-x-[-50%] h-full translate-y-[-50%] mb-4 justify-center transform px-4 sm:px-6"
+        className="w-full fixed inset-0 z-50 overflow-hidden flex items-center top-[50%] left-[50%] translate-x-[-50%] h-full translate-y-[-50%] mb-4 justify-center transform px-4 sm:px-6"
         role="dialog"
         aria-modal="true"
         show={modalOpen}

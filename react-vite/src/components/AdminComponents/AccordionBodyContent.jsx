@@ -19,7 +19,7 @@ export const AccordionBodyContent = (props) => {
   const [longitude, setLongitude] = useState(0);
   const {invProd, setInvProd} = props;
   const {id, date, totalPrice, status, address, invoice_product, user, placeId} = props.invoice;
-  const {items} = useContext(ProductContext);
+  const {items, getType} = useContext(ProductContext);
   const {handleQty} = useContext(InvoiceContext);
   const [open, setOpen] = useState(0);
   const handleOpen = async (value) => {
@@ -33,36 +33,31 @@ export const AccordionBodyContent = (props) => {
   };
 
   return (
-    <div className="text-blackFactory font-semibold">
-      <div className="lg:px-6 px-2">
-
-        <div className="flex justify-between mb-3 lg:text-base md:text-sm text-xs">
-          <div className="font-bold">Order ID: {id}</div>
-          <div className="text-tealActive">
-            {status === -1 && 'Pending'}
-            {status === 1 && 'Accepted'}
-            {status === 2 && 'Delivering'}
-            {status === 3 && 'Arrived'}
-          </div>
-        </div>
-
-        <div className="lg:text-sm md:text-xs grid grid-cols-2 lg:pr-16 gap-2 mb-3">
-          <div>Order Date: {date}</div>
-          <div>Phone Number: {user[0].phoneNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "-")}
-          </div>
-          <div>Username: {user[0].username}
-          </div>
-          <div className={`flex justify-between bg-[#D9D9D9] px-2 py-1 rounded-lg`}>
-            <div>
-              Address: {address}
+    <div className="text-blackFactory px-2 flex flex-col gap-1 font-semibold">
+      <section className="">
+        <div className="
+          flex flex-col
+          lg:text-base md:text-sm
+          text-[10px]
+          gap-2 mb-3">
+          <div className="flex justify-between">
+            <div>Username: {user[0].username}</div>
+            <div>Phone Number: {user[0].phoneNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "-")}
             </div>
-            <button>
+          </div>
+          {/*<div>Order Date: {date}</div>*/}
+          <div className={`flex items-center justify-between bg-[#D9D9D9] px-2 py-1 rounded-lg`}>
+            <div>
+              {address}
+            </div>
+            <div className="">
               <Fragment>
                 <Accordion open={open === 1}>
                   <AccordionHeader className="border-0 p-0" onClick={() => handleOpen(1)}>
-                    <div>
+                    <div className="">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                           stroke="currentColor" className={`w-6 h-6`}>
+                           stroke="currentColor" className={`md:w-6 md:h-6
+                           w-4 h-4`}>
                         <path className="text-tealHover" strokeLinecap="round" strokeLinejoin="round"
                               d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
                       </svg>
@@ -70,19 +65,21 @@ export const AccordionBodyContent = (props) => {
                   </AccordionHeader>
                 </Accordion>
               </Fragment>
-            </button>
+            </div>
           </div>
+
         </div>
 
 
         <div>
           <Fragment>
-            <Accordion open={open === 1}>
+            {/*<Accordion open={open === 1}>*/}
+            <Accordion open={true}>
               <AccordionBody className={`mt-2 border-0 p-0 ${open ? '' : 'hidden'}`}>
                 <GoogleMap
                   center={{lat: latitude, lng: longitude}}
                   zoom={15}
-                  mapContainerStyle={{width: 100 + "%", height: 400 + "px"}}
+                  mapContainerStyle={{width: 100 + "%", height: 200 + "px"}}
                   onLoad={map => setMap(map)}
                   options={{
                     disableDefaultUI: true,
@@ -96,82 +93,67 @@ export const AccordionBodyContent = (props) => {
             </Accordion>
           </Fragment>
         </div>
-      </div>
-      <div className={`accordion-item-body lg:text-sm md:text-xs mb-3`}>
-        <div>Item
-          {
-            invoice_product.map((item) => {
-              return (
-                <div key={item.id}>
-                  {item.products.map((product) => {
-                    return <div key={product.id}>{product.name}</div>
-                  })}
-                </div>
-              )
-            })
-          }
-        </div>
 
-        <div>Type
-          {
-            invoice_product.map((item) => {
-              return (
-                <div key={item.id}>
-                  {item.products.map((product) => {
-                    return <div key={product.id}>{product.type}</div>
+      </section>
+      {invoice_product.map((item) => {
+        const stockItem = items?.find((i) => i.id === item.product_id);
+        const inputStyle = 'border-none'
+        const {products} = item;
+        return (
+          <>
+            <section key={item.id} className="
+              flex gap-4 items-center justify-between
+              lg:text-base md:text-sm
+              text-[10px]">
+              {/*qty*/}
+              <div className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                     stroke="currentColor"
+                     className="w-4 h-4">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+                {/*for user view*/}
+                <div className="lg:max-w-[32px] lg:text-sm md:text-xs md:max-w-[20px] max-w-[12px]">
+                  {item.qty}
+                </div>
+                {/*--for user view*/}
+                {/*for admin to update qty if no stock*/}
+                <input onChange={handleQty(invProd, setInvProd, item)}
+                       min="1"
+                       className={`${props.invoice.status >= 2 && inputStyle}
+                       ${user[0]?.acc_type === 1 ? 'hidden' : 'max-w-[64px]'}
+                       p-0 border text-center`}
+                       disabled={props.invoice.status >= 2}
+                       type="text"
+                       placeholder={item.qty}/>
+                <span
+                  className="text-redBase">{(item.qty > stockItem?.qty && status === -2) && ` Stock QTY: ${stockItem?.qty}`}</span>
+                {/*--for admin to update qty if no stock*/}
+              </div>
+              {/*name*/}
+              <div className='flex-1'>
+                <div>
+                  {products.map((product) => {
+                    return product.name
                   })}
                 </div>
-              )
-            })
-          }</div>
-        <div>Qty
-          {invoice_product.map((item) => {
-            const stockItem = items?.find((i) => i.id === item.product_id);
-            const inputStyle = 'border-none'
-            return (
-              <>
-                <div key={item.id}>
-                  <input onChange={handleQty(invProd, setInvProd, item)}
-                         min="1"
-                         className={`${props.invoice.status >= 2 && inputStyle} p-0 border text-center ${user[0]?.acc_type === 1 ?
-                           'lg:max-w-[32px] lg:text-sm md:text-xs md:max-w-[24px]' :
-                           'max-w[64px]'}`}
-                         disabled={props.invoice.status >= 2}
-                         type="text"
-                         placeholder={item.qty}/>
-                  <span
-                    className="text-redBase">{(item.qty > stockItem?.qty && status === -2) && ` Stock QTY: ${stockItem?.qty}`}</span>
-                </div>
-              </>
-            );
-          })}
-        </div>
-        <div>Price
-          {
-            invoice_product.map((item) => {
-              return (
-                <div key={item.id}>
-                  {item.products.map((product) => {
-                    return <div key={product.id}>${product.price}</div>
+                {/*type*/}
+                <div className={"text-redHover"}>
+                  {products.map((product) => {
+                    return getType(product?.type)
                   })}
                 </div>
-              )
-            })
-          }</div>
-        <div>Sub-total
-          {invoice_product.map((item) => <div key={item.id}>${item.cart_item_price}</div>)}
-        </div>
-
-      </div>
+              </div>
+              {/*subtotal*/}
+              <div className={""}>${item.cart_item_price}</div>
+            </section>
+          </>
+        );
+      })}
       <hr className="border-b-1 border-blackFactory rounded-lg"/>
-      <div className={`accordion-item-body lg:text-base md:text-xs`}>
+      <div className={`flex justify-between
+      lg:text-base md:text-sm text-[12px]`}>
         <div>Grand Total</div>
-        <div></div>
-        {/* for Grid*/}
-        <div></div>
-        {/* for Grid*/}
-        <div></div>
-        {/* for Grid*/}
         <div>${totalPrice}</div>
       </div>
     </div>

@@ -9,18 +9,15 @@ const ProductContext = createContext();
 
 export const ProductProvider = ({children}) => {
   const [reviews, setReviews] = useState([]);
+  const [items, setItems] = useState([]);
+  const [pageSum, setPageSum] = useState(1);
+  const [page, setPage] = useState(1);
   const {data: reviewsQuery, refetch: reviewsQueryReFetch} = useQuery(['reviews'], () => {
     return Axios.get('reviews').then((res) => {
       setReviews(res.data.data);
       return res.data.data;
     });
   });
-  const [items, setItems] = useState([]);
-  const [item, setItem] = useState({});
-  const [searchInput, setSearchInput] = useState('')
-  const [page, setPage] = useState(1);
-  const [pageSum, setPageSum] = useState(1);
-  const [errors, setErrors] = useState([]);
   const {data: itemsQuery, refetch: itemsQueryReFetch, isLoading: itemsLoading} = useQuery(['items', page], () => {
       return Axios.get(`products?page=${page}`).then((res) => {
         setPageSum(res.data.meta.last_page)
@@ -30,6 +27,9 @@ export const ProductProvider = ({children}) => {
     }, {keepPreviousData: true}
   );
 
+  const [item, setItem] = useState({});
+  const [searchInput, setSearchInput] = useState('')
+  const [errors, setErrors] = useState([]);
   const [formValues, setFormValues] = useState({
     name: "",
     price: "",
