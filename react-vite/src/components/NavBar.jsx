@@ -17,12 +17,30 @@ import {DropdownMenu} from "./ui/NavBarui/DropdownMenu.jsx";
 import AdminPopUp from "./Modals/AdminPopUp.jsx";
 import {CustomerService} from "../views/Makerio/CustomerService.jsx";
 import {Spinner} from "flowbite-react";
+import {useNavigate} from "react-router-dom";
 
 
 export const NavBar = (props) => {
   const {token, user, onLogout, isLoading} = useAuthContext()
-  const {itemsQueryReFetch, setSearchInput} = useContext(ProductContext);
+  const [searchInput, setSearchInput] = useState('')
+  const {itemsQueryReFetch, items,getItem} = useContext(ProductContext);
   const {cartItem, getCartItem} = useContext(CartContext);
+  const [filteredItem, setFilteredItem] = useState([])
+  const {scrollTop} = useContext(InvoiceContext);
+  const handleSearchInput = (e) => {
+    setSearchInput(e.target.value)
+    setFilteredItem(
+      items?.filter((item) => {
+        if (searchInput !== "") {
+          if (item?.name.toLowerCase().includes(searchInput.toLowerCase()) || item?.type.toLowerCase().includes(searchInput.toLowerCase())) {
+            return item
+          }
+        }
+      })
+    )
+  }
+
+
 
   useEffect(() => {
     itemsQueryReFetch();
@@ -85,11 +103,30 @@ export const NavBar = (props) => {
           <input type="text"
                  placeholder="Search..."
                  className="w-[100%] px-12 search-bar py-1 border-none"
+                 value={searchInput}
                  onChange={event => {
-                   setSearchInput(event.target.value)
+                   handleSearchInput(event)
                  }}/>
           {/*<div className="">*/}
           {/*</div>*/}
+          <div
+            className={`flex flex-col gap-4 z-10 border border-gray-200 rounded-md absolute bg-white top-[75px] lg:w-[384px] cursor-pointer ${searchInput === "" && 'hidden'}`}>
+            {filteredItem?.length === 0 && <div className="mx-auto mt-2"> No item found</div>}
+            {filteredItem?.slice(0,5).map((item, key) => {
+              return (
+                <Link to={`maker-io/${item.id}`} onClick={e => {
+                  e.stopPropagation()
+                  getItem(item.id)
+                  setSearchInput("")
+                }} key={key} className="px-4 py-2 flex flex-row justify-between items-center hover:bg-gray-100">
+                  <p>
+                      {item.name}
+                    </p>
+                    <img className="w-[50px]" src={`http://127.0.0.1:8000/${item.image}`} alt={item.name}/>
+                </Link>
+              )
+            })}
+          </div>
         </div>
         {/*right section*/}
         <div className="md:flex md:items-center md:gap-x-2 hidden">
