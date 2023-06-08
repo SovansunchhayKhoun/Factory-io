@@ -10,7 +10,7 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'price', 'qty', 'status', 'type', 'description', 'image',
+        'name', 'price', 'qty', 'status', 'type', 'description','feature', 'image',
     ];
 
     public function Invoice()

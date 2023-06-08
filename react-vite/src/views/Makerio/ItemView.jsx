@@ -85,8 +85,9 @@ export const ItemView = (props) => {
 
           {/*Description*/}
           <div className="sm:max-w-[80%] w-full">
-            <p dangerouslySetInnerHTML={{__html: item.description}}
-               className="lg:text-lg md:text-base text-sm mb-3 text-blackFactory"/>
+            <pre className="lg:text-lg md:text-base text-sm mb-3 text-blackFactory font-Poppins">
+              {item.description}
+            </pre>
           </div>
           <div className="mt-auto flex justify-end items-center">
             <button

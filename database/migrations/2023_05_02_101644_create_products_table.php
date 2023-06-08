@@ -21,6 +21,7 @@ return new class extends Migration
             $table->tinyInteger('status')->default(1);
             $table->string('type')->nullable();
             $table->longText('description')->nullable();
+            $table->text('feature')->nullable();
             $table->longText('image')->nullable();
             $table->timestamps();
         });

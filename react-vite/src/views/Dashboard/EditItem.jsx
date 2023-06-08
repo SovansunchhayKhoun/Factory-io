@@ -20,6 +20,7 @@ export const EditItem = () => {
     formData.append('name',formValues['name'])
     formData.append('type',formValues['type'])
     formData.append('description',formValues['description'])
+    formData.append('feature',formValues['feature'])
     formData.append('qty',formValues['qty'])
     formData.append('price',formValues['price'])
     formData.append('status',formValues['status'])
@@ -65,7 +66,7 @@ export const EditItem = () => {
             <input type="number" name="price" id="price"
                    value={formValues['price']}
                    onChange={onChange}
-                   min="1"
+                   step={0.99}
                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                    required/>
           </div>
@@ -79,13 +80,22 @@ export const EditItem = () => {
                    required/>
           </div>
           <div>
-            <label htmlFor="ProductName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Description</label>
-            <input name="description" id="description"
+            <textarea name="description" id="description"
                    value={formValues['description']}
                    onChange={onChange}
                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                    required/>
+          </div>
+          <div>
+            <label htmlFor="feature" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Feature</label>
+            <textarea name="feature" id="feature"
+                      value={formValues['feature']}
+                      onChange={onChange}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                      required/>
           </div>
           <input name="image" id="image"
                  type="file"

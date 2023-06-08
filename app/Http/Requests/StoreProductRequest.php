@@ -30,6 +30,7 @@ class StoreProductRequest extends FormRequest
             'type' => ['required'],
             'status' => ['nullable'],
             'description' => ['required'],
+            'feature' => ['required'],
             'qty' => ['required', 'numeric', 'min:0 '],
             'image' => ['required'],
         ];

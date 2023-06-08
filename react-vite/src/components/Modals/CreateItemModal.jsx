@@ -20,6 +20,7 @@ function CreateItemModal({
   const [qty,setQty] =useState("");
   const [type,setType] = useState("");
   const [description,setDescription] = useState("");
+  const [feature,setFeature] = useState("");
   const [image,setImage] = useState("");
 
   const submit = async (e) => {
@@ -30,6 +31,7 @@ function CreateItemModal({
     formValues.append("qty", qty);
     formValues.append("type", type);
     formValues.append("description", description);
+    formValues.append("feature",feature);
     formValues.append("image", image);
     formValues.append("status", 1);
     storeItem(formValues)
@@ -115,7 +117,7 @@ function CreateItemModal({
               <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Price</label>
               {errors.price && <span className="text-sm text-red-400">{errors.price[0]}</span>}
-              <input type="number" name="price" id="price"
+              <input type="number" step={0.99} name="price" id="price"
                      onChange={(e) => setPrice(e.target.value)}
                      min="1"
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
@@ -131,13 +133,24 @@ function CreateItemModal({
                      required/>
             </div>
             <div>
-              <label htmlFor="ProductName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Description</label>
               {errors.description && <span className="text-sm text-red-400">{errors.description[0]}</span>}
-              <input name="description" id="description"
+              <textarea name="description" id="description"
+                     value={description}
                      onChange={(e) => setDescription(e.target.value)}
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                      required/>
+            </div>
+            <div>
+              <label htmlFor="feature" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Feature</label>
+              {errors.description && <span className="text-sm text-red-400">{errors.description[0]}</span>}
+              <textarea name="feature" id="feature"
+                        value={feature}
+                        onChange={(e) => setFeature(e.target.value)}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                        required/>
             </div>
             <div>
               <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

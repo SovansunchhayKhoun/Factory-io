@@ -36,6 +36,7 @@ export const ProductProvider = ({children}) => {
     qty: "",
     type: "",
     description: "",
+    feature:"",
     status: "",
     image: "",
   })
@@ -78,6 +79,7 @@ export const ProductProvider = ({children}) => {
       type: apiItem.type,
       price: apiItem.price,
       description: apiItem.description,
+      feature: apiItem.feature,
       image: apiItem.image,
       status: apiItem.status,
     })
@@ -116,6 +118,7 @@ export const ProductProvider = ({children}) => {
         headers: {'Content-Type': "multipart/form-data"},
       });
       resetFormValues()
+      itemsQueryReFetch()
       history.back()
     } catch (msg) {
       console.log(msg.response.data.errors);

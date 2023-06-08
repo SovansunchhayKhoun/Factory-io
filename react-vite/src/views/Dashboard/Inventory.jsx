@@ -6,12 +6,19 @@ import {ItemRow} from "../../components/ItemRow.jsx";
 // import CreateItemModal from "../../components/Modals/CreateItemModal.jsx";
 import AdminPopUp from "../../components/Modals/AdminPopUp.jsx";
 import CreateItemModal from "../../components/Modals/CreateItemModal.jsx";
+import {useQuery} from "@tanstack/react-query";
+import Axios from "axios";
 
 
 export const Inventory = () => {
-  const {items, itemsQueryReFetch} = useContext(ProductContext)
+  const {data: items, refetch} = useQuery(['items'], () => {
+      return Axios.get('getAllItems').then((res) => {
+        return res.data.data;
+      });
+    }, {keepPreviousData: true}
+  );
   useEffect(() => {
-    itemsQueryReFetch();
+    refetch()
   }, []);
   const [createItemModalOpen, setCreateItemModalOpen] = useState(false)
   const [searchInput,setSearchInput] = useState('')
@@ -41,11 +48,14 @@ export const Inventory = () => {
             <th scope="col" className="px-6 py-3">
               Qty
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-8 py-3">
               Price
             </th>
             <th scope="col" className="px-6 py-3">
               Description
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Feature
             </th>
             <th scope="col" className="px-12 py-3">
               Image
@@ -64,6 +74,8 @@ export const Inventory = () => {
                 <td className="px-6 py-4">
                 </td>
                 <td className="px-6 py-4">
+                </td>
+                <td className="px-8 py-4">
                 </td>
                 <td className="px-6 py-4">
                 </td>

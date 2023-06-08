@@ -10,7 +10,7 @@ export const ItemRow = (props) => {
     itemsQueryReFetch();
   }
 
-  const {id,name,qty,price,description,image} = props.item
+  const {id,name,qty,price,description,image,feature} = props.item
     return (
         <>
           <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
@@ -26,7 +26,23 @@ export const ItemRow = (props) => {
             <td className="px-6 py-4">
               $ {price}
             </td>
-            <td dangerouslySetInnerHTML={{__html: description}} className="px-6 py-4">
+            <td>
+              <textarea
+                defaultValue={description}
+                rows="8"
+                cols="30"
+                disabled={true}
+                className="block p-2.5 w-full h-full text-sm border-none resize-none">
+              </textarea>
+            </td>
+            <td>
+              <textarea
+                defaultValue={feature}
+                rows="8"
+                cols="30"
+                disabled={true}
+                className="block p-2.5 w-full h-full text-sm border-none resize-none">
+              </textarea>
             </td>
             <td className="px-6 py-4">
               {
