@@ -8,23 +8,25 @@ Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const ChatContext = createContext();
 export const ChatProvider = ({children}) => {
   const {user} = useAuthContext();
-  const [chatCopy, setChatCopy] = useState([]);
-  const {data: chat, refetch: chatReFetch, isLoading: chatLoading} = useQuery(['chat'], () => {
+  // const [chatCopy, setChatCopy] = useState([]);
+  const {data: chats, refetch: chatReFetch, isLoading: chatLoading} = useQuery(['chat'], () => {
     return Axios.get('chat').then((res) => {
-      setChatCopy(res.data.data);
+      // setChatCopy(res.data.data);
       return res.data.data;
     });
   })
   const {data: message, refetch: messageReFetch, isLoading: messageLoading} = useQuery(['message'], () => {
     return Axios.get('message').then((res) => res.data.data);
   });
-  const [messageImage,setMessageImage] = useState('')
+  const [messageImage, setMessageImage] = useState('')
   const [messagePost, setMessagePost] = useState({});
 
   const checkChatExist = (newChat) => {
-    return chatCopy.some((copy) => {
-      return (copy.sender_id === newChat.sender_id && copy.receiver_id === newChat.receiver_id) || (copy.sender_id === newChat.receiver_id && copy.receiver_id === newChat.sender_id)
-    })
+    if (!chatLoading) {
+      return chats.some((copy) => {
+        return (copy.sender_id === newChat.sender_id && copy.receiver_id === newChat.receiver_id) || (copy.sender_id === newChat.receiver_id && copy.receiver_id === newChat.sender_id)
+      })
+    }
   };
 
   const getLatestMessage = (sender, receiver) => {
@@ -58,11 +60,12 @@ export const ChatProvider = ({children}) => {
       } catch (msg) {
         console.log(msg.response.data.errors);
       }
+    } else {
+      return;
     }
   };
-
   const findChat = (sender, receiver) => {
-    return chatCopy.find((chat) => ((chat.sender_id === sender && chat.receiver_id === receiver) || (chat.sender_id === receiver && chat.receiver_id === sender)));
+    return chats?.find((chat) => ((chat.sender_id === sender && chat.receiver_id === receiver) || (chat.sender_id === receiver && chat.receiver_id === sender)));
   }
 
   const handleMessage = (event, setMessageInput) => {
@@ -81,13 +84,13 @@ export const ChatProvider = ({children}) => {
   const sendMessage = async (sender, receiver, setMessageInput) => {
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
-    if(messageImage !== '' || messagePost.msg_content) {
-      messagePost.image= messageImage;
-      messagePost.receiver_id= receiver;
-      messagePost.chat_id= findChat(user?.username, receiver)?.id;
-      messagePost.sender_id= user?.username;
-      messagePost.time_sent= currentDate;
-      messagePost.is_read= 0;
+    if (messageImage !== '' || messagePost.msg_content) {
+      messagePost.image = messageImage;
+      messagePost.receiver_id = receiver;
+      messagePost.chat_id = findChat(user?.username, receiver)?.id;
+      messagePost.sender_id = user?.username;
+      messagePost.time_sent = currentDate;
+      messagePost.is_read = 0;
       setMessagePost({...messagePost});
       try {
         await Axios.post('message', messagePost, {
@@ -110,7 +113,7 @@ export const ChatProvider = ({children}) => {
         getLatestMessage,
         findChat,
         initChat,
-        chat,
+        chats,
         handleMessage,
         chatReFetch,
         sendMessage,

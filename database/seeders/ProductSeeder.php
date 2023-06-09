@@ -69,7 +69,7 @@ Accuracy: ±1°C and ±1%' ,
         'price' => 2.5 ,
         'qty' => 10 ,
         'status' => 1 ,
-        'type' => 'microcontroller' ,
+        'type' => 'arduino' ,
         'description' => 'MICROCONTROLLER   ATmega328P
           USB CONNECTOR   USB-B
           PINS  BUILT-IN LED PIN  13
@@ -112,7 +112,7 @@ Accuracy: ±1°C and ±1%' ,
         'price' => 2.5 ,
         'qty' => 10 ,
         'status' => 1 ,
-        'type' => 'microcontroller' ,
+        'type' => 'arduino' ,
         'description' => 'Operating Voltage (logic level): 5V
 8 analog inputs ports: A0 ~ A7
 14 Digital input / output ports: TX, RX, D2 ~ D13

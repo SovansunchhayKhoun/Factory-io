@@ -64,8 +64,8 @@ export const ProductProvider = ({children}) => {
         return 'Arduino';
       case 'steam':
         return 'Steam';
-      // default:
-      //   return 'Not Labeled'
+      default:
+        return type;
     }
   }
 

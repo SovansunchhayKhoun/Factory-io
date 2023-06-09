@@ -1,42 +1,45 @@
-import {Link} from "react-router-dom";
 import {ItemCard} from "../../components/CartComponents/ItemCard.jsx";
-import {useNavigate} from "react-router-dom";
 import React, {Fragment, Suspense, useContext, useEffect, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
-import CartContext from "../../context/CartContext.jsx";
 import {Pagination} from "@mui/material";
-import {Footer} from "../../components/Footer.jsx";
 import {Spinner} from "flowbite-react";
 import {Dropdown} from "flowbite-react";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
 import Axios from "axios";
+import {useQuery} from "@tanstack/react-query";
 
 export const MakerLanding = () => {
     const {
-      itemsQuery,
-      setItems,
       items,
+      setItems,
+      itemsLoading,
       searchInput,
       setSearchInput,
-      itemsQueryReFetch,
-      itemsLoading,
       setPage,
       page,
       pageSum,
+      setPageSum,
       getType,
+      itemsQueryReFetch
     } = useContext(ProductContext);
 
-    const [open, setOpen] = useState(0);
     const handlePage = async (event, value) => {
       scrollTo({top: 0, behavior: "smooth"})
       setPage(value);
     }
 
-    const handleOpen = (value) => {
-      setOpen(open === value ? 0 : value);
-    };
-    const [category, setCategory] = useState('All');
+    const [data, setData] = useState([...items]);
 
+    useEffect(() => {
+      scrollTo({top: 0, behavior: "smooth"})
+      searchInput ? setData(items.filter(item => item.type === searchInput)) : setData([...items]);
+      itemsQueryReFetch();
+    }, [searchInput]);
+
+    useEffect(() => {
+      searchInput && setPageSum(Math.ceil(items?.length / 10))
+    }, [items]);
+
+    const [category, setCategory] = useState('All');
     useEffect(() => {
       setCategory(getType(searchInput));
     }, [searchInput])
@@ -44,8 +47,8 @@ export const MakerLanding = () => {
     const CateLabel = () => {
       return (
         <span className="font-bold text-tealHover">
-        {category}
-      </span>
+          {category}
+        </span>
       );
     }
     const loading = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -73,7 +76,6 @@ export const MakerLanding = () => {
             <div className="w-[270px]">
               <Dropdown.Item className="highlight-hover font-bold" onClick={() => {
                 setSearchInput('')
-                // setCategory('All');
               }}>
                 <div className={`${searchInput === '' && 'text-tealHover'}`}>
                   All
@@ -81,7 +83,6 @@ export const MakerLanding = () => {
               </Dropdown.Item>
               <Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {
                 setSearchInput('sensor')
-                // setCategory('Sensors');
               }}>
                 <div className={`${searchInput === 'sensor' && 'text-tealHover'}`}>
                   Sensors
@@ -89,7 +90,6 @@ export const MakerLanding = () => {
               </Dropdown.Item>
               <Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {
                 setSearchInput('microcontroller')
-                // setCategory('Micro-Controllers');
               }}>
                 <div className={`${searchInput === 'microcontroller' && 'text-tealHover'}`}>
                   Micro-Controller
@@ -97,7 +97,6 @@ export const MakerLanding = () => {
               </Dropdown.Item>
               <Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {
                 setSearchInput('arduino')
-                // setCategory('Arduino');
               }}>
                 <div className={`${searchInput === 'arduino' && 'text-tealHover'}`}>
                   Arduino
@@ -105,7 +104,6 @@ export const MakerLanding = () => {
               </Dropdown.Item>
               <Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {
                 setSearchInput('steam')
-                // setCategory('Steam');
               }}>
                 <div className={`${searchInput === 'steam' && 'text-tealHover'}`}>Steam
                 </div>
@@ -120,16 +118,27 @@ export const MakerLanding = () => {
           md:grid-cols-2 md:px-12
         ">
             {loading.map(l => <LoadingItem key={l}/>)}
-            {items?.filter((item) => {
-              if (searchInput === "") {
-                return item;
-              } else if (searchInput !== "") {
-                if (item.name?.toLowerCase().includes(searchInput.toLowerCase()) || item.type.toLowerCase().includes(searchInput.toLowerCase()))
-                  return item;
-              }
+            {/*{items?.filter(item => {*/}
+            {/*  if (searchInput)*/}
+            {/*    return item.type === searchInput;*/}
+            {/*  return item;*/}
+            {/*}).map((item, key) => {*/}
+            {/*  return (*/}
+            {/*    <>*/}
+            {/*      <ItemCard key={key} item={item}/>*/}
+            {/*    </>*/}
+            {/*  );*/}
+            {/*})}*/}
+            {data.length === 0 && <div>No items found</div>}
+            {data?.filter(item => {
+              if (searchInput)
+                return item.type === searchInput;
+              return item;
             }).map((item, key) => {
               return (
-                <ItemCard key={key} item={item}/>
+                <>
+                  <ItemCard key={key} item={item}/>
+                </>
               );
             })}
           </div>
