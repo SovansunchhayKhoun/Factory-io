@@ -4,13 +4,12 @@ import ProductContext from "../context/ProductContext.jsx";
 import Axios from "axios";
 
 export const ItemRow = (props) => {
-  const {itemsQueryReFetch} = useContext(ProductContext)
   const deleteItem = async (id) => {
     await Axios.delete("http://127.0.0.1:8000/api/v1/products/" + id)
-    itemsQueryReFetch();
+    location.reload()
   }
 
-  const {id,name,qty,price,description,image,feature} = props.item
+  const {id,name,qty,price,description,image,feature,type} = props.item
     return (
         <>
           <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
@@ -26,23 +25,28 @@ export const ItemRow = (props) => {
             <td className="px-6 py-4">
               $ {price}
             </td>
-            <td>
-              <textarea
-                defaultValue={description}
-                rows="8"
-                cols="30"
-                disabled={true}
-                className="block p-2.5 w-full h-full text-sm border-none resize-none">
-              </textarea>
+            <td className="px-6 py-4">
+               {type}
+            </td>
+            <td className="px-6 py-4">
+              {description}
+              {/*<textarea*/}
+              {/*  defaultValue={description}*/}
+              {/*  rows="8"*/}
+              {/*  cols="30"*/}
+              {/*  disabled={true}*/}
+              {/*  className="block p-2.5 w-full h-full text-sm border-none resize-none">*/}
+              {/*</textarea>*/}
             </td>
             <td>
-              <textarea
-                defaultValue={feature}
-                rows="8"
-                cols="30"
-                disabled={true}
-                className="block p-2.5 w-full h-full text-sm border-none resize-none">
-              </textarea>
+              {feature}
+              {/*<textarea*/}
+              {/*  defaultValue={feature}*/}
+              {/*  rows="8"*/}
+              {/*  cols="30"*/}
+              {/*  disabled={true}*/}
+              {/*  className="block p-2.5 w-full h-full text-sm border-none resize-none">*/}
+              {/*</textarea>*/}
             </td>
             <td className="px-6 py-4">
               {

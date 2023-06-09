@@ -81,7 +81,7 @@ export const LandingHero = () => {
               <div
                 className="cursor-pointer max-w-[300px] min-h-[150px] shadow-2xl border border-[#59C3CB] rounded-lg p-6 flex flex-col transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
                 onClick={() => {
-                  setSearchInput('sensor')
+                  setSearchInput('Sensor')
                   navigate('/maker-io')
                 }}
               >

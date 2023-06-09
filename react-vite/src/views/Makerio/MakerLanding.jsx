@@ -13,17 +13,15 @@ import Axios from "axios";
 
 export const MakerLanding = () => {
   const {
-    itemsQuery,
-    setItems,
     items,
     searchInput,
     setSearchInput,
-    itemsQueryReFetch,
     itemsLoading,
     setPage,
     page,
     pageSum,
-    getType,
+    fetchTypes,
+    types
   } = useContext(ProductContext);
 
   const [open, setOpen] = useState(0);
@@ -37,8 +35,10 @@ export const MakerLanding = () => {
   const [category, setCategory] = useState('All');
 
   useEffect(() => {
-    setCategory(getType(searchInput));
+    fetchTypes()
+    setCategory(searchInput);
   }, [searchInput])
+
 
   const CateLabel = () => {
     return (
@@ -55,7 +55,10 @@ export const MakerLanding = () => {
       </div>
       {/*display item */}
       <div className="min-[1920px]:px-48 flex flex-col gap-6 justify-center">
-        <Dropdown style={{background: "none"}} inline label={<CateLabel/>}>
+        <Dropdown style={{background: "none"}} inline
+                  label={searchInput === '' ? <span className="font-bold text-tealHover">
+        All
+      </span> : <CateLabel/>}>
           <div className="w-[270px]">
             <Dropdown.Item className="highlight-hover font-bold" onClick={() => {
               setSearchInput('')
@@ -65,37 +68,44 @@ export const MakerLanding = () => {
                 All
               </div>
             </Dropdown.Item>
-            <Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {
-              setSearchInput('sensor')
-              // setCategory('Sensors');
-            }}>
-              <div className={`${searchInput === 'sensor' && 'text-tealHover'}`}>
-                Sensors
-              </div>
-            </Dropdown.Item>
-            <Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {
-              setSearchInput('microcontroller')
-              // setCategory('Micro-Controllers');
-            }}>
-              <div className={`${searchInput === 'microcontroller' && 'text-tealHover'}`}>
-                Micro-Controller
-              </div>
-            </Dropdown.Item>
-            <Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {
-              setSearchInput('arduino')
-              // setCategory('Arduino');
-            }}>
-              <div className={`${searchInput === 'arduino' && 'text-tealHover'}`}>
-                Arduino
-              </div>
-            </Dropdown.Item>
-            <Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {
-              setSearchInput('steam')
-              // setCategory('Steam');
-            }}>
-              <div className={`${searchInput === 'steam' && 'text-tealHover'}`}>Steam
-              </div>
-            </Dropdown.Item>
+            {types.map((type, key) => {
+              return (
+                // eslint-disable-next-line react/jsx-key
+                <Dropdown.Item key={key} className={"highlight-hover font-bold"} onClick={() => {
+                  setSearchInput(type.type)
+                  // setCategory('Sensors');
+                }}>
+                  <div className={`${searchInput === type.type && 'text-tealHover'}`}>
+                    {type.type}
+                  </div>
+                </Dropdown.Item>
+              )
+            })}
+
+
+            {/*<Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {*/}
+            {/*  setSearchInput('microcontroller')*/}
+            {/*  // setCategory('Micro-Controllers');*/}
+            {/*}}>*/}
+            {/*  <div className={`${searchInput === 'microcontroller' && 'text-tealHover'}`}>*/}
+            {/*    Micro-Controller*/}
+            {/*  </div>*/}
+            {/*</Dropdown.Item>*/}
+            {/*<Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {*/}
+            {/*  setSearchInput('arduino')*/}
+            {/*  // setCategory('Arduino');*/}
+            {/*}}>*/}
+            {/*  <div className={`${searchInput === 'arduino' && 'text-tealHover'}`}>*/}
+            {/*    Arduino*/}
+            {/*  </div>*/}
+            {/*</Dropdown.Item>*/}
+            {/*<Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {*/}
+            {/*  setSearchInput('steam')*/}
+            {/*  // setCategory('Steam');*/}
+            {/*}}>*/}
+            {/*  <div className={`${searchInput === 'steam' && 'text-tealHover'}`}>Steam*/}
+            {/*  </div>*/}
+            {/*</Dropdown.Item>*/}
           </div>
         </Dropdown>
 
@@ -112,17 +122,17 @@ export const MakerLanding = () => {
             </div>
           }
           {items?.filter((item) => {
-              if (searchInput === "") {
+            if (searchInput === "") {
+              return item;
+            } else if (searchInput !== "") {
+              if (item.name?.toLowerCase().includes(searchInput.toLowerCase()) || item.type.toLowerCase().includes(searchInput.toLowerCase()))
                 return item;
-              } else if (searchInput !== "") {
-                if (item.name?.toLowerCase().includes(searchInput.toLowerCase()) || item.type.toLowerCase().includes(searchInput.toLowerCase()))
-                  return item;
-              }
-            }).map((item, key) => {
-              return (
-                <ItemCard key={key} item={item}/>
-              );
-            })}
+            }
+          }).map((item, key) => {
+            return (
+              <ItemCard key={key} item={item}/>
+            );
+          })}
         </div>
         <div className="flex justify-center">
           <Pagination page={page} onChange={handlePage} count={pageSum}/>

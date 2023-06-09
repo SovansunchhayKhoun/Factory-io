@@ -18,9 +18,19 @@ export const ProductProvider = ({children}) => {
   const [items, setItems] = useState([]);
   const [item, setItem] = useState({});
   const [searchInput, setSearchInput] = useState('')
+  const [types,setTypes] = useState([])
   const [page, setPage] = useState(1);
   const [pageSum, setPageSum] = useState(1);
   const [errors, setErrors] = useState([]);
+
+  const fetchTypes = async () => {
+    await Axios.get('getAllTypes').then(({data}) => {
+      setTypes(data)
+    }).catch((e) => {
+      console.log(e)
+    })
+  }
+
   const {data: itemsQuery, refetch: itemsQueryReFetch, isLoading: itemsLoading} = useQuery(['items', page], () => {
       return Axios.get(`products?page=${page}`).then((res) => {
         setPageSum(res.data.meta.last_page)
@@ -145,6 +155,8 @@ export const ProductProvider = ({children}) => {
 
   return <ProductContext.Provider
     value={{
+      fetchTypes,
+      types,
       getType,
       itemsQuery,
       pageSum,

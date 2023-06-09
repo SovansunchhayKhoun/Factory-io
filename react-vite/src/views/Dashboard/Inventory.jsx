@@ -48,8 +48,11 @@ export const Inventory = () => {
             <th scope="col" className="px-6 py-3">
               Qty
             </th>
-            <th scope="col" className="px-8 py-3">
+            <th scope="col" className="px-6 py-3">
               Price
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Type
             </th>
             <th scope="col" className="px-6 py-3">
               Description
@@ -75,7 +78,7 @@ export const Inventory = () => {
                 </td>
                 <td className="px-6 py-4">
                 </td>
-                <td className="px-8 py-4">
+                <td className="px-6 py-4">
                 </td>
                 <td className="px-6 py-4">
                 </td>

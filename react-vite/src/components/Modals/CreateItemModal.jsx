@@ -2,6 +2,7 @@
 import React, {useRef, useEffect, useState, useContext} from 'react';
 import Transition from '../../utils/Transition.jsx';
 import ProductContext from "../../context/ProductContext.jsx";
+import {Dropdown} from "flowbite-react";
 
 function CreateItemModal({
                            // eslint-disable-next-line react/prop-types
@@ -13,7 +14,7 @@ function CreateItemModal({
                          }) {
 
   const modalContent = useRef(null);
-  const { errors,getItems,storeItem} = useContext(ProductContext)
+  const { errors,storeItem,types,fetchTypes} = useContext(ProductContext)
 
   const [name,setName] = useState("");
   const [price,setPrice] = useState("");
@@ -22,7 +23,16 @@ function CreateItemModal({
   const [description,setDescription] = useState("");
   const [feature,setFeature] = useState("");
   const [image,setImage] = useState("");
+  const [isDisable,setIsDisable] = useState(true)
 
+  const handleType = (e) => {
+    if(e.target.value === 'Other'){
+      setIsDisable(false)
+    }else{
+      setIsDisable(true)
+      setType(e.target.value)
+    }
+  }
   const submit = async (e) => {
     e.preventDefault()
     const formValues = new FormData();
@@ -61,6 +71,7 @@ function CreateItemModal({
   });
 
   useEffect(() => {
+    fetchTypes()
     modalOpen
   }, [modalOpen]);
 
@@ -117,8 +128,11 @@ function CreateItemModal({
               <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Price</label>
               {errors.price && <span className="text-sm text-red-400">{errors.price[0]}</span>}
-              <input type="number" step={0.99} name="price" id="price"
-                     onChange={(e) => setPrice(e.target.value)}
+              <input  name="price" id="price"
+                     onChange={e => {
+                       const str = e.target.value
+                       if (str.charAt(str.length - 1) === '.') { return }
+                       setPrice(str)}}
                      min="1"
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                      required/>
@@ -127,10 +141,20 @@ function CreateItemModal({
               <label htmlFor="type" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Type</label>
               {errors.type && <span className="text-sm text-red-400">{errors.type[0]}</span>}
-              <input name="type" id="type"
-                     onChange={(e) => setType(e.target.value)}
-                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                     required/>
+              <div className="flex gap-4">
+                <select onChange={e => handleType(e)}>
+                  {types.map((type, key) => {
+                    return (
+                      <option key={key}>{type.type}</option>
+                    )
+                  })}
+                  <option>Other</option>
+                </select>
+                <input name="type" id="type"
+                       onChange={(e) => setType(e.target.value)}
+                       className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${isDisable && 'hidden'}`}
+                />
+              </div>
             </div>
             <div>
               <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -138,6 +162,7 @@ function CreateItemModal({
               {errors.description && <span className="text-sm text-red-400">{errors.description[0]}</span>}
               <textarea name="description" id="description"
                      value={description}
+                        rows={6}
                      onChange={(e) => setDescription(e.target.value)}
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                      required/>
@@ -148,6 +173,7 @@ function CreateItemModal({
               {errors.description && <span className="text-sm text-red-400">{errors.description[0]}</span>}
               <textarea name="feature" id="feature"
                         value={feature}
+                        rows={6}
                         onChange={(e) => setFeature(e.target.value)}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                         required/>

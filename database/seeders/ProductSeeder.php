@@ -17,7 +17,7 @@ class ProductSeeder extends Seeder
       'price' => 2,
       'qty' => 10,
       'status' => 1,
-      'type' => 'sensor',
+      'type' => 'Sensor',
       'description' => 'Specification
 Operating Voltage: 3.5V to 5.5V
 Operating current: 0.3mA (measuring) 60uA (standby)
@@ -34,7 +34,7 @@ Accuracy: ±1°C and ±1%',
       'price' => 1.5,
       'qty' => 10,
       'status' => 1,
-      'type' => 'sensor',
+      'type' => 'Sensor',
       'description' => 'Features
           Good sensitivity to Combustible gas in wide range
           High sensitivity to CH4, Natural gas.
@@ -49,7 +49,7 @@ Accuracy: ±1°C and ±1%',
       'price' => 2.5,
       'qty' => 10,
       'status' => 1,
-      'type' => 'sensor',
+      'type' => 'Sensor',
       'description' => 'Operating Voltage: 3.3V to 5V DC
           LM393 comparator with threshold preset
           PCB Size: 3.4cm * 1.6cm
@@ -66,7 +66,7 @@ Accuracy: ±1°C and ±1%',
       'price' => 2.5,
       'qty' => 10,
       'status' => 1,
-      'type' => 'microcontroller',
+      'type' => 'Microcontroller',
       'description' => 'MICROCONTROLLER   ATmega328P
           USB CONNECTOR   USB-B
           PINS  BUILT-IN LED PIN  13
@@ -87,7 +87,7 @@ Accuracy: ±1°C and ±1%',
       'price' => 2.5,
       'qty' => 10,
       'status' => 1,
-      'type' => 'microcontroller',
+      'type' => 'Microcontroller',
       'description' => 'Operating Voltage: 2.2 to 3.6VDC
           Ultra-low power consumption
           32 GPIO: ADC(12), DAC(2), SPI(3), I2S(2), I2C(2), UART(3), PWM(32), SDIO(50 Mhz)
@@ -107,7 +107,7 @@ Accuracy: ±1°C and ±1%',
       'price' => 2.5,
       'qty' => 10,
       'status' => 1,
-      'type' => 'microcontroller',
+      'type' => 'Microcontroller',
       'description' => 'Operating Voltage (logic level): 5V
           8 analog inputs ports: A0 ~ A7
           14 Digital input / output ports: TX, RX, D2 ~ D13
@@ -122,7 +122,7 @@ Accuracy: ±1°C and ±1%',
       'price' => 2.5,
       'qty' => 10,
       'status' => 1,
-      'type' => 'microcontroller',
+      'type' => 'Microcontroller',
       'description' => 'MCU: RP2040
           Dual-core ARM Cortex M0+ processor, flexible clock running up to 133 MHz
           264kB of SRAM, and 2MB of on-board Flash memory
@@ -135,7 +135,7 @@ Accuracy: ±1°C and ±1%',
       'price' => 2.5,
       'qty' => 10,
       'status' => 1,
-      'type' => 'microcontroller',
+      'type' => 'Microcontroller',
       'description' => 'The 4 leg RGB LED is an ideal component</br>
             that can be used in projects that require
             multicolor displays. A single RGB LED serves the purpose
@@ -156,7 +156,7 @@ Accuracy: ±1°C and ±1%',
       'price' => 0.5,
       'qty' => 10,
       'status' => 1,
-      'type' => 'microcontroller',
+      'type' => 'Microcontroller',
       'description' => 'The 555 timer IC can operate over a wide</br>
         range of power supply voltages, typically from 4.5 volts to 18 volts,
          and can handle output currents up to 200 mA. It finds numerous applications
@@ -170,7 +170,7 @@ Accuracy: ±1°C and ±1%',
       'price' => 0.5,
       'qty' => 10,
       'status' => 1,
-      'type' => 'microcontroller',
+      'type' => 'Microcontroller',
       'description' => 'This sealed digital temperature probe lets you precisely</br>
         measure temperatures in wet environments with a simple 1-Wire interface.
          The DS18B20 provides 9 to 12-bit (configurable) temperature readings

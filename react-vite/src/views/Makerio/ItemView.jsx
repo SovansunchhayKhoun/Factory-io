@@ -79,7 +79,7 @@ export const ItemView = (props) => {
           <div className="lg:text-lg md:text-base text-sm mb-2 font-bold text-blueBase">${item.price}</div>
           <div className="lg:text-lg md:text-base text-sm mb-2 font-bold text-tealBase">{item.name}</div>
           <div className="lg:text-lg md:text-base text-sm mb-2 text-blackFactory">Item Type: <span
-            className={`font-semibold`}>{getType(item?.type?.toLowerCase())}</span></div>
+            className={`font-semibold`}>{item.type}</span></div>
           <div
             className="lg:text-lg md:text-base text-sm mb-2 text-redBase font-bold">{currentQty === 0 ? "Out of Stock" : "In stock"}</div>
 
