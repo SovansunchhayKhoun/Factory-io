@@ -15,7 +15,7 @@ export const CartProvider = ({children}) => {
   const [itemQty, setItemQty] = useState('');
   const [cartItem, setCartItem] = useState([]);
   const [cartError, setCartError] = useState([]);
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState(true);
   const totalPrice = cartItem.reduce((total, i) => total += i.price * i.qty, 0);
   const {token, user} = useAuthContext();
   const {getUsers} = useContext(UserContext);
@@ -117,21 +117,19 @@ export const CartProvider = ({children}) => {
   }
 
   const {storeInvoice, invoicesReFetch} = useContext(InvoiceContext);
-
-  const checkOut = async (cartItem, paymentPic) => {
-    console.log(isLoading);
+  const checkOut = async (cartItem, paymentPic, setModalOpen) => {
     if (!isLoading) {
-    console.log(isLoading);
+      setSuccess(false);
       await storeInvoice(totalPrice, cartItem, paymentPic);
       await invoicesReFetch();
       const lastInvoice = await Axios.get('getLastInv').then(({data}) => {
         return data;
       });
-      cartItem?.forEach((item) => {
+      await cartItem?.forEach((item) => {
         item.invoice_id = lastInvoice?.id;
         item.user_id = user?.id;
         try {
-          Axios.post('invoice_products', item);
+          Axios.post('invoice_products', item)
           clearCart();
           setCartItem([]);
         } catch (e) {
@@ -139,6 +137,9 @@ export const CartProvider = ({children}) => {
           setCartError(e.response.data.errors)
         }
       })
+      console.log('done');
+      setSuccess(true);
+      setModalOpen(false);
       await invoicesReFetch();
     }
   }

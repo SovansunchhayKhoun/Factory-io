@@ -4,6 +4,15 @@ import CartContext from "../../context/CartContext.jsx";
 
 export const PendingItem = (props) => {
   const {invoice_product, date, status} = props.invoice
+  const Label = ({status, inv_prd, products}) => {
+    if(status === -2){
+      return (
+        <>
+          {inv_prd.qty > products[0].qty ? 'Not enough stock' : 'In Stock'}
+        </>
+      )
+    }
+  }
   const View = ({image, name, price, products, inv_prd}) => {
     return (
       <>
@@ -33,10 +42,11 @@ export const PendingItem = (props) => {
                 <span
                   className="font-normal">{date}</span></div>
               <div
-                className={`${status === -1 && 'text-redBase'} ${status === 1 && 'text-green-600'} ${status === 2 && 'text-tealBase'} mb-1 font-semibold text-blackFactory`}>
-                {status === -1 && 'Pending'}
-                {status === 1 && 'Accepted'}
-                {status === 2 && 'Delivering'}
+                className={`${status === -1 && 'text-redBase'} ${status === 1 && 'text-green-600'} ${status === 2 && 'text-tealBase'} ${inv_prd.qty > products[0].qty ? 'text-orange-400' : 'text-green-500'} mb-1 font-semibold text-blackFactory`}>
+                {/*{status === -1 && 'Pending'}*/}
+                {/*{status === 1 && 'Accepted'}*/}
+                {/*{status === 2 && 'Delivering'}*/}
+                <Label products={products} inv_prd={inv_prd} status={status}/>
               </div>
             </div>
           </div>

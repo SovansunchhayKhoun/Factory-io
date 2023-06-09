@@ -22,27 +22,34 @@ export const ItemView = (props) => {
   }, []);
 
   const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: {max: 4000, min: 3000},
-      items: 7
+    largeDesktop: {
+      breakpoint: {max: 4000, min: 2560},
+      items: 12
     },
     desktop: {
-      breakpoint: {max: 3000, min: 1024},
+      breakpoint: {max: 2560, min: 1536},
+      items: 6
+    },
+    xl: {
+      // the naming can be any, depends on you.
+      breakpoint: {max: 1536, min: 1280},
       items: 5
     },
-    tablet: {
-      breakpoint: {max: 1024, min: 464},
+    lg: {
+      breakpoint: {max: 1280, min: 1024},
+      items: 4
+    },
+    md: {
+      breakpoint: {max: 1024, min: 768},
       items: 3
     },
-    mobile: {
-      breakpoint: {max: 464, min: 0},
-      items: 2
+    sm: {
+      breakpoint: {max: 640, min: 0},
+      items: 1
     }
   };
 
   const {addToCart, cartItem} = useContext(CartContext);
-  const {token} = useAuthContext();
   const itemCart = cartItem.find((i) => i.id === item.id);
   const currentQty = item.qty - (itemCart?.qty || 0);
   let navigate = useNavigate();
@@ -85,7 +92,7 @@ export const ItemView = (props) => {
 
           {/*Description*/}
           <div className="sm:max-w-[80%] w-full">
-            <pre className="lg:text-lg md:text-base text-sm mb-3 text-blackFactory font-Poppins">
+            <pre className="whitespace-pre-wrap lg:text-lg md:text-base text-sm mb-3 text-blackFactory font-Poppins">
               {item.description}
             </pre>
           </div>
@@ -93,27 +100,23 @@ export const ItemView = (props) => {
             <button
               className={`${item.status === 0 && 'hidden'} rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300`}
               onClick={() => {
-                if (token) {
-                  addToCart(item, currentQty);
-                }
+                addToCart(item, currentQty);
               }}>
               <img className="md:w-12 w-10" src="/assets/images/cart-icon.png" alt=""/>
             </button>
           </div>
         </div>
       </section>
-
       <ProductReview item={item}/>
-      <div className="mt-16 mb-16">
-        <div className="mb-3 text-tealHover font-semibold">Related items</div>
-        <Carousel itemClass={'flex'} responsive={responsive}>
-          {
-            items.filter(itemFilter => itemFilter.type === item.type && itemFilter.id !== item.id)
-              .map((item, key) => {
-                return (
-                  <ItemCardCarousel item={item} key={key}/>
-                )
-              })}
+      <div className="mt-16">
+        <div className="mb-6 text-tealHover font-semibold">Related items</div>
+        <Carousel itemClass={'flex justify-center'} responsive={responsive}>
+          {items?.filter(itemFilter => itemFilter.type === item.type && itemFilter.id !== item.id)
+            .map((item, key) => {
+              return (
+                <ItemCardCarousel item={item} key={key}/>
+              )
+            })}
         </Carousel>
       </div>
     </>

@@ -9,6 +9,9 @@ const ProductContext = createContext();
 
 export const ProductProvider = ({children}) => {
   const [reviews, setReviews] = useState([]);
+  const [items, setItems] = useState([]);
+  const [pageSum, setPageSum] = useState(1);
+  const [page, setPage] = useState(1);
   const {data: reviewsQuery, refetch: reviewsQueryReFetch} = useQuery(['reviews'], () => {
     return Axios.get('reviews').then((res) => {
       setReviews(res.data.data);
@@ -40,13 +43,16 @@ export const ProductProvider = ({children}) => {
     }, {keepPreviousData: true}
   );
 
+  const [item, setItem] = useState({});
+  const [searchInput, setSearchInput] = useState('')
+  const [errors, setErrors] = useState([]);
   const [formValues, setFormValues] = useState({
     name: "",
     price: "",
     qty: "",
     type: "",
     description: "",
-    feature:"",
+    feature: "",
     status: "",
     image: "",
   })
@@ -128,7 +134,7 @@ export const ProductProvider = ({children}) => {
         headers: {'Content-Type': "multipart/form-data"},
       });
       resetFormValues()
-      itemsQueryReFetch()
+      await itemsQueryReFetch()
       history.back()
     } catch (msg) {
       console.log(msg.response.data.errors);
@@ -139,9 +145,9 @@ export const ProductProvider = ({children}) => {
     }
   }
 
-  const updateProduct = async (cartItem) => {
-    const stockItem = items.find((item) => item.id === cartItem.product_id)
-    stockItem.qty = stockItem.qty - cartItem.qty;
+  const updateProduct = async (product) => {
+    const stockItem = items.find((item) => item.id === product.product_id)
+    stockItem.qty = stockItem.qty - product.qty;
     if (stockItem.qty === 0) {
       stockItem.status = 0;
     }
@@ -168,11 +174,11 @@ export const ProductProvider = ({children}) => {
       setItems,
       itemsQueryReFetch,
       item,
+      setItem,
       formValues,
       setFormValues,
       errors,
       storeItem,
-      // getItems,
       getItem,
       onChange,
       updateItem,

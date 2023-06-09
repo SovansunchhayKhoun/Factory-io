@@ -7,7 +7,9 @@ export const LandingHero = () => {
   const navigate = useNavigate()
   return (
     <>
-      <div className="min-[1920px]:p-12 min-[1920px]:gap-12 lg:py-12 md:py-8 py-4 gap-10 flex flex-col">
+      <div className="min-[1920px]:gap-12
+        lg:py-12
+        md:py-8 py-4 gap-10 flex flex-col">
         {/*1st section*/}
         <section className="lg:flex lg:flex-row lg:justify-aroundflex flex-col">
           <div className="flex-1 lg:inline-block flex flex-col items-end">

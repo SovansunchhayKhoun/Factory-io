@@ -24,15 +24,16 @@ export const MakerLanding = () => {
     types
   } = useContext(ProductContext);
 
-  const [open, setOpen] = useState(0);
-  const handlePage = async (event, value) => {
-    setPage(value);
-  }
+    const [open, setOpen] = useState(0);
+    const handlePage = async (event, value) => {
+      scrollTo({top: 0, behavior: "smooth"})
+      setPage(value);
+    }
 
-  const handleOpen = (value) => {
-    setOpen(open === value ? 0 : value);
-  };
-  const [category, setCategory] = useState('All');
+    const handleOpen = (value) => {
+      setOpen(open === value ? 0 : value);
+    };
+    const [category, setCategory] = useState('All');
 
   useEffect(() => {
     fetchTypes()
@@ -45,8 +46,21 @@ export const MakerLanding = () => {
       <span className="font-bold text-tealHover">
         {category}
       </span>
-    );
-  }
+      );
+    }
+    const loading = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const LoadingItem = () => {
+      if (itemsLoading) {
+        return (
+          <>
+            <div
+              className="bg-gray-100 max-w-[270px] min-h-[350px] shadow-2xl border border-[#59C3CB] p-6 flex flex-col justify-center items-center">
+              <Spinner size="xl" color="purple"/>
+            </div>
+          </>
+        )
+      }
+    }
 
   return (
     <div className="flex flex-col gap-y-6 xl:py-6 lg:py-12 md:py-8 py-6">
@@ -109,7 +123,7 @@ export const MakerLanding = () => {
           </div>
         </Dropdown>
 
-        <div className="grid auto-rows-fr gap-12
+          <div className="grid auto-rows-fr gap-12
           min-[1920px]:grid-cols-5
           xl:grid-cols-4 xl:px-8
           lg:grid-cols-3

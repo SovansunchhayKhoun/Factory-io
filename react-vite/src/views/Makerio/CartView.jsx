@@ -25,7 +25,7 @@ export const CartView = () => {
 
 
   return (
-    <div className={"xl:p-0 md:py-6"}>
+    <div className={""}>
       {/*<AddressForm />*/}
       <div className="w-full flex md:flex-row md:gap-0 flex-col gap-y-3 md:mb-3 mb-6 justify-between">
         <div className="font-bold text-blueBase text-lg">Cart</div>

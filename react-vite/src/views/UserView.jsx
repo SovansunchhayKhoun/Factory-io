@@ -35,8 +35,9 @@ export const UserView = () => {
         <div className="flex items-center justify-center h-1/2 flex-col">
           <img className="w-[150px] mb-5 rounded-[75px] shadow-2xl" src={`https://robohash.org/${user.username}`}/>
           <h1 className="mb-[25px] font-semibold text-2xl">{user.firstName} {user.lastName}</h1>
-          <div className="flex flex-col items-center justify-center">
-            <div className="flex mb-2 w-[500px] gap-5">
+          <div className="flex flex-col gap-3 w-[500px]">
+
+            <div className="flex gap-5">
               <div className="w-1/2">
                 <label className="text-sm">First Name</label>
                 <input type="firstName" name="firstName" id="firstName"
@@ -67,7 +68,8 @@ export const UserView = () => {
                 />
               </div>
             </div>
-            <div className="mb-2 w-[500px]">
+
+            <div className="">
               <label className="text-sm">Phone Number</label>
               <input id="phoneNumber"
                      name="phoneNumber"
@@ -77,7 +79,7 @@ export const UserView = () => {
                      disabled={isDisabled}
               />
             </div>
-            <div className="mb-2 w-[500px]">
+            <div className="">
               <label className="text-sm">Email</label>
               <input type="email" id="email"
                      name="email"
@@ -87,7 +89,7 @@ export const UserView = () => {
                      disabled={isDisabled}
               />
             </div>
-            <div className="mb-6 w-[500px]">
+            <div className="">
               <label className="text-sm">Username</label>
               <input type="name" id="userName"
                      name="username"
@@ -97,39 +99,36 @@ export const UserView = () => {
                      disabled={isDisabled}
               />
             </div>
-          </div>
-          <div>
-            <Link to={`change-password`}>Change Password</Link>
-            {
-              isDisabled ?
-                <button
-                  className="ml-[400px] font-bold text-center text-blackFactory border border-redBase px-[35px] py-[7px] rounded-[4px] shadow-2xl"
-                  type="button"
-                  onClick={handleClick}
-                >
-                  Edit
-                </button>
-                :
-                <div className="ml-[260px] flex gap-4">
+            <div className="flex justify-between items-center">
+              <Link to={`change-password`}>Change Password</Link>
+              {isDisabled ?
                   <button
                     className="font-bold text-center text-blackFactory border border-redBase px-[35px] py-[7px] rounded-[4px] shadow-2xl"
                     type="button"
-                    onClick={() => {
-                      handleClick()
-                      location.reload()
-                    }}
+                    onClick={handleClick}
                   >
-                    Cancel
+                    Edit
                   </button>
+                  :
+                  <div className="flex gap-4">
+                    <button
+                      className="font-bold text-center text-blackFactory border border-redBase px-[35px] py-[7px] rounded-[4px] shadow-2xl"
+                      type="button"
+                      onClick={() => {
+                        handleClick()
+                      }}
+                    >
+                      Cancel
+                    </button>
 
-                  <button onClick={(e) => { e.stopPropagation(); setConfirmPasswordModalOpen(true); }}
-                          className="font-bold text-center text-blackFactory border border-redBase px-[35px] py-[7px] rounded-[4px] shadow-2xl">
-                    Update
-                  </button>
-                  <ConfirmPasswordModal id="confirm-password-modal" modalOpen={confirmPasswordModalOpen} setModalOpen={setConfirmPasswordModalOpen}/>
-                </div>
-
-            }
+                    <button onClick={(e) => { e.stopPropagation(); setConfirmPasswordModalOpen(true); }}
+                            className="font-bold text-center text-blackFactory border border-redBase px-[35px] py-[7px] rounded-[4px] shadow-2xl">
+                      Update
+                    </button>
+                    <ConfirmPasswordModal id="confirm-password-modal" modalOpen={confirmPasswordModalOpen} setModalOpen={setConfirmPasswordModalOpen}/>
+                  </div>
+              }
+            </div>
           </div>
         </div>
       </>

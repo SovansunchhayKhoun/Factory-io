@@ -85,7 +85,6 @@ export const Users = () => {
               return <UserRow key={key} user={user}/>
             })
           }
-
           </tbody>
         </table>
       </div>
