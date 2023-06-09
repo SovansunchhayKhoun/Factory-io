@@ -27,17 +27,33 @@ export const MakerLanding = () => {
       setPage(value);
     }
 
-    const [data, setData] = useState([...items]);
+    const [data, setData] = useState(items);
+    //
+    // useEffect(() => {
+    //   setData(items)
+    //   setPage(1)
+    //   itemsQueryReFetch()
+    // }, []);
+    //
+    // useEffect(() => {
+    //   console.log(items)
+    //   setData([...items])
+    // }, [page])
+    //
+    // useEffect(() => {
+    //   scrollTo({top: 0, behavior: "smooth"})
+    //   setData(items?.filter(item => item.type === searchInput));
+    //   itemsQueryReFetch();
+    // }, [searchInput]);
+    //
+    // useEffect(() => {
+    //   searchInput && setPageSum(Math.ceil(items?.length / 10))
+    // }, [items]);
 
     useEffect(() => {
-      scrollTo({top: 0, behavior: "smooth"})
-      searchInput ? setData(items.filter(item => item.type === searchInput)) : setData([...items]);
+      setItems(items?.filter(item => item.type === searchInput))
       itemsQueryReFetch();
-    }, [searchInput]);
-
-    useEffect(() => {
-      searchInput && setPageSum(Math.ceil(items?.length / 10))
-    }, [items]);
+    }, [searchInput])
 
     const [category, setCategory] = useState('All');
     useEffect(() => {
@@ -129,12 +145,8 @@ export const MakerLanding = () => {
             {/*    </>*/}
             {/*  );*/}
             {/*})}*/}
-            {data.length === 0 && <div>No items found</div>}
-            {data?.filter(item => {
-              if (searchInput)
-                return item.type === searchInput;
-              return item;
-            }).map((item, key) => {
+            {items?.length === 0 && <div>No items found</div>}
+            {items?.map((item, key) => {
               return (
                 <>
                   <ItemCard key={key} item={item}/>
