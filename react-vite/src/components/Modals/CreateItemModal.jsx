@@ -14,7 +14,7 @@ function CreateItemModal({
                          }) {
 
   const modalContent = useRef(null);
-  const { errors,storeItem,types,fetchTypes} = useContext(ProductContext)
+  const { errors,storeItem,types,fetchTypes,getItems} = useContext(ProductContext)
 
   const [name,setName] = useState("");
   const [price,setPrice] = useState("");
@@ -24,8 +24,9 @@ function CreateItemModal({
   const [feature,setFeature] = useState("");
   const [image,setImage] = useState("");
   const [isDisable,setIsDisable] = useState(true)
-
+  const [selected,setSelected] = useState('')
   const handleType = (e) => {
+    setSelected(e.target.value)
     if(e.target.value === 'Other'){
       setIsDisable(false)
     }else{
@@ -142,8 +143,8 @@ function CreateItemModal({
                 Type</label>
               {errors.type && <span className="text-sm text-red-400">{errors.type[0]}</span>}
               <div className="flex gap-4">
-                <select onChange={e => handleType(e)}>
-                  {types.map((type, key) => {
+                <select value={selected} onChange={e => handleType(e)}>
+                  {types?.map((type, key) => {
                     return (
                       <option key={key}>{type.type}</option>
                     )

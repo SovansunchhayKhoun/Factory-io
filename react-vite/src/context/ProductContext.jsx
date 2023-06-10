@@ -18,12 +18,9 @@ export const ProductProvider = ({children}) => {
       return res.data.data;
     });
   });
-  const [items, setItems] = useState([]);
   const [item, setItem] = useState({});
   const [searchInput, setSearchInput] = useState('')
   const [types,setTypes] = useState([])
-  const [page, setPage] = useState(1);
-  const [pageSum, setPageSum] = useState(1);
   const [errors, setErrors] = useState([]);
 
   const fetchTypes = async () => {
@@ -43,9 +40,7 @@ export const ProductProvider = ({children}) => {
     }, {keepPreviousData: true}
   );
 
-  const [item, setItem] = useState({});
-  const [searchInput, setSearchInput] = useState('')
-  const [errors, setErrors] = useState([]);
+
   const [formValues, setFormValues] = useState({
     name: "",
     price: "",
