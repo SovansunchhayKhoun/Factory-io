@@ -64,13 +64,13 @@ Accuracy: ±1°C and ±1%' ,
         'image' => 'products/Sound-Detection-Sensor-Module.jpg' ,
       ] );
 
-    DB::table('products')->insert([
-      'name' => 'Arduino uno',
-      'price' => 2.5,
-      'qty' => 10,
-      'status' => 1,
-      'type' => 'Microcontroller',
-      'description' => 'MICROCONTROLLER   ATmega328P
+      DB ::table ( 'products' ) -> insert ( [
+        'name' => 'Arduino uno' ,
+        'price' => 2.5 ,
+        'qty' => 10 ,
+        'status' => 1 ,
+        'type' => 'Arduino' ,
+        'description' => 'MICROCONTROLLER   ATmega328P
           USB CONNECTOR   USB-B
           PINS  BUILT-IN LED PIN  13
           DIGITAL I/O PINS  14
@@ -107,20 +107,21 @@ Accuracy: ±1°C and ±1%' ,
         'image' => 'products/Unk.png' ,
       ] );
 
-    DB::table('products')->insert([
-      'name' => 'Arduino Nano',
-      'price' => 2.5,
-      'qty' => 10,
-      'status' => 1,
-      'type' => 'Microcontroller',
-      'description' => 'Operating Voltage (logic level): 5V
-          8 analog inputs ports: A0 ~ A7
-          14 Digital input / output ports: TX, RX, D2 ~ D13
-          1 pair of TTL level serial transceiver ports RX / TX
-          Using Atmel Atmega328P-AU MCU
-          Standard 0.1” spacing DIP (breadboard friendly).',
-      'image' => 'products/arduinonano.png',
-    ]);
+      DB ::table ( 'products' ) -> insert ( [
+        'name' => 'Arduino Nano' ,
+        'price' => 2.5 ,
+        'qty' => 10 ,
+        'status' => 1 ,
+        'type' => 'Arduino' ,
+        'description' => 'Operating Voltage (logic level): 5V
+8 analog inputs ports: A0 ~ A7
+14 Digital input / output ports: TX, RX, D2 ~ D13
+1 pair of TTL level serial transceiver ports RX / TX
+Using Atmel Atmega328P-AU MCU
+Standard 0.1” spacing DIP (breadboard friendly).' ,
+        'feature' => 'feature' ,
+        'image' => 'products/arduinonano.png' ,
+      ] );
 
     DB::table('products')->insert([
       'name' => 'Raspberry pi Pico',

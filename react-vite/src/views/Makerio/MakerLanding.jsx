@@ -1,78 +1,69 @@
-import {Link} from "react-router-dom";
 import {ItemCard} from "../../components/CartComponents/ItemCard.jsx";
-import {useNavigate} from "react-router-dom";
 import React, {Fragment, Suspense, useContext, useEffect, useState} from "react";
 import ProductContext from "../../context/ProductContext.jsx";
-import CartContext from "../../context/CartContext.jsx";
 import {Pagination} from "@mui/material";
-import {Footer} from "../../components/Footer.jsx";
 import {Spinner} from "flowbite-react";
 import {Dropdown} from "flowbite-react";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
 import Axios from "axios";
+import {useQuery} from "@tanstack/react-query";
 
 export const MakerLanding = () => {
   const {
-    items,
+    fetchTypes,
+    types,
     searchInput,
     setSearchInput,
-    itemsLoading,
     setPage,
     page,
     pageSum,
-    fetchTypes,
-    types
+    itemsPaginate,
+    itemsPageLoading
   } = useContext(ProductContext);
+  const [category, setCategory] = useState('All');
 
-    const [open, setOpen] = useState(0);
-    const handlePage = async (event, value) => {
-      scrollTo({top: 0, behavior: "smooth"})
-      setPage(value);
-    }
-
-    const handleOpen = (value) => {
-      setOpen(open === value ? 0 : value);
-    };
-    const [category, setCategory] = useState('All');
+  const handlePage = async (event, value) => {
+    scrollTo({top: 0, behavior: "smooth"})
+    setPage(value);
+  }
 
   useEffect(() => {
+    scrollTo({top: 0, behavior: "smooth"})
     fetchTypes()
     setCategory(searchInput);
+    setPage(1)
   }, [searchInput])
-
 
   const CateLabel = () => {
     return (
       <span className="font-bold text-tealHover">
         {category}
       </span>
-      );
+    );
+  }
+  const loading = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const LoadingItem = () => {
+    if (itemsPageLoading) {
+      return (
+        <>
+          <div
+            className="bg-gray-100 max-w-[270px] min-h-[350px] shadow-2xl border border-[#59C3CB] p-6 flex flex-col justify-center items-center">
+            <Spinner size="xl" color="purple"/>
+          </div>
+        </>
+      )
     }
-    const loading = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    const LoadingItem = () => {
-      if (itemsLoading) {
-        return (
-          <>
-            <div
-              className="bg-gray-100 max-w-[270px] min-h-[350px] shadow-2xl border border-[#59C3CB] p-6 flex flex-col justify-center items-center">
-              <Spinner size="xl" color="purple"/>
-            </div>
-          </>
-        )
-      }
-    }
+  }
 
   return (
     <div className="flex flex-col gap-y-6 xl:py-6 lg:py-12 md:py-8 py-6">
-      <div className="font-bold flex flex-col items-center gap-y-6">
-        Product
-      </div>
-      {/*display item */}
       <div className="min-[1920px]:px-48 flex flex-col gap-6 justify-center">
+        <div className="font-bold flex flex-col items-center gap-y-6">
+          Product
+        </div>
         <Dropdown style={{background: "none"}} inline
-                  label={searchInput === '' ? <span className="font-bold text-tealHover">
-        All
-      </span> : <CateLabel/>}>
+                  label={searchInput === '' ?
+                    <span className="font-bold text-tealHover">All</span> :
+                    <CateLabel/>}>
           <div className="w-[270px]">
             <Dropdown.Item className="highlight-hover font-bold" onClick={() => {
               setSearchInput('')
@@ -95,61 +86,30 @@ export const MakerLanding = () => {
                 </Dropdown.Item>
               )
             })}
-
-
-            {/*<Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {*/}
-            {/*  setSearchInput('microcontroller')*/}
-            {/*  // setCategory('Micro-Controllers');*/}
-            {/*}}>*/}
-            {/*  <div className={`${searchInput === 'microcontroller' && 'text-tealHover'}`}>*/}
-            {/*    Micro-Controller*/}
-            {/*  </div>*/}
-            {/*</Dropdown.Item>*/}
-            {/*<Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {*/}
-            {/*  setSearchInput('arduino')*/}
-            {/*  // setCategory('Arduino');*/}
-            {/*}}>*/}
-            {/*  <div className={`${searchInput === 'arduino' && 'text-tealHover'}`}>*/}
-            {/*    Arduino*/}
-            {/*  </div>*/}
-            {/*</Dropdown.Item>*/}
-            {/*<Dropdown.Item className={"highlight-hover font-bold"} onClick={() => {*/}
-            {/*  setSearchInput('steam')*/}
-            {/*  // setCategory('Steam');*/}
-            {/*}}>*/}
-            {/*  <div className={`${searchInput === 'steam' && 'text-tealHover'}`}>Steam*/}
-            {/*  </div>*/}
-            {/*</Dropdown.Item>*/}
           </div>
         </Dropdown>
-
-          <div className="grid auto-rows-fr gap-12
-          min-[1920px]:grid-cols-5
-          xl:grid-cols-4 xl:px-8
-          lg:grid-cols-3
-          md:grid-cols-2 md:px-12
-        ">
-          {itemsLoading &&
-            <div
-              className="max-w-[270px] min-h-[350px] shadow-2xl border border-[#59C3CB] p-6 flex flex-col items-center">
-              <Spinner size="xl" color="purple"/>
-            </div>
-          }
-          {items?.filter((item) => {
-            if (searchInput === "") {
-              return item;
-            } else if (searchInput !== "") {
-              if (item.name?.toLowerCase().includes(searchInput.toLowerCase()) || item.type.toLowerCase().includes(searchInput.toLowerCase()))
-                return item;
-            }
-          }).map((item, key) => {
+      </div>
+      <div className="min-[1920px]:px-48 flex flex-col gap-6 justify-center">
+        {/*display item */}
+        <div className="grid auto-rows-fr gap-12
+            min-[1920px]:grid-cols-5
+            xl:grid-cols-4 xl:px-8
+            lg:grid-cols-3
+            md:grid-cols-2 md:px-12
+          ">
+          {loading.map(l => <LoadingItem/>)}
+          {itemsPaginate?.length === 0 && <div>No items found</div>}
+          {itemsPaginate?.map((item) => {
             return (
-              <ItemCard key={key} item={item}/>
+              <>
+                <ItemCard key={item.id} item={item}/>
+              </>
             );
           })}
         </div>
+
         <div className="flex justify-center">
-          <Pagination page={page} onChange={handlePage} count={pageSum}/>
+          <Pagination defaultPage={1} page={page} onChange={handlePage} count={pageSum}/>
         </div>
       </div>
     </div>

@@ -16,8 +16,6 @@ import {NoAccount} from "./ui/NavBarui/NoAccount.jsx";
 import {DropdownMenu} from "./ui/NavBarui/DropdownMenu.jsx";
 import AdminPopUp from "./Modals/AdminPopUp.jsx";
 import {CustomerService} from "../views/Makerio/CustomerService.jsx";
-import {Spinner} from "flowbite-react";
-import {useNavigate} from "react-router-dom";
 
 
 export const NavBar = (props) => {
