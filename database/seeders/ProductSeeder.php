@@ -5,20 +5,20 @@
   use Illuminate\Database\Seeder;
   use Illuminate\Support\Facades\DB;
 
-  class ProductSeeder extends Seeder
+class ProductSeeder extends Seeder
+{
+  /**
+   * Run the database seeds.
+   */
+  public function run(): void
   {
-    /**
-     * Run the database seeds.
-     */
-    public function run () : void
-    {
-      DB ::table ( 'products' ) -> insert ( [
-        'name' => 'DHT11–Temperature and Humidity Sensor' ,
-        'price' => 2 ,
-        'qty' => 10 ,
-        'status' => 1 ,
-        'type' => 'sensor' ,
-        'description' => 'Specification
+    DB::table('products')->insert([
+      'name' => 'DHT11–Temperature and Humidity Sensor',
+      'price' => 2,
+      'qty' => 10,
+      'status' => 1,
+      'type' => 'Sensor',
+      'description' => 'Specification
 Operating Voltage: 3.5V to 5.5V
 Operating current: 0.3mA (measuring) 60uA (standby)
 Output: Serial data
@@ -30,13 +30,13 @@ Accuracy: ±1°C and ±1%' ,
         'image' => 'products/SN-DHT11-MOD (a)-800x800.jpg' ,
       ] );
 
-      DB ::table ( 'products' ) -> insert ( [
-        'name' => 'MQ4 Gas Sensor' ,
-        'price' => 1.5 ,
-        'qty' => 10 ,
-        'status' => 1 ,
-        'type' => 'sensor' ,
-        'description' => 'Features
+    DB::table('products')->insert([
+      'name' => 'MQ4 Gas Sensor',
+      'price' => 1.5,
+      'qty' => 10,
+      'status' => 1,
+      'type' => 'Sensor',
+      'description' => 'Features
           Good sensitivity to Combustible gas in wide range
           High sensitivity to CH4, Natural gas.
           Small sensitivity to alcohol, smoke.
@@ -46,13 +46,13 @@ Accuracy: ±1°C and ±1%' ,
         'image' => 'products/MQ4-Gas-Sensor.jpg' ,
       ] );
 
-      DB ::table ( 'products' ) -> insert ( [
-        'name' => 'LM393 Sound Detection Sensor Module' ,
-        'price' => 2.5 ,
-        'qty' => 10 ,
-        'status' => 1 ,
-        'type' => 'sensor' ,
-        'description' => 'Operating Voltage: 3.3V to 5V DC
+    DB::table('products')->insert([
+      'name' => 'LM393 Sound Detection Sensor Module',
+      'price' => 2.5,
+      'qty' => 10,
+      'status' => 1,
+      'type' => 'Sensor',
+      'description' => 'Operating Voltage: 3.3V to 5V DC
           LM393 comparator with threshold preset
           PCB Size: 3.4cm * 1.6cm
           Induction distance: 0.5 Meter
@@ -86,13 +86,13 @@ Accuracy: ±1°C and ±1%' ,
         'image' => 'products/Microcon.png' ,
       ] );
 
-      DB ::table ( 'products' ) -> insert ( [
-        'name' => 'ESP32 + CP2102' ,
-        'price' => 2.5 ,
-        'qty' => 10 ,
-        'status' => 1 ,
-        'type' => 'microcontroller' ,
-        'description' => 'Operating Voltage: 2.2 to 3.6VDC
+    DB::table('products')->insert([
+      'name' => 'ESP32 + CP2102',
+      'price' => 2.5,
+      'qty' => 10,
+      'status' => 1,
+      'type' => 'Microcontroller',
+      'description' => 'Operating Voltage: 2.2 to 3.6VDC
           Ultra-low power consumption
           32 GPIO: ADC(12), DAC(2), SPI(3), I2S(2), I2C(2), UART(3), PWM(32), SDIO(50 Mhz)
           520 KB SRAM
@@ -123,64 +123,61 @@ Standard 0.1” spacing DIP (breadboard friendly).' ,
         'image' => 'products/arduinonano.png' ,
       ] );
 
-      DB ::table ( 'products' ) -> insert ( [
-        'name' => 'Raspberry pi Pico' ,
-        'price' => 2.5 ,
-        'qty' => 10 ,
-        'status' => 1 ,
-        'type' => 'microcontroller' ,
-        'description' => 'MCU: RP2040
+    DB::table('products')->insert([
+      'name' => 'Raspberry pi Pico',
+      'price' => 2.5,
+      'qty' => 10,
+      'status' => 1,
+      'type' => 'Microcontroller',
+      'description' => 'MCU: RP2040
           Dual-core ARM Cortex M0+ processor, flexible clock running up to 133 MHz
           264kB of SRAM, and 2MB of on-board Flash memory
           Drag & drop programming using over USB
-          8×Programmable IO (PIO) state machines for custom peripheral support' ,
-        'feature' => 'feature' ,
-        'image' => 'products/ras.png' ,
-      ] );
-      DB ::table ( 'products' ) -> insert ( [
-        'name' => 'RGB LED - 5mm - Common Cathode' ,
-        'price' => 2.5 ,
-        'qty' => 10 ,
-        'status' => 1 ,
-        'type' => 'microcontroller' ,
-        'description' => 'The 4 leg RGB LED is an ideal component
-that can be used in projects that require
-multicolor displays. A single RGB LED serves the purpose
-of three individual different color LEDs. The
-RGB name stands for Red colour, Blue color,
-and Green color respectively. To produce more colors,
-the RGB LED can colour mix the three primary colors (RGB)
-through Pulse Width Modulation (PWM). This component
-can be easily configured in a common cathode connection,
-where the ground is connected to the negative terminal
-and the three other pins are connected to the positive
-terminal.' ,
-        'feature' => 'feature' ,
-        'image' => 'products/LED.png' ,
-      ] );
+          8×Programmable IO (PIO) state machines for custom peripheral support',
+      'image' => 'products/ras.png',
+    ]);
+    DB::table('products')->insert([
+      'name' => 'RGB LED - 5mm - Common Cathode',
+      'price' => 2.5,
+      'qty' => 10,
+      'status' => 1,
+      'type' => 'Microcontroller',
+      'description' => 'The 4 leg RGB LED is an ideal component</br>
+            that can be used in projects that require
+            multicolor displays. A single RGB LED serves the purpose
+            of three individual different color LEDs. The
+            RGB name stands for Red colour, Blue color,
+            and Green color respectively. To produce more colors,
+            the RGB LED can colour mix the three primary colors (RGB)
+            through Pulse Width Modulation (PWM). This component
+            can be easily configured in a common cathode connection,
+            where the ground is connected to the negative terminal
+            and the three other pins are connected to the positive
+            terminal.',
+      'image' => 'products/LED.png',
+    ]);
 
-      DB ::table ( 'products' ) -> insert ( [
-        'name' => '555 Timer IC' ,
-        'price' => 0.5 ,
-        'qty' => 10 ,
-        'status' => 1 ,
-        'type' => 'microcontroller' ,
-        'description' => 'The 555 timer IC can operate over a wide
-range of power supply voltages, typically from 4.5 volts to 18 volts,
-and can handle output currents up to 200 mA. It finds numerous applications
-in electronic circuits, including timing circuits, frequency generators,
-pulse-width modulation (PWM) circuits, LED flashers, tone generators, and many more.' ,
-        'feature' => 'feature' ,
-        'image' => 'products/timer.png' ,
-      ] );
+    DB::table('products')->insert([
+      'name' => '555 Timer IC',
+      'price' => 0.5,
+      'qty' => 10,
+      'status' => 1,
+      'type' => 'Microcontroller',
+      'description' => 'The 555 timer IC can operate over a wide</br>
+        range of power supply voltages, typically from 4.5 volts to 18 volts,
+         and can handle output currents up to 200 mA. It finds numerous applications
+          in electronic circuits, including timing circuits, frequency generators,
+           pulse-width modulation (PWM) circuits, LED flashers, tone generators, and many more.',
+      'image' => 'products/timer.png',
+    ]);
 
-      DB ::table ( 'products' ) -> insert ( [
-        'name' => 'Temperature Sensor' ,
-        'price' => 0.5 ,
-        'qty' => 10 ,
-        'status' => 1 ,
-        'type' => 'microcontroller' ,
-        'description' => 'This sealed digital temperature probe lets you precisely
+    DB::table('products')->insert([
+      'name' => 'Temperature Sensor',
+      'price' => 0.5,
+      'qty' => 10,
+      'status' => 1,
+      'type' => 'Microcontroller',
+      'description' => 'This sealed digital temperature probe lets you precisely</br>
         measure temperatures in wet environments with a simple 1-Wire interface.
          The DS18B20 provides 9 to 12-bit (configurable) temperature readings
           over a 1-Wire interface, so that only one wire (and ground) needs

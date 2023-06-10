@@ -24,6 +24,7 @@
     Route ::get ( 'mostSoldItem' , [ InvoiceProductController::class , 'mostSoldItem' ] );
     Route ::get ( 'getLastInv' , [ InvoiceController::class , 'getLastInv' ] );
     Route ::get ( 'getAllItems' , [ ProductController::class , 'getAllItems' ] );
+    Route ::get ('getAllTypes', [ProductController::class,'getAllType']);
   } );
 
   Route ::middleware ( 'auth:sanctum' ) -> group ( function () {

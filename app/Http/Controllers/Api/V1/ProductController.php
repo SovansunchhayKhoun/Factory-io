@@ -7,6 +7,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\V1\ProductResource;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -19,6 +20,11 @@ class ProductController extends Controller
 
     public function getAllItems(){
       return ProductResource::collection (Product::all ());
+    }
+
+    public function getAllType()
+    {
+      return DB::table('products')->select(DB::raw('type'))->groupBy('type')->get();
     }
 
     public function index()

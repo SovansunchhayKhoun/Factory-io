@@ -1,19 +1,30 @@
 import {useAuthContext} from "../context/AuthContext"
-import {Link, Navigate, useParams} from "react-router-dom";
-import React, {useContext, useEffect, useState} from 'react';
+import {Link, Navigate} from "react-router-dom";
+import {useContext, useEffect, useState} from 'react';
 import UserContext from "../context/UserContext.jsx";
 import ConfirmPasswordModal from "../components/ConfirmPasswordModal.jsx";
+import axiosClient from "../axios-client.js";
 
 export const UserView = () => {
-  const {token,user} = useAuthContext()
-  const {getUser,formValues,onChange,isLoading} = useContext(UserContext)
+  const {token,user,setToken,setUser} = useAuthContext()
+  const {getUser,formValues,onChange,isLoading,setIsLoading} = useContext(UserContext)
   const [confirmPasswordModalOpen,setConfirmPasswordModalOpen] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const handleClick = () => {
     setIsDisabled(!isDisabled)
   };
   useEffect(() => {
-    getUser(user.id)
+    axiosClient.get('/user')
+      .then(({data}) => {
+        setUser(data)
+        getUser(data.id)
+      }).catch((e) => {
+      if(e.response.status === 401) {
+        setIsLoading(false);
+        setUser({})
+        setToken(null);
+      }
+    })
   },[])
   if (!token) {
     return <Navigate to="/"/>

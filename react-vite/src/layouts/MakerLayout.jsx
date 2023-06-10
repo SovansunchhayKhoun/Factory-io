@@ -13,7 +13,7 @@ import {useJsApiLoader} from "@react-google-maps/api";
 import CartContext from "../context/CartContext.jsx";
 
 export const MakerLayout = () => {
-  const {setUser, token, setIsLoading} = useAuthContext()
+  const {setUser, token, setIsLoading,setToken} = useAuthContext()
 
   useEffect(() => {
     if (token) {
