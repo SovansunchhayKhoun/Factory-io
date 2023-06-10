@@ -9,7 +9,7 @@ import {CartView} from "./views/Makerio/CartView.jsx";
 import {DashboardLanding} from "./views/Dashboard/DashboardLanding.jsx";
 import {DashboardLayout} from "./layouts/DashboardLayout.jsx";
 import {Inventory} from "./views/Dashboard/Inventory.jsx";
-import { UserView } from "./views/UserView";
+import {UserView} from "./views/UserView";
 import {AdminOrder} from "./views/Dashboard/AdminOrder.jsx";
 import {EditItem} from "./views/Dashboard/EditItem.jsx";
 import {OrderView} from "./views/Makerio/OrderView.jsx";
@@ -20,49 +20,54 @@ import {ChangePasswordView} from "./views/ChangePasswordView.jsx";
 import {Chat} from "./views/Dashboard/Chat.jsx";
 import {ErrorBoundary} from "./components/ErrorBoundary.jsx";
 import {useJsApiLoader} from "@react-google-maps/api";
+import {LandingPage} from "./views/Factoryio/LandingPage.jsx";
+import {LandingLayout} from "./layouts/LandingLayout.jsx";
+import {Communitylanding} from "./views/Factoryio/Communitylanding.jsx";
+import {RnDLanding} from "./views/Factoryio/RnDlanding.jsx";
+import {ContestLanding} from "./views/Factoryio/ContestLanding.jsx";
 
 const router = createBrowserRouter([
-  // {
-  //   path: '/',
-  //   element: <LandingLayout/>,
-  //   children: [
-  //     {
-  //       path: '/',
-  //       element: <LandingPage/>
-  //     },
-  //     {
-  //       path: 'CommunityLanding',
-  //       element: <Communitylanding/>
-  //     },
-  //     {
-  //       path: 'RnDLanding',
-  //       element: <RnDLanding/>
-  //     },
-  //     {
-  //       path: 'ContestLanding',
-  //       element: <ContestLanding/>
-  //     },
-  //
-  //   ]
-  // },
+  {
+    path: '/factoryio',
+    element: <LandingLayout/>,
+    children: [
+      {
+        path: '',
+        element: <LandingPage/>
+      },
+      {
+        path: 'community',
+        element: <Communitylanding/>
+      },
+      {
+        path: 'rd',
+        element: <RnDLanding/>
+      },
+      {
+        path: 'contest',
+        element: <ContestLanding/>
+      },
+
+    ]
+  },
   {
     path: '/',
-    element: <MakerLayout />,
+    element: <MakerLayout/>,
     children: [
       {
         path: '',
         element: <LandingHero/>,
-        errorElement: <ErrorBoundary />
+        errorElement: <ErrorBoundary/>
       },
       {
         path: '/maker-io',
         element: <MakerLanding/>,
-        errorElement: <ErrorBoundary />
+        errorElement: <ErrorBoundary/>
       },
       {
         path: 'user',
         element: <UserView/>,
-        errorElement: <ErrorBoundary />
+        errorElement: <ErrorBoundary/>
       },
       // {
       //   path: 'admin/:id',
@@ -72,21 +77,21 @@ const router = createBrowserRouter([
       {
         path: 'user/change-password',
         element: <ChangePasswordView/>,
-        errorElement: <ErrorBoundary />
+        errorElement: <ErrorBoundary/>
       },
       {
         path: '/maker-io/:id',
         element: <ItemView/>,
-        errorElement: <ErrorBoundary />
+        errorElement: <ErrorBoundary/>
       },
       {
         path: 'cart',
         element: <CartView/>,
-        errorElement: <ErrorBoundary />
+        errorElement: <ErrorBoundary/>
       },
       {
         path: 'order',
-        element: <OrderView />,
+        element: <OrderView/>,
       },
       // {
       //   path: 'customer-service',
@@ -102,37 +107,37 @@ const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <DashboardLanding/>,
-        errorElement: <ErrorBoundary />
+        errorElement: <ErrorBoundary/>
       },
       {
         path: 'inventory',
         element: <Inventory/>,
-        errorElement: <ErrorBoundary />
+        errorElement: <ErrorBoundary/>
       },
       {
         path: 'orders',
-        element: <AdminOrder />,
-        errorElement: <ErrorBoundary />
+        element: <AdminOrder/>,
+        errorElement: <ErrorBoundary/>
       },
       {
         path: 'customer-service',
-        element: <Chat />,
-        errorElement: <ErrorBoundary />
+        element: <Chat/>,
+        errorElement: <ErrorBoundary/>
       },
       {
         path: 'users',
         element: <Users/>,
-        errorElement: <ErrorBoundary />
+        errorElement: <ErrorBoundary/>
       },
       {
         path: 'product/:id/edit',
         element: <EditItem/>,
-        errorElement: <ErrorBoundary />
+        errorElement: <ErrorBoundary/>
       },
       {
         path: 'user/:id/edit',
         element: <EditUser/>,
-        errorElement: <ErrorBoundary />
+        errorElement: <ErrorBoundary/>
       }
     ]
   },
@@ -144,12 +149,12 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login/>,
-    errorElement: <ErrorBoundary />
+    errorElement: <ErrorBoundary/>
   },
   {
     path: '/signup',
     element: <Signup/>,
-    errorElement: <ErrorBoundary />
+    errorElement: <ErrorBoundary/>
   }
 ])
 export default router

@@ -27,9 +27,17 @@ export const LandingLayout = () => {
   if(!isLoading){
     return (
       <>
-        <div className="min-h-screen flex flex-col overflow-hidden">
+        <div className="min-h-screen flex flex-col overflow-auto">
           <LandingNavBar />
-          <Outlet/>
+          <main className="
+
+          min-[1920px]:px-36
+          xl:pb-8
+          lg:px-16
+          md:px-6 md:pt-24 md:pb-2
+          pb-6 px-6 pt-16">
+            <Outlet/>
+          </main>
           <Footer />
         </div>
       </>
