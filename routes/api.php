@@ -14,7 +14,7 @@
   use Illuminate\Support\Facades\Route;
 
   Route ::group ( [ 'prefix' => 'v1' ] , function () {
-    Route ::apiResource ( 'products' , ProductController::class );
+    Route ::apiResource ( 'products', ProductController::class );
     Route ::apiResource ( 'invoices' , InvoiceController::class );
     Route ::apiResource ( 'invoice_products' , InvoiceProductController::class );
     Route ::apiResource ( 'chat' , ChatController::class );
@@ -25,6 +25,8 @@
     Route ::get ( 'getLastInv' , [ InvoiceController::class , 'getLastInv' ] );
     Route ::get ( 'getAllItems' , [ ProductController::class , 'getAllItems' ] );
     Route ::get ('getAllTypes', [ProductController::class,'getAllType']);
+    Route::get('fetchItems', [ProductController::class, 'fetchItems']);
+    Route ::get ('fetchItems/{type}', [ProductController::class,'fetchItemsPaginate']);
   } );
 
   Route ::middleware ( 'auth:sanctum' ) -> group ( function () {

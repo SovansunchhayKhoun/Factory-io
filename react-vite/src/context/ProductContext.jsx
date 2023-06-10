@@ -12,40 +12,10 @@ export const ProductProvider = ({children}) => {
   const [items, setItems] = useState([]);
   const [pageSum, setPageSum] = useState(1);
   const [page, setPage] = useState(1);
-  const {data: reviewsQuery, refetch: reviewsQueryReFetch} = useQuery(['reviews'], () => {
-    return Axios.get('reviews').then((res) => {
-      setReviews(res.data.data);
-      return res.data.data;
-    });
-  });
-  const [items, setItems] = useState([]);
-  const [item, setItem] = useState({});
   const [searchInput, setSearchInput] = useState('')
-  const [types,setTypes] = useState([])
-  const [page, setPage] = useState(1);
-  const [pageSum, setPageSum] = useState(1);
-  const [errors, setErrors] = useState([]);
-
-  const fetchTypes = async () => {
-    await Axios.get('getAllTypes').then(({data}) => {
-      setTypes(data)
-    }).catch((e) => {
-      console.log(e)
-    })
-  }
-
-  const {data: itemsQuery, refetch: itemsQueryReFetch, isLoading: itemsLoading} = useQuery(['items', page], () => {
-      return Axios.get(`products?page=${page}`).then((res) => {
-        setPageSum(res.data.meta.last_page)
-        setItems(res.data.data);
-        return res.data.data;
-      });
-    }, {keepPreviousData: true}
-  );
-
   const [item, setItem] = useState({});
-  const [searchInput, setSearchInput] = useState('')
   const [errors, setErrors] = useState([]);
+  const [types, setTypes] = useState([])
   const [formValues, setFormValues] = useState({
     name: "",
     price: "",
@@ -56,6 +26,46 @@ export const ProductProvider = ({children}) => {
     status: "",
     image: "",
   })
+
+  const {data: reviewsQuery, refetch: reviewsQueryReFetch} = useQuery(['reviews'], () => {
+    return Axios.get('reviews').then((res) => {
+      setReviews(res.data.data);
+      return res.data.data;
+    });
+  });
+
+  const fetchTypes = async () => {
+    await Axios.get('getAllTypes').then(({data}) => {
+      setTypes(data)
+    }).catch((e) => {
+      console.log(e)
+    })
+  }
+
+  const {data: itemsQuery, refetch: itemsQueryReFetch, isLoading: itemsLoading} = useQuery(['itemsQuery'], () => {
+      return Axios.get(`products`).then((res) => {
+        setItems(res.data.data);
+        return res.data.data
+      });
+    }
+  );
+
+  const {
+    data: itemsPaginate,
+    refetch: itemsPaginateReFetch,
+    isLoading: itemsPageLoading
+  } = useQuery(['itemsPaginate', page, searchInput], () => {
+    if (searchInput !== '') {
+      return Axios.get(`fetchItems/${searchInput}?page=${page}`).then((res) => {
+        setPageSum(res.data.meta.last_page)
+        return res.data.data;
+      })
+    }
+    return Axios.get(`fetchItems?page=${page}`).then(res => {
+      setPageSum(res.data.meta.last_page)
+      return res.data.data;
+    })
+  }, {keepPreviousData: true})
 
   const getType = (type) => {
     setPage(1);
@@ -161,6 +171,9 @@ export const ProductProvider = ({children}) => {
 
   return <ProductContext.Provider
     value={{
+      itemsPageLoading,
+      itemsPaginateReFetch,
+      itemsPaginate,
       fetchTypes,
       types,
       getType,
