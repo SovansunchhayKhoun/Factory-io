@@ -56,15 +56,14 @@ export const MakerLanding = () => {
 
   return (
     <div className="flex flex-col gap-y-6 xl:py-6 lg:py-12 md:py-8 py-6">
-      <div className="font-bold flex flex-col items-center gap-y-6">
-        Product
-      </div>
-      {/*display item */}
       <div className="min-[1920px]:px-48 flex flex-col gap-6 justify-center">
+        <div className="font-bold flex flex-col items-center gap-y-6">
+          Product
+        </div>
         <Dropdown style={{background: "none"}} inline
-                  label={searchInput === '' ? <span className="font-bold text-tealHover">
-        All
-      </span> : <CateLabel/>}>
+                  label={searchInput === '' ?
+                    <span className="font-bold text-tealHover">All</span> :
+                    <CateLabel/>}>
           <div className="w-[270px]">
             <Dropdown.Item className="highlight-hover font-bold" onClick={() => {
               setSearchInput('')
@@ -89,13 +88,15 @@ export const MakerLanding = () => {
             })}
           </div>
         </Dropdown>
-
+      </div>
+      <div className="min-[1920px]:px-48 flex flex-col gap-6 justify-center">
+        {/*display item */}
         <div className="grid auto-rows-fr gap-12
-          min-[1920px]:grid-cols-5
-          xl:grid-cols-4 xl:px-8
-          lg:grid-cols-3
-          md:grid-cols-2 md:px-12
-        ">
+            min-[1920px]:grid-cols-5
+            xl:grid-cols-4 xl:px-8
+            lg:grid-cols-3
+            md:grid-cols-2 md:px-12
+          ">
           {loading.map(l => <LoadingItem/>)}
           {itemsPaginate?.length === 0 && <div>No items found</div>}
           {itemsPaginate?.map((item) => {
@@ -106,6 +107,7 @@ export const MakerLanding = () => {
             );
           })}
         </div>
+
         <div className="flex justify-center">
           <Pagination defaultPage={1} page={page} onChange={handlePage} count={pageSum}/>
         </div>
