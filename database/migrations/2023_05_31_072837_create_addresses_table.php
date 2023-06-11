@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('address');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->double('latitude');
-            $table->double('longitude');
+            $table->double('latitude')->nullable();
+            $table->double('longitude')->nullable();
             $table->timestamps();
         });
     }

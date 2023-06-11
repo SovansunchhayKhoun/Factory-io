@@ -12,6 +12,7 @@ export const UserProvider = ({children}) => {
   const [isLoading,setIsLoading] = useState(false)
   const [user, setUser] = useState({});
   const [admin,setAdmin] = useState({});
+  const [addresses,setAddresses] = useState([]);
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -36,6 +37,14 @@ export const UserProvider = ({children}) => {
     })
   })
 
+  const getUserAddresses = async (id) => {
+    await Axios.get(`userAddress/${id}`).then(({data}) => {
+      setAddresses(data.data)
+    }).catch((e) => {
+      console.log(e);
+    })
+  }
+
   const getUsers = async () => {
     const apiItems = await Axios.get("users");
     setUsers(apiItems.data.data);
@@ -57,29 +66,17 @@ export const UserProvider = ({children}) => {
     setFormValues({...formValues, [name]: value})
   }
 
-  const getUser = async (id) => {
-    setIsLoading(true)
-    try {
-      const response = await Axios.get(`users/${id}`)
-      const apiItem = response.data.data
-      setUser(apiItem);
-      setFormValues({
-        firstName: apiItem.firstName,
-        lastName: apiItem.lastName,
-        gender: apiItem.gender,
-        phoneNumber: apiItem.phoneNumber,
-        email: apiItem.email,
-        username:apiItem.username,
-        password:"",
-        new_password:"",
-        password_confirmation:"",
-      })
-      setIsLoading(false)
-    }catch (e) {
-      console.log(e)
-    }
-
-  };
+  const setUserToFormValues = (user) => {
+    setFormValues({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      gender: user.gender,
+      phoneNumber: user.phoneNumber,
+      email: user.email,
+      username:user.username,
+    })
+    setUser(user)
+  }
 
   const updateUser = async (e) => {
     e.preventDefault()
@@ -133,13 +130,17 @@ export const UserProvider = ({children}) => {
       errors,
       storeUser,
       getUsers,
-      getUser,
+      // getUser,
       onChange,
       updateUser,
       updatePassword,
       getAdmin,
       admin,
-      isLoading
+      setUserToFormValues,
+      isLoading,
+      getUserAddresses,
+      addresses,
+      setAddresses
     }}>{children}</UserContext.Provider>;
 };
 

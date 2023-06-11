@@ -21,6 +21,8 @@
     Route ::apiResource ( 'message' , MessageController::class );
     Route ::apiResource ( 'reviews' , ReviewController::class );
     Route ::apiResource ( 'users' , UserController::class );
+    Route ::apiResource ('addresses', AddressController::class);
+    Route ::get ('userAddress/{id}', [AddressController::class,'getAddressByUserID']);
     Route ::get ( 'mostSoldItem' , [ InvoiceProductController::class , 'mostSoldItem' ] );
     Route ::get ( 'getLastInv' , [ InvoiceController::class , 'getLastInv' ] );
     Route ::get ( 'getAllItems' , [ ProductController::class , 'getAllItems' ] );

@@ -4,10 +4,11 @@ import {useContext, useEffect, useState} from 'react';
 import UserContext from "../context/UserContext.jsx";
 import ConfirmPasswordModal from "../components/ConfirmPasswordModal.jsx";
 import axiosClient from "../axios-client.js";
+import {Spinner} from "flowbite-react";
 
 export const UserView = () => {
-  const {token,user,setToken,setUser} = useAuthContext()
-  const {getUser,formValues,onChange,isLoading,setIsLoading} = useContext(UserContext)
+  const {token,user,setIsLoading,isLoading,setUser,setToken} = useAuthContext()
+  const {formValues,setUserToFormValues,onChange,getUserAddresses,addresses} = useContext(UserContext)
   const [confirmPasswordModalOpen,setConfirmPasswordModalOpen] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const handleClick = () => {
@@ -17,9 +18,11 @@ export const UserView = () => {
     axiosClient.get('/user')
       .then(({data}) => {
         setUser(data)
-        getUser(data.id)
+        setUserToFormValues(data)
+        setIsLoading(false)
+        getUserAddresses(data.id)
       }).catch((e) => {
-      if(e.response.status === 401) {
+      if (e.response.status === 401) {
         setIsLoading(false);
         setUser({})
         setToken(null);
@@ -36,7 +39,6 @@ export const UserView = () => {
           <img className="w-[150px] mb-5 rounded-[75px] shadow-2xl" src={`https://robohash.org/${user.username}`}/>
           <h1 className="mb-[25px] font-semibold text-2xl">{user.firstName} {user.lastName}</h1>
           <div className="flex flex-col gap-3 w-[500px]">
-
             <div className="flex gap-5">
               <div className="w-1/2">
                 <label className="text-sm">First Name</label>
@@ -99,6 +101,28 @@ export const UserView = () => {
                      disabled={isDisabled}
               />
             </div>
+            <div>
+
+              {
+                addresses?.length === 0 ?
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-red-500">Address is required</span>
+                    <button className="font-bold text-center text-blackFactory border border-redBase px-4 py-2 rounded-[4px] shadow-2xl">
+                      Create a new address
+                    </button>
+                  </div> :
+                  <>
+                    <select>
+                      {addresses.map((address,key) => {
+                        return (
+                          <option key={key}>{address.address}</option>
+                        )
+                      })}
+                    </select>
+                  </>
+              }
+
+            </div>
             <div className="flex justify-between items-center">
               <Link to={`change-password`}>Change Password</Link>
               {isDisabled ?
@@ -133,6 +157,15 @@ export const UserView = () => {
           </div>
         </div>
       </>
+    )
+  }else{
+    return (
+      <Spinner
+        className="absolute top-1/2 left-1/2"
+        size="xl"
+        color="purple"
+        aria-label="Purple spinner example"
+      />
     )
   }
 
