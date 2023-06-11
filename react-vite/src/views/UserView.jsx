@@ -116,6 +116,7 @@ export const UserView = () => {
                       type="button"
                       onClick={() => {
                         handleClick()
+                        location.reload()
                       }}
                     >
                       Cancel

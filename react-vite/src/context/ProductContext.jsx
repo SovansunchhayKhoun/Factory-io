@@ -12,10 +12,7 @@ export const ProductProvider = ({children}) => {
   const [items, setItems] = useState([]);
   const [pageSum, setPageSum] = useState(1);
   const [page, setPage] = useState(1);
-  const [searchInput, setSearchInput] = useState('')
-  const [item, setItem] = useState({});
-  const [errors, setErrors] = useState([]);
-  const [types, setTypes] = useState([])
+
   const [formValues, setFormValues] = useState({
     name: "",
     price: "",
@@ -33,6 +30,10 @@ export const ProductProvider = ({children}) => {
       return res.data.data;
     });
   });
+  const [item, setItem] = useState({});
+  const [searchInput, setSearchInput] = useState('')
+  const [types,setTypes] = useState([])
+  const [errors, setErrors] = useState([]);
 
   const fetchTypes = async () => {
     await Axios.get('getAllTypes').then(({data}) => {
