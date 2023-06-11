@@ -10,16 +10,12 @@ class Address extends Model
     use HasFactory;
 
     protected $fillable = [
-        'username', 'invoice_id', 'street_num', 'latitude', 'longitude',
+        'user_id', 'address', 'latitude', 'longitude',
     ];
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function invoices()
-    {
-        return $this->belongsTo(Invoice::class, 'invoice_id', 'id');
-    }
 }

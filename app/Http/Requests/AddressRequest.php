@@ -22,11 +22,10 @@ class AddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => ['required'],
-            'invoice_id' => ['required'],
+            'user_id' => ['required'],
+            'address' => ['required'],
             'longitude' => ['nullable'],
             'latitude' => ['nullable'],
-            'street_num' => ['nullable'],
         ];
     }
 }

@@ -13,13 +13,9 @@ return new class extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('username');
-            $table->integer('invoice_id');
-
-            $table->foreign('username')->references('username')->on('users')->onDelete('cascade');
-            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
-
-            $table->string('street_num');
+            $table->unsignedBigInteger('user_id');
+            $table->string('address');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->double('latitude');
             $table->double('longitude');
             $table->timestamps();
