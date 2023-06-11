@@ -7,7 +7,8 @@ import {useAuthContext} from "../context/AuthContext.jsx";
 import axiosClient from "../axios-client.js";
 
 export const LandingLayout = () => {
-  const {setUser,token,isLoading,setIsLoading,setToken} = useAuthContext()
+  const {setUser, token, setIsLoading, setToken} = useAuthContext()
+
   useEffect(() => {
     if (token) {
       setIsLoading(true)
@@ -16,7 +17,7 @@ export const LandingLayout = () => {
           setUser(data)
           setIsLoading(false)
         }).catch((e) => {
-        if(e.response.status === 401) {
+        if (e.response.status === 401) {
           setIsLoading(false);
           setUser({})
           setToken(null);
@@ -24,25 +25,22 @@ export const LandingLayout = () => {
       })
     }
   }, []);
-  if(!isLoading){
-    return (
-      <>
-        <div className="min-h-screen flex flex-col overflow-auto">
-          <LandingNavBar />
-          <main className="
-
+  return (
+    <>
+      <div className="min-h-screen flex flex-col overflow-auto">
+        <LandingNavBar/>
+        <main className="
           min-[1920px]:px-36
           xl:pb-8
           lg:px-16
           md:px-6 md:pt-24 md:pb-2
           pb-6 px-6 pt-16">
-            <Outlet/>
-          </main>
-          <Footer />
-        </div>
-      </>
-    );
-  }
+          <Outlet/>
+        </main>
+        <Footer/>
+      </div>
+    </>
+  );
 
 
 };

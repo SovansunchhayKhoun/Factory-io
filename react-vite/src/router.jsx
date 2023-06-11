@@ -25,12 +25,17 @@ import {LandingLayout} from "./layouts/LandingLayout.jsx";
 import {Communitylanding} from "./views/Factoryio/Communitylanding.jsx";
 import {RnDLanding} from "./views/Factoryio/RnDlanding.jsx";
 import {ContestLanding} from "./views/Factoryio/ContestLanding.jsx";
+import {FactoryHome} from "./views/Factoryio/FactoryHome.jsx";
 
 const router = createBrowserRouter([
   {
     path: '/factoryio',
     element: <LandingLayout/>,
     children: [
+      {
+        path: 'home',
+        element: <FactoryHome />
+      },
       {
         path: '',
         element: <LandingPage/>
