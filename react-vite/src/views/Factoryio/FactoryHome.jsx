@@ -12,7 +12,7 @@ export const FactoryHome = () => {
     <>
       <main className="flex justify-between">
         {/*main page*/}
-        <div className="flex-1 flex flex-col gap-3">
+        <div className="flex-1 flex flex-col gap-3 h-[1000px]">
           <div className="flex items-center">
             <button className={`${tab === 'Community' && 'text-redHover'} text-2xl`} onClick={() => {
               setTab('Community')
