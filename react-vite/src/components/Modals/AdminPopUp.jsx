@@ -7,7 +7,7 @@ function AdminPopUp({id, modalOpen, setModalOpen, content}) {
   // useEffect(() => {
   //   const clickHandler = ({target}) => {
   //     if (!modalOpen || modalContent.current.contains(target)) return
-  //     setModalOpen(false);
+  //     setModalOpen(true);
   //   };
   //   document.addEventListener('click', clickHandler);
   //   return () => document.removeEventListener('click', clickHandler);

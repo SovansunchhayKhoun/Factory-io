@@ -1,21 +1,28 @@
-export const ProjectCard = () => {
+import {useProjectContext} from "../../context/Factory/ProjectContext.jsx";
+import {Spinner} from "flowbite-react";
+
+export const ProjectCard = ({project}) => {
+  const {name, description, image} = project;
+
   return (
     <>
       <div className="max-w-[400px] flex flex-col bg-white">
-        <div className="text-sm px-4 py-3
-            flex flex-col gap-2 border-b-2 border-grayFactory">
+        <div className="justify-center flex-1 text-sm px-4 py-3
+            flex flex-col gap-2">
           <div>
-            <img src="/assets/images/board.jpg" alt=""/>
+            <img loading="lazy" src={`http://127.0.0.1:8000/${image}`} alt=""/>
           </div>
           <span className="font-semibold overflow-hidden text-ellipsis">
-               lorum hfugis gsifghcxbmsufdg bcxumsglhmusigfxhrifhngcbimxnliasuf  hf i n fcxbai n nbfifmxns
+               {description}
               </span>
           <div className="text-grayFactory">
-            Poster Name
+            {name}
           </div>
         </div>
+
         {/*comment part*/}
-        <div className={"px-4 pt-2 pb-3 flex items-center gap-x-3 justify-between"}>
+        <div
+          className={"border-t-2 border-grayFactory mt-auto px-4 pt-2 pb-3 flex items-center gap-x-3 justify-between"}>
           <button>
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="24" viewBox="0 0 26 24" fill="none">
               <path

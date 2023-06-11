@@ -1,32 +1,37 @@
 <?php
 
   use App\Http\Controllers\Api\AuthController;
-  use App\Http\Controllers\Api\V1\AddressController;
   use App\Http\Controllers\Api\V1\ChatController;
   use App\Http\Controllers\Api\V1\InvoiceController;
   use App\Http\Controllers\Api\V1\InvoiceProductController;
   use App\Http\Controllers\Api\V1\MessageController;
   use App\Http\Controllers\Api\V1\ProductController;
+  use App\Http\Controllers\Api\V1\ProjectController;
+  use App\Http\Controllers\Api\V1\ProjectUsersController;
   use App\Http\Controllers\Api\V1\ReviewController;
   use App\Http\Controllers\Api\V1\UserController;
   use Illuminate\Http\Request;
-  use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Route;
 
   Route ::group ( [ 'prefix' => 'v1' ] , function () {
-    Route ::apiResource ( 'products', ProductController::class );
+    Route ::apiResource ( 'products' , ProductController::class );
     Route ::apiResource ( 'invoices' , InvoiceController::class );
     Route ::apiResource ( 'invoice_products' , InvoiceProductController::class );
     Route ::apiResource ( 'chat' , ChatController::class );
     Route ::apiResource ( 'message' , MessageController::class );
     Route ::apiResource ( 'reviews' , ReviewController::class );
     Route ::apiResource ( 'users' , UserController::class );
+    Route ::apiResource ( 'projects' , ProjectController::class );
+    Route ::apiResource ( 'project_users' , ProjectUsersController::class );
+    Route ::get ( 'last_project' , [ ProjectController::class , 'fetchLastProject' ] );
     Route ::get ( 'mostSoldItem' , [ InvoiceProductController::class , 'mostSoldItem' ] );
     Route ::get ( 'getLastInv' , [ InvoiceController::class , 'getLastInv' ] );
     Route ::get ( 'getAllItems' , [ ProductController::class , 'getAllItems' ] );
-    Route ::get ('getAllTypes', [ProductController::class,'getAllType']);
-    Route::get('fetchItems', [ProductController::class, 'fetchItems']);
-    Route ::get ('fetchItems/{type}', [ProductController::class,'fetchItemsPaginate']);
+    Route ::get ( 'getAllTypes' , [ ProductController::class , 'getAllType' ] );
+    // fetch all items in pagination
+    Route ::get ( 'fetchItems' , [ ProductController::class , 'fetchItems' ] );
+    // fetch items by type in pagination
+    Route ::get ( 'fetchItems/{type}' , [ ProductController::class , 'fetchItemsPaginate' ] );
   } );
 
   Route ::middleware ( 'auth:sanctum' ) -> group ( function () {

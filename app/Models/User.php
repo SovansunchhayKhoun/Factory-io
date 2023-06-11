@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Models;
+  namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+  // use Illuminate\Contracts\Auth\MustVerifyEmail;
+  use Illuminate\Database\Eloquent\Factories\HasFactory;
+  use Illuminate\Database\Eloquent\Relations\HasMany;
+  use Illuminate\Foundation\Auth\User as Authenticatable;
+  use Illuminate\Notifications\Notifiable;
+  use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
-{
-    use HasApiTokens, HasFactory, Notifiable;
+  class User extends Authenticatable
+  {
+    use HasApiTokens , HasFactory , Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -19,15 +19,15 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'firstName',
-        'lastName',
-        'phoneNumber',
-        'email',
-        'password',
-        'bio',
-        'pfp',
-        'username',
-        'gender',
+      'firstName' ,
+      'lastName' ,
+      'phoneNumber' ,
+      'email' ,
+      'password' ,
+      'bio' ,
+      'pfp' ,
+      'username' ,
+      'gender' ,
     ];
 
     /**
@@ -36,8 +36,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+      'password' ,
+      'remember_token' ,
     ];
 
     /**
@@ -46,26 +46,31 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+      'email_verified_at' => 'datetime' ,
     ];
 
-    public function invoices(): HasMany
+    public function invoices () : HasMany
     {
-        return $this->hasMany(Invoice::class);
+      return $this -> hasMany ( Invoice::class );
     }
 
-    public function chats()
+    public function chats ()
     {
-        return $this->hasMany(Chat::class);
+      return $this -> hasMany ( Chat::class );
     }
 
-  public function reviews()
-  {
-      return $this->hasMany(Review::class, 'user_id', 'id');
-  }
+    public function reviews ()
+    {
+      return $this -> hasMany ( Review::class , 'user_id' , 'id' );
+    }
 
-  public function address()
-  {
-      return $this->hasMany(Address::class, 'username', 'id');
+    public function address ()
+    {
+      return $this -> hasMany ( Address::class , 'username' , 'id' );
+    }
+
+    public function projects ()
+    {
+      return $this -> hasMany ( Project::class , 'user_id' , 'id' );
+    }
   }
-}
