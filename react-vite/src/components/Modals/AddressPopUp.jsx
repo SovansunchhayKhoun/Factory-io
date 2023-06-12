@@ -8,28 +8,32 @@ import Axios from "axios";
 import {useAuthContext} from "../../context/AuthContext.jsx";
 
 function AddressPopUp({
-                           // eslint-disable-next-line react/prop-types
-                           id,
-                           // eslint-disable-next-line react/prop-types
-                           modalOpen,
-                           // eslint-disable-next-line react/prop-types
-                           setModalOpen,
-                           user,
-                           addresses
-                         }) {
+                        // eslint-disable-next-line react/prop-types
+                        id,
+                        // eslint-disable-next-line react/prop-types
+                        modalOpen,
+                        // eslint-disable-next-line react/prop-types
+                        setModalOpen,
+                        // eslint-disable-next-line react/prop-types
+                        user,
+                      }) {
+
   const modalContent = useRef(null);
   const [errors, setErrors] = useState({})
   const [address, setAddress] = useState('')
-  const {getUserAddresses} = useContext(UserContext)
+  const [editBtn, setEditBtn] = useState(false)
+  const {getUserAddresses, addresses} = useContext(UserContext)
+  const [currentAddress, setCurrentAddress] = useState({})
   const storeAddress = async (e) => {
     e.preventDefault()
     const addressInfo = new FormData();
     addressInfo.append('address', address)
     addressInfo.append('user_id', user.id)
     try {
-      await Axios.post('addresses', addressInfo)
-      setAddress('')
-      getUserAddresses(user.id)
+      await Axios.post('addresses', addressInfo).then(() => {
+        setAddress('')
+        getUserAddresses(user.id)
+      })
     } catch (e) {
       if (e.response.status === 422) {
         setErrors(e.response.data.errors)
@@ -37,13 +41,30 @@ function AddressPopUp({
     }
   }
 
-  const deleteAddress =  (addressID) => {
+  const deleteAddress = (addressID) => {
     try {
-      Axios.delete(`addresses/${addressID}`)
+      Axios.delete(`addresses/${addressID}`).then(() => getUserAddresses(user.id))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const editAddress = async (addressID) => {
+    try {
+      await Axios.put(`addresses/${addressID}`,{
+        user_id: user.id,
+        address: address
+      }).then(() => {
+        getUserAddresses(user.id)
+        setAddress('')
+        setCurrentAddress({})
+        setEditBtn(!editBtn)
+      })
     }catch (e){
       console.log(e)
     }
   }
+
 
   // close on click outside
   useEffect(() => {
@@ -67,6 +88,11 @@ function AddressPopUp({
 
   useEffect(() => {
     modalOpen
+    getUserAddresses(user.id)
+    setEditBtn(false)
+    setAddress('')
+    setErrors({})
+    setCurrentAddress({})
   }, [modalOpen]);
 
   return (
@@ -109,24 +135,53 @@ function AddressPopUp({
                    value={address}
                    required/>
           </div>
-          <button onClick={(e) => {
-            e.stopPropagation()
-            storeAddress(e)
-          }}
-                  className="w-1/2 mx-auto font-bold text-center text-blackFactory border border-redBase px-4 py-2 rounded-[4px] shadow-2xl">Submit
-          </button>
+          {
+            !editBtn ? <button onClick={(e) => {
+                e.stopPropagation()
+                storeAddress(e)
+              }}
+                               className={`w-1/2 mx-auto font-bold text-center text-blackFactory border border-redBase px-4 py-2 rounded-[4px] shadow-2xl`}>
+                Create new
+              </button> :
+              <div className="flex justify-between gap-4">
+                <button onClick={(e) => {
+                  e.stopPropagation()
+                  setAddress('')
+                  setEditBtn(!editBtn)
+                }}
+                        className={`w-full mx-auto font-bold text-center text-blackFactory border border-redBase px-4 py-2 rounded-[4px] shadow-2xl`}>
+                  Cancel
+                </button>
+                <button onClick={(e) => {
+                  e.stopPropagation()
+                  editAddress(currentAddress.id)
+                }}
+                        className={`w-full mx-auto font-bold text-center text-blackFactory border border-redBase px-4 py-2 rounded-[4px] shadow-2xl`}>
+                  Edit
+                </button>
+              </div>
+
+
+          }
           <div>
+            {addresses.length === 0 && <div>No delivery address</div>}
             {addresses?.map((address, key) => {
               return (
                 <div key={key} className="flex justify-between">
                   <p>{address.address}</p>
                   <div className="flex flex-row gap-4">
-                    <button className="text-tealActive">Edit</button>
+                    <button onClick={(e) => {
+                      e.stopPropagation()
+                      setEditBtn(!editBtn)
+                      setAddress(address.address)
+                      setCurrentAddress(address)
+                    }} className="text-tealActive">Edit
+                    </button>
                     <button onClick={(e) => {
                       e.stopPropagation()
                       deleteAddress(address.id)
-                      getUserAddresses(user.id)
-                    }} className="text-redActive">Delete</button>
+                    }} className="text-redActive">Delete
+                    </button>
                   </div>
                 </div>
 

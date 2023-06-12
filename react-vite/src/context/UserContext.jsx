@@ -29,8 +29,11 @@ export const UserProvider = ({children}) => {
   const [errors, setErrors] = useState({})
 
   const getAdmin = async () => {
+    setIsLoading(true)
     const apiItems = await Axios.get("getAdmin");
     setAdmin(apiItems.data.data[0])
+    setAdminForm(apiItems.data.data[0])
+    setIsLoading(false)
   }
   const {data: usersQuery, refetch: usersQueryReFetch} = useQuery(['users'], () => {
     return Axios.get('users').then(res => {
@@ -38,6 +41,8 @@ export const UserProvider = ({children}) => {
       return res.data.data;
     })
   })
+
+
 
   const getUserAddresses = async (id) => {
     await Axios.get(`userAddress/${id}`).then(({data}) => {
@@ -90,12 +95,36 @@ export const UserProvider = ({children}) => {
     setUser(user)
   }
 
+  const setAdminForm = (admin) => {
+    setFormValues({
+      firstName: admin.firstName,
+      lastName: admin.lastName,
+      gender: admin.gender,
+      phoneNumber: admin.phoneNumber,
+      email: admin.email,
+      username:admin.username,
+      address: admin.address
+    })
+  }
+
   const updateUser = async (e) => {
     e.preventDefault()
     try {
       await Axios.put("users/" + user.id, formValues)
       resetFormValues()
       history.back()
+    } catch (msg) {
+      if (msg.response.status === 422) {
+        setErrors(msg.response)
+      }
+    }
+  }
+  const updateAdmin = async (e,adminID) => {
+    e.preventDefault()
+    try {
+      await Axios.put("updateAdmin/" + adminID, formValues)
+      resetFormValues()
+      location.reload()
     } catch (msg) {
       if (msg.response.status === 422) {
         setErrors(msg.response)
@@ -131,6 +160,20 @@ export const UserProvider = ({children}) => {
       }
     }
   }
+  const changeAdminPassword = async (e,adminID) => {
+    e.preventDefault()
+      console.log(formValues)
+    try {
+      await Axios.put("admins/" + adminID + "/change-password", formValues)
+      resetFormValues()
+      setErrors({})
+      history.back()
+    } catch (msg) {
+      if (msg.response.status === 422) {
+        setErrors(msg.response)
+      }
+    }
+  }
 
   return <UserContext.Provider
     value={{
@@ -140,6 +183,7 @@ export const UserProvider = ({children}) => {
       user,
       formValues,
       setFormValues,
+      setErrors,
       errors,
       storeUser,
       getUsers,
@@ -155,6 +199,8 @@ export const UserProvider = ({children}) => {
       addresses,
       setAddresses,
       resetFormValues,
+      updateAdmin,
+      changeAdminPassword,
     }}>{children}</UserContext.Provider>;
 };
 

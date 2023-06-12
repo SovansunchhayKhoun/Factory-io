@@ -26,6 +26,7 @@ import {Communitylanding} from "./views/Factoryio/Communitylanding.jsx";
 import {RnDLanding} from "./views/Factoryio/RnDlanding.jsx";
 import {ContestLanding} from "./views/Factoryio/ContestLanding.jsx";
 import {FactoryHome} from "./views/Factoryio/FactoryHome.jsx";
+import {AdminView} from "./views/AdminView.jsx";
 
 const router = createBrowserRouter([
   {
@@ -74,11 +75,11 @@ const router = createBrowserRouter([
         element: <UserView/>,
         errorElement: <ErrorBoundary/>
       },
-      // {
-      //   path: 'admin/:id',
-      //   element: <AdminView/>,
-      //   errorElement: <ErrorBoundary />
-      // },
+      {
+        path: 'admin',
+        element: <AdminView/>,
+        errorElement: <ErrorBoundary />
+      },
       {
         path: 'user/change-password',
         element: <ChangePasswordView/>,

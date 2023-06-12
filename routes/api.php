@@ -29,6 +29,10 @@
     Route ::get ('getAllTypes', [ProductController::class,'getAllType']);
     Route::get('fetchItems', [ProductController::class, 'fetchItems']);
     Route ::get ('fetchItems/{type}', [ProductController::class,'fetchItemsPaginate']);
+    Route ::put ( 'users/{id}/change-password' , [ UserController::class , 'changePassword' ] );
+    Route ::put ( 'admins/{id}/change-password' , [ UserController::class , 'changeAdminPassword' ] );
+    Route ::get ( 'getAdmin' , [ UserController::class , 'getAdmins' ] );
+    Route ::put ( 'updateAdmin/{id}' , [ UserController::class , 'updateAdmin' ] );
   } );
 
   Route ::middleware ( 'auth:sanctum' ) -> group ( function () {
@@ -38,10 +42,9 @@
     Route ::apiResource ( '/users' , UserController::class );
     Route ::post ( '/logout' , [ AuthController::class , 'logout' ] );
   } );
-  Route ::put ( 'v1/users/{id}/change-password' , [ UserController::class , 'changePassword' ] );
+
 //Route::put('v1/products/update/{id}',[ProductController::class,'update']);
-  Route ::get ( 'v1/getAdmin' , [ UserController::class , 'getAdmins' ] );
-  Route ::get ( 'v1/getAdmin' , [ UserController::class , 'getAdmins' ] );
+
   Route ::post ( '/signup' , [ AuthController::class , 'signup' ] );
   Route ::post ( '/login' , [ AuthController::class , 'login' ] );
   Route ::post ( '/loginAsAdmin' , [ AuthController::class , 'loginAsAdmin' ] );

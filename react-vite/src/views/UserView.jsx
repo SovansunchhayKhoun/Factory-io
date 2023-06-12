@@ -6,11 +6,10 @@ import ConfirmPasswordModal from "../components/ConfirmPasswordModal.jsx";
 import axiosClient from "../axios-client.js";
 import {Spinner} from "flowbite-react";
 import AddressPopUp from "../components/Modals/AddressPopUp.jsx";
-import addressPopUp from "../components/Modals/AddressPopUp.jsx";
 
 export const UserView = () => {
   const {token,user,setIsLoading,isLoading,setUser,setToken} = useAuthContext()
-  const {formValues,setUserToFormValues,onChange,addresses,getUserAddresses} = useContext(UserContext)
+  const {formValues,setUserToFormValues,onChange} = useContext(UserContext)
   const [confirmPasswordModalOpen,setConfirmPasswordModalOpen] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [addressModalOpen,setAddressModalOpen] = useState(false)
@@ -22,7 +21,6 @@ export const UserView = () => {
       .then(({data}) => {
         setUser(data)
         setUserToFormValues(data)
-        getUserAddresses(data.id)
         setIsLoading(false)
       }).catch((e) => {
       if (e.response.status === 401) {
@@ -150,7 +148,7 @@ export const UserView = () => {
                 e.stopPropagation()
                 setAddressModalOpen(true)
               }} className="font-bold text-center text-blackFactory border border-redBase px-2 py-[7px] rounded-[4px] shadow-2xl">Manage Delivery Addresses</button>
-              <AddressPopUp id="address-pop-up" addresses={addresses} user={user} modalOpen={addressModalOpen} setModalOpen={setAddressModalOpen}/>
+              <AddressPopUp id="address-pop-up" user={user} modalOpen={addressModalOpen} setModalOpen={setAddressModalOpen}/>
             </div>
 
           </div>
