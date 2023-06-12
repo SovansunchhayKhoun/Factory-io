@@ -1,16 +1,19 @@
 import {useAuthContext} from "../context/AuthContext"
 import {Link, Navigate} from "react-router-dom";
-import {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import UserContext from "../context/UserContext.jsx";
 import ConfirmPasswordModal from "../components/ConfirmPasswordModal.jsx";
 import axiosClient from "../axios-client.js";
 import {Spinner} from "flowbite-react";
+import AddressPopUp from "../components/Modals/AddressPopUp.jsx";
+import addressPopUp from "../components/Modals/AddressPopUp.jsx";
 
 export const UserView = () => {
   const {token,user,setIsLoading,isLoading,setUser,setToken} = useAuthContext()
-  const {formValues,setUserToFormValues,onChange,getUserAddresses,addresses} = useContext(UserContext)
+  const {formValues,setUserToFormValues,onChange,addresses,getUserAddresses} = useContext(UserContext)
   const [confirmPasswordModalOpen,setConfirmPasswordModalOpen] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [addressModalOpen,setAddressModalOpen] = useState(false)
   const handleClick = () => {
     setIsDisabled(!isDisabled)
   };
@@ -19,8 +22,8 @@ export const UserView = () => {
       .then(({data}) => {
         setUser(data)
         setUserToFormValues(data)
-        setIsLoading(false)
         getUserAddresses(data.id)
+        setIsLoading(false)
       }).catch((e) => {
       if (e.response.status === 401) {
         setIsLoading(false);
@@ -101,30 +104,17 @@ export const UserView = () => {
                      disabled={isDisabled}
               />
             </div>
-            <div>
-
-              {
-                addresses?.length === 0 ?
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-red-500">Address is required</span>
-                    <button className="font-bold text-center text-blackFactory border border-redBase px-4 py-2 rounded-[4px] shadow-2xl">
-                      Create a new address
-                    </button>
-                  </div> :
-                  <>
-                    <select>
-                      {addresses.map((address,key) => {
-                        return (
-                          <option key={key}>{address.address}</option>
-                        )
-                      })}
-                    </select>
-                  </>
-              }
-
+            <div className="">
+              <label className="text-sm">Address</label>
+              <input type="name" id="address"
+                     name="address"
+                     className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
+                     value={formValues['address']}
+                     onChange={onChange}
+                     disabled={isDisabled}
+              />
             </div>
             <div className="flex justify-between items-center">
-              <Link to={`change-password`}>Change Password</Link>
               {isDisabled ?
                   <button
                     className="font-bold text-center text-blackFactory border border-redBase px-[35px] py-[7px] rounded-[4px] shadow-2xl"
@@ -154,6 +144,15 @@ export const UserView = () => {
                   </div>
               }
             </div>
+            <div className="flex justify-between items-center">
+              <Link className="text-tealHover hover:underline" to={`change-password`}>Change Password</Link>
+              <button onClick={(e) => {
+                e.stopPropagation()
+                setAddressModalOpen(true)
+              }} className="font-bold text-center text-blackFactory border border-redBase px-2 py-[7px] rounded-[4px] shadow-2xl">Manage Delivery Addresses</button>
+              <AddressPopUp id="address-pop-up" addresses={addresses} user={user} modalOpen={addressModalOpen} setModalOpen={setAddressModalOpen}/>
+            </div>
+
           </div>
         </div>
       </>

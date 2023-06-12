@@ -41,6 +41,7 @@ class UserController extends Controller
             'gender' => $data['gender'],
             'email' => $data['email'],
             'username' => $data['username'],
+            'address' => $data['address'],
             'password' => bcrypt($data['password']),
         ]);
 

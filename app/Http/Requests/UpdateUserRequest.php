@@ -30,6 +30,7 @@ class UpdateUserRequest extends FormRequest
             'bio' => 'string|max:155',
             'phoneNumber' => 'string|max:55',
             'username' => 'string|max:55',
+            'address' => 'string|max:155',
             'email' => ['required', Rule::unique('users')->ignore($this->user)],
             'password' => 'required',
         ];

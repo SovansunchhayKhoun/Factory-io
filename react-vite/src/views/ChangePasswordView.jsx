@@ -73,7 +73,7 @@ export const ChangePasswordView = () => {
               </div>
               <div>
                 <button
-                  onClick={ e => updatePassword(e)}
+                  onClick={ (e) => updatePassword(e)}
                   className="font-bold text-center text-blackFactory border border-redBase px-[35px] py-[7px] rounded-[4px] shadow-2xl">
                   Confirm
                 </button>

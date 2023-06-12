@@ -12,6 +12,9 @@ export default function Signup() {
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
   const phoneNumberRef = useRef();
+  const addressRef = useRef();
+  const usernameRef = useRef();
+  const genderRef = useRef();
   const navigate = useNavigate()
   const [errors, setErrors] = useState(null)
   const {setUser, setToken, token} = useAuthContext()
@@ -24,7 +27,9 @@ export default function Signup() {
       password: passwordRef.current.value,
       password_confirmation: passwordConfirmationRef.current.value,
       phoneNumber: phoneNumberRef.current.value,
-      username: firstNameRef.current.value + lastNameRef.current.value
+      username: usernameRef.current.value,
+      address: addressRef.current.value,
+      gender: genderRef.current.value,
     }
     console.log(formValues)
     axiosClient.post('/signup', formValues)
@@ -80,10 +85,31 @@ export default function Signup() {
                 </div>
               </div>
               <div className="mb-6 w-[500px]">
+                <input type="name" id="gender"
+                       ref={genderRef}
+                       className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
+                       placeholder="Gender"
+                />
+              </div>
+              <div className="mb-6 w-[500px]">
                 <input type="name" id="phoneNumber"
                        ref={phoneNumberRef}
                        className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
                        placeholder="Phone Number"
+                />
+              </div>
+              <div className="mb-6 w-[500px]">
+                <input type="name" id="username"
+                       ref={usernameRef}
+                       className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
+                       placeholder="Username"
+                />
+              </div>
+              <div className="mb-6 w-[500px]">
+                <input type="name" id="address"
+                       ref={addressRef}
+                       className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
+                       placeholder="Address"
                 />
               </div>
               <div className="mb-6 w-[500px]">

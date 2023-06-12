@@ -28,6 +28,7 @@ class User extends Authenticatable
         'pfp',
         'username',
         'gender',
+      'address',
     ];
 
     /**
@@ -64,8 +65,9 @@ class User extends Authenticatable
       return $this->hasMany(Review::class, 'user_id', 'id');
   }
 
-  public function addresses()
+  public function deliveryAddresses()
   {
-      return $this->hasMany(Address::class, 'user_id', 'id');
+    return $this->hasMany(DeliveryAddresses::class,'user_id', 'id');
   }
+
 }
