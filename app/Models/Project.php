@@ -1,26 +1,35 @@
 <?php
 
-namespace App\Models;
+  namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+  use Illuminate\Database\Eloquent\Factories\HasFactory;
+  use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
-{
+  class Project extends Model
+  {
     use HasFactory;
+
     protected $fillable = [
-      'name',
-      'description',
-      'rating',
-      'funder_count',
-      'target_fund',
-      'project_deadline',
-      'image',
-      'file',
-      'category'
+      'user_id' ,
+      'image' ,
+      'file' ,
+      'name' ,
+      'description' ,
+      'project_deadline' ,
+      'category' ,
+      'like_count' ,
+      'comment_count' ,
+      'saved_count' ,
+      'funder_count' ,
+      'target_fund' ,
     ];
 
-    public function users() {
-      return $this->belongsToMany (User::class, 'project_users', 'project_id', 'user_id');
+    public function users ()
+    {
+      return $this -> belongsTo ( User::class , 'project_id' , 'id' );
     }
-}
+
+//    public function users() {
+//      return $this->belongsToMany (User::class, 'project_users', 'project_id', 'user_id');
+//    }
+  }

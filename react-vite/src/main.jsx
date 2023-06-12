@@ -18,7 +18,6 @@ import {
 import {ChatProvider} from "./context/ChatContext.jsx";
 import {GoogleMapsProvider} from "./context/GoogleMapsContext.jsx";
 import {ProjectContext} from "./context/Factory/ProjectContext.jsx";
-import {ProjectUserContext} from "./context/Factory/ProjectUserContext.jsx";
 
 const client = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -28,19 +27,17 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <UserProvider>
           <GoogleMapsProvider>
             <ProjectContext>
-              <ProjectUserContext>
-                <ChatProvider>
-                  <InvoiceProductProvider>
-                    <InvoiceProvider>
-                      <ProductProvider>
-                        <CartProvider>
-                          <RouterProvider router={router}/>
-                        </CartProvider>
-                      </ProductProvider>
-                    </InvoiceProvider>
-                  </InvoiceProductProvider>
-                </ChatProvider>
-              </ProjectUserContext>
+              <ChatProvider>
+                <InvoiceProductProvider>
+                  <InvoiceProvider>
+                    <ProductProvider>
+                      <CartProvider>
+                        <RouterProvider router={router}/>
+                      </CartProvider>
+                    </ProductProvider>
+                  </InvoiceProvider>
+                </InvoiceProductProvider>
+              </ChatProvider>
             </ProjectContext>
           </GoogleMapsProvider>
         </UserProvider>

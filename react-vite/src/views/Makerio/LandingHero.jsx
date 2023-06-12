@@ -29,7 +29,7 @@ export const LandingHero = () => {
             </div>
             <div>
               <Link
-                to={'/maker-io'}
+                to={'/makerio/shop'}
                 className=" inline-flex transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-700 duration-300 bg-[#B21317] rounded-[50px] px-3 py-1">
                 GET STARTED
               </Link>
@@ -52,7 +52,7 @@ export const LandingHero = () => {
           </span>
           <div className="md:flex md:flex-row md:justify-between flex flex-col items-center justify-center gap-y-12">
             <div className="flex justify-start items-center">
-              <Link title="Factory.io" to={"#Factoryio"}>
+              <Link title="Factory.io" to={"/"}>
                 <img className="object-contain h-[20px] lg:h-[18px] md:h-[16px]" src="/assets/images/factory.png" alt=""/>
               </Link>
             </div>
@@ -62,9 +62,9 @@ export const LandingHero = () => {
               </Link>
             </div>
             <div className="flex justify-start items-center">
-              <Link title="Reachsa.io" to={"#Reachsa.io"}>
+              <a title="Reachsa.io" href={"https://reachsaio.netlify.app"} target={"_blank"}>
                 <img className="object-contain h-[55px] lg:h-[50px] md:h-[46px]" src="/assets/images/reachsa.png" alt=""/>
-              </Link>
+              </a>
             </div>
           </div>
         </section>

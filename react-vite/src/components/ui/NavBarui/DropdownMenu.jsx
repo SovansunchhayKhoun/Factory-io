@@ -16,7 +16,7 @@ export const DropdownMenu = ({user, cartItem, orders}) => {
                           color="#048D95"/>
                   </svg>}>
         <Dropdown.Item>
-          <Link to="/maker-io">
+          <Link to="/makerio/shop">
             <div className="flex items-center gap-x-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 35 35" fill="none">
                 <path
@@ -36,7 +36,7 @@ export const DropdownMenu = ({user, cartItem, orders}) => {
                   Dashboard
                 </Link> :
                 <>
-                  <Link className="flex gap-x-2 justify-center" to={token ? "/cart" : "/login"}>
+                  <Link className="flex gap-x-2 justify-center" to={token ? "/makerio/cart" : "/login"}>
                     <div
                       className="relative">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 30 30" fill="none">
@@ -59,7 +59,7 @@ export const DropdownMenu = ({user, cartItem, orders}) => {
           {
             user['acc_type'] === 0 ? null :
               <>
-                <Link className="flex gap-x-2 justify-center items-center" to={token ? "/order" : "/login"}>
+                <Link className="flex gap-x-2 justify-center items-center" to={token ? "/makerio/order" : "/login"}>
                   <div className="relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 30 30" fill="none">
                       <path

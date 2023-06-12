@@ -15,9 +15,9 @@ export const LandingPage = () => {
             BECOME REALITY WITH <br/>
             FACTORY.IO
           </div>
-          <button className="bg-[#B21317] rounded-[50px] px-3 py-1">
+          <Link to={"/login"} className="bg-[#B21317] rounded-[50px] px-3 py-1">
             Join Us
-          </button>
+          </Link>
         </div>
         <div className="w-[448px] h-[333px] justify-end">
           <img src="/assets/images/board.jpg" alt=""/>
@@ -27,10 +27,18 @@ export const LandingPage = () => {
       <section className="flex flex-col justify-center">
         <span className="font-bold leading-4">Featured on</span>
         <div className="flex flex-row columns-4 items-center mt-10 h-20 justify-between ">
-          <img className="flex h-[20px]" src="/assets/images/factory.png" alt=""/>
-          <img className="flex h-[25px]" src="/assets/images/makerio.png" alt=""/>
-          <img className="flex h-[30px]" src="/assets/images/robotx.png" alt=""/>
-          <img className="flex h-[60px]" src="/assets/images/reachsa.png" alt=""/>
+          <Link to={"/"}>
+            <img title="Factory-io" className="h-[20px]" src="/assets/images/factory.png" alt=""/>
+          </Link>
+          <Link to="/makerio">
+            <img title={"Maker-io"} className="h-[25px]" src="/assets/images/makerio.png" alt=""/>
+          </Link>
+          <Link to={"#to-Robot-X"}>
+            <img title="RobotX" className="h-[30px]" src="/assets/images/robotx.png" alt=""/>
+          </Link>
+          <a href="https://reachsaio.netlify.app/" target={"_blank"}>
+            <img title={"Reachsa-io"} className="h-[60px]" src="/assets/images/reachsa.png" alt=""/>
+          </a>
         </div>
       </section>
 
@@ -47,9 +55,9 @@ export const LandingPage = () => {
               Start your project now and shop <br/>
               your component with us
             </div>
-            <button className="bg-white border border-redHover text-red rounded-[50px] px-3 py-1">
+            <Link to={"/makerio"} className="bg-white border border-redHover text-red rounded-[50px] px-3 py-1">
               Buy Now
-            </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -65,9 +73,9 @@ export const LandingPage = () => {
               Sharing knowledge
               and your achievement with us
             </div>
-            <button className="bg-white border border-redHover text-red rounded-[50px] px-3 py-1">
+            <Link to={"/login"} className="bg-white border border-redHover text-red rounded-[50px] px-3 py-1">
               Sign Up
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -94,9 +102,9 @@ export const LandingPage = () => {
               New Contest will be updated and
               we courage everyone in our community to join.
             </div>
-            <button className="bg-white border border-redHover text-red rounded-[50px] px-3 py-1">
+            <Link to={"/contest"} className="bg-white border border-redHover text-red rounded-[50px] px-3 py-1">
               Check Out
-            </button>
+            </Link>
           </div>
         </div>
       </section>

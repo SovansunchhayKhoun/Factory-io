@@ -1,6 +1,7 @@
 import {createContext, useContext, useState} from "react";
 import Axios from "axios";
 import {useQuery} from "@tanstack/react-query";
+import {useAuthContext} from "../AuthContext.jsx";
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const StateContext = createContext();
@@ -9,19 +10,22 @@ export const ProjectContext = ({children}) => {
   const {data: projects, refetch: projectsReFetch, isLoading: projectsIsLoading} = useQuery(['projects'], () => {
     return Axios.get('projects').then(({data}) => data.data);
   })
+  const {user} = useAuthContext();
   const [errors, setErrors] = useState({});
   const [picture, setPicture] = useState('');
   const [file, setFile] = useState('');
   const [projectValues, setProjectValues] = useState({
+    image: "",
+    file: "",
     name: "",
     description: "",
     category: "",
-    target_fund: "",
     project_deadline: "",
-    rating: 0,
+    target_fund: "",
     funder_count: 0,
-    image: "",
-    file: "",
+    like_count: 0,
+    comment_count: 0,
+    saved_count: 0,
     // image: picture,
     // file: file,
   })
@@ -40,43 +44,37 @@ export const ProjectContext = ({children}) => {
   const clearProjectValues = () => {
     setErrors(null);
     setProjectValues({
+      image: "",
+      file: "",
       name: "",
       description: "",
       category: "",
       project_deadline: "",
       target_fund: "",
-      image: "",
-      file: "",
+      funder_count: 0,
+      like_count: 0,
+      comment_count: 0,
+      saved_count: 0,
     });
     setPicture('');
     setFile('');
   }
 
-  const postProject = async (setModalOpen, user) => {
+  const postProject = async (setModalOpen) => {
     setErrors(null);
+    projectValues.user_id = user?.id;
+
+    console.log(projectValues);
+    console.log(JSON.stringify(projectValues));
     try {
       // post to project table
       await Axios.post('projects', projectValues, {
         headers: {"Content-Type": "multipart/form-data"}
       }).then(async () => {
-        // then get that posted project
-        await Axios.get('last_project').then(async ({data}) => {
-          const project_user = {
-            project_id: data.id,
-            user_id: user?.id
-          }
-          // then post to pivot table (project_users)
-          try {
-            await Axios.post('project_users', project_user).then(() => {
-              clearProjectValues();
-              projectsReFetch();
-              setModalOpen(false);
-            })
-          } catch (e) {
-            console.log(e);
-          }
-        });
-      })
+        clearProjectValues();
+        setModalOpen(false);
+        await projectsReFetch();
+      });
     } catch (e) {
       setErrors(e.response.data.errors);
       console.log(e.response.data.errors);

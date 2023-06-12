@@ -19,13 +19,13 @@ export const ItemCardCarousel = ({item}) => {
         <Link className="flex-1 text-center font-semibold text-xs" onClick={()=>{
           getItem(id)
           scrollTop(0)
-        }} to={"/maker-io/" + id}>
+        }} to={`/makerio/${id}`}>
           {name}
         </Link>
         <Link className="flex-2" onClick={()=>{
           getItem(id)
           scrollTop(0)
-        }} to={"/maker-io/" + id}>
+        }} to={`/makerio/${id}`}>
           {
             (image === null || image === undefined)
               ? <img className="hover:scale-75 ease-in-out duration-300" src="/assets/images/makerio.png" alt={name}/>

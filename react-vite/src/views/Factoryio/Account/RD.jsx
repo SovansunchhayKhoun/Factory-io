@@ -4,11 +4,11 @@ import {ProjectCard} from "../../../components/FactoryComponent/ProjectCard.jsx"
 import {useProjectContext} from "../../../context/Factory/ProjectContext.jsx";
 import AdminPopUp from "../../../components/Modals/AdminPopUp.jsx";
 import {UploadProjectForm} from "../../../components/FactoryComponent/UploadProjectForm.jsx";
+import {Popup} from "../../../components/Modals/FactoryModals/Popup.jsx";
+import {UploadPrjBtn} from "../../../components/FactoryComponent/UploadPrjBtn.jsx";
 
 export const RD = () => {
-  const [modalOpen, setModalOpen] = useState(false);
   const {projects, projectsIsLoading} = useProjectContext();
-
   const loading = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const LoadingProject = () => {
     if (projectsIsLoading) {
@@ -72,14 +72,7 @@ export const RD = () => {
             Item 1
           </Dropdown.Item>
         </Dropdown>
-        <button onClick={(e) => {
-          e.stopPropagation();
-          setModalOpen(true);
-        }} className="bg-[#699BF7] text-whiteFactory px-8 py-2 rounded-[20px] shadow-[#699BF7] shadow-lg">
-          Upload Project
-        </button>
-        <AdminPopUp id={100} modalOpen={modalOpen} setModalOpen={setModalOpen}
-                    content={<UploadProjectForm modalOpen={modalOpen} setModalOpen={setModalOpen}/>}/>
+        <UploadPrjBtn />
       </section>
       <section className="grid grid-cols-3 gap-6 auto-cols-fr">
         {loading?.map(l => <LoadingProject key={l}/>)}

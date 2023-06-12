@@ -14,6 +14,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
     projectValues,
     postProject
   } = useProjectContext();
+
   const {user} = useAuthContext();
   useEffect(() => {
     setErrors({});
@@ -21,9 +22,9 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
 
   return (
     <>
-      <section className="border bg-whiteFactory text-blackFactory rounded-md">
+      <section className="text-blackFactory rounded-md">
 
-        <section className="flex items-center justify-between px-4 py-2 border-b-2 border-grayFactory">
+        <section className="flex items-center justify-between border-b-2 border-grayFactory">
           <div>Upload Project</div>
           <button onClick={(e) => {
             e.stopPropagation();
@@ -137,7 +138,9 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
             </button>
           </div>
         </section>
+        <section className="">
 
+        </section>
       </section>
     </>
   )

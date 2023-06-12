@@ -1,8 +1,11 @@
 import {useProjectContext} from "../../context/Factory/ProjectContext.jsx";
 import {Spinner} from "flowbite-react";
+import {useState} from "react";
 
 export const ProjectCard = ({project}) => {
-  const {name, description, image} = project;
+  const {name, image, user} = project;
+  const [like, setLike] = useState(false);
+  const {username} = user;
 
   return (
     <>
@@ -13,23 +16,27 @@ export const ProjectCard = ({project}) => {
             <img loading="lazy" src={`http://127.0.0.1:8000/${image}`} alt=""/>
           </div>
           <span className="font-semibold overflow-hidden text-ellipsis">
-               {description}
-              </span>
-          <div className="text-grayFactory">
             {name}
+          </span>
+          <div className="text-grayFactory">
+            {username}
           </div>
         </div>
 
         {/*comment part*/}
         <div
           className={"border-t-2 border-grayFactory mt-auto px-4 pt-2 pb-3 flex items-center gap-x-3 justify-between"}>
-          <button>
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="24" viewBox="0 0 26 24" fill="none">
-              <path
-                d="M23.8375 7.80667L16.9809 7.21167L14.3034 0.9075C13.8217 -0.24 12.1784 -0.24 11.6967 0.9075L9.01921 7.22583L2.17671 7.80667C0.930042 7.90583 0.420042 9.46417 1.36921 10.2858L6.56837 14.7908L5.01004 21.4775C4.72671 22.6958 6.04421 23.6592 7.12087 23.0075L13 19.4658L18.8792 23.0217C19.9559 23.6733 21.2734 22.71 20.99 21.4917L19.4317 14.7908L24.6309 10.2858C25.58 9.46417 25.0842 7.90583 23.8375 7.80667ZM13 16.8167L7.67337 20.0325L9.09004 13.9692L4.38671 9.88917L10.5917 9.35083L13 3.64167L15.4225 9.365L21.6275 9.90333L16.9242 13.9833L18.3409 20.0467L13 16.8167Z"
-                fill="#F24E1E"/>
+          {/*star icon*/}
+          <button onClick={() => {
+            setLike(!like)
+          }}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#F24E1E"
+                 className="w-6 h-6">
+              <path fill={`${like && '#F24E1E'}`} strokeLinecap="round" strokeLinejoin="round"
+                    d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
             </svg>
           </button>
+          {/*comment icon*/}
           <button>
             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
               <path
@@ -37,6 +44,7 @@ export const ProjectCard = ({project}) => {
                 fill="#1037A9"/>
             </svg>
           </button>
+          {/*save post icon*/}
           <button>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="19" viewBox="0 0 15 19" fill="none">
               <path

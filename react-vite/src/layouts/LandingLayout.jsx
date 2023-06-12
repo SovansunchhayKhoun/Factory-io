@@ -1,4 +1,4 @@
-import {Navigate, Outlet} from "react-router-dom";
+import {Navigate, Outlet, useNavigate} from "react-router-dom";
 import {NavBar} from "../components/NavBar.jsx";
 import {Footer} from "../components/Footer.jsx";
 import {LandingNavBar} from "../components/LandingNavBar.jsx";
@@ -7,7 +7,13 @@ import {useAuthContext} from "../context/AuthContext.jsx";
 import axiosClient from "../axios-client.js";
 
 export const LandingLayout = () => {
-  const {setUser, token, setIsLoading, setToken} = useAuthContext()
+  const {onLogout, setUser, token, setIsLoading, setToken} = useAuthContext()
+  const navigate = useNavigate();
+
+  // redirect to home when logout
+  useEffect(() => {
+    navigate('/');
+  }, [onLogout]);
 
   useEffect(() => {
     if (token) {
@@ -25,6 +31,7 @@ export const LandingLayout = () => {
       })
     }
   }, []);
+
   return (
     <>
       <div className="min-h-screen flex flex-col overflow-auto">

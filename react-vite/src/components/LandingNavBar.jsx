@@ -26,13 +26,12 @@ export const LandingNavBar = () => {
 
   // Not signed in Navbar
   const [navBar, setNavBar] = useState([
-    {name: "Home", to: "factoryio", img: {imgSrc: "", imgWidth: 0}},
-    {name: "Community", to: "factoryio/community", img: {imgSrc: "", imgWidth: 0}},
-    {name: "R&D", to: "factoryio/rd", img: {imgSrc: "", imgWidth: 0}},
-    {name: "Contest", to: "factoryio/contest", img: {imgSrc: "", imgWidth: 0}},
-    {name: "", to: "/", img: {imgSrc: "/assets/images/makerio.png", imgWidth: 100}},
+    {name: "Home", to: "", img: {imgSrc: "", imgWidth: 0}},
+    {name: "Community", to: "community", img: {imgSrc: "", imgWidth: 0}},
+    {name: "R&D", to: "rd", img: {imgSrc: "", imgWidth: 0}},
+    {name: "Contest", to: "contest", img: {imgSrc: "", imgWidth: 0}},
+    {name: "", to: "/makerio", img: {imgSrc: "/assets/images/makerio.png", imgWidth: 100}},
   ]);
-
 
   if (token) {
     return (
@@ -62,9 +61,9 @@ export const LandingNavBar = () => {
             handleSearchInput={handleSearchInput}
             searchInput={searchInput} filteredItem={filteredItem} setSearchInput={setSearchInput}/>
 
-          <div className="flex items-center gap-12">
+          <div className="flex items-center gap-6">
             {/*home icon*/}
-            <Link to={'/factoryio/home'}>
+            <Link to={'/'}>
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="23" viewBox="0 0 28 23" fill="none">
                 <path
                   d="M11.3333 22.6667V14.6667H16.6667V22.6667H23.3333V12H27.3333L14 0L0.666656 12H4.66666V22.6667H11.3333Z"
@@ -72,7 +71,7 @@ export const LandingNavBar = () => {
               </svg>
             </Link>
             {/*global icon*/}
-            <Link to="#">
+            <Link to="/explore">
               <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                 <g clipPath="url(#clip0_140_1010)">
                   <path
@@ -90,7 +89,7 @@ export const LandingNavBar = () => {
               </svg>
             </Link>
             {/*bell icon*/}
-            <Link to={'#'}>
+            <button>
               <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
                 <g clipPath="url(#clip0_140_1014)">
                   <path
@@ -106,13 +105,14 @@ export const LandingNavBar = () => {
                   </clipPath>
                 </defs>
               </svg>
-            </Link>
-            <ProfileDropdown user={user} arrowIcon={true}/>
+            </button>
+            <ProfileDropdown to="/user" user={user} arrowIcon={true}/>
           </div>
         </nav>
       </>
     )
   }
+
   return (
     <>
       <nav className="fixed top-0 w-full bg-whiteFactory z-50 flex justify-between items-center
@@ -135,7 +135,7 @@ export const LandingNavBar = () => {
                   </Link>
                 </div>
                 <div className={`${!item.img.imgSrc && 'hidden'}`}>
-                  <Link to="/maker-io">
+                  <Link to="/makerio">
                     <img width={`${item.img.imgWidth}`} src={`${item.img.imgSrc}`} alt=""/>
                   </Link>
                 </div>
@@ -143,36 +143,18 @@ export const LandingNavBar = () => {
             )
           })}
         </div>
-        <div className="flex justify-end gap-x-2">
-          {
-            token ? (
-                <>
-                  <div className="mr-1">
-                    <Link to={`/maker-io/user/${user?.id}`} className="highlight-hover text-[#3C3C3C]">
-                      {user?.firstName}
-                    </Link>
-                  </div>
-                  <div className="mr-1">
-                    <a onClick={onLogout} className="highlight-hover text-[#3C3C3C]">
-                      Logout
-                    </a>
-                  </div>
-                </>
-              ) :
-              <>
-                <div className="mr-1">
-                  <Link to="/login" className="highlight-hover text-[#3C3C3C]">
-                    Sign in
-                  </Link>
-                </div>
-                <div>
-                  <Link to="/signup" className="highlight-hover text-[#3C3C3C]">
-                    Sign up
-                  </Link>
-                </div>
-              </>
-          }
 
+        <div className="flex justify-end gap-x-2">
+          <div className="mr-1">
+            <Link to="/login" className="highlight-hover text-[#3C3C3C]">
+              Sign in
+            </Link>
+          </div>
+          <div>
+            <Link to="/signup" className="highlight-hover text-[#3C3C3C]">
+              Sign up
+            </Link>
+          </div>
         </div>
       </nav>
     </>

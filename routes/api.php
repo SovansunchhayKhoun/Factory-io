@@ -7,7 +7,6 @@
   use App\Http\Controllers\Api\V1\MessageController;
   use App\Http\Controllers\Api\V1\ProductController;
   use App\Http\Controllers\Api\V1\ProjectController;
-  use App\Http\Controllers\Api\V1\ProjectUsersController;
   use App\Http\Controllers\Api\V1\ReviewController;
   use App\Http\Controllers\Api\V1\UserController;
   use Illuminate\Http\Request;
@@ -22,7 +21,6 @@
     Route ::apiResource ( 'reviews' , ReviewController::class );
     Route ::apiResource ( 'users' , UserController::class );
     Route ::apiResource ( 'projects' , ProjectController::class );
-    Route ::apiResource ( 'project_users' , ProjectUsersController::class );
     Route ::get ( 'last_project' , [ ProjectController::class , 'fetchLastProject' ] );
     Route ::get ( 'mostSoldItem' , [ InvoiceProductController::class , 'mostSoldItem' ] );
     Route ::get ( 'getLastInv' , [ InvoiceController::class , 'getLastInv' ] );
