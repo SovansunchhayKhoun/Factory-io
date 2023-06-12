@@ -13,6 +13,7 @@ export const UserProvider = ({children}) => {
   const [user, setUser] = useState({});
   const [admin,setAdmin] = useState({});
   const [addresses,setAddresses] = useState([]);
+
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -20,6 +21,7 @@ export const UserProvider = ({children}) => {
     phoneNumber: "",
     email: "",
     username:"",
+    address: "",
     password:"",
     new_password:"",
     password_confirmation:"",
@@ -40,6 +42,15 @@ export const UserProvider = ({children}) => {
   const getUserAddresses = async (id) => {
     await Axios.get(`userAddress/${id}`).then(({data}) => {
       setAddresses(data.data)
+    }).catch((e) => {
+      console.log(e);
+    })
+  }
+
+  const getUser = async (id) => {
+    await Axios.get(`users/${id}`).then(({data}) => {
+      setUser(data.data)
+      setUserToFormValues(data.data)
     }).catch((e) => {
       console.log(e);
     })
@@ -74,6 +85,7 @@ export const UserProvider = ({children}) => {
       phoneNumber: user.phoneNumber,
       email: user.email,
       username:user.username,
+      address: user.address
     })
     setUser(user)
   }
@@ -101,6 +113,7 @@ export const UserProvider = ({children}) => {
       username:"",
       password:"",
       new_password: "",
+      address: "",
       password_confirmation:"",
     })
   }
@@ -130,7 +143,7 @@ export const UserProvider = ({children}) => {
       errors,
       storeUser,
       getUsers,
-      // getUser,
+      getUser,
       onChange,
       updateUser,
       updatePassword,
@@ -140,7 +153,8 @@ export const UserProvider = ({children}) => {
       isLoading,
       getUserAddresses,
       addresses,
-      setAddresses
+      setAddresses,
+      resetFormValues,
     }}>{children}</UserContext.Provider>;
 };
 

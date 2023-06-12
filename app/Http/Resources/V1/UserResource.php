@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\V1;
 
+use App\Models\Address;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -28,6 +30,7 @@ class UserResource extends JsonResource
             'pfp' => $this->pfp,
             'bio' => $this->bio,
             'acc_type' => $this->acc_type,
+            'address' => $this->address,
         ];
     }
 }

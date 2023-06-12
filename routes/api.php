@@ -1,7 +1,7 @@
 <?php
 
   use App\Http\Controllers\Api\AuthController;
-  use App\Http\Controllers\Api\V1\AddressController;
+  use App\Http\Controllers\Api\V1\DeliveryAddressController;
   use App\Http\Controllers\Api\V1\ChatController;
   use App\Http\Controllers\Api\V1\InvoiceController;
   use App\Http\Controllers\Api\V1\InvoiceProductController;
@@ -21,8 +21,8 @@
     Route ::apiResource ( 'message' , MessageController::class );
     Route ::apiResource ( 'reviews' , ReviewController::class );
     Route ::apiResource ( 'users' , UserController::class );
-    Route ::apiResource ('addresses', AddressController::class);
-    Route ::get ('userAddress/{id}', [AddressController::class,'getAddressByUserID']);
+    Route ::apiResource ('addresses', DeliveryAddressController::class);
+    Route ::get ('userAddress/{id}', [DeliveryAddressController::class,'getAddressByUserID']);
     Route ::get ( 'mostSoldItem' , [ InvoiceProductController::class , 'mostSoldItem' ] );
     Route ::get ( 'getLastInv' , [ InvoiceController::class , 'getLastInv' ] );
     Route ::get ( 'getAllItems' , [ ProductController::class , 'getAllItems' ] );

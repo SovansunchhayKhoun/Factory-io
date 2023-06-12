@@ -144,6 +144,7 @@ function CreateItemModal({
               {errors.type && <span className="text-sm text-red-400">{errors.type[0]}</span>}
               <div className="flex gap-4">
                 <select value={selected} onChange={e => handleType(e)}>
+                  <option selected>Select type....</option>
                   {types?.map((type, key) => {
                     return (
                       <option key={key}>{type.type}</option>
