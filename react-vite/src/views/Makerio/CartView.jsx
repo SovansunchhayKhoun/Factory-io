@@ -14,7 +14,7 @@ export const CartView = () => {
     scrollTop(0);
     getCartItem();
   }, []);
-  const {scrollTop} = useContext(InvoiceContext);
+  const {scrollTop, invoiceError} = useContext(InvoiceContext);
 
   const {token} = useAuthContext();
   const {handleAddressChange, address, setTempAddress, tempAddress} = useContext(GoogleMapsContext);
@@ -40,13 +40,10 @@ export const CartView = () => {
               handleAddressChange(event, cartItem)
             }}
             placeholder={`Enter your address`}/>
-          <span className="text-sm text-redBase">
-                  {cartItem.addressError}
-              </span>
+          <span className="text-sm text-redBase">{invoiceError && invoiceError?.address?.map(error => error)}</span>
         </div>
       </div>
-      {/*<div className="flex justify-between">*/}
-      {/*</div>*/}
+
       <div className="flex flex-col gap-y-3 pb-6 border-b-2 border-tealActive mb-6">
         {cartItem.length === 0 && 'Empty Cart'}
         {cartItem.map((item, pos) => {

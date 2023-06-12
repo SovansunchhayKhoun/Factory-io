@@ -1,56 +1,56 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+  namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreInvoiceRequest;
-use App\Http\Requests\UpdateInvoiceRequest;
-use App\Http\Resources\V1\InvoiceResource;
-use App\Models\Invoice;
-use Illuminate\Support\Facades\Storage;
+  use App\Http\Controllers\Controller;
+  use App\Http\Requests\StoreInvoiceRequest;
+  use App\Http\Requests\UpdateInvoiceRequest;
+  use App\Http\Resources\V1\InvoiceResource;
+  use App\Models\Invoice;
+  use Illuminate\Support\Facades\Storage;
 
-class InvoiceController extends Controller
-{
-    public function index()
+  class InvoiceController extends Controller
+  {
+    public function index ()
     {
-        return InvoiceResource::collection(Invoice::all());
+      return InvoiceResource ::collection ( Invoice ::all () );
     }
 
-    public function store(StoreInvoiceRequest $request)
+    public function store ( StoreInvoiceRequest $request )
     {
-        $data = $request->validated();
+      $data = $request -> validated ();
 
-        if ($request->file('payment_pic')) {
-            $filename = $request->file('payment_pic')->getClientOriginalName();
-            Storage::disk('invoices')->put($filename, file_get_contents($data['payment_pic']));
-            $filepath = 'invoices/'.$filename;
-            $data['payment_pic'] = $filepath;
-        }
-        Invoice::create($data);
+      if ( $request -> file ( 'payment_pic' ) ) {
+        $filename = $request -> file ( 'payment_pic' ) -> getClientOriginalName ();
+        Storage ::disk ( 'invoices' ) -> put ( $filename , file_get_contents ( $data[ 'payment_pic' ] ) );
+        $filepath = 'invoices/' . $filename;
+        $data[ 'payment_pic' ] = $filepath;
+      }
+      Invoice ::create ( $data );
 //        return InvoiceResource::collection (Invoice::all ());
-        return response()->json('Invoice created');
+      return response () -> json ( 'Invoice created' );
     }
 
-    public function getLastInv() {
-      return Invoice::latest('id')->first();
-    }
-
-    public function show(Invoice $invoice)
+    public function getLastInv ()
     {
-        return new InvoiceResource($invoice);
+      return Invoice ::latest ( 'id' ) -> first ();
     }
 
-    public function update(UpdateInvoiceRequest $request, Invoice $invoice)
+    public function show ( Invoice $invoice )
     {
-        $invoice->update($request->validated());
-
-        return response()->json('Invoice updated');
+      return new InvoiceResource( $invoice );
     }
 
-    public function destroy(Invoice $invoice)
+    public function update ( UpdateInvoiceRequest $request , Invoice $invoice )
     {
-        $invoice->delete();
-        $invoice->products->delete();
-        return response()->json('Invoice deleted');
+      $invoice -> update ( $request -> validated () );
+
+      return response () -> json ( 'Invoice updated' );
     }
-}
+
+    public function destroy ( Invoice $invoice )
+    {
+      $invoice -> delete ();
+      return response () -> json ( 'Invoice deleted' );
+    }
+  }
