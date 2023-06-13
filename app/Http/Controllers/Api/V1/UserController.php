@@ -110,7 +110,7 @@ class UserController extends Controller
     {
         $user->delete();
         $user->reviews()->delete();
-
+        $user->deliveryAddresses()->delete();
         return response()->json('user deleted');
     }
 
