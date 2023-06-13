@@ -16,9 +16,9 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
   } = useProjectContext();
 
   const {user} = useAuthContext();
-  useEffect(() => {
-    setErrors({});
-  }, [modalOpen]);
+  // useEffect(() => {
+  //   setErrors({});
+  // }, [modalOpen]);
 
   return (
     <>
@@ -98,7 +98,8 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                 <label htmlFor="projectCate">
                   Category
                 </label>
-                <input value={projectValues.category} onChange={event => setProjectValues({...projectValues, category: event.target.value})}
+                <input value={projectValues.category}
+                       onChange={event => setProjectValues({...projectValues, category: event.target.value})}
                        className="rounded-md" name="projectCate" type="text"/>
                 <span className="text-redBase text-sm w-[70%]">{errors?.category?.map(error => error)}</span>
               </div>
@@ -108,7 +109,8 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
               <label htmlFor="description">
                 Description
               </label>
-              <textarea value={projectValues.description} onChange={event => setProjectValues({...projectValues, description: event.target.value})}
+              <textarea value={projectValues.description}
+                        onChange={event => setProjectValues({...projectValues, description: event.target.value})}
                         name="description" id="" className="w-full rounded-md" rows="5"></textarea>
             </div>
 
@@ -116,10 +118,9 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
 
               <div className="flex flex-col items-start">
                 <label htmlFor="target_fund">Target Amount</label>
-                <input value={projectValues.target_fund} id="target_fund" onChange={event => setProjectValues({
-                  ...projectValues,
-                  target_fund: Number(event.target.value) && Number(event.target.value)
-                })} className="rounded-md" min="0" type="number"/>
+                <input value={projectValues.target_fund} id="target_fund"
+                       onChange={event => setProjectValues({...projectValues, target_fund: Number(event.target.value) && Number(event.target.value)})}
+                       className="rounded-md" min="0" type="number"/>
                 <span className=" text-redBase text-sm w-[70%]">{errors?.target_fund?.map(error => error)}</span>
               </div>
 

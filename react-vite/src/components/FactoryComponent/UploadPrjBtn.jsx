@@ -12,6 +12,7 @@ export const UploadPrjBtn = () => {
       }} className="bg-[#699BF7] text-whiteFactory px-8 py-2 rounded-[20px] shadow-[#699BF7] shadow-lg">
         Upload Project
       </button>
+      {/*<UploadProjectForm setModalOpen={setModalOpen} modalOpen={modalOpen}/>*/}
       <Popup modalSize={"7xl"} modalBg={"bg-whiteFactory"}
              children={<UploadProjectForm setModalOpen={setModalOpen} modalOpen={modalOpen}/>} modalOpen={modalOpen}
              setModalOpen={setModalOpen}/>

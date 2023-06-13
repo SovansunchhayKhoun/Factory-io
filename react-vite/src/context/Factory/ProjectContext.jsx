@@ -64,8 +64,6 @@ export const ProjectContext = ({children}) => {
     setErrors(null);
     projectValues.user_id = user?.id;
 
-    console.log(projectValues);
-    console.log(JSON.stringify(projectValues));
     try {
       // post to project table
       await Axios.post('projects', projectValues, {
