@@ -17,7 +17,7 @@ export const DeclineOrderButton = (props) => {
         <AccordionBodyContent invoice={invoice}/>
         <div className="flex gap-x-2">
           <button type="submit"
-                  onClick={() => declineOrder(invoice)}
+                  onClick={() => declineOrder(setDeclineOrderModalOpen, invoice)}
                   className="w-full text-white bg-redBase hover:bg-redHover font-medium rounded-lg text-sm px-5 py-2.5 text-center">
             Delete Order
           </button>

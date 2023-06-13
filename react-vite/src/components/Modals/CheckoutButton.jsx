@@ -32,12 +32,27 @@ const style = {
 
 export default function CheckoutButton() {
   const {getType} = useContext(ProductContext);
-  const {cartItem, getCartItem, checkOut, totalPrice, success, setSuccess} = useContext(CartContext);
-  const {paymentPic, setPaymentPic, scrollTop, validateInvoice} = useContext(InvoiceContext);
+  const {
+    setCartItem,
+    cartItem,
+    getCartItem,
+    checkOut,
+    totalPrice,
+    success,
+    setSuccess,
+    clearCart
+  } = useContext(CartContext);
+  const {
+    invoiceError,
+    paymentPic,
+    setPaymentPic,
+    scrollTop,
+    validateInvoice,
+    storeInvoice
+  } = useContext(InvoiceContext);
   const {tempAddress, address} = useContext(GoogleMapsContext);
   const {user, token} = useAuthContext();
   const [modalOpen, setModalOpen] = useState(false);
-
 
   useEffect(() => {
     getCartItem();
@@ -93,7 +108,8 @@ export default function CheckoutButton() {
                             <div className={`text-sm items-center flex gap-x-2`}>
                               <div className="flex items-center">
                                 <div className="whitespace-nowrap">{i.qty}</div>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     strokeWidth={1.5}
                                      stroke="currentColor"
                                      className="w-4 h-4">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
@@ -128,12 +144,10 @@ export default function CheckoutButton() {
                       flex justify-center gap-x-3 flex-1 transition duration-500 bg-tealActive text-whiteFactory py-2 rounded-md hover:bg-tealHover/80 active:bg-tealActive`}
                       onClick={(e) => {
                         if (token) {
-                          if (validateInvoice(e, cartItem, setModalOpen)) {
-                            e.stopPropagation();
-                            setSuccess(false);
-                            checkOut(cartItem, paymentPic, setModalOpen);
-                            setPaymentPic('');
-                          }
+                          e.stopPropagation();
+                          setSuccess(false);
+                          storeInvoice(totalPrice, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess);
+                          setPaymentPic('');
                         }
                       }}>
                       <span>Confirm</span>
