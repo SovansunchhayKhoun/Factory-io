@@ -107,13 +107,22 @@ export default function Login() {
                   className="font-bold text-center text-blackFactory border border-redBase px-[35px] py-[7px] rounded-[4px] shadow-2xl">
                   Sign In
                 </button>
-                <div className="flex gap-x-1">
-                  <p>Don't have an account?</p>
-                  <Link to="/signup"
-                        className="text-tealHover font-bold"
-                  >Sign up
-                  </Link>
+                <div>
+                  <div className="flex gap-x-1">
+                    <p>Don't have an account?</p>
+                    <Link to="/signup"
+                          className="text-tealHover font-bold"
+                    >Sign up
+                    </Link>
+                  </div>
+                  <div className="flex justify-end">
+                    <Link to="/forgot-password"
+                          className="text-tealHover font-bold hover:underline"
+                    >Forgot Password
+                    </Link>
+                  </div>
                 </div>
+
               </div>
             </div>
           </div>
