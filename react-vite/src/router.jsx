@@ -27,6 +27,7 @@ import {RnDLanding} from "./views/Factoryio/RnDlanding.jsx";
 import {ContestLanding} from "./views/Factoryio/ContestLanding.jsx";
 import {FactoryHome} from "./views/Factoryio/FactoryHome.jsx";
 import {AccountView} from "./views/Factoryio/AccountView.jsx";
+import {AdminView} from "./views/AdminView.jsx";
 
 const router = createBrowserRouter([
   {
@@ -83,6 +84,11 @@ const router = createBrowserRouter([
         path: 'user',
         element: <UserView/>,
         errorElement: <ErrorBoundary/>
+      },
+      {
+        path: 'admin',
+        element: <AdminView/>,
+        errorElement: <ErrorBoundary />
       },
       {
         path: 'user/change-password',

@@ -25,9 +25,9 @@ export const ItemCard = (props) => {
             {
               (image === null || image === undefined)
                 ?
-                <img className="hover:scale-75 ease-in-out duration-300 object-contain" src="/assets/images/makerio.png"
+                <img loading={"lazy"} className="hover:scale-75 ease-in-out duration-300 object-contain" src="/assets/images/makerio.png"
                      alt={name}/>
-                : <img className="hover:scale-75 ease-in-out duration-300 object-contain"
+                : <img loading={"lazy"} className="hover:scale-75 ease-in-out duration-300 object-contain"
                        src={`http://127.0.0.1:8000/${image}`} alt={name}/>
             }
           </Link>
@@ -54,7 +54,7 @@ export const ItemCard = (props) => {
                   onClick={() => {
                     addToCart(props.item);
                   }}>
-                  <img width="36" src="/assets/images/cart-icon.png" alt=""/>
+                  <img loading={"lazy"} width="36" src="/assets/images/cart-icon.png" alt=""/>
                 </button>
               </Tooltip>
 

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateAdminRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\AdminResource;
 use App\Http\Resources\V1\UserResource;
@@ -15,6 +17,13 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function updateAdmin(Request $request, UpdateAdminRequest $req)
+    {
+      $data = $req->validated();
+      $admin = Admin::find($request->route('id'));
+      $admin->update($data);
+      return response()->json('User updated successfully');
+    }
     public function index()
     {
         return UserResource::collection(User::all());
@@ -23,11 +32,6 @@ class UserController extends Controller
     public function getAdmins()
     {
         return AdminResource::collection(Admin::all());
-    }
-
-    public function getAdmin(Admin $user)
-    {
-        return new AdminResource($user);
     }
 
     public function store(StoreUserRequest $request)
@@ -41,10 +45,30 @@ class UserController extends Controller
             'gender' => $data['gender'],
             'email' => $data['email'],
             'username' => $data['username'],
+            'address' => $data['address'],
             'password' => bcrypt($data['password']),
         ]);
 
         return response()->json('User Created');
+    }
+
+    public function changeAdminPassword(Request $request, Admin $admin, ChangePasswordRequest $req){
+      $data = $req->validated();
+      $admin = Admin::find($request->route('id'));
+      if (Hash::check($data['password'], $admin['password'])) {
+        if ($data['new_password'] === $data['password_confirmation']) {
+          $data['password'] = bcrypt($data['new_password']);
+          $admin->update($data);
+        } else {
+          return response([
+            'message' => 'Password is not matched',
+          ], 422);
+        }
+      } else {
+        return response([
+          'message' => 'Incorrect old password',
+        ], 422);
+      }
     }
 
     public function changePassword(Request $request, User $user, ChangePasswordRequest $req)

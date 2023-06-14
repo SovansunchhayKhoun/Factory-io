@@ -17,7 +17,10 @@ import {
 } from "@tanstack/react-query";
 import {ChatProvider} from "./context/ChatContext.jsx";
 import {GoogleMapsProvider} from "./context/GoogleMapsContext.jsx";
+<<<<<<< HEAD
 import {ProjectContext} from "./context/Factory/ProjectContext.jsx";
+=======
+>>>>>>> 9b6c7d1a8934a62cd1ba4fc800b86b3f6e7b737d
 
 const client = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(

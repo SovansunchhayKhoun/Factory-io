@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {Dropdown, Spinner} from "flowbite-react";
+import React from "react";
+import {Dropdown} from "flowbite-react";
 import {ProjectCard} from "../../../components/FactoryComponent/ProjectCard.jsx";
 import {useProjectContext} from "../../../context/Factory/ProjectContext.jsx";
 import AdminPopUp from "../../../components/Modals/AdminPopUp.jsx";
@@ -63,20 +63,21 @@ export const RD = () => {
       </>
     )
   }
-
   return (
     <main className="flex flex-col gap-3 mr-24">
       <section className="flex justify-between">
-        <Dropdown style={{background: "#D9D9D9", padding: 0}} arrowIcon={false} label={<FilterIcon/>}>
+        <Dropdown style={{background: "#D9D9D9", padding: 0}} arrowIcon={false} label={<FilterComponent/>}>
           <Dropdown.Item>
             Item 1
           </Dropdown.Item>
         </Dropdown>
         <UploadPrjBtn />
       </section>
-      <section className="grid grid-cols-3 gap-6 auto-cols-fr">
-        {loading?.map(l => <LoadingProject key={l}/>)}
-        {projects?.map((project, key) => <ProjectCard key={key} project={project}/>)}
+      <section className="grid grid-cols-2 gap-6">
+        <ProjectCard/>
+        <ProjectCard/>
+        <ProjectCard/>
+        <ProjectCard/>
       </section>
     </main>
   )

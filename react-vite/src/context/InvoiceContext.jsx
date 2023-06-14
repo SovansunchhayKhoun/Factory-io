@@ -9,11 +9,17 @@ Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const libraries = ['places'];
 const InvoiceContext = createContext();
 export const InvoiceProvider = ({children}) => {
+  // need to redeclare cuz cannot access product context to this context
+  const {data: items} = useQuery(['items'], () => {
+    return Axios.get('products').then((res) => res.data.data);
+  });
+
   const {data: invoices, isLoading, refetch: invoicesReFetch} = useQuery(['invoices'], () => {
     return Axios.get('invoices').then((res) => {
       return res.data.data;
     })
   });
+  const [invoiceError, setInvoiceError] = useState([]);
   const {address, setAddress, placeId} = useContext(GoogleMapsContext)
   const {user} = useAuthContext();
   const [invStatus, setInvStatus] = useState(-1);
@@ -30,31 +36,30 @@ export const InvoiceProvider = ({children}) => {
       behavior: "smooth",
     });
   }
-  const [invoiceError, setInvoiceError] = useState([]);
   // const storeInvoice = async (total, cartItem, paymentPic, setModalOpen, setLoadingSuccess) => {
 
-  const validateInvoice = (e, cartItem, setModalOpen) => {
-    if(!address) {
-      e.stopPropagation();
-      cartItem.addressError = 'The Address field is required';
-      setModalOpen(false);
-      return false;
-    }
-    if (!paymentPic) {
-      e.stopPropagation()
-      cartItem.paymentError = 'Please include payment picture'
-      setModalOpen(false)
-      return false;
-    }
-    scrollTop(0);
-    return true;
-  };
+  // const validateInvoice = (e, cartItem, setModalOpen) => {
+  //   if (!address) {
+  //     e.stopPropagation();
+  //     cartItem.addressError = 'The Address field is required';
+  //     setModalOpen(false);
+  //     return false;
+  //   }
+  //   if (!paymentPic) {
+  //     e.stopPropagation()
+  //     cartItem.paymentError = 'Please include payment picture'
+  //     setModalOpen(false)
+  //     return false;
+  //   }
+  //   scrollTop(0);
+  //   return true;
+  // };
 
-  const storeInvoice = async (total, cartItem, paymentPic) => {
+  const storeInvoice = async (total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess) => {
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
     const invoice = {
-      user_id: user.id,
+      user_id: user?.id,
       date: currentDate,
       status: -1,
       placeId: placeId,
@@ -63,21 +68,40 @@ export const InvoiceProvider = ({children}) => {
       payment_pic: paymentPic,
       item_count: cartItem.length,
     };
-    try {
-      await Axios.post('invoices', invoice, {
-        headers: {'Content-Type': "multipart/form-data"}
-      });
-      setAddress('');
-    } catch (e) {
-      scrollTop(0);
-      console.log(e.response.data.errors);
-      setInvoiceError(e.response.data.error);
-    }
-  }
 
-  const {data: items} = useQuery(['items'], () => {
-    return Axios.get('products').then((res) => res.data.data);
-  });
+    // post invoice to  db
+    await Axios.post('invoices', invoice, {
+      headers: {'Content-Type': "multipart/form-data"}
+    }).then(async () => {
+      // get posted invoice
+      await Axios.get('getLastInv').then(async ({data}) => {
+        // then post item to pivot table
+        await cartItem.forEach(item => {
+          item.invoice_id = data?.id;
+          item.user_id = user?.id;
+          Axios.post('invoice_products', item)
+            .then(res => res)
+            .catch(e => {
+              setInvoiceError(e.response.data.errors);
+              console.log(e.response.data.errors);
+            })
+        })
+      })
+    }).then(() => {
+      invoicesReFetch()
+      clearCart();
+      setCartItem([]);
+      setModalOpen(false);
+      setAddress('');
+    }).catch((e) => {
+      setInvoiceError(e.response.data.errors);
+      scrollTop(0);
+      setModalOpen(false);
+      console.log(e.response.data.errors)
+    });
+    // to stop loading
+    setSuccess(true)
+  }
 
   const handleQty = (invProd, setInvProd, item) => event => {
     if (event.target.value === '') {
@@ -141,10 +165,12 @@ export const InvoiceProvider = ({children}) => {
     await updateOrder(invoice);
   }
 
-  const declineOrder = async (order) => {
+  const declineOrder = async (setModalOpen, order) => {
     try {
-      await Axios.delete(`invoices/${order.id}`);
-      await invoicesReFetch();
+      await Axios.delete(`invoices/${order.id}`).then(() => {
+        invoicesReFetch();
+        setModalOpen(false)
+      });
     } catch (e) {
       console.log(e.response.data.errors);
       setInvoiceError(e.response.data.errors);
@@ -153,7 +179,6 @@ export const InvoiceProvider = ({children}) => {
 
   return (
     <InvoiceContext.Provider value={{
-      validateInvoice,
       scrollTop,
       updateInvProd,
       updateOrder,

@@ -84,7 +84,7 @@ export const CartProvider = ({children}) => {
       event.target.value = event.target.value.replace(/(\..*)\./g, '$1');
       item.qty = Number(event.target.value)
     } else if (!Number(event.target.value)) {
-      item.qty = 1;
+      item.qty = 0;
       item.warning = 'Item quantity must be at least 1';
       event.target.value = '';
       setItemQty('')
@@ -116,35 +116,43 @@ export const CartProvider = ({children}) => {
     localStorage.removeItem('CART_ITEM');
   }
 
-  const {storeInvoice, invoicesReFetch} = useContext(InvoiceContext);
-  const checkOut = async (cartItem, paymentPic, setModalOpen) => {
-    if (!isLoading) {
-      setSuccess(false);
-      await storeInvoice(totalPrice, cartItem, paymentPic);
-      await invoicesReFetch();
-      const lastInvoice = await Axios.get('getLastInv').then(({data}) => {
-        return data;
-      });
-      await cartItem?.forEach((item) => {
-        item.invoice_id = lastInvoice?.id;
-        item.user_id = user?.id;
-        try {
-          Axios.post('invoice_products', item)
-          clearCart();
-          setCartItem([]);
-        } catch (e) {
-          console.log(e.response.data.errors)
-          setCartError(e.response.data.errors)
-        }
-      })
-      console.log('done');
-      setSuccess(true);
-      setModalOpen(false);
-      await invoicesReFetch();
-    }
-  }
+  // const {storeInvoice, invoicesReFetch} = useContext(InvoiceContext);
+  // const checkOut = async (cartItem, paymentPic, setModalOpen) => {
+  //   if (!isLoading) {
+  //     setSuccess(false);
+  //     try {
+  //       await storeInvoice(totalPrice, cartItem, paymentPic).then(async () => {
+  //         await Axios.get('getLastInv').then(async ({data})=>{
+  //           await cartItem?.forEach((item) => {
+  //             item.invoice_id = data?.id;
+  //             item.user_id = user?.id;
+  //             console.log(item);
+  //             try {
+  //               Axios.post('invoice_products', item)
+  //             } catch (e) {
+  //               console.log(e.response.data.errors)
+  //               setCartError(e.response.data.errors)
+  //             }
+  //           })
+  //         });
+  //       }).then(() => {
+  //         clearCart();
+  //         setCartItem([]);
+  //         invoicesReFetch();
+  //         setSuccess(true);
+  //         setModalOpen(false);
+  //       }).catch((e) => {
+  //         console.log('1')
+  //         console.log(e.response.data.errors);
+  //       });
+  //     } catch (e) {
+  //       console.log(e.response.data.errors)
+  //     }
+  //   }
+  // }
 
   return <CartContext.Provider value={{
+    clearCart,
     setItemQty,
     itemQty,
     handleQty,
@@ -155,7 +163,6 @@ export const CartProvider = ({children}) => {
     success,
     setSuccess,
     addToCart,
-    checkOut,
     getCartItem,
     saveLocalCartItem,
     increaseItemQty,
