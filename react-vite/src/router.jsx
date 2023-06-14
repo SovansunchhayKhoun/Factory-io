@@ -28,6 +28,7 @@ import {ContestLanding} from "./views/Factoryio/ContestLanding.jsx";
 import {FactoryHome} from "./views/Factoryio/FactoryHome.jsx";
 import {AdminView} from "./views/AdminView.jsx";
 import {ForgotPassword} from "./views/ForgotPassword..jsx";
+import {ResetPassword} from "./views/ResetPassword.jsx";
 
 const router = createBrowserRouter([
   {
@@ -166,6 +167,11 @@ const router = createBrowserRouter([
   {
     path: '/forgot-password',
     element: <ForgotPassword/>,
+    errorElement: <ErrorBoundary/>
+  },
+  {
+    path: '/reset-password/:tokens',
+    element: <ResetPassword/>,
     errorElement: <ErrorBoundary/>
   }
 ])

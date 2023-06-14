@@ -33,6 +33,7 @@
     Route ::put ( 'admins/{id}/change-password' , [ UserController::class , 'changeAdminPassword' ] );
     Route ::get ( 'getAdmin' , [ UserController::class , 'getAdmins' ] );
     Route ::put ( 'updateAdmin/{id}' , [ UserController::class , 'updateAdmin' ] );
+
   } );
 
   Route ::middleware ( 'auth:sanctum' ) -> group ( function () {
@@ -48,3 +49,5 @@
   Route ::post ( '/signup' , [ AuthController::class , 'signup' ] );
   Route ::post ( '/login' , [ AuthController::class , 'login' ] );
   Route ::post ( '/loginAsAdmin' , [ AuthController::class , 'loginAsAdmin' ] );
+Route::post('/submitForgotPasswordForm',[AuthController::class,'submitForgotPasswordForm']);
+Route::post('/resetPassword',[AuthController::class,'resetPassword']);
