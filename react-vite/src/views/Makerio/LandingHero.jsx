@@ -84,7 +84,7 @@ export const LandingHero = () => {
                 className="cursor-pointer max-w-[300px] min-h-[150px] shadow-2xl border border-[#59C3CB] rounded-lg p-6 flex flex-col transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
                 onClick={() => {
                   setSearchInput('Sensor')
-                  navigate('/maker-io')
+                  navigate('/makerio/shop')
                 }}
               >
                 <div className="flex-1 w-[200px]">
@@ -105,7 +105,7 @@ export const LandingHero = () => {
               <div
                 onClick={() => {
                   setSearchInput('microcontroller')
-                  navigate('/maker-io')
+                  navigate('/makerio/shop')
                 }}
                 className="cursor-pointer max-w-[300px] min-h-[150px] shadow-2xl border border-[#59C3CB] rounded-lg p-6 flex flex-col transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
               >
@@ -128,7 +128,7 @@ export const LandingHero = () => {
               <div
                 onClick={() => {
                   setSearchInput('microprocessor')
-                  navigate('/maker-io')
+                  navigate('/makerio/shop')
                 }}
                 className="cursor-pointer max-w-[300px] min-h-[150px] shadow-2xl border border-[#59C3CB] rounded-lg p-6 flex flex-col transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
               >
@@ -151,7 +151,7 @@ export const LandingHero = () => {
               <div
                 onClick={() => {
                   setSearchInput('tools')
-                  navigate('/maker-io')
+                  navigate('/makerio/shop')
                 }}
                 className="cursor-pointer max-w-[300px] min-h-[150px] shadow-2xl border border-[#59C3CB] rounded-lg p-6 flex flex-col transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
               >
@@ -174,7 +174,7 @@ export const LandingHero = () => {
               <div
                 onClick={() => {
                   setSearchInput('resistor')
-                  navigate('/maker-io')
+                  navigate('/makerio/shop')
                 }}
                 className="cursor-pointer max-w-[300px] min-h-[150px] shadow-2xl border border-[#59C3CB] rounded-lg p-6 flex flex-col transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
               >
@@ -197,7 +197,7 @@ export const LandingHero = () => {
               <div
                 onClick={() => {
                   setSearchInput('battery')
-                  navigate('/maker-io')
+                  navigate('/makerio/shop')
                 }}
                 className="cursor-pointer max-w-[300px] min-h-[150px] shadow-2xl border border-[#59C3CB] rounded-lg p-6 flex flex-col transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
               >

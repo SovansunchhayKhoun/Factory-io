@@ -7,6 +7,7 @@ import InvoiceContext from "../../context/InvoiceContext.jsx";
 import {Link} from "react-router-dom";
 import {useAuthContext} from "../../context/AuthContext.jsx";
 import {GoogleMapsContext} from "../../context/GoogleMapsContext.jsx";
+import {Dropdown} from "flowbite-react";
 
 export const CartView = () => {
   const {cartItem, getCartItem} = useContext(CartContext);
@@ -29,16 +30,22 @@ export const CartView = () => {
           xl:w-[50%]
           lg:w-[60%] lg:text-base
           md:w-[60%] md:text-xs">
-          <input
-            className={"ring-2 ring-tealHover font-semibold bg-tealActive text-blackFactory px-3 py-2 rounded-md"}
-            value={cartItem.length > 0 ? tempAddress.toString() : ''}
-            onChange={event => {
-              handleAddressChange(event, cartItem)
-            }}
-            placeholder={`Enter your address`}/>
-          {invoiceError && invoiceError?.address?.map((error, key) =>
-            <span className="text-sm text-redBase" key={key}>{error}</span>
-          )}
+          <div className="flex">
+            <div className="w-[205px]">
+              <Dropdown style={{padding: 0, border: "none"}} label={'Select Address'}>
+                <Dropdown.Item>
+                  Address
+                </Dropdown.Item>
+              </Dropdown>
+            </div>
+            <div className="relative w-full">
+              <input type="search" id="search-dropdown"
+                     className={"w-full ring-2 ring-tealHover font-semibold bg-tealActive text-blackFactory px-3 py-2 rounded-md"}
+                     value={cartItem.length > 0 ? tempAddress.toString() : ''}
+                     onChange={event => handleAddressChange(event)}
+                     placeholder="Enter your Address..." required/>
+            </div>
+          </div>
         </div>
       </div>
 

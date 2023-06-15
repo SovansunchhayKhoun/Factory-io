@@ -1,21 +1,13 @@
 import {GoogleMap, useJsApiLoader, MarkerF} from "@react-google-maps/api";
-import {createContext, useContext, useEffect, useState} from "react";
+import React, {createContext, useContext, useEffect, useState} from "react";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng
 } from "use-places-autocomplete"
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxPopover,
-  ComboboxList,
-  ComboboxOption,
-  ComboboxOptionText,
-} from "@reach/combobox";
 import "@reach/combobox/styles.css";
 
-const libraries = ['places'];
 export const GoogleMapsContext = createContext();
+const libraries = ['places'];
 export const GoogleMapsProvider = ({children}) => {
   const {isLoaded} = useJsApiLoader({
       googleMapsApiKey: import.meta.env.VITE_APP_GOOGLE_MAPS_API_KEY,
@@ -54,19 +46,12 @@ export const GoogleMapsProvider = ({children}) => {
     }
   }
   const [tempAddress, setTempAddress] = useState('');
-  const handleAddressChange = (event, cartItem) => {
-    cartItem.addressError = '';
-    if (cartItem.length === 0) {
-      cartItem.addressError = 'You need to have at least 1 item'
-      return;
-    }
-    if (event.target.value === '') {
-      cartItem.addressError = 'Please fill in your address';
-    }
+  const handleAddressChange = (event) => {
     setTempAddress(event.target.value);
   }
 
   const PlacesAutoComplete = ({setMarker}) => {
+    const [map, setMap] = useState(/** @type google.maps.Map */ (null));
     const {
       ready,
       value,
@@ -74,7 +59,6 @@ export const GoogleMapsProvider = ({children}) => {
       suggestions: {status, data},
       clearSuggestions
     } = usePlacesAutocomplete();
-
     const handleSelect = async (address) => {
       setValue(address, false);
       clearSuggestions();
@@ -84,21 +68,21 @@ export const GoogleMapsProvider = ({children}) => {
       setLongitude(lng);
       setMarker([{lat, lng}]);
     };
-
-    const [map, setMap] = useState(/** @type google.maps.Map */ (null));
-
     return (
-      <Combobox onSelect={handleSelect}>
-        <ComboboxInput className="w-full p-1 border" placeholder={'search'} value={value}
-                       onChange={event => setValue(event.target.value)}/>
-        <ComboboxPopover>
-          <ComboboxList>
-            {status === "OK" && data.map(({place_id, description}) => {
-              return <ComboboxOption key={place_id} value={description}/>
-            })}
-          </ComboboxList>
-        </ComboboxPopover>
-      </Combobox>
+      <>
+        <input type="text"
+               placeholder="Search..."
+               className="w-[100%] px-12 search-bar py-1 border-none"
+               value={value}
+               onChange={({target}) => setValue(target.value)}/>
+        <div className="flex flex-col mt-3">
+          {status === "OK" && data.map(({place_id, description}) => {
+            return (
+              <button className="text-start px-4 py-2 border" onClick={()=>{handleSelect(description)}} key={place_id}>{description}</button>
+            )
+          })}
+        </div>
+      </>
     )
   }
 
@@ -129,9 +113,9 @@ export const GoogleMapsProvider = ({children}) => {
     }
     return (
       <>
-        <div className="mb-3">
+        {/*<div className="mb-3">*/}
           <PlacesAutoComplete setMarker={setMarker}/>
-        </div>
+        {/*</div>*/}
         <div className="">
           <div className="relative flex gap-x-2">
             <div className="absolute bottom-0 z-20">
@@ -196,7 +180,7 @@ export const GoogleMapsProvider = ({children}) => {
         latitude,
         setLongitude,
         longitude,
-        PlacesAutoComplete,
+        // PlacesAutoComplete,
         placeId,
         setPlaceId,
         GoogleMaps,

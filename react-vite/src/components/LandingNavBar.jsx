@@ -2,7 +2,6 @@ import {Link} from "react-router-dom";
 import {useAuthContext} from "../context/AuthContext.jsx";
 import React, {useContext, useEffect, useState} from "react";
 import AxiosClient from "../axios-client.js";
-import {NavSearchbar} from "./ui/NavBarui/NavSearchbar.jsx";
 import ProductContext from "../context/ProductContext.jsx";
 import {ProfileDropdown} from "./ui/NavBarui/ProfileDropdown.jsx";
 
@@ -11,18 +10,18 @@ export const LandingNavBar = () => {
   const [searchInput, setSearchInput] = useState('')
   const [filteredItem, setFilteredItem] = useState([])
   const {items} = useContext(ProductContext);
-  const handleSearchInput = (e) => {
-    setSearchInput(e.target.value)
-    setFilteredItem(
-      items?.filter((item) => {
-        if (searchInput !== "") {
-          if (item?.name.toLowerCase().includes(searchInput.toLowerCase()) || item?.type.toLowerCase().includes(searchInput.toLowerCase())) {
-            return item
-          }
-        }
-      })
-    )
-  }
+  // const handleSearchInput = (e) => {
+  //   setSearchInput(e.target.value)
+  //   setFilteredItem(
+  //     items?.filter((item) => {
+  //       if (searchInput !== "") {
+  //         if (item?.name.toLowerCase().includes(searchInput.toLowerCase()) || item?.type.toLowerCase().includes(searchInput.toLowerCase())) {
+  //           return item
+  //         }
+  //       }
+  //     })
+  //   )
+  // }
 
   // Not signed in Navbar
   const [navBar, setNavBar] = useState([
@@ -57,9 +56,12 @@ export const LandingNavBar = () => {
             </div>
           </div>
           {/*search bar*/}
-          <NavSearchbar
-            handleSearchInput={handleSearchInput}
-            searchInput={searchInput} filteredItem={filteredItem} setSearchInput={setSearchInput}/>
+
+          <div className="md:flex md:items-center md:gap-x-12 lg:w-[384px] hidden">
+            <input type="text"
+                   placeholder="Search..."
+                   className="w-[100%] px-12 search-bar py-1 border-none"/>
+          </div>
 
           <div className="flex items-center gap-6">
             {/*home icon*/}
