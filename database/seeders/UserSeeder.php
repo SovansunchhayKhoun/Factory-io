@@ -29,6 +29,7 @@ class UserSeeder extends Seeder
             'phoneNumber' => '012792811',
             'email' => 'rithtipongem@gmail.com',
             'username' => 'RpongEM',
+            'address' => 'Phnom Penh, Cambodia',
             'password' => bcrypt('1234'),
             'bio' => 'Backend Dev',
         ]);
@@ -39,6 +40,7 @@ class UserSeeder extends Seeder
             'phoneNumber' => '012355162',
             'email' => 'sunchhay@gmail.com',
             'username' => 'JustChhayXP',
+          'address' => 'Phnom Penh, Cambodia',
             'password' => bcrypt('1234'),
             'bio' => 'Backend Dev',
         ]);
@@ -49,6 +51,7 @@ class UserSeeder extends Seeder
             'phoneNumber' => '012355162',
             'email' => 'tepin@gmail.com',
             'username' => 'CharmZz',
+            'address' => 'Phnom Penh, Cambodia',
             'password' => bcrypt('1234'),
             'bio' => 'Frontend Dev',
         ]);

@@ -123,7 +123,7 @@ export const Payment = (props) => {
           <div className="md:hidden"></div>
           {/* for grid*/}
           <div className="flex flex-col gap-y-2 md:items-start items-center">
-            <div className="text-redBase text-xs">{cartItem.paymentError}</div>
+            <div className="text-redBase text-xs">{invoiceError && invoiceError?.payment_pic?.map(error => error)}</div>
             {
               paymentPic &&
               <>
@@ -157,8 +157,6 @@ export const Payment = (props) => {
             }
           </div>
           <div className="md:hidden"></div>
-          {/* for grid*/
-          }
         </div>
       </div>
 
@@ -169,7 +167,6 @@ export const Payment = (props) => {
           Browse product
         </Link>
         <div className="flex items-center gap-x-2">
-          <div className="text-redBase">{invoiceError}{cartError}</div>
           <CheckoutButton/>
         </div>
       </div>

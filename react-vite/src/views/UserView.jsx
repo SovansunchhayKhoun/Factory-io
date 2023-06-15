@@ -1,15 +1,18 @@
 import {useAuthContext} from "../context/AuthContext"
 import {Link, Navigate} from "react-router-dom";
-import {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import UserContext from "../context/UserContext.jsx";
 import ConfirmPasswordModal from "../components/ConfirmPasswordModal.jsx";
 import axiosClient from "../axios-client.js";
+import {Spinner} from "flowbite-react";
+import AddressPopUp from "../components/Modals/AddressPopUp.jsx";
 
 export const UserView = () => {
-  const {token,user,setToken,setUser} = useAuthContext()
-  const {getUser,formValues,onChange,isLoading,setIsLoading} = useContext(UserContext)
+  const {token,user,setIsLoading,isLoading,setUser,setToken} = useAuthContext()
+  const {formValues,setUserToFormValues,onChange} = useContext(UserContext)
   const [confirmPasswordModalOpen,setConfirmPasswordModalOpen] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [addressModalOpen,setAddressModalOpen] = useState(false)
   const handleClick = () => {
     setIsDisabled(!isDisabled)
   };
@@ -17,9 +20,10 @@ export const UserView = () => {
     axiosClient.get('/user')
       .then(({data}) => {
         setUser(data)
-        getUser(data.id)
+        setUserToFormValues(data)
+        setIsLoading(false)
       }).catch((e) => {
-      if(e.response.status === 401) {
+      if (e.response.status === 401) {
         setIsLoading(false);
         setUser({})
         setToken(null);
@@ -36,7 +40,6 @@ export const UserView = () => {
           <img className="w-[150px] mb-5 rounded-[75px] shadow-2xl" src={`https://robohash.org/${user.username}`}/>
           <h1 className="mb-[25px] font-semibold text-2xl">{user.firstName} {user.lastName}</h1>
           <div className="flex flex-col gap-3 w-[500px]">
-
             <div className="flex gap-5">
               <div className="w-1/2">
                 <label className="text-sm">First Name</label>
@@ -99,8 +102,17 @@ export const UserView = () => {
                      disabled={isDisabled}
               />
             </div>
+            <div className="">
+              <label className="text-sm">Address</label>
+              <input type="name" id="address"
+                     name="address"
+                     className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
+                     value={formValues['address']}
+                     onChange={onChange}
+                     disabled={isDisabled}
+              />
+            </div>
             <div className="flex justify-between items-center">
-              <Link to={`change-password`}>Change Password</Link>
               {isDisabled ?
                   <button
                     className="font-bold text-center text-blackFactory border border-redBase px-[35px] py-[7px] rounded-[4px] shadow-2xl"
@@ -130,9 +142,27 @@ export const UserView = () => {
                   </div>
               }
             </div>
+            <div className="flex justify-between items-center">
+              <Link className="text-tealHover hover:underline" to={`change-password`}>Change Password</Link>
+              <button onClick={(e) => {
+                e.stopPropagation()
+                setAddressModalOpen(true)
+              }} className="font-bold text-center text-blackFactory border border-redBase px-2 py-[7px] rounded-[4px] shadow-2xl">Manage Delivery Addresses</button>
+              <AddressPopUp id="address-pop-up" user={user} modalOpen={addressModalOpen} setModalOpen={setAddressModalOpen}/>
+            </div>
+
           </div>
         </div>
       </>
+    )
+  }else{
+    return (
+      <Spinner
+        className="absolute top-1/2 left-1/2"
+        size="xl"
+        color="purple"
+        aria-label="Purple spinner example"
+      />
     )
   }
 
