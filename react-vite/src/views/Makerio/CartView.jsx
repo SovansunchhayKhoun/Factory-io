@@ -10,22 +10,18 @@ import {GoogleMapsContext} from "../../context/GoogleMapsContext.jsx";
 
 export const CartView = () => {
   const {cartItem, getCartItem} = useContext(CartContext);
+  const {handleAddressChange, address, setTempAddress, tempAddress} = useContext(GoogleMapsContext);
+  const {scrollTop, invoiceError} = useContext(InvoiceContext);
   useEffect(() => {
-    scrollTop(0);
     getCartItem();
   }, []);
-  const {scrollTop, invoiceError} = useContext(InvoiceContext);
 
-  const {token} = useAuthContext();
-  const {handleAddressChange, address, setTempAddress, tempAddress} = useContext(GoogleMapsContext);
   useEffect(() => {
-    cartItem.addressError = ''
     setTempAddress(address)
   }, [address])
 
-
   return (
-    <div className={""}>
+    <div>
       {/*<AddressForm />*/}
       <div className="w-full flex md:flex-row md:gap-0 flex-col gap-y-3 md:mb-3 mb-6 justify-between">
         <div className="font-bold text-blueBase text-lg">Cart</div>
@@ -40,7 +36,9 @@ export const CartView = () => {
               handleAddressChange(event, cartItem)
             }}
             placeholder={`Enter your address`}/>
-          <span className="text-sm text-redBase">{invoiceError && invoiceError?.address?.map(error => error)}</span>
+          {invoiceError && invoiceError?.address?.map((error, key) =>
+            <span className="text-sm text-redBase" key={key}>{error}</span>
+          )}
         </div>
       </div>
 
@@ -56,7 +54,7 @@ export const CartView = () => {
       </div>
       <Link
         className={`${cartItem.length > 0 && 'hidden'} transition px-2 py-1 shadow-md shadow-blueBase duration-500 font-semibold text-blueActive cursor-pointer hover:text-whiteFactory hover:bg-blueBase`}
-        to={'/maker-io'}>
+        to={'/makerio/shop'}>
         Browse product
       </Link>
       <div className={`${cartItem.length === 0 && 'hidden'}`}>
@@ -64,15 +62,4 @@ export const CartView = () => {
       </div>
     </div>
   );
-
-  // if (token) {
-  //
-  // } else {
-  //   return (
-  //     <div>
-  //       <Link to={'/login'}>Sign in</Link>
-  //       <Link to={'/signup'}>Sign Up</Link>
-  //     </div>
-  //   );
-  // }
 };

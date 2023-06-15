@@ -48,7 +48,7 @@ export const ItemCardCarousel = ({item}) => {
 
               onClick={() => {
                 if (token) {
-                  addToCart(props.item);
+                  addToCart(item);
                 } else {
                   navigate('/login')
                 }

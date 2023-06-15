@@ -21,15 +21,14 @@ export const AccordionBodyContent = (props) => {
   const {id, date, totalPrice, status, address, invoice_product, user, placeId} = props.invoice;
   const {items, getType} = useContext(ProductContext);
   const {handleQty} = useContext(InvoiceContext);
-  const [open, setOpen] = useState(0);
-  const handleOpen = async (value) => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = async () => {
     const geoCode = new google.maps.Geocoder();
     await geoCode.geocode({placeId: placeId})
       .then(({results}) => {
         setLatitude(results[0].geometry.location.lat())
         setLongitude(results[0].geometry.location.lng())
       })
-    setOpen(open === value ? 0 : value);
   };
 
   return (
@@ -52,8 +51,11 @@ export const AccordionBodyContent = (props) => {
             </div>
             <div className="">
               <Fragment>
-                <Accordion open={open === 1}>
-                  <AccordionHeader className="border-0 p-0" onClick={() => handleOpen(1)}>
+                <Accordion open={open}>
+                  <AccordionHeader className="border-0 p-0" onClick={async () => {
+                    setOpen(!open);
+                    await handleOpen()
+                  }}>
                     <div className="">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                            stroke="currentColor" className={`md:w-6 md:h-6
@@ -73,7 +75,7 @@ export const AccordionBodyContent = (props) => {
 
         <div>
           <Fragment>
-            <Accordion open={open === 1}>
+            <Accordion open={open}>
               <AccordionBody className={`mt-2 border-0 p-0 ${open ? '' : 'hidden'}`}>
                 <GoogleMap
                   center={{lat: latitude, lng: longitude}}
@@ -99,54 +101,53 @@ export const AccordionBodyContent = (props) => {
         const inputStyle = 'border-none'
         const {products} = item;
         return (
-          <>
-            <section key={item.id} className="
+          <section key={item.id} className="
               flex gap-4 items-center justify-between
               lg:text-base md:text-sm
               text-[10px]">
-              {/*qty*/}
-              <div className="flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                     stroke="currentColor"
-                     className="w-4 h-4">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-                {/*for user view*/}
-                <div className={`${user?.acc_type !== 1 && 'hidden'} lg:max-w-[32px] lg:text-sm md:text-xs md:max-w-[20px] max-w-[12px]`}>
-                  {item.qty}
-                </div>
-                {/*--for user view*/}
-                {/*for admin to update qty if no stock*/}
-                <div className="flex flex-col items-center gap-2">
-                  <input onChange={handleQty(invProd, setInvProd, item)}
-                         min="1"
-                         className={`${props.invoice.status >= 2 && inputStyle} max-w-[64px] p-0 border text-center`}
-                         disabled={props.invoice.status >= 2}
-                         type="text"
-                         placeholder={item.qty}/>
-                  <div
-                    className="text-redBase">{(item.qty > stockItem?.qty && status === -2) && ` Stock QTY: ${stockItem?.qty}`}</div>
-                  {/*--for admin to update qty if no stock*/}
-                </div>
+            {/*qty*/}
+            <div className="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                   stroke="currentColor"
+                   className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+              {/*for user view*/}
+              <div
+                className={`${user?.acc_type !== 1 && 'hidden'} lg:max-w-[32px] lg:text-sm md:text-xs md:max-w-[20px] max-w-[12px]`}>
+                {item.qty}
               </div>
-              {/*name*/}
-              <div className='flex-1'>
-                <div>
-                  {products.map((product) => {
-                    return product.name
-                  })}
-                </div>
-                {/*type*/}
-                <div className={"text-redHover"}>
-                  {products.map((product) => {
-                    return getType(product?.type)
-                  })}
-                </div>
+              {/*--for user view*/}
+              {/*for admin to update qty if no stock*/}
+              <div className="flex flex-col items-center gap-2">
+                <input onChange={handleQty(invProd, setInvProd, item)}
+                       min="1"
+                       className={`${props.invoice.status >= 2 && inputStyle} max-w-[64px] p-0 border text-center`}
+                       disabled={props.invoice.status >= 2}
+                       type="text"
+                       placeholder={item.qty}/>
+                <div
+                  className="text-redBase">{(item.qty > stockItem?.qty && status === -2) && ` Stock QTY: ${stockItem?.qty}`}</div>
+                {/*--for admin to update qty if no stock*/}
               </div>
-              {/*subtotal*/}
-              <div className={""}>${item.cart_item_price}</div>
-            </section>
-          </>
+            </div>
+            {/*name*/}
+            <div className='flex-1'>
+              <div>
+                {products.map((product) => {
+                  return product.name
+                })}
+              </div>
+              {/*type*/}
+              <div className={"text-redHover"}>
+                {products.map((product) => {
+                  return getType(product?.type)
+                })}
+              </div>
+            </div>
+            {/*subtotal*/}
+            <div className={""}>${item.cart_item_price}</div>
+          </section>
         );
       })}
       <hr className="border-b-1 border-blackFactory rounded-lg"/>
@@ -156,6 +157,5 @@ export const AccordionBodyContent = (props) => {
         <div>${totalPrice}</div>
       </div>
     </div>
-  )
-    ;
+  );
 }

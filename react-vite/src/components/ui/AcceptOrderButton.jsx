@@ -7,7 +7,6 @@ import ProductContext from "../../context/ProductContext.jsx";
 
 export const AcceptOrderButton = (props) => {
   const {
-    acceptOrder,
     checkInvoiceItemQty,
     updateOrderStatus,
     updateOrder,
@@ -15,7 +14,7 @@ export const AcceptOrderButton = (props) => {
   } = useContext(InvoiceContext);
   const {updateProduct} = useContext(ProductContext);
   const [acceptOrderModalOpen, setAcceptOrderModalOpen] = useState(false)
-  const {invoice, invProd, setInvProd, buttonStyle} = props;
+  const {invoice, buttonStyle} = props;
   const {invoice_product} = invoice;
   const AcceptOrderContent = () => {
     return (
@@ -66,7 +65,7 @@ export const AcceptOrderButton = (props) => {
         setAcceptOrderModalOpen(true);
       }}
               aria-controls={invoice?.id}
-              className={`${buttonStyle(invoice.status)} cursor-pointer px-2 py-1 rounded-md`}>
+              className={`${buttonStyle(invoice.status)} cursor-pointer px-2 py-1 rounded-md font-semibold`}>
         {invoice.status === -1 && 'Accept'}
         {invoice.status === -2 && 'No Stock'}
         {invoice.status === 1 && 'Deliver'}

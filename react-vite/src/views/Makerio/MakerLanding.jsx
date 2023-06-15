@@ -101,9 +101,7 @@ export const MakerLanding = () => {
           {itemsPaginate?.length === 0 && <div>No items found</div>}
           {itemsPaginate?.map((item) => {
             return (
-              <>
-                <ItemCard key={item?.name} item={item}/>
-              </>
+              <ItemCard key={item?.id} item={item}/>
             );
           })}
         </div>

@@ -38,7 +38,8 @@ export const DeclineOrderButton = (props) => {
         setDeclineOrderModalOpen(true);
       }}
               aria-controls={invoice.id}
-              className={`${invoice.status < 2 ? 'bg-redBase text-whiteFactory' : 'bg-grayFactory text-blackFactory cursor-pointer'} px-2 py-1 rounded-md`}> Decline
+              className={`${invoice.status < 2 ? 'bg-redBase text-whiteFactory' : 'bg-grayFactory text-blackFactory cursor-pointer'} px-2 py-1 rounded-md font-semibold`}>
+        Decline
       </button>
       <AdminPopUp content={<DeclineOrderContent/>} id={invoice.id} modalOpen={declineOrderModalOpen}
                   setModalOpen={setDeclineOrderModalOpen}/>

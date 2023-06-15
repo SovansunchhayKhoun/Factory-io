@@ -8,8 +8,8 @@ import {Link} from "react-router-dom";
 import * as React from "react";
 import {GoogleMapsContext} from "../../context/GoogleMapsContext.jsx";
 
-export const Payment = (props) => {
-  const {totalPrice, cartError, cartItem} = useContext(CartContext);
+export const Payment = () => {
+  const {totalPrice} = useContext(CartContext);
   const {invoiceError, setPaymentPic, paymentPic} = useContext(InvoiceContext);
   const {GoogleMaps, placeId} = useContext(GoogleMapsContext);
   const options = [
@@ -60,7 +60,7 @@ export const Payment = (props) => {
             </h1>
             <select
               value={selected}
-              onChange={handleChange}
+              onChange={event => handleChange(event)}
               className="bg-whiteFactory py-0 px-2 rounded-sm w-full
               md:text-base text-blackFactory font-semibold text-[10px]">
               {options.map((option) => {
@@ -111,7 +111,7 @@ export const Payment = (props) => {
               <input className='hidden' type="file"
                      id="files" accept="image/*"
                      onChange={(e) => {
-                       cartItem.paymentError = '';
+                       // cartItem.paymentError = '';
                        setPaymentPic(e.target.files[0])
                      }}/>
             </label>
@@ -123,9 +123,9 @@ export const Payment = (props) => {
           <div className="md:hidden"></div>
           {/* for grid*/}
           <div className="flex flex-col gap-y-2 md:items-start items-center">
-            <div className="text-redBase text-xs">{invoiceError && invoiceError?.payment_pic?.map(error => error)}</div>
-            {
-              paymentPic &&
+            <div className="text-redBase text-xs">{invoiceError && invoiceError?.payment_pic?.map((error, pos) => <span key={pos}>{error}</span>)}
+            </div>
+            {paymentPic &&
               <>
                 <div className="">
                   <img className="md:w-[250px] object-contain"
@@ -133,9 +133,7 @@ export const Payment = (props) => {
                 </div>
                 <div className="flex gap-x-2">
                   <button className="rounded-md md:text-base text-[14px] bg-redHover text-whiteFactory px-2 py-1"
-                          onClick={() => {
-                            setPaymentPic('')
-                          }}>
+                          onClick={() => setPaymentPic('')}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                          stroke="currentColor" className="w-6 h-6">
                       <path strokeLinecap="round" strokeLinejoin="round"
@@ -150,7 +148,6 @@ export const Payment = (props) => {
                       <path strokeLinecap="round" strokeLinejoin="round"
                             d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
                     </svg>
-
                   </label>
                 </div>
               </>
@@ -167,7 +164,7 @@ export const Payment = (props) => {
           Browse product
         </Link>
         <div className="flex items-center gap-x-2">
-          <CheckoutButton/>
+          <CheckoutButton />
         </div>
       </div>
     </>

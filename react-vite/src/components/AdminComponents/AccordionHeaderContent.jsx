@@ -8,7 +8,11 @@ export const AccordionHeaderContent = (props) => {
   const {invProd, setInvProd} = props;
   const {id, date, totalPrice, status, payment_pic} = props.invoice;
   const {user} = useAuthContext();
-  const [open, setOpen] = useState(0);
+  const [open, setOpen] = useState(false);
+  const handleOpen = (event) => {
+    event.stopPropagation();
+    setOpen(!open);
+  }
   const buttonStyle = (invoiceStatus) => {
     switch (invoiceStatus) {
       case -2:
@@ -46,16 +50,13 @@ export const AccordionHeaderContent = (props) => {
         <div>
           Total Price: <span className="font-bold text-blueBase">${totalPrice}</span>
         </div>
-        <div>
-          <img onClick={(e) => {
-            e.stopPropagation();
-            setOpen(1);
-          }} width={100} alt="" src={`http://127.0.0.1:8000/${payment_pic}`}/>
+        <div onClick={e => handleOpen(e)}>
+          <img width={100} alt="" src={`http://127.0.0.1:8000/${payment_pic}`}/>
           <ImageExpand open={open} setOpen={setOpen} imgSrc={`http://127.0.0.1:8000/${payment_pic}`}/>
         </div>
         <div className={`${user.acc_type !== 0 && "hidden"} flex text-whiteFactory gap-x-2 mt-1`}>
-          <AcceptOrderButton buttonStyle={buttonStyle} invProd={invProd} setInvProd={setInvProd} invoice={props.invoice}/>
-          <DeclineOrderButton invProd={invProd} setInvProd={setInvProd} invoice={props.invoice}/>
+            <AcceptOrderButton buttonStyle={buttonStyle} invProd={invProd} setInvProd={setInvProd} invoice={props.invoice}/>
+            <DeclineOrderButton invProd={invProd} setInvProd={setInvProd} invoice={props.invoice}/>
         </div>
       </div>
     </div>

@@ -30,6 +30,7 @@ export const ProductProvider = ({children}) => {
       return res.data.data;
     });
   });
+
   const [item, setItem] = useState({});
   const [searchInput, setSearchInput] = useState('')
   const [types,setTypes] = useState([])
@@ -69,7 +70,6 @@ export const ProductProvider = ({children}) => {
   }, {keepPreviousData: true})
 
   const getType = (type) => {
-    setPage(1);
     switch (type) {
       case '':
         return 'All';
