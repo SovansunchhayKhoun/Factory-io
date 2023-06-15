@@ -2,12 +2,24 @@ import React, {useContext, useEffect} from "react";
 import userContext from "../context/UserContext.jsx";
 import {useNavigate, useParams} from "react-router-dom";
 import {useAuthContext} from "../context/AuthContext.jsx";
+import axiosClient from "../axios-client.js";
 
 export const ChangePasswordView = () => {
-  const {user} = useAuthContext()
-  const {getUser,formValues,onChange,updatePassword,errors,isLoading} = useContext(userContext)
+  const {setIsLoading,isLoading,setUser,setToken} = useAuthContext()
+  const {formValues,onChange,updatePassword,errors,setUserToFormValues} = useContext(userContext)
   useEffect(() => {
-    getUser(user.id)
+    axiosClient.get('/user')
+      .then(({data}) => {
+        setUser(data)
+        setUserToFormValues(data)
+        setIsLoading(false)
+      }).catch((e) => {
+      if (e.response.status === 401) {
+        setIsLoading(false);
+        setUser({})
+        setToken(null);
+      }
+    })
   },[])
   const navigate = useNavigate();
   if(!isLoading){
@@ -61,7 +73,7 @@ export const ChangePasswordView = () => {
               </div>
               <div>
                 <button
-                  onClick={updatePassword}
+                  onClick={ (e) => updatePassword(e)}
                   className="font-bold text-center text-blackFactory border border-redBase px-[35px] py-[7px] rounded-[4px] shadow-2xl">
                   Confirm
                 </button>

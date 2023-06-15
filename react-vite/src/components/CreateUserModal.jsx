@@ -122,6 +122,16 @@ function CreateUserModal({
                      required/>
             </div>
             <div>
+              <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Address</label>
+              {errors.address && <span className="text-sm text-red-400">{errors.address[0]}</span>}
+              <input name="address" id="address"
+                     value={formValues['address']}
+                     onChange={onChange}
+                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                     required/>
+            </div>
+            <div>
               <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Email</label>
               {errors.email && <span className="text-sm text-red-400">{errors.email[0]}</span>}
