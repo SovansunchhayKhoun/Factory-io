@@ -5,7 +5,7 @@ import {useAuthContext} from "../../../context/AuthContext.jsx";
 import {AccordionDetails} from "@mui/material";
 import AdminPopUp from "../../Modals/AdminPopUp.jsx";
 
-export const ProfileDropdown = ({user, arrowIcon}) => {
+export const ProfileDropdown = ({user, arrowIcon, to}) => {
   const {onLogout, isLoading} = useAuthContext()
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -30,7 +30,7 @@ export const ProfileDropdown = ({user, arrowIcon}) => {
           {user?.username}
         </Dropdown.Header>
         <Dropdown.Item>
-          <Link className="h-full w-full" to={`/user`}>
+          <Link className="h-full w-full" to={to}>
             Account
           </Link>
         </Dropdown.Item>

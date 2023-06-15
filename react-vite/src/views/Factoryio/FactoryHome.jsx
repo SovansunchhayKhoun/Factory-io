@@ -3,11 +3,14 @@ import React, {useState} from "react";
 import {useAuthContext} from "../../context/AuthContext.jsx";
 import {Community} from "./Account/Community.jsx";
 import {RD} from "./Account/RD.jsx";
+import {Communitylanding} from "./Communitylanding.jsx";
 
 export const FactoryHome = () => {
-  const [tab, setTab] = useState('Community');
+  const [tab, setTab] = useState(localStorage.getItem('LAST_TAB') || 'Community');
   const {user} = useAuthContext();
-
+  const saveLastTab = (tab) => {
+    localStorage.setItem('LAST_TAB', tab);
+  }
   return (
     <>
       <main className="flex justify-between">
@@ -16,17 +19,19 @@ export const FactoryHome = () => {
           <div className="flex items-center">
             <button className={`${tab === 'Community' && 'text-redHover'} text-2xl`} onClick={() => {
               setTab('Community')
+              saveLastTab('Community')
             }}>Community
             </button>
             <span
               className="w-[24px] h-0 border-[1px] rounded-md  border-solid border-redHover transform rotate-90"></span>
             <button className={`${tab === 'RD' && 'text-redHover'} text-2xl`} onClick={() => {
               setTab('RD')
+              saveLastTab('RD')
             }}>R&D
             </button>
           </div>
           <div className="">
-            {tab === 'Community' && <Community/>}
+            {tab === 'Community' && <Community />}
             {tab === 'RD' && <RD/>}
           </div>
         </div>

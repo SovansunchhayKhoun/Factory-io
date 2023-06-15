@@ -18,10 +18,10 @@ export const ItemCard = (props) => {
       <div className="flex justify-center">
         <div
           className="min-[1920px]:max-w-[300px] xl:max-w-[260px] lg:max-w-[250px] md:max-w-[250px] max-w-[260px] shadow-2xl border-2 border-tealActive p-6 flex flex-col items-center">
-          <Link className="flex-1 text-center font-semibold" to={`/maker-io/${id}`}>
+          <Link className="flex-1 text-center font-semibold" to={`/makerio/${id}`}>
             {name}
           </Link>
-          <Link className="flex-2" to={`/maker-io/${id}`}>
+          <Link className="flex-2" to={`/makerio/${id}`}>
             {
               (image === null || image === undefined)
                 ?

@@ -26,19 +26,16 @@ import {Communitylanding} from "./views/Factoryio/Communitylanding.jsx";
 import {RnDLanding} from "./views/Factoryio/RnDlanding.jsx";
 import {ContestLanding} from "./views/Factoryio/ContestLanding.jsx";
 import {FactoryHome} from "./views/Factoryio/FactoryHome.jsx";
+import {AccountView} from "./views/Factoryio/AccountView.jsx";
 import {AdminView} from "./views/AdminView.jsx";
 import {ForgotPassword} from "./views/ForgotPassword..jsx";
 import {ResetPassword} from "./views/ResetPassword.jsx";
 
 const router = createBrowserRouter([
   {
-    path: '/factoryio',
+    path: '/',
     element: <LandingLayout/>,
     children: [
-      {
-        path: 'home',
-        element: <FactoryHome />
-      },
       {
         path: '',
         element: <LandingPage/>
@@ -55,11 +52,19 @@ const router = createBrowserRouter([
         path: 'contest',
         element: <ContestLanding/>
       },
-
+      {
+        path: 'user',
+        element: <AccountView/>
+      },
+      {
+        path: 'explore',
+        element: <FactoryHome/>
+      }
     ]
   },
+
   {
-    path: '/',
+    path: '/makerio',
     element: <MakerLayout/>,
     children: [
       {
@@ -68,8 +73,13 @@ const router = createBrowserRouter([
         errorElement: <ErrorBoundary/>
       },
       {
-        path: '/maker-io',
+        path: 'shop',
         element: <MakerLanding/>,
+        errorElement: <ErrorBoundary/>
+      },
+      {
+        path: '/makerio/:id',
+        element: <ItemView/>,
         errorElement: <ErrorBoundary/>
       },
       {
@@ -85,11 +95,6 @@ const router = createBrowserRouter([
       {
         path: 'user/change-password',
         element: <ChangePasswordView/>,
-        errorElement: <ErrorBoundary/>
-      },
-      {
-        path: '/maker-io/:id',
-        element: <ItemView/>,
         errorElement: <ErrorBoundary/>
       },
       {
@@ -149,6 +154,7 @@ const router = createBrowserRouter([
       }
     ]
   },
+
   {
     path: '*',
     element: <NotFound/>

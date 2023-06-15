@@ -11,7 +11,7 @@ export const Footer = () => {
         px-4 py-2">
         <div className="flex items-center gap-x-2">
           <div>
-            <Link to="#to-factory">
+            <Link to="/">
               <img className="xl:w-[130px] lg:w-[120px] md:w-[140px] w-[120px]" src="/assets/images/factory.png"
                    alt=""/>
             </Link>

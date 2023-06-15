@@ -131,7 +131,7 @@ export default function Login() {
       </>
     )
   } else {
-    return <Navigate to="/"/>
+    return <Navigate to="/user"/>
   }
 
 }
