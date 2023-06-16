@@ -12,8 +12,8 @@
     {
       Schema ::create ( 'projects' , function ( Blueprint $table ) {
         $table -> id ();
-        $table->integer ('user_id');
-        $table->foreign ('user_id')->references ('id')->on ('users')->onDelete ('cascade');
+        $table -> integer ( 'user_id' );
+        $table -> foreign ( 'user_id' ) -> references ( 'id' ) -> on ( 'users' ) -> onDelete ( 'cascade' );
 
         $table -> text ( 'image' );
         $table -> text ( 'file' );
@@ -25,6 +25,7 @@
         $table -> integer ( 'comment_count' ) -> default ( 0 );
         $table -> integer ( 'saved_count' ) -> default ( 0 );
         $table -> double ( 'target_fund' ) -> default ( 0 );
+        $table -> string ( 'proposal_link' );
         $table -> timestamp ( 'project_deadline' );
         $table -> timestamps ();
       } );

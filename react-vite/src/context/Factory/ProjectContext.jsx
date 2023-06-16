@@ -62,8 +62,7 @@ export const ProjectContext = ({children}) => {
 
   const postProject = async (setModalOpen) => {
     setErrors(null);
-    projectValues.user_id = user?.id;
-
+    projectValues.user_id = user.id;
     console.log(projectValues);
     console.log(JSON.stringify(projectValues));
     try {

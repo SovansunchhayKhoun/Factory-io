@@ -26,6 +26,7 @@
         'funder_count' => $this -> funder_count ,
         'target_fund' => $this -> target_fund ,
         'comment_count' => $this->comment_count,
+        'proposal_link' => $this->proposal_link,
         'user' => User::where('id', $this->user_id)->first()
       ];
     }

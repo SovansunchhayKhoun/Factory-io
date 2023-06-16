@@ -1,6 +1,8 @@
 import {useProjectContext} from "../../context/Factory/ProjectContext.jsx";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useAuthContext} from "../../context/AuthContext.jsx";
+import {ProposalTab} from "./Tabs/ProposalTab.jsx";
+import {ProjectTab} from "./Tabs/ProjectTab.jsx";
 
 export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
   const {
@@ -16,14 +18,15 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
   } = useProjectContext();
 
   const {user} = useAuthContext();
+  const [formTab, setFormTab] = useState('proposal');
+
   useEffect(() => {
     setErrors({});
   }, [modalOpen]);
 
   return (
     <>
-      <section className="p-4 text-blackFactory rounded-md bg-whiteFactory">
-
+      <section className=" h-screen overflow-auto p-4 text-blackFactory rounded-md bg-whiteFactory">
         <section className="flex items-center justify-between border-b-2 border-grayFactory">
           <div>Upload Project</div>
           <button onClick={(e) => {
@@ -38,7 +41,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
           </button>
         </section>
 
-        <section className="p-4 gap-3 flex">
+        <section className="px-4 pt-4 gap-3 flex">
           <div className="flex gap-2 flex-col w-[440px] ">
             <label
               className={`${picture && 'flex-grow-0'} max-w-[440px] flex-1 transition duration-200 flex items-center justify-center bg-gray-300 border rounded-md hover:bg-gray-500 cursor-pointer`}
@@ -72,15 +75,8 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                 </div>
               )}
             </label>
-            <span className="text-redBase text-sm w-[70%]">{errors?.image?.map(error => error)}</span>
-            <label
-              className="transition duration-200 text-whiteFactory bg-redHover rounded-md text-center py-2 hover:bg-redBase cursor-pointer"
-              htmlFor="projectFile">
-              Upload File
-              <input onChange={event => handleFile(event)} id="projectFile" type="file" accept=".zip,.rar,.7z,.gz"
-                     className="hidden"/>
-            </label>
-            <span className="text-redBase text-sm w-[70%]">{errors?.file?.map(error => error)}</span>
+            <span
+              className={`${!errors?.image && 'hidden'} text-redBase text-xs`}>{errors?.image?.map(error => error)}</span>
           </div>
 
           <div className="flex-1 flex flex-col gap-3 justify-center">
@@ -90,17 +86,21 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                 <label htmlFor="projectName">
                   Project's Name
                 </label>
-                <input value={projectValues.name} onChange={event => setProjectValues({...projectValues, name: event.target.value})}
+                <input value={projectValues.name}
+                       onChange={event => setProjectValues({...projectValues, name: event.target.value})}
                        className="rounded-md" name="projectName" type="text"/>
-                <span className="text-redBase text-sm w-[70%]">{errors?.name?.map(error => error)}</span>
+                <span
+                  className={`${!errors?.name && 'hidden'} text-redBase text-xs`}>{errors?.name?.map(error => error)}</span>
               </div>
               <div className="flex flex-col items-start">
                 <label htmlFor="projectCate">
                   Category
                 </label>
-                <input value={projectValues.category} onChange={event => setProjectValues({...projectValues, category: event.target.value})}
+                <input value={projectValues.category}
+                       onChange={event => setProjectValues({...projectValues, category: event.target.value})}
                        className="rounded-md" name="projectCate" type="text"/>
-                <span className="text-redBase text-sm w-[70%]">{errors?.category?.map(error => error)}</span>
+                <span
+                  className={`${!errors?.category && 'hidden'} text-redBase text-xs`}>{errors?.category?.map(error => error)}</span>
               </div>
             </div>
 
@@ -108,7 +108,8 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
               <label htmlFor="description">
                 Description
               </label>
-              <textarea value={projectValues.description} onChange={event => setProjectValues({...projectValues, description: event.target.value})}
+              <textarea value={projectValues.description}
+                        onChange={event => setProjectValues({...projectValues, description: event.target.value})}
                         name="description" id="" className="w-full rounded-md" rows="5"></textarea>
             </div>
 
@@ -120,27 +121,57 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                   ...projectValues,
                   target_fund: Number(event.target.value) && Number(event.target.value)
                 })} className="rounded-md" min="0" type="number"/>
-                <span className=" text-redBase text-sm w-[70%]">{errors?.target_fund?.map(error => error)}</span>
+                <span
+                  className={`${!errors?.target_fund && 'hidden'} text-redBase text-xs`}>{errors?.target_fund?.map(error => error)}</span>
               </div>
 
               <div className="flex flex-col items-end">
                 <label className="self-start" htmlFor="projectDeadline">Deadline</label>
-                <input value={projectValues.project_deadline} onChange={event => setProjectValues({...projectValues, project_deadline: event.target.value})}
-                       className={`${errors?.project_deadline && 'w-full'} rounded-md`} type="date" name="projectDeadline"/>
-                <span className="self-start text-redBase text-sm w-[70%]">{errors?.project_deadline?.map(error => error)}</span>
+                <input value={projectValues.project_deadline}
+                       onChange={event => setProjectValues({...projectValues, project_deadline: event.target.value})}
+                       className={`${errors?.project_deadline && 'w-full'} rounded-md`} type="date"
+                       name="projectDeadline"/>
+                <span
+                  className={`${!errors?.project_deadline && 'hidden'} self-start text-redBase text-xs`}>{errors?.project_deadline?.map(error => error)}</span>
               </div>
 
             </div>
-            <button
-              onClick={() => postProject(setModalOpen, user)}
-              className="transition duration-150 bg-blueBase text-whiteFactory py-2 rounded-md font-semibold hover:bg-blueHover">
-              Post
-            </button>
           </div>
         </section>
-        <section className="">
 
+        <section className="px-4 flex">
+          <div className="flex flex-col gap-y-6">
+            <div className='flex flex-col border-r-2 border-blackFactory min-h-[150px]'>
+              <button
+                className={`${formTab === 'proposal' && 'bg-[#D9D9D9] font-semibold'} transition duration-200 px-4 py-2 hover:bg-[#D9D9D9]`}
+                onClick={() => setFormTab('proposal')}>Proposal
+              </button>
+              <button
+                className={`${formTab === 'project' && 'bg-[#D9D9D9] font-semibold '} transition duration-200 px-4 py-2 hover:bg-[#D9D9D9]`}
+                onClick={() => setFormTab('project')}>Project
+              </button>
+            </div>
+          </div>
+          <div className={'w-full flex flex-col gap-4 px-4'}>
+            <div className="self-end mt-4">
+              <label
+                className="px-4 transition duration-200 text-whiteFactory bg-redHover rounded-[20px] text-center py-2 hover:bg-redBase cursor-pointer"
+                htmlFor="projectFile">
+                Upload Zip File
+                <input onChange={event => handleFile(event)} id="projectFile" type="file" accept=".zip,.rar,.7z,.gz"
+                       className="hidden"/>
+              </label>
+              <div
+                className={`${!errors?.file && 'hidden'} text-redBase text-xs`}>{errors?.file?.map(error => error)}</div>
+            </div>
+
+            <div className="self-start w-full h-full">
+              {formTab === 'proposal' && <ProposalTab/>}
+              {formTab === 'project' && <ProjectTab setModalOpen={setModalOpen} modalOpen={modalOpen}/>}
+            </div>
+          </div>
         </section>
+
       </section>
     </>
   )

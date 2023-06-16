@@ -8,8 +8,10 @@
   use App\Http\Controllers\Api\V1\MessageController;
   use App\Http\Controllers\Api\V1\ProductController;
   use App\Http\Controllers\Api\V1\ProjectController;
+  use App\Http\Controllers\Api\V1\ProjectPrototypeController;
   use App\Http\Controllers\Api\V1\ReviewController;
   use App\Http\Controllers\Api\V1\UserController;
+  use App\Models\ProjectPrototype;
   use Illuminate\Http\Request;
   use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Route;
@@ -23,6 +25,7 @@
     Route ::apiResource ( 'reviews' , ReviewController::class );
     Route ::apiResource ( 'users' , UserController::class );
     Route ::apiResource ( 'projects' , ProjectController::class );
+    Route ::apiResource ( 'project_prototypes' , ProjectPrototypeController::class );
     Route ::get ( 'last_project' , [ ProjectController::class , 'fetchLastProject' ] );
     Route ::apiResource ( 'addresses' , DeliveryAddressController::class );
     Route ::get ( 'userAddress/{id}' , [ DeliveryAddressController::class , 'getAddressByUserID' ] );

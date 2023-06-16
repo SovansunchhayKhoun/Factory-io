@@ -22,6 +22,7 @@
       'saved_count' ,
       'funder_count' ,
       'target_fund' ,
+      'proposal_link'
     ];
 
     public function users ()
@@ -29,6 +30,10 @@
       return $this -> belongsTo ( User::class , 'project_id' , 'id' );
     }
 
+    public function project_prototypes ()
+    {
+      return $this -> hasMany ( ProjectPrototype::class , 'project_id' , 'id' );
+    }
 //    public function users() {
 //      return $this->belongsToMany (User::class, 'project_users', 'project_id', 'user_id');
 //    }
