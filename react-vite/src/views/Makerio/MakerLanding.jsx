@@ -97,13 +97,11 @@ export const MakerLanding = () => {
             lg:grid-cols-3
             md:grid-cols-2 md:px-12
           ">
-          {loading.map(l => <LoadingItem/>)}
+          {loading.map(l => <LoadingItem key={l}/>)}
           {itemsPaginate?.length === 0 && <div>No items found</div>}
           {itemsPaginate?.map((item) => {
             return (
-              <>
-                <ItemCard key={item.id} item={item}/>
-              </>
+              <ItemCard key={item?.id} item={item}/>
             );
           })}
         </div>

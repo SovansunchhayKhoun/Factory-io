@@ -5,7 +5,7 @@ import CartContext from "../../context/CartContext.jsx";
 export const PendingItem = (props) => {
   const {invoice_product, date, status} = props.invoice
   const Label = ({status, inv_prd, products}) => {
-    if(status === -2){
+    if (status === -2) {
       return (
         <>
           {inv_prd.qty > products[0].qty ? 'Not enough stock' : 'In Stock'}
@@ -64,9 +64,7 @@ export const PendingItem = (props) => {
         const {products} = inv_prd;
         const {image, name, price} = products[0];
         return (
-          <>
-            <View key={inv_prd?.id} inv_prd={inv_prd} name={name} image={image} products={products} price={price}/>
-          </>
+          <View key={inv_prd?.id} inv_prd={inv_prd} name={name} image={image} products={products} price={price}/>
         );
       })}
     </>

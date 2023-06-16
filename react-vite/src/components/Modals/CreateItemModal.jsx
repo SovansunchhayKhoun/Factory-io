@@ -14,22 +14,22 @@ function CreateItemModal({
                          }) {
 
   const modalContent = useRef(null);
-  const { errors,storeItem,types,fetchTypes,getItems} = useContext(ProductContext)
+  const {errors, storeItem, types, fetchTypes, getItems} = useContext(ProductContext)
 
-  const [name,setName] = useState("");
-  const [price,setPrice] = useState("");
-  const [qty,setQty] =useState("");
-  const [type,setType] = useState("");
-  const [description,setDescription] = useState("");
-  const [feature,setFeature] = useState("");
-  const [image,setImage] = useState("");
-  const [isDisable,setIsDisable] = useState(true)
-  const [selected,setSelected] = useState('')
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [qty, setQty] = useState("");
+  const [type, setType] = useState("");
+  const [description, setDescription] = useState("");
+  const [feature, setFeature] = useState("");
+  const [image, setImage] = useState("");
+  const [isDisable, setIsDisable] = useState(true)
+  const [selected, setSelected] = useState('')
   const handleType = (e) => {
     setSelected(e.target.value)
-    if(e.target.value === 'Other'){
+    if (e.target.value === 'Other') {
       setIsDisable(false)
-    }else{
+    } else {
       setIsDisable(true)
       setType(e.target.value)
     }
@@ -42,12 +42,12 @@ function CreateItemModal({
     formValues.append("qty", qty);
     formValues.append("type", type);
     formValues.append("description", description);
-    formValues.append("feature",feature);
+    formValues.append("feature", feature);
     formValues.append("image", image);
     formValues.append("status", 1);
     storeItem(formValues)
-    if(!errors){
-    setModalOpen(false)
+    if (!errors) {
+      setModalOpen(false)
     }
     getItems()
   }
@@ -129,11 +129,14 @@ function CreateItemModal({
               <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Price</label>
               {errors.price && <span className="text-sm text-red-400">{errors.price[0]}</span>}
-              <input  name="price" id="price"
+              <input name="price" id="price"
                      onChange={e => {
                        const str = e.target.value
-                       if (str.charAt(str.length - 1) === '.') { return }
-                       setPrice(str)}}
+                       if (str.charAt(str.length - 1) === '.') {
+                         return
+                       }
+                       setPrice(str)
+                     }}
                      min="1"
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                      required/>
@@ -144,6 +147,7 @@ function CreateItemModal({
               {errors.type && <span className="text-sm text-red-400">{errors.type[0]}</span>}
               <div className="flex gap-4">
                 <select value={selected} onChange={e => handleType(e)}>
+                  <option>Select type....</option>
                   {types?.map((type, key) => {
                     return (
                       <option key={key}>{type.type}</option>
@@ -162,11 +166,11 @@ function CreateItemModal({
                 Description</label>
               {errors.description && <span className="text-sm text-red-400">{errors.description[0]}</span>}
               <textarea name="description" id="description"
-                     value={description}
+                        value={description}
                         rows={6}
-                     onChange={(e) => setDescription(e.target.value)}
-                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                     required/>
+                        onChange={(e) => setDescription(e.target.value)}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                        required/>
             </div>
             <div>
               <label htmlFor="feature" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -188,7 +192,7 @@ function CreateItemModal({
                      accept="image/png, image/jpeg"
                      onChange={(e) => setImage(e.target.files[0])}
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                     />
+              />
             </div>
             <button type="submit"
                     className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">

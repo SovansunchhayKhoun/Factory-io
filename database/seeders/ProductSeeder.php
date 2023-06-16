@@ -276,7 +276,7 @@ Analog output' ,
       ] );
 
       DB ::table ( 'products' ) -> insert ( [
-        'name' => 'Capacitive Soil Moisture Sensor V2.0' ,
+        'name' => 'TTP223' ,
         'price' => 0.5 ,
         'qty' => 10 ,
         'status' => 1 ,

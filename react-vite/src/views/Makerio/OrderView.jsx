@@ -25,34 +25,32 @@ export const OrderView = () => {
 
   const Invoice = ({invoice}) => {
     return (
-      <>
-        <div className="px-2 border-l-2 border-b-2 border-tealBase mb-6">
+      <div key={invoice.id} className="px-2 border-l-2 border-b-2 border-tealBase mb-6">
                         <span className={`font-semibold`}>
                           Order #{invoice.id}
                         </span>
-          <PendingItem invoice={invoice}/>
-          <Progress
-            textLabelPosition='outside'
-            color={
-              invoice.status === -2 ? "red" :
-                invoice.status === -1 ? "yellow" :
-                  invoice.status === 1 ? "blue" :
-                    invoice.status === 2 ? "purple" : "green"
-            }
-            labelText={true} size="lg" textLabel={
-            invoice.status === -2 ? "Order Frozen" :
-              invoice.status === -1 ? "Pending" :
-                invoice.status === 1 ? "Accepted" :
-                  invoice.status === 2 ? "Delivering" : "Arrived"
-          } className="mb-3"
-            progress={
-              invoice.status === -2 ? 5 :
-                invoice.status === -1 ? 25 :
-                  invoice.status === 1 ? 50 :
-                    invoice.status === 2 ? 75 : 100
-            }/>
-        </div>
-      </>
+        <PendingItem invoice={invoice}/>
+        <Progress
+          textLabelPosition='outside'
+          color={
+            invoice.status === -2 ? "red" :
+              invoice.status === -1 ? "yellow" :
+                invoice.status === 1 ? "blue" :
+                  invoice.status === 2 ? "purple" : "green"
+          }
+          labelText={true} size="lg" textLabel={
+          invoice.status === -2 ? "Order Frozen" :
+            invoice.status === -1 ? "Pending" :
+              invoice.status === 1 ? "Accepted" :
+                invoice.status === 2 ? "Delivering" : "Arrived"
+        } className="mb-3"
+          progress={
+            invoice.status === -2 ? 5 :
+              invoice.status === -1 ? 25 :
+                invoice.status === 1 ? 50 :
+                  invoice.status === 2 ? 75 : 100
+          }/>
+      </div>
     )
   }
 
@@ -90,9 +88,7 @@ export const OrderView = () => {
             {/*<div className="font-bold">Orders</div>*/}
             {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status !== 3).map((invoice) => {
               return (
-                <>
-                  <Invoice key={invoice?.id} invoice={invoice}/>
-                </>
+                <Invoice key={invoice?.id} invoice={invoice}/>
               );
             })}
           </div>

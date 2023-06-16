@@ -59,7 +59,7 @@ export const CartItem = (props) => {
             <input
               type="text"
               min="1"
-              value={itemQty}
+              value={item.qty}
               pattern="/[^0-9]/g"
               onChange={event => {
                 setItemQty(Number(event.target.value));

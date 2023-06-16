@@ -2,7 +2,6 @@ import {Link} from "react-router-dom";
 import {useAuthContext} from "../context/AuthContext.jsx";
 import React, {useContext, useEffect, useState} from "react";
 import AxiosClient from "../axios-client.js";
-import {NavSearchbar} from "./ui/NavBarui/NavSearchbar.jsx";
 import ProductContext from "../context/ProductContext.jsx";
 import {ProfileDropdown} from "./ui/NavBarui/ProfileDropdown.jsx";
 
@@ -11,18 +10,18 @@ export const LandingNavBar = () => {
   const [searchInput, setSearchInput] = useState('')
   const [filteredItem, setFilteredItem] = useState([])
   const {items} = useContext(ProductContext);
-  const handleSearchInput = (e) => {
-    setSearchInput(e.target.value)
-    setFilteredItem(
-      items?.filter((item) => {
-        if (searchInput !== "") {
-          if (item?.name.toLowerCase().includes(searchInput.toLowerCase()) || item?.type.toLowerCase().includes(searchInput.toLowerCase())) {
-            return item
-          }
-        }
-      })
-    )
-  }
+  // const handleSearchInput = (e) => {
+  //   setSearchInput(e.target.value)
+  //   setFilteredItem(
+  //     items?.filter((item) => {
+  //       if (searchInput !== "") {
+  //         if (item?.name.toLowerCase().includes(searchInput.toLowerCase()) || item?.type.toLowerCase().includes(searchInput.toLowerCase())) {
+  //           return item
+  //         }
+  //       }
+  //     })
+  //   )
+  // }
 
   // Not signed in Navbar
   const [navBar, setNavBar] = useState([
@@ -57,9 +56,12 @@ export const LandingNavBar = () => {
             </div>
           </div>
           {/*search bar*/}
-          <NavSearchbar
-            handleSearchInput={handleSearchInput}
-            searchInput={searchInput} filteredItem={filteredItem} setSearchInput={setSearchInput}/>
+
+          <div className="md:flex md:items-center md:gap-x-12 lg:w-[384px] hidden">
+            <input type="text"
+                   placeholder="Search..."
+                   className="w-[100%] px-12 search-bar py-1 border-none"/>
+          </div>
 
           <div className="flex items-center gap-6">
             {/*home icon*/}
@@ -125,10 +127,10 @@ export const LandingNavBar = () => {
           <img className="lg:w-[120px] md:w-[120px] w-[100px]" src="/assets/images/factory.png" alt=""/>
         </Link>
 
-        <div className="flex items-center gap-x-7 h-8">
-          {navBar.map(item => {
+        <ul className="flex items-center gap-x-7">
+          {navBar.map((item, key) => {
             return (
-              <>
+              <li key={item.name}>
                 <div className={`${!item.name && 'hidden'} highlight-hover text-[#3C3C3C]`}>
                   <Link to={`/${item.to}`}>
                     {item.name}
@@ -139,13 +141,13 @@ export const LandingNavBar = () => {
                     <img width={`${item.img.imgWidth}`} src={`${item.img.imgSrc}`} alt=""/>
                   </Link>
                 </div>
-              </>
+              </li>
             )
           })}
-        </div>
+        </ul>
 
         <div className="flex justify-end gap-x-2">
-          <div className="mr-1">
+          <div>
             <Link to="/login" className="highlight-hover text-[#3C3C3C]">
               Sign in
             </Link>

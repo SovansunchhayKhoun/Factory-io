@@ -7,7 +7,7 @@ import CreateUserModal from "../components/CreateUserModal.jsx";
 
 
 export const Users = () => {
-  const {users,getUsers} = useContext(UserContext)
+  const {users,getUsers,resetFormValues} = useContext(UserContext)
   const [searchInput, setSearchInput] = useState('')
   useEffect(()=>{
     getUsers();
@@ -20,7 +20,7 @@ export const Users = () => {
         <input className="rounded rounded-md border border-slate-600 w-2/3 py-2 px-4" onChange={(e) => setSearchInput(e.target.value)}/>
         <button
           className={`bg-blue-600 px-4 py-2 rounded rounded-lg text-whiteFactory dark:text-whiteFactory-500 ${createUserModalOpen && 'bg-blue-900'}`}
-          onClick={(e) => { e.stopPropagation(); setCreateUserModalOpen(true); }}
+          onClick={(e) => { e.stopPropagation(); resetFormValues();  setCreateUserModalOpen(true); }}
           aria-controls="create-item-modal"
         >
           Register a new users

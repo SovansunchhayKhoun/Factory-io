@@ -6,6 +6,7 @@ import React, {useContext, useEffect, useState} from "react";
 
 export const ImageExpand = ({open, setOpen, imgSrc}) => {
   // close on click outside
+
   useEffect(() => {
     const clickHandler = (event) => {
       if (!open) return
