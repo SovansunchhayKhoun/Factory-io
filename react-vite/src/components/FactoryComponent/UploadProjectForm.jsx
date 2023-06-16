@@ -22,7 +22,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
 
   return (
     <>
-      <section className="text-blackFactory rounded-md">
+      <section className="p-4 text-blackFactory rounded-md bg-whiteFactory">
 
         <section className="flex items-center justify-between border-b-2 border-grayFactory">
           <div>Upload Project</div>
