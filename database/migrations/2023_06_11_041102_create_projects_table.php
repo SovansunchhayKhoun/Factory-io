@@ -19,13 +19,13 @@
         $table -> text ( 'file' );
         $table -> string ( 'name' );
         $table -> string ( 'category' );
-        $table -> text ( 'description' );
+        $table -> text ( 'description' ) -> nullable ();
         $table -> integer ( 'like_count' ) -> default ( 0 );
         $table -> integer ( 'funder_count' ) -> default ( 0 );
         $table -> integer ( 'comment_count' ) -> default ( 0 );
         $table -> integer ( 'saved_count' ) -> default ( 0 );
         $table -> double ( 'target_fund' ) -> default ( 0 );
-        $table -> string ( 'proposal_link' );
+        $table -> string ( 'proposal_link' ) -> nullable ();
         $table -> timestamp ( 'project_deadline' );
         $table -> timestamps ();
       } );

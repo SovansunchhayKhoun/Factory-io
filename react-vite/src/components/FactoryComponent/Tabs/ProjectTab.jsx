@@ -1,8 +1,10 @@
 import React, {useState} from "react";
 import {Slide} from "@mui/material";
 import {useProjectContext} from "../../../context/Factory/ProjectContext.jsx";
+import {useAuthContext} from "../../../context/AuthContext.jsx";
 
 export const ProjectTab = ({modalOpen, setModalOpen}) => {
+  const {user} = useAuthContext();
   const [picture, setPicture] = useState('');
   const [open, setOpen] = useState(false);
   const {postProject} = useProjectContext();
@@ -13,8 +15,10 @@ export const ProjectTab = ({modalOpen, setModalOpen}) => {
           <section className={'flex flex-col gap-3 p-4 border border-blackFactory'}>
             <div className="flex gap-x-4">
               <div className="flex-1">
-                <label htmlFor="image" className="transition duration-500 flex justify-center items-center gap-2 bg-gray-300 border rounded-md hover:bg-gray-500 cursor-pointer w-full h-full ">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                <label htmlFor="image"
+                       className="transition duration-500 flex justify-center items-center gap-2 bg-gray-300 border rounded-md hover:bg-gray-500 cursor-pointer w-full h-full ">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
+                       stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round"
                           d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"></path>
                   </svg>

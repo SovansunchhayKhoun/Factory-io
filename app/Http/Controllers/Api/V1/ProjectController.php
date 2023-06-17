@@ -16,6 +16,11 @@
       return ProjectResource ::collection ( Project ::all () );
     }
 
+    public function show ( Project $project )
+    {
+      return new ProjectResource( $project );
+    }
+
     public function store ( ProjectRequest $request )
     {
       $data = $request -> validated ();
@@ -35,7 +40,8 @@
       return response () -> json ( 'Project Created' );
     }
 
-    public function fetchLastProject (){
-      return Project::latest('id')->first();
+    public function fetchLastProject ()
+    {
+      return Project ::latest ( 'id' ) -> first ();
     }
   }

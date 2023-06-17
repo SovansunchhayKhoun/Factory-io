@@ -2,9 +2,10 @@ import {Navigate, Outlet, useNavigate} from "react-router-dom";
 import {NavBar} from "../components/NavBar.jsx";
 import {Footer} from "../components/Footer.jsx";
 import {LandingNavBar} from "../components/LandingNavBar.jsx";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useAuthContext} from "../context/AuthContext.jsx";
 import axiosClient from "../axios-client.js";
+import {useQuery} from "@tanstack/react-query";
 
 export const LandingLayout = () => {
   const {onLogout, setUser, token, setIsLoading, setToken} = useAuthContext()

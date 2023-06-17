@@ -14,10 +14,8 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
     handleFile,
     setProjectValues,
     projectValues,
-    postProject
   } = useProjectContext();
 
-  const {user} = useAuthContext();
   const [formTab, setFormTab] = useState('proposal');
 
   useEffect(() => {

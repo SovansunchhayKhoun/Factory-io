@@ -16,6 +16,7 @@
     public function toArray ( Request $request ) : array
     {
       return [
+        'id' => $this->id,
         'name' => $this -> name ,
         'description' => $this -> description ,
         'project_deadline' => $this -> project_deadline,
@@ -27,6 +28,7 @@
         'target_fund' => $this -> target_fund ,
         'comment_count' => $this->comment_count,
         'proposal_link' => $this->proposal_link,
+        'created_at' => $this->created_at,
         'user' => User::where('id', $this->user_id)->first()
       ];
     }

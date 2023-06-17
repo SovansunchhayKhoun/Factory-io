@@ -2,6 +2,7 @@ import {createContext, useContext, useState} from "react";
 import Axios from "axios";
 import {useQuery} from "@tanstack/react-query";
 import {useAuthContext} from "../AuthContext.jsx";
+import axiosClient from "../../axios-client.js";
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const StateContext = createContext();
@@ -10,7 +11,7 @@ export const ProjectContext = ({children}) => {
   const {data: projects, refetch: projectsReFetch, isLoading: projectsIsLoading} = useQuery(['projects'], () => {
     return Axios.get('projects').then(({data}) => data.data);
   })
-  const {user} = useAuthContext();
+
   const [errors, setErrors] = useState({});
   const [picture, setPicture] = useState('');
   const [file, setFile] = useState('');
@@ -60,19 +61,17 @@ export const ProjectContext = ({children}) => {
     setFile('');
   }
 
-  const postProject = async (setModalOpen) => {
+  const postProject = async (setModalOpen, user) => {
     setErrors(null);
     projectValues.user_id = user.id;
-    console.log(projectValues);
-    console.log(JSON.stringify(projectValues));
     try {
       // post to project table
       await Axios.post('projects', projectValues, {
         headers: {"Content-Type": "multipart/form-data"}
       }).then(async () => {
+        await projectsReFetch();
         clearProjectValues();
         setModalOpen(false);
-        await projectsReFetch();
       });
     } catch (e) {
       setErrors(e.response.data.errors);

@@ -1,16 +1,17 @@
 import {useProjectContext} from "../../context/Factory/ProjectContext.jsx";
 import {Spinner} from "flowbite-react";
 import {useState} from "react";
+import {Link} from "react-router-dom";
 
 export const ProjectCard = ({project}) => {
-  const {name, image, user} = project;
+  const {id, name, image, user} = project;
   const [like, setLike] = useState(false);
   const {username} = user;
 
   return (
     <>
       <div className="max-w-[400px] flex flex-col bg-white">
-        <div className="justify-center flex-1 text-sm px-4 py-3
+        <Link to={`/project/${id}`} className="justify-center flex-1 text-sm px-4 py-3
             flex flex-col gap-2">
           <div>
             <img loading="lazy" src={`http://127.0.0.1:8000/${image}`} alt=""/>
@@ -21,7 +22,7 @@ export const ProjectCard = ({project}) => {
           <div className="text-grayFactory">
             {username}
           </div>
-        </div>
+        </Link>
 
         {/*comment part*/}
         <div
