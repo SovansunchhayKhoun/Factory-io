@@ -3,11 +3,11 @@ import {Slide} from "@mui/material";
 import {useProjectContext} from "../../../context/Factory/ProjectContext.jsx";
 import {useAuthContext} from "../../../context/AuthContext.jsx";
 
-export const ProjectTab = ({modalOpen, setModalOpen}) => {
+export const ProjectTab = () => {
   const {user} = useAuthContext();
   const [picture, setPicture] = useState('');
   const [open, setOpen] = useState(false);
-  const {postProject} = useProjectContext();
+
   const ProjectTmpForm = () => {
     return (
       <>
@@ -37,11 +37,6 @@ export const ProjectTab = ({modalOpen, setModalOpen}) => {
                 </div>
               </div>
             </div>
-            <button
-              onClick={() => postProject(setModalOpen, user)}
-              className="self-end transition duration-150 bg-blueBase text-whiteFactory px-6 py-2 rounded-[20px] font-semibold hover:bg-blueHover">
-              Submit
-            </button>
           </section>
         </Slide>
       </>

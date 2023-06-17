@@ -14,7 +14,6 @@
       'image' ,
       'file' ,
       'name' ,
-      'description' ,
       'project_deadline' ,
       'category' ,
       'like_count' ,
@@ -22,7 +21,8 @@
       'saved_count' ,
       'funder_count' ,
       'target_fund' ,
-      'proposal_link'
+      'proposal',
+      'description'
     ];
 
     public function users ()

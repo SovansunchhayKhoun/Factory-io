@@ -6,6 +6,7 @@ import {ProjectTab} from "./Tabs/ProjectTab.jsx";
 
 export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
   const {
+    postProject,
     setErrors,
     errors,
     picture,
@@ -16,6 +17,8 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
     projectValues,
   } = useProjectContext();
 
+  const {user} = useAuthContext();
+
   const [formTab, setFormTab] = useState('proposal');
 
   useEffect(() => {
@@ -24,7 +27,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
 
   return (
     <>
-      <section className=" h-screen overflow-auto p-4 text-blackFactory rounded-md bg-whiteFactory">
+      <section className="w-screen h-screen overflow-auto p-4 text-blackFactory rounded-md bg-whiteFactory">
         <section className="flex items-center justify-between border-b-2 border-grayFactory">
           <div>Upload Project</div>
           <button onClick={(e) => {
@@ -77,7 +80,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
               className={`${!errors?.image && 'hidden'} text-redBase text-xs`}>{errors?.image?.map(error => error)}</span>
           </div>
 
-          <div className="flex-1 flex flex-col gap-3 justify-center">
+          <div className="flex-1 flex flex-col gap-3 justify-start">
 
             <div className="flex gap-3">
               <div className="flex flex-col items-start">
@@ -103,12 +106,13 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
             </div>
 
             <div className="flex flex-col items-start">
-              <label htmlFor="description">
-                Description
-              </label>
+              <label htmlFor="description">Description</label>
               <textarea value={projectValues.description}
+                        placeholder={"Project's description..."}
                         onChange={event => setProjectValues({...projectValues, description: event.target.value})}
-                        name="description" id="" className="w-full rounded-md" rows="5"></textarea>
+                        id="description" className="w-full rounded-md" rows="5"></textarea>
+              <span
+                className={`${!errors?.description && 'hidden'} text-redBase text-xs`}>{errors?.description?.map(error => error)}</span>
             </div>
 
             <div className="flex justify-between">
@@ -138,17 +142,18 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
         </section>
 
         <section className="px-4 flex">
-          <div className="flex flex-col gap-y-6">
-            <div className='flex flex-col border-r-2 border-blackFactory min-h-[150px]'>
-              <button
-                className={`${formTab === 'proposal' && 'bg-[#D9D9D9] font-semibold'} transition duration-200 px-4 py-2 hover:bg-[#D9D9D9]`}
-                onClick={() => setFormTab('proposal')}>Proposal
-              </button>
-              <button
-                className={`${formTab === 'project' && 'bg-[#D9D9D9] font-semibold '} transition duration-200 px-4 py-2 hover:bg-[#D9D9D9]`}
-                onClick={() => setFormTab('project')}>Project
-              </button>
-            </div>
+          <div className='pt-4 flex flex-col border-r-2 border-blackFactory h-[150px]'>
+            <button
+              className={`${formTab === 'proposal' && 'bg-[#D9D9D9]'} whitespace-nowrap rounded-md transition duration-200 px-4 py-2 hover:bg-[#D9D9D9]`}
+              onClick={() => setFormTab('proposal')}>
+              Factory Hub
+            </button>
+            <span
+              className={`${!errors?.proposal && 'hidden'} text-redBase text-xs`}>{errors?.proposal?.map(error => error)}</span>
+            <button
+              className={`${formTab === 'project' && 'bg-[#D9D9D9]'} whitespace-nowrap rounded-md transition duration-200 px-4 py-2 hover:bg-[#D9D9D9]`}
+              onClick={() => setFormTab('project')}>Project
+            </button>
           </div>
           <div className={'w-full flex flex-col gap-4 px-4'}>
             <div className="self-end mt-4">
@@ -160,13 +165,19 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                        className="hidden"/>
               </label>
               <div
-                className={`${!errors?.file && 'hidden'} text-redBase text-xs`}>{errors?.file?.map(error => error)}</div>
+                className={`${!errors?.file && 'hidden'} mt-2 text-redBase text-xs`}>{errors?.file?.map(error => error)}</div>
             </div>
 
             <div className="self-start w-full h-full">
               {formTab === 'proposal' && <ProposalTab/>}
-              {formTab === 'project' && <ProjectTab setModalOpen={setModalOpen} modalOpen={modalOpen}/>}
+              {formTab === 'project' && <ProjectTab />}
             </div>
+
+            <button
+              onClick={() => postProject(setModalOpen, user)}
+              className="self-end transition duration-150 bg-blueBase text-whiteFactory px-6 py-2 rounded-[20px] font-semibold hover:bg-blueHover">
+              Submit
+            </button>
           </div>
         </section>
 

@@ -25,7 +25,7 @@
         $table -> integer ( 'comment_count' ) -> default ( 0 );
         $table -> integer ( 'saved_count' ) -> default ( 0 );
         $table -> double ( 'target_fund' ) -> default ( 0 );
-        $table -> string ( 'proposal_link' ) -> nullable ();
+        $table -> string ( 'proposal' );
         $table -> timestamp ( 'project_deadline' );
         $table -> timestamps ();
       } );

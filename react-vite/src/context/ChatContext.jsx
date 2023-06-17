@@ -60,8 +60,6 @@ export const ChatProvider = ({children}) => {
       } catch (msg) {
         console.log(msg.response.data.errors);
       }
-    } else {
-      return;
     }
   };
   const findChat = (sender, receiver) => {

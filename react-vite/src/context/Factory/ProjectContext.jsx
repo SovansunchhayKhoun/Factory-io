@@ -19,6 +19,7 @@ export const ProjectContext = ({children}) => {
     image: "",
     file: "",
     name: "",
+    proposal: "",
     description: "",
     category: "",
     project_deadline: "",
@@ -48,8 +49,9 @@ export const ProjectContext = ({children}) => {
       image: "",
       file: "",
       name: "",
-      description: "",
+      proposal: "",
       category: "",
+      description: "",
       project_deadline: "",
       target_fund: "",
       funder_count: 0,
@@ -64,6 +66,9 @@ export const ProjectContext = ({children}) => {
   const postProject = async (setModalOpen, user) => {
     setErrors(null);
     projectValues.user_id = user.id;
+
+    console.log(projectValues)
+
     try {
       // post to project table
       await Axios.post('projects', projectValues, {

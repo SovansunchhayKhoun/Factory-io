@@ -24,7 +24,6 @@
       return [
         'user_id' => [ 'required' ] ,
         'name' => [ 'required' ] ,
-        'description' => [ 'nullable' ] ,
         'project_deadline' => [ 'required' ] ,
         'image' => [ 'required' ] ,
         'file' => [ 'required' , 'mimes:zip,rar,7z,gz' ] ,
@@ -34,7 +33,8 @@
         'funder_count' => [ 'nullable' , 'min:0' ] ,
         'comment_count' => [ 'nullable' , 'min:0' ] ,
         'saved_count' => [ 'nullable' , 'min:0' ] ,
-        'proposal_link' => [ 'nullable' ]
+        'proposal' => [ 'required' ] ,
+        'description' => [ 'nullable' ]
       ];
     }
   }
