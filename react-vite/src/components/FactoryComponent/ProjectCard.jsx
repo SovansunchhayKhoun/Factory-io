@@ -10,7 +10,7 @@ export const ProjectCard = ({project}) => {
 
   return (
     <>
-      <div className="max-w-[400px] flex flex-col bg-white">
+      <div className="max-w-[400px] flex flex-col bg-whiteFactory shadow-blueHover shadow-md">
         <Link to={`/project/${id}`} className="justify-center flex-1 text-sm px-4 py-3
             flex flex-col gap-2">
           <div>

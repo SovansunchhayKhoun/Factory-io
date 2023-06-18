@@ -27,7 +27,8 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
 
   return (
     <>
-      <section className="w-screen h-screen overflow-auto p-4 text-blackFactory rounded-md bg-whiteFactory">
+      <section className="min-w-[1920px]:px-96 xl:px-56 md:px-12
+        w-screen h-screen overflow-auto py-4 text-blackFactory rounded-md bg-whiteFactory">
         <section className="flex items-center justify-between border-b-2 border-grayFactory">
           <div>Upload Project</div>
           <button onClick={(e) => {
@@ -42,10 +43,10 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
           </button>
         </section>
 
-        <section className="px-4 pt-4 gap-3 flex">
-          <div className="flex gap-2 flex-col w-[440px] ">
+        <section className="px-4 pt-4 gap-3 flex lg:flex-row flex-col">
+          <div className="flex gap-2 flex-col lg:w-[440px] md:w-full md:min-h-[400px]">
             <label
-              className={`${picture && 'flex-grow-0'} max-w-[440px] flex-1 transition duration-200 flex items-center justify-center bg-gray-300 border rounded-md hover:bg-gray-500 cursor-pointer`}
+              className={`${picture && 'hidden'} flex-1 transition duration-200 flex items-center justify-center bg-gray-300 border rounded-md hover:bg-gray-500 cursor-pointer`}
               htmlFor="projectImage">
               <div className={`${picture && 'hidden'} flex items-center gap-2`}>
                 {/*image icon*/}
@@ -59,47 +60,45 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
               <input type="file" id="projectImage" className="hidden" accept="image/*" onChange={(event) => {
                 handlePicture(event)
               }}/>
-              {picture && (
-                <div className="relative">
-                  <button onClick={() => {
-                    setPicture('');
-                    setProjectValues({...projectValues, image: ''})
-                  }}
-                          className={`bg-blackFactory text-whiteFactory absolute top-1 right-1 transition duration-200 rounded-[50%] hover:bg-blackFactory/50`}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                         stroke="currentColor"
-                         className="transition duration-200 w-6 h-6 hover:text-whiteFactory hover:bg-none">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                  </button>
-                  <img loading="lazy" className="object-contain" src={URL.createObjectURL(picture)} alt=""/>
-                </div>
-              )}
             </label>
+            {picture && (
+              <div className="relative">
+                <button onClick={() => {
+                  setPicture('');
+                  setProjectValues({...projectValues, image: ''})
+                }}
+                        className={`bg-blackFactory text-whiteFactory absolute top-1 right-1 transition duration-200 rounded-[50%] hover:bg-blackFactory/50`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                       stroke="currentColor"
+                       className="transition duration-200 w-6 h-6 hover:text-whiteFactory hover:bg-none">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                  </svg>
+                </button>
+                <img loading="lazy" className="object-contain" src={URL.createObjectURL(picture)} alt=""/>
+              </div>
+            )}
             <span
-              className={`${!errors?.image && 'hidden'} text-redBase text-xs`}>{errors?.image?.map(error => error)}</span>
+              className={`${!errors?.image && 'hidden'} self-end text-redBase text-xs`}>{errors?.image?.map(error => error)}</span>
           </div>
 
           <div className="flex-1 flex flex-col gap-3 justify-start">
 
             <div className="flex gap-3">
-              <div className="flex flex-col items-start">
-                <label htmlFor="projectName">
-                  Project's Name
-                </label>
+              <div className="flex flex-col items-start w-full">
+                <label htmlFor="projectName">Project's Name</label>
                 <input value={projectValues.name}
                        onChange={event => setProjectValues({...projectValues, name: event.target.value})}
-                       className="rounded-md" name="projectName" type="text"/>
+                       className="rounded-md w-full" name="projectName" type="text"/>
                 <span
                   className={`${!errors?.name && 'hidden'} text-redBase text-xs`}>{errors?.name?.map(error => error)}</span>
               </div>
-              <div className="flex flex-col items-start">
+              <div className="flex flex-col items-start w-full">
                 <label htmlFor="projectCate">
                   Category
                 </label>
                 <input value={projectValues.category}
                        onChange={event => setProjectValues({...projectValues, category: event.target.value})}
-                       className="rounded-md" name="projectCate" type="text"/>
+                       className="rounded-md w-full" name="projectCate" type="text"/>
                 <span
                   className={`${!errors?.category && 'hidden'} text-redBase text-xs`}>{errors?.category?.map(error => error)}</span>
               </div>
@@ -170,7 +169,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
 
             <div className="self-start w-full h-full">
               {formTab === 'proposal' && <ProposalTab/>}
-              {formTab === 'project' && <ProjectTab />}
+              {formTab === 'project' && <ProjectTab/>}
             </div>
 
             <button

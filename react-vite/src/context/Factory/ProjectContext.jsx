@@ -34,7 +34,7 @@ export const ProjectContext = ({children}) => {
 
   const handlePicture = (event) => {
     // check if input is image
-    if (event.target.attributes.accept.value.slice(0, 5) === event.target.files[0].type.slice(0, 5)) {
+    if (event.target.attributes.accept.value.slice(0, 5) === event.target.files[0]?.type.slice(0, 5)) {
       setPicture(event.target.files[0]);
       setProjectValues({...projectValues, image: event.target.files[0]})
     }
