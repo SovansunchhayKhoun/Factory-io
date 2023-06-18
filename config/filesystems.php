@@ -68,7 +68,7 @@
 
       'projects' => [
         'driver' => 'local' ,
-        'root' => storage_path ( 'app/public/projects' ) ,
+        'root' => storage_path ( 'app/public/projects/' ) ,
         'url' => env ( 'APP_URL' ) . '/storage' ,
         'visibility' => 'public' ,
         'throw' => false ,
@@ -88,7 +88,7 @@
 //        'url' => env ( 'APP_URL' ) . '/storage' ,
 //        'visibility' => 'public' ,
 //        'throw' => false ,
-      ] ,
+//      ] ,
 
       's3' => [
         'driver' => 's3' ,

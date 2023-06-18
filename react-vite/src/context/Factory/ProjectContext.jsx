@@ -16,8 +16,6 @@ export const ProjectContext = ({children}) => {
   const [picture, setPicture] = useState('');
   const [file, setFile] = useState('');
   const [projectValues, setProjectValues] = useState({
-    image: "",
-    file: "",
     name: "",
     proposal: "",
     description: "",
@@ -41,13 +39,11 @@ export const ProjectContext = ({children}) => {
   }
   const handleFile = (event) => {
     setFile(event.target.files[0]);
-    setProjectValues({...projectValues, file: event.target.files[0]})
+    // setProjectValues({...projectValues, file: event.target.files[0]})
   }
   const clearProjectValues = () => {
     setErrors(null);
     setProjectValues({
-      image: "",
-      file: "",
       name: "",
       proposal: "",
       category: "",
@@ -66,17 +62,24 @@ export const ProjectContext = ({children}) => {
   const postProject = async (setModalOpen, user) => {
     setErrors(null);
     projectValues.user_id = user.id;
-
-    console.log(projectValues)
-
+    const projectAssets = {
+      image: picture,
+      file: file,
+    }
     try {
       // post to project table
-      await Axios.post('projects', projectValues, {
-        headers: {"Content-Type": "multipart/form-data"}
-      }).then(async () => {
-        await projectsReFetch();
-        clearProjectValues();
-        setModalOpen(false);
+      await Axios.post('projects', projectValues).then(async () => {
+        const lastProject = await Axios.get('last_project').then(({data}) => data);
+        console.log(lastProject)
+        projectAssets.project_id = lastProject?.id;
+        console.log(projectAssets)
+        await Axios.post('project_assets', projectAssets,{
+          headers: {"Content-type": "multipart/form-data"}
+        }).then(async () => {
+            await projectsReFetch();
+            clearProjectValues();
+            setModalOpen(false);
+          })
       });
     } catch (e) {
       setErrors(e.response.data.errors);

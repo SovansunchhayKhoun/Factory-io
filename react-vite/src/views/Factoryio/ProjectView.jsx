@@ -6,8 +6,8 @@ import {Rating} from "@mui/material";
 import {PVFactoryHub} from "../../components/FactoryComponent/Tabs/PVFactoryHub.jsx";
 import {PVProjectTab} from "../../components/FactoryComponent/Tabs/PVProjectTab.jsx";
 
+const imgUrl = 'http://127.0.0.1:8000/projects/';
 export const ProjectView = () => {
-  const imgUrl = 'http://127.0.0.1:8000';
   const id = useParams();
   const navigate = useNavigate();
   const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -51,7 +51,8 @@ export const ProjectView = () => {
       <section className="flex flex-col">
         <section className="rounded-md flex gap-6 shadow-2xl px-6 py-4">
           <section className="max-w-[640px] object-contain">
-            <img loading={"lazy"} src={`${imgUrl}/${project?.image}`} alt=""/>
+            {project?.projectAssets?.map(projectAsset => <img key={projectAsset.id} loading={"lazy"}
+                                                              src={`${imgUrl}/${projectAsset?.image}`} alt=""/>)}
           </section>
 
           <section className='justify-center flex flex-col w-full gap-y-3'>

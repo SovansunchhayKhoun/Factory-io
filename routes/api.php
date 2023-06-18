@@ -7,6 +7,7 @@
   use App\Http\Controllers\Api\V1\InvoiceProductController;
   use App\Http\Controllers\Api\V1\MessageController;
   use App\Http\Controllers\Api\V1\ProductController;
+  use App\Http\Controllers\Api\V1\ProjectAssetController;
   use App\Http\Controllers\Api\V1\ProjectController;
   use App\Http\Controllers\Api\V1\ProjectPrototypeController;
   use App\Http\Controllers\Api\V1\ReviewController;
@@ -26,8 +27,9 @@
     Route ::apiResource ( 'users' , UserController::class );
     Route ::apiResource ( 'projects' , ProjectController::class );
     Route ::apiResource ( 'project_prototypes' , ProjectPrototypeController::class );
-    Route ::get ( 'last_project' , [ ProjectController::class , 'fetchLastProject' ] );
+    Route ::apiResource ( 'project_assets' , ProjectAssetController::class );
     Route ::apiResource ( 'addresses' , DeliveryAddressController::class );
+    Route ::get ( 'last_project' , [ ProjectController::class , 'fetchLastProject' ] );
     Route ::get ( 'userAddress/{id}' , [ DeliveryAddressController::class , 'getAddressByUserID' ] );
     Route ::get ( 'mostSoldItem' , [ InvoiceProductController::class , 'mostSoldItem' ] );
     Route ::get ( 'getLastInv' , [ InvoiceController::class , 'getLastInv' ] );

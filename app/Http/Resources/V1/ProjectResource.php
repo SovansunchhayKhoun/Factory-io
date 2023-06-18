@@ -2,6 +2,7 @@
 
   namespace App\Http\Resources\V1;
 
+  use App\Models\ProjectAsset;
   use App\Models\User;
   use Illuminate\Http\Request;
   use Illuminate\Http\Resources\Json\JsonResource;
@@ -29,7 +30,8 @@
         'proposal' => $this -> proposal ,
         'description' => $this -> description ,
         'created_at' => $this -> created_at ,
-        'user' => User ::where ( 'id' , $this -> user_id ) -> first ()
+        'user' => User ::where ( 'id' , $this -> user_id ) -> first () ,
+        'projectAssets' => ProjectAsset ::where ( 'project_id' , $this -> id ) -> get ()
       ];
     }
   }

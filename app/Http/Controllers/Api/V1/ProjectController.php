@@ -7,6 +7,7 @@
   use App\Http\Resources\V1\ProjectResource;
   use App\Models\Project;
   use Illuminate\Http\Request;
+  use Illuminate\Support\Carbon;
   use Illuminate\Support\Facades\Storage;
 
   class ProjectController extends Controller
@@ -24,19 +25,9 @@
     public function store ( ProjectRequest $request )
     {
       $data = $request -> validated ();
-      if ( $request -> hasFile ( 'file' ) ) {
-        $filename = $request -> file ( 'file' ) -> getClientOriginalName ();
-        $filepath = 'projects/src/' . $filename;
-        Storage ::disk ( 'projectsFile' ) -> put ( $filename , file_get_contents ( $data[ 'file' ] ) );
-        $data[ 'file' ] = $filepath;
-      }
-      if ( $request -> hasFile ( 'image' ) ) {
-        $imageFile = $request -> file ( 'image' ) -> getClientOriginalName ();
-        $filepath = 'projects/img/' . $imageFile;
-        Storage ::disk ( 'projectsImage' ) -> put ( $imageFile , file_get_contents ( $data[ 'image' ] ) );
-        $data[ 'image' ] = $filepath;
-      }
+
       Project ::create ( $data );
+
       return response () -> json ( 'Project Created' );
     }
 

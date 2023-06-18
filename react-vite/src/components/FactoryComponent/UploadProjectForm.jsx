@@ -65,7 +65,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
               <div className="relative">
                 <button onClick={() => {
                   setPicture('');
-                  setProjectValues({...projectValues, image: ''})
+                  // setProjectValues({...projectValues, image: ''})
                 }}
                         className={`bg-blackFactory text-whiteFactory absolute top-1 right-1 transition duration-200 rounded-[50%] hover:bg-blackFactory/50`}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
