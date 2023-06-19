@@ -37,9 +37,10 @@ class DeliveryAddressController extends Controller
   }
 
 
-  public function getAddressByUserID(Request $request)
+  public function getAddressByUserID($user_id)
   {
-    return DeliveryAddressResource::collection(DB::table('delivery_addresses')->where('user_id', $request->route('id'))->get());
+//    return DeliveryAddressResource::collection(DB::table('delivery_addresses')->where('user_id', $request->route('id'))->get());
+    return DeliveryAddresses::latest()->where('user_id', $user_id)->get();
   }
 
 }

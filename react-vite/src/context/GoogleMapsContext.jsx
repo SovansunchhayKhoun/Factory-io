@@ -4,8 +4,6 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng
 } from "use-places-autocomplete"
-import "@reach/combobox/styles.css";
-
 export const GoogleMapsContext = createContext();
 const libraries = ['places'];
 export const GoogleMapsProvider = ({children}) => {

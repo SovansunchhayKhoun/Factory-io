@@ -13,7 +13,7 @@ import {useJsApiLoader} from "@react-google-maps/api";
 import CartContext from "../context/CartContext.jsx";
 
 export const MakerLayout = () => {
-  const {setUser, token, setIsLoading,setToken} = useAuthContext()
+  const {setUser, token, setIsLoading,setToken, isLoading} = useAuthContext()
 
   useEffect(() => {
     if (token) {
@@ -31,6 +31,8 @@ export const MakerLayout = () => {
       })
     }
   }, []);
+  if(isLoading) {
+
   return (
     <>
       <div className="min-h-screen flex flex-col overflow-auto">
@@ -47,4 +49,5 @@ export const MakerLayout = () => {
       </div>
     </>
   );
+  }
 };
