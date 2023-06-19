@@ -19,7 +19,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
 
   const {user} = useAuthContext();
 
-  const [formTab, setFormTab] = useState('proposal');
+  const [formTab, setFormTab] = useState('project');
 
   useEffect(() => {
     setErrors({});
@@ -43,8 +43,8 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
           </button>
         </section>
 
-        <section className="px-4 pt-4 gap-3 flex lg:flex-row flex-col">
-          <div className="flex gap-2 flex-col lg:w-[440px] md:w-full md:min-h-[400px]">
+        <section className="px-4 pt-4 gap-12 flex items-center lg:flex-row flex-col">
+          <section className="flex gap-2 flex-col lg:w-[440px] md:w-full md:min-h-[400px]">
             <label
               className={`${picture && 'hidden'} flex-1 transition duration-200 flex items-center justify-center bg-gray-300 border rounded-md hover:bg-gray-500 cursor-pointer`}
               htmlFor="projectImage">
@@ -61,6 +61,8 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                 handlePicture(event)
               }}/>
             </label>
+            <span
+              className={`${!errors?.image && 'hidden'} self-end text-redBase text-xs`}>{errors?.image?.map(error => error)}</span>
             {picture && (
               <div className="relative">
                 <button onClick={() => {
@@ -77,11 +79,9 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                 <img loading="lazy" className="object-contain" src={URL.createObjectURL(picture)} alt=""/>
               </div>
             )}
-            <span
-              className={`${!errors?.image && 'hidden'} self-end text-redBase text-xs`}>{errors?.image?.map(error => error)}</span>
-          </div>
+          </section>
 
-          <div className="flex-1 flex flex-col gap-3 justify-start">
+          <section className="flex-1 flex flex-col gap-3 justify-start">
 
             <div className="flex gap-3">
               <div className="flex flex-col items-start w-full">
@@ -137,11 +137,15 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
               </div>
 
             </div>
-          </div>
+          </section>
         </section>
 
         <section className="px-4 flex">
           <div className='pt-4 flex flex-col border-r-2 border-blackFactory h-[150px]'>
+            <button
+              className={`${formTab === 'project' && 'bg-[#D9D9D9]'} whitespace-nowrap rounded-md transition duration-200 px-4 py-2 hover:bg-[#D9D9D9]`}
+              onClick={() => setFormTab('project')}>Project
+            </button>
             <button
               className={`${formTab === 'proposal' && 'bg-[#D9D9D9]'} whitespace-nowrap rounded-md transition duration-200 px-4 py-2 hover:bg-[#D9D9D9]`}
               onClick={() => setFormTab('proposal')}>
@@ -149,10 +153,6 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
             </button>
             <span
               className={`${!errors?.proposal && 'hidden'} text-redBase text-xs`}>{errors?.proposal?.map(error => error)}</span>
-            <button
-              className={`${formTab === 'project' && 'bg-[#D9D9D9]'} whitespace-nowrap rounded-md transition duration-200 px-4 py-2 hover:bg-[#D9D9D9]`}
-              onClick={() => setFormTab('project')}>Project
-            </button>
           </div>
           <div className={'w-full flex flex-col gap-4 px-4'}>
             <div className="self-end mt-4">
@@ -175,7 +175,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
             <button
               onClick={() => postProject(setModalOpen, user)}
               className="self-end transition duration-150 bg-blueBase text-whiteFactory px-6 py-2 rounded-[20px] font-semibold hover:bg-blueHover">
-              Submit
+              Post
             </button>
           </div>
         </section>

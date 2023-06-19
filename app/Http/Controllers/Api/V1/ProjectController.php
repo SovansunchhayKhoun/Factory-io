@@ -5,6 +5,7 @@
   use App\Http\Controllers\Controller;
   use App\Http\Requests\ProjectRequest;
   use App\Http\Resources\V1\ProjectResource;
+  use App\Models\Product;
   use App\Models\Project;
   use Illuminate\Http\Request;
   use Illuminate\Support\Carbon;
@@ -25,10 +26,15 @@
     public function store ( ProjectRequest $request )
     {
       $data = $request -> validated ();
-
       Project ::create ( $data );
 
       return response () -> json ( 'Project Created' );
+    }
+
+    public function destroy ( Project $project )
+    {
+      $project -> delete ();
+      return response () -> json ( 'Product deleted' );
     }
 
     public function fetchLastProject ()

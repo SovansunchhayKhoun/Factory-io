@@ -24,7 +24,7 @@
       return [
         'project_id' => [ 'required' ] ,
         'price' => [ 'required' , 'min:0' , 'not_in:0' ] ,
-        'description' => [ 'nullable' ] ,
+        'description' => [ 'required' ] ,
         'image' => [ 'required' ]
       ];
     }

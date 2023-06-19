@@ -15,6 +15,7 @@
     public function toArray ( Request $request ) : array
     {
       return [
+        'id' => $this->id,
         'project_id' => $this -> project_id ,
         'image' => $this -> image ,
         'description' => $this -> description ,

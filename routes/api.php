@@ -29,6 +29,7 @@
     Route ::apiResource ( 'project_prototypes' , ProjectPrototypeController::class );
     Route ::apiResource ( 'project_assets' , ProjectAssetController::class );
     Route ::apiResource ( 'addresses' , DeliveryAddressController::class );
+    Route ::get ( 'prototypes/{id}' , [ ProjectPrototypeController::class , 'prototypes' ] );
     Route ::get ( 'last_project' , [ ProjectController::class , 'fetchLastProject' ] );
     Route ::get ( 'userAddress/{id}' , [ DeliveryAddressController::class , 'getAddressByUserID' ] );
     Route ::get ( 'mostSoldItem' , [ InvoiceProductController::class , 'mostSoldItem' ] );

@@ -15,7 +15,8 @@ export const ProjectCard = ({project}) => {
         <Link to={`/project/${id}`} className="justify-center flex-1 text-sm px-4 py-3
             flex flex-col gap-2">
           <div>
-            {projectAssets?.map(projectAsset => <img key={projectAsset.id} loading="lazy" src={`${imgUrl}/${projectAsset.image}`} alt=""/>)}
+            {projectAssets?.map(projectAsset => <img key={projectAsset.id} loading="lazy"
+                                                     src={`${imgUrl}/${projectAsset.image}`} alt=""/>)}
           </div>
           <span className="font-semibold overflow-hidden text-ellipsis">
             {name}

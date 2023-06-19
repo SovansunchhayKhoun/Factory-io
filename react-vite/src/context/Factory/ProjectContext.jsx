@@ -3,6 +3,7 @@ import Axios from "axios";
 import {useQuery} from "@tanstack/react-query";
 import {useAuthContext} from "../AuthContext.jsx";
 import axiosClient from "../../axios-client.js";
+import {useProjectProtoContext} from "./ProjectProtoContext.jsx";
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const StateContext = createContext();
@@ -11,6 +12,7 @@ export const ProjectContext = ({children}) => {
   const {data: projects, refetch: projectsReFetch, isLoading: projectsIsLoading} = useQuery(['projects'], () => {
     return Axios.get('projects').then(({data}) => data.data);
   })
+  const {postPrototype} = useProjectProtoContext();
 
   const [errors, setErrors] = useState({});
   const [picture, setPicture] = useState('');
@@ -58,6 +60,7 @@ export const ProjectContext = ({children}) => {
     setPicture('');
     setFile('');
   }
+  const [tempPro, setTempPro] = useState({});
 
   const postProject = async (setModalOpen, user) => {
     setErrors(null);
@@ -66,20 +69,23 @@ export const ProjectContext = ({children}) => {
       image: picture,
       file: file,
     }
+
     try {
       // post to project table
       await Axios.post('projects', projectValues).then(async () => {
         const lastProject = await Axios.get('last_project').then(({data}) => data);
-        console.log(lastProject)
         projectAssets.project_id = lastProject?.id;
-        console.log(projectAssets)
-        await Axios.post('project_assets', projectAssets,{
+        await Axios.post('project_assets', projectAssets, {
           headers: {"Content-type": "multipart/form-data"}
+        }).then(async (res) => {
+          // post prototype
+          console.log(res);
+          // await postPrototype(lastProject);
         }).then(async () => {
-            await projectsReFetch();
-            clearProjectValues();
-            setModalOpen(false);
-          })
+          await projectsReFetch();
+          clearProjectValues();
+          setModalOpen(false);
+        })
       });
     } catch (e) {
       setErrors(e.response.data.errors);
