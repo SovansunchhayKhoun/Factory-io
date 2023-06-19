@@ -146,7 +146,7 @@ export const LandingNavBar = () => {
           })}
         </ul>
 
-        <div className="flex justify-end gap-x-2">
+        <div className="flex justify-end gap-x-3">
           <div>
             <Link to="/login" className="highlight-hover text-[#3C3C3C]">
               Sign in
