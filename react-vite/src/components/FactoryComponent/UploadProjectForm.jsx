@@ -44,7 +44,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
         </section>
 
         <section className="px-4 pt-4 gap-12 flex items-center lg:flex-row flex-col">
-          <section className="flex gap-2 flex-col lg:w-[440px] md:w-full md:min-h-[400px]">
+          <section className="flex gap-2 flex-col justify-center lg:w-[440px] md:w-full md:min-h-[400px]">
             <label
               className={`${picture && 'hidden'} flex-1 transition duration-200 flex items-center justify-center bg-gray-300 border rounded-md hover:bg-gray-500 cursor-pointer`}
               htmlFor="projectImage">
@@ -62,14 +62,16 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
               }}/>
             </label>
             <span
-              className={`${!errors?.image && 'hidden'} self-end text-redBase text-xs`}>{errors?.image?.map(error => error)}</span>
+              className={`${!errors?.imageError && 'hidden'} self-end text-redBase text-xs`}>{errors?.imageError}</span>
+            {/*<span*/}
+            {/*  className={`${!errors?.image && 'hidden'} self-end text-redBase text-xs`}>{errors?.image?.map(error => error)}</span>*/}
             {picture && (
-              <div className="relative">
-                <button onClick={() => {
-                  setPicture('');
-                  // setProjectValues({...projectValues, image: ''})
-                }}
-                        className={`bg-blackFactory text-whiteFactory absolute top-1 right-1 transition duration-200 rounded-[50%] hover:bg-blackFactory/50`}>
+              <div className="relative flex justify-center max-h-[400px] bg-grayFactory shadow-blueActive shadow-sm">
+                <button
+                  className={`bg-blackFactory text-whiteFactory absolute top-1 right-1 transition duration-200 rounded-[50%] hover:bg-blackFactory/50`}
+                  onClick={() => {
+                    setPicture('');
+                  }}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                        stroke="currentColor"
                        className="transition duration-200 w-6 h-6 hover:text-whiteFactory hover:bg-none">
@@ -155,7 +157,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
               className={`${!errors?.proposal && 'hidden'} text-redBase text-xs`}>{errors?.proposal?.map(error => error)}</span>
           </div>
           <div className={'w-full flex flex-col gap-4 px-4'}>
-            <div className="self-end mt-4">
+            <div className="self-end">
               <label
                 className="px-4 transition duration-200 text-whiteFactory bg-redHover rounded-[20px] text-center py-2 hover:bg-redBase cursor-pointer"
                 htmlFor="projectFile">
@@ -164,9 +166,10 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                        className="hidden"/>
               </label>
               <div
+                className={`${!errors?.fileError && 'hidden'} mt-2 text-redBase text-xs`}>{errors?.fileError}</div>
+              <div
                 className={`${!errors?.file && 'hidden'} mt-2 text-redBase text-xs`}>{errors?.file?.map(error => error)}</div>
             </div>
-
             <div className="self-start w-full h-full">
               {formTab === 'proposal' && <ProposalTab/>}
               {formTab === 'project' && <ProjectTab/>}

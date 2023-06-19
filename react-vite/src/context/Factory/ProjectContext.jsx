@@ -70,26 +70,35 @@ export const ProjectContext = ({children}) => {
       file: file,
     }
 
-    try {
-      // post to project table
-      await Axios.post('projects', projectValues).then(async () => {
-        const lastProject = await Axios.get('last_project').then(({data}) => data);
-        projectAssets.project_id = lastProject?.id;
-        await Axios.post('project_assets', projectAssets, {
-          headers: {"Content-type": "multipart/form-data"}
-        }).then(async (res) => {
-          // post prototype
-          console.log(res);
-          // await postPrototype(lastProject);
-        }).then(async () => {
-          await projectsReFetch();
-          clearProjectValues();
-          setModalOpen(false);
+    if (!projectAssets.image || !projectAssets.file) {
+      errors.imageError = 'Please include an image for your project';
+      errors.fileError = 'Please include a compressed file for your project';
+      if (!projectAssets.image)
+        setErrors({...errors})
+      if (!projectAssets.file)
+        setErrors({...errors})
+    }
+
+    if (projectAssets.image && projectAssets.file) {
+      try {
+        await Axios.post('projects', projectValues).then(async () => {
+          await Axios.get('last_project').then(({data}) => {
+            projectAssets.project_id = data?.id;
+          }).then(async () => {
+            await Axios.post('project_assets', projectAssets, {
+              headers: {"Content-type": "multipart/form-data"}
+            }).then(async () => {
+              await postPrototype(projectAssets.project_id);
+            }).then(() => {
+              projectsReFetch();
+              clearProjectValues();
+              setModalOpen(false);
+            })
+          })
         })
-      });
-    } catch (e) {
-      setErrors(e.response.data.errors);
-      console.log(e.response.data.errors);
+      } catch (e) {
+        setErrors(e.response.data.errors)
+      }
     }
   }
   return (

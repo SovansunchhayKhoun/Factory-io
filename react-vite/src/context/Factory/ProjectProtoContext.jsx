@@ -41,10 +41,10 @@ export const ProjectProtoContext = ({children}) => {
     }
   }
 
-  const postPrototype = async (project) => {
+  const postPrototype = async (project_id) => {
     try {
       await prototypeList.forEach(prototype => {
-        prototype.project_id = project.id;
+        prototype.project_id = project_id;
         Axios.post('project_prototypes', prototype, {
           headers: {"Content-Type": "multipart/form-data"}
         })
