@@ -3,6 +3,11 @@ import React, {useEffect, useState} from "react";
 import {useAuthContext} from "../../context/AuthContext.jsx";
 import {ProposalTab} from "./Tabs/ProposalTab.jsx";
 import {ProjectTab} from "./Tabs/ProjectTab.jsx";
+// Import React FilePond
+import {FilePond, registerPlugin} from 'react-filepond';
+
+// Import FilePond styles
+import 'filepond/dist/filepond.min.css';
 
 export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
   const {
@@ -18,11 +23,12 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
   } = useProjectContext();
 
   const {user} = useAuthContext();
-
   const [formTab, setFormTab] = useState('project');
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     setErrors({});
+    setFile(null)
   }, [modalOpen]);
 
   return (
@@ -160,11 +166,9 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                 className="px-4 transition duration-200 text-whiteFactory bg-redHover rounded-[20px] text-center py-2 hover:bg-redBase cursor-pointer"
                 htmlFor="projectFile">
                 Upload Zip File
-                <input onChange={event => handleFile(event)} id="projectFile" type="file" accept=".zip,.rar,.7z,.gz"
-                       className="hidden"/>
+                {/*<input onChange={event => handleFile(event)} id="projectFile" type="file" accept=".zip,.rar,.7z,.gz"*/}
+                {/*       className="hidden"/>*/}
               </label>
-              {/*<div*/}
-              {/*  className={`${!errors?.fileError && 'hidden'} mt-2 text-redBase text-xs`}>{errors?.fileError}</div>*/}
               <div
                 className={`${!errors?.file && 'hidden'} mt-2 text-redBase text-xs`}>{errors?.file?.map(error => error)}</div>
             </div>
@@ -180,7 +184,20 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
             </button>
           </div>
         </section>
-
+        {/*<input type="file" onChange={e => handleFile(e)}/>*/}
+        <FilePond
+          styleButtonRemoveItemAlign={false}
+          files={file}
+          server={{
+            process: "http://127.0.0.1:8000/api/v1/tmp-post",
+            revert: "http://127.0.0.1:8000/api/v1/tmp-delete",
+          }}
+          onupdatefiles={(e) => {
+            setFile(e)
+            handleFile(e[0].file)
+          }}
+          allowDrop={true}
+          allowMultiple={true} maxFiles={3}/>
       </section>
     </>
   )

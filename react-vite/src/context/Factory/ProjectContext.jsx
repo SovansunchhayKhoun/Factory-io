@@ -16,7 +16,7 @@ export const ProjectContext = ({children}) => {
 
   const [errors, setErrors] = useState({});
   const [picture, setPicture] = useState('');
-  const [file, setFile] = useState('');
+  const [file, setFile] = useState(null);
   const [projectValues, setProjectValues] = useState({
     name: "",
     proposal: "",
@@ -40,7 +40,8 @@ export const ProjectContext = ({children}) => {
     }
   }
   const handleFile = (event) => {
-    setFile(event.target.files[0]);
+    setFile(event);
+    // console.log(event.target.files[0])
     // setProjectValues({...projectValues, file: event.target.files[0]})
   }
   const clearProjectValues = () => {
@@ -58,7 +59,7 @@ export const ProjectContext = ({children}) => {
       saved_count: 0,
     });
     setPicture('');
-    setFile('');
+    setFile(null);
   }
   const [tempPro, setTempPro] = useState({});
 
