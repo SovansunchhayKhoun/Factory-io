@@ -35,6 +35,7 @@ export const GoogleMapsProvider = ({children}) => {
         .then((res) => {
           if (res.results[0]) {
             setAddress(res.results[0].formatted_address);
+            // setTempAddress(res.results[0].formatted_address);
             setPlaceId(res.results[0].place_id);
           } else {
             setAddress('No Results Found');

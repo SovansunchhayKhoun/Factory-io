@@ -62,9 +62,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
               }}/>
             </label>
             <span
-              className={`${!errors?.imageError && 'hidden'} self-end text-redBase text-xs`}>{errors?.imageError}</span>
-            {/*<span*/}
-            {/*  className={`${!errors?.image && 'hidden'} self-end text-redBase text-xs`}>{errors?.image?.map(error => error)}</span>*/}
+              className={`${!errors?.image && 'hidden'} self-end text-redBase text-xs`}>{errors?.image?.map(error => error)}</span>
             {picture && (
               <div className="relative flex justify-center max-h-[400px] bg-grayFactory shadow-blueActive shadow-sm">
                 <button
@@ -165,8 +163,8 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                 <input onChange={event => handleFile(event)} id="projectFile" type="file" accept=".zip,.rar,.7z,.gz"
                        className="hidden"/>
               </label>
-              <div
-                className={`${!errors?.fileError && 'hidden'} mt-2 text-redBase text-xs`}>{errors?.fileError}</div>
+              {/*<div*/}
+              {/*  className={`${!errors?.fileError && 'hidden'} mt-2 text-redBase text-xs`}>{errors?.fileError}</div>*/}
               <div
                 className={`${!errors?.file && 'hidden'} mt-2 text-redBase text-xs`}>{errors?.file?.map(error => error)}</div>
             </div>

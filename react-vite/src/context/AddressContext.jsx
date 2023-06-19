@@ -16,14 +16,12 @@ export const AddressContext = ({children}) => {
 
   const [addressLoading, setAddressLoading] = useState(false);
   const getUserAddress = async (id) => {
-    console.log(id)
-      setAddressLoading(true);
-      await Axios.get(`userAddress/2`).then(({data}) => {
-        console.log(data)
-        setUserAddress(data);
-        setAddressLoading(false);
-        return data.data
-      });
+    setAddressLoading(true);
+    await Axios.get(`userAddress/${id}`).then(({data}) => {
+      setUserAddress(data);
+      setAddressLoading(false);
+      return data.data
+    });
   }
 
   const storeAddress = async (e) => {
