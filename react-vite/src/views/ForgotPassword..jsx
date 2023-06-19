@@ -38,7 +38,6 @@ export const ForgotPassword = () => {
               className="border border-tealActive px-4 py-2 rounded-md" />
           </div>
           {message?.message && <span className="text-red-500 text-sm text-center">{message.message}</span>}
-          {message?.message && {}}
           <div className="flex flex-col gap-2">
             <button onClick={e => handleSubmit(e)} className="px-4 py-2 font-semibold bg-tealActive border-tealActive border transition duration-300 hover:bg-tealBase rounded-md">Continue</button>
           </div>

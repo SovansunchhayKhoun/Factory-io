@@ -1,7 +1,9 @@
 import {Link} from "react-router-dom";
 import {UserCard} from "../../components/UserCard.jsx";
+import {useAuthContext} from "../../context/AuthContext.jsx";
 
 export const LandingPage = () => {
+
   return (
     <main className="flex flex-col gap-12">
 
