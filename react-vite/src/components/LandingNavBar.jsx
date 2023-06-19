@@ -6,7 +6,7 @@ import ProductContext from "../context/ProductContext.jsx";
 import {ProfileDropdown} from "./ui/NavBarui/ProfileDropdown.jsx";
 
 export const LandingNavBar = () => {
-  const {user, setUser, token, onLogout} = useAuthContext();
+
   const [searchInput, setSearchInput] = useState('')
   const [filteredItem, setFilteredItem] = useState([])
   const {items} = useContext(ProductContext);
@@ -31,7 +31,7 @@ export const LandingNavBar = () => {
     {name: "Contest", to: "contest", img: {imgSrc: "", imgWidth: 0}},
     {name: "", to: "/makerio", img: {imgSrc: "/assets/images/makerio.png", imgWidth: 100}},
   ]);
-
+  const {user,token, setUser,isLoading, onLogout} = useAuthContext();
   if (token) {
     return (
       <>

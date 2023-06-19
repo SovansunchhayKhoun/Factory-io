@@ -4,9 +4,10 @@ import React, {useState} from "react";
 import {useAuthContext} from "../../../context/AuthContext.jsx";
 import {AccordionDetails} from "@mui/material";
 import AdminPopUp from "../../Modals/AdminPopUp.jsx";
+import {NoAccount} from "./NoAccount.jsx";
 
 export const ProfileDropdown = ({user, arrowIcon, to}) => {
-  const {onLogout, isLoading} = useAuthContext()
+  const {onLogout, isLoading,setToken,token} = useAuthContext()
   const [modalOpen, setModalOpen] = useState(false);
 
   let navigate = useNavigate();
