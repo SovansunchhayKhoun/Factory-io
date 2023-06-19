@@ -4,11 +4,11 @@ import {ProjectCard} from "../../../components/FactoryComponent/ProjectCard.jsx"
 import {useProjectContext} from "../../../context/Factory/ProjectContext.jsx";
 import AdminPopUp from "../../../components/Modals/AdminPopUp.jsx";
 import {UploadProjectForm} from "../../../components/FactoryComponent/UploadProjectForm.jsx";
-import {Popup} from "../../../components/Modals/FactoryModals/Popup.jsx";
 import {UploadPrjBtn} from "../../../components/FactoryComponent/UploadPrjBtn.jsx";
 
 export const RD = () => {
   const {projects, projectsIsLoading} = useProjectContext();
+  const [modalOpen, setModalOpen] = useState(false);
   const loading = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const LoadingProject = () => {
     if (projectsIsLoading) {
@@ -72,7 +72,7 @@ export const RD = () => {
             Item 1
           </Dropdown.Item>
         </Dropdown>
-        <UploadPrjBtn />
+        <UploadPrjBtn modalOpen={modalOpen} setModalOpen={setModalOpen}/>
       </section>
       <section className="grid grid-cols-3 gap-6 auto-cols-fr">
         {loading?.map(l => <LoadingProject key={l}/>)}

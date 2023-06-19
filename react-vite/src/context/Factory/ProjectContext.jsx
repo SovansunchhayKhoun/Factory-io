@@ -2,6 +2,8 @@ import {createContext, useContext, useState} from "react";
 import Axios from "axios";
 import {useQuery} from "@tanstack/react-query";
 import {useAuthContext} from "../AuthContext.jsx";
+import axiosClient from "../../axios-client.js";
+import {useProjectProtoContext} from "./ProjectProtoContext.jsx";
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const StateContext = createContext();
@@ -10,14 +12,14 @@ export const ProjectContext = ({children}) => {
   const {data: projects, refetch: projectsReFetch, isLoading: projectsIsLoading} = useQuery(['projects'], () => {
     return Axios.get('projects').then(({data}) => data.data);
   })
-  const {user} = useAuthContext();
+  const {postPrototype} = useProjectProtoContext();
+
   const [errors, setErrors] = useState({});
   const [picture, setPicture] = useState('');
   const [file, setFile] = useState('');
   const [projectValues, setProjectValues] = useState({
-    image: "",
-    file: "",
     name: "",
+    proposal: "",
     description: "",
     category: "",
     project_deadline: "",
@@ -32,23 +34,22 @@ export const ProjectContext = ({children}) => {
 
   const handlePicture = (event) => {
     // check if input is image
-    if (event.target.attributes.accept.value.slice(0, 5) === event.target.files[0].type.slice(0, 5)) {
+    if (event.target.attributes.accept.value.slice(0, 5) === event.target.files[0]?.type.slice(0, 5)) {
       setPicture(event.target.files[0]);
       setProjectValues({...projectValues, image: event.target.files[0]})
     }
   }
   const handleFile = (event) => {
     setFile(event.target.files[0]);
-    setProjectValues({...projectValues, file: event.target.files[0]})
+    // setProjectValues({...projectValues, file: event.target.files[0]})
   }
   const clearProjectValues = () => {
     setErrors(null);
     setProjectValues({
-      image: "",
-      file: "",
       name: "",
-      description: "",
+      proposal: "",
       category: "",
+      description: "",
       project_deadline: "",
       target_fund: "",
       funder_count: 0,
@@ -59,21 +60,32 @@ export const ProjectContext = ({children}) => {
     setPicture('');
     setFile('');
   }
+  const [tempPro, setTempPro] = useState({});
 
-  const postProject = async (setModalOpen) => {
+  const postProject = async (setModalOpen, user) => {
     setErrors(null);
-    projectValues.user_id = user?.id;
+    projectValues.user_id = user.id;
+    const projectAssets = {
+      image: picture,
+      file: file,
+    }
 
-    console.log(projectValues);
-    console.log(JSON.stringify(projectValues));
     try {
       // post to project table
-      await Axios.post('projects', projectValues, {
-        headers: {"Content-Type": "multipart/form-data"}
-      }).then(async () => {
-        clearProjectValues();
-        setModalOpen(false);
-        await projectsReFetch();
+      await Axios.post('projects', projectValues).then(async () => {
+        const lastProject = await Axios.get('last_project').then(({data}) => data);
+        projectAssets.project_id = lastProject?.id;
+        await Axios.post('project_assets', projectAssets, {
+          headers: {"Content-type": "multipart/form-data"}
+        }).then(async (res) => {
+          // post prototype
+          console.log(res);
+          // await postPrototype(lastProject);
+        }).then(async () => {
+          await projectsReFetch();
+          clearProjectValues();
+          setModalOpen(false);
+        })
       });
     } catch (e) {
       setErrors(e.response.data.errors);

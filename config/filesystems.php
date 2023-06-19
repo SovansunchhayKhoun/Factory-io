@@ -66,21 +66,29 @@
         'throw' => false ,
       ] ,
 
-      'projectsImage' => [
+      'projects' => [
         'driver' => 'local' ,
-        'root' => storage_path ( 'app/public/projects/img' ) ,
+        'root' => storage_path ( 'app/public/projects/' ) ,
         'url' => env ( 'APP_URL' ) . '/storage' ,
         'visibility' => 'public' ,
         'throw' => false ,
       ] ,
 
-      'projectsFile' => [
-        'driver' => 'local' ,
-        'root' => storage_path ( 'app/public/projects/src' ) ,
-        'url' => env ( 'APP_URL' ) . '/storage' ,
-        'visibility' => 'public' ,
-        'throw' => false ,
-      ] ,
+//      'projectsImage' => [
+//        'driver' => 'local' ,
+//        'root' => storage_path ( 'app/public/projects/project/img' ) ,
+//        'url' => env ( 'APP_URL' ) . '/storage' ,
+//        'visibility' => 'public' ,
+//        'throw' => false ,
+//      ] ,
+//
+//      'projectsFile' => [
+//        'driver' => 'local' ,
+//        'root' => storage_path ( 'app/public/projects/project/src' ) ,
+//        'url' => env ( 'APP_URL' ) . '/storage' ,
+//        'visibility' => 'public' ,
+//        'throw' => false ,
+//      ] ,
 
       's3' => [
         'driver' => 's3' ,

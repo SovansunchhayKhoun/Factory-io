@@ -30,6 +30,9 @@ import {AccountView} from "./views/Factoryio/AccountView.jsx";
 import {AdminView} from "./views/AdminView.jsx";
 import {ForgotPassword} from "./views/ForgotPassword..jsx";
 import {ResetPassword} from "./views/ResetPassword.jsx";
+import {useQuery} from "@tanstack/react-query";
+import axiosClient from "./axios-client.js";
+import {ProjectView} from "./views/Factoryio/ProjectView.jsx";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: 'explore',
         element: <FactoryHome/>
+      },
+      {
+        path: 'project/:id',
+        element: <ProjectView />
       }
     ]
   },
