@@ -20,7 +20,7 @@ import {CustomerService} from "../views/Makerio/CustomerService.jsx";
 
 
 export const NavBar = (props) => {
-  const {token, user, onLogout, isLoading} = useAuthContext()
+  const {token, user, onLogout} = useAuthContext()
   const [searchInput, setSearchInput] = useState('')
   const {itemsQueryReFetch, items, getItem} = useContext(ProductContext);
   const {cartItem, getCartItem} = useContext(CartContext);
@@ -110,7 +110,7 @@ export const NavBar = (props) => {
             {filteredItem?.length === 0 && <div className="mx-auto mt-2"> No item found</div>}
             {filteredItem?.slice(0, 5).map((item, key) => {
               return (
-                <Link to={`maker-io/${item.id}`} onClick={e => {
+                <Link to={`${item.id}`} onClick={e => {
                   e.stopPropagation()
                   getItem(item.id)
                   setSearchInput("")

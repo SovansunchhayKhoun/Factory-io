@@ -10,12 +10,6 @@ import {Spinner} from "flowbite-react";
 
 export const LandingLayout = () => {
   const {setUser, token, setToken} = useAuthContext()
-  // const navigate = useNavigate();
-
-  // redirect to home when logout
-  // useEffect(() => {
-  //   navigate('/');
-  // }, [onLogout]);
 
     if (token) {
       const {isLoading} = useQuery(["user"], () => {
