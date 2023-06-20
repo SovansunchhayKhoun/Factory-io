@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {FilePond} from "react-filepond";
+import { FilePond, registerPlugin } from 'react-filepond'
+import 'filepond/dist/filepond.min.css'
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
+registerPlugin(FilePondPluginFileValidateType)
 
 export const DonateContent = ({setModalOpen, modalOpen}) => {
   const [file, setFile] = useState(null);
@@ -11,6 +14,9 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
   const handleChange = event => {
     setSelected(Number(event.target.value));
   };
+  const handleFile = () => {
+
+  }
 
   return (
     <>
@@ -62,22 +68,25 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
             <input id="comment" className="border border-slate-600 rounded-md px-2 py-1"/>
           </div>
           <div className="flex flex-col w-2/3">
-            {/*<label htmlFor="upload">Upload Screenshot</label>*/}
-            {/*<input id="upload" className="border border-slate-600 rounded-md px-2 py-1"/>*/}
+            <label htmlFor="upload">Upload Screenshot</label>
+            <input type="file" id="upload" className="border border-slate-600 rounded-md px-2 py-1"/>
 
-            <FilePond
-              styleButtonRemoveItemAlign={false}
-              files={file}
-              server={{
-                process: "http://127.0.0.1:8000/api/v1/tmp-post",
-                revert: "http://127.0.0.1:8000/api/v1/tmp-delete",
-              }}
-              onupdatefiles={(e) => {
-                setFile(e)
-                handleFile(e[0].file)
-              }}
-              allowDrop={true}
-              allowMultiple={false}/>
+            {/*<FilePond*/}
+            {/*  styleButtonRemoveItemAlign={false}*/}
+            {/*  files={file}*/}
+            {/*  server={{*/}
+            {/*    process: "http://127.0.0.1:8000/api/v1/tmp-post",*/}
+            {/*    revert: "http://127.0.0.1:8000/api/v1/tmp-delete",*/}
+            {/*  }}*/}
+            {/*  onupdatefiles={(e) => {*/}
+            {/*    setFile(e)*/}
+            {/*    handleFile(e[0].file)*/}
+            {/*  }}*/}
+            {/*  allowDrop={true}*/}
+            {/*  allowMultiple={false}*/}
+            {/*  acceptedFileTypes={['image/*']}*/}
+            {/*/>*/}
+
 
           </div>
           <button className="rounded-[20px] px-6 py-2 text-whiteFactory bg-redHover">Submit</button>
