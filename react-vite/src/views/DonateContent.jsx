@@ -15,9 +15,8 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
 
     return (
         <>
-          <section className="min-w-[1920px]:px-96 xl:px-56 md:px-12
-        w-screen overflow-auto py-4 text-blackFactory rounded-md bg-whiteFactory">
-            <div className="flex flex-col gap-y-3 mx-auto h-screen items-center justify-center max-w-[500px] min-w-[300px] border-slate-600">
+          <section className="p-12 overflow-auto text-blackFactory rounded-md bg-whiteFactory shadow-2xl">
+            <div className="flex flex-col gap-y-3 mx-auto items-center justify-center max-w-[500px] min-w-[300px] border-slate-600">
               <div className="flex justify-center items-center flex-row gap-x-2">
               <h1 className="font-bold text-2xl">Donate for Community Platform</h1>
                 <button onClick={(e) => {
