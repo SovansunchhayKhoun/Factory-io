@@ -6,6 +6,7 @@ import {Dropdown} from "flowbite-react";
 import UserContext from "../../context/UserContext.jsx";
 import Axios from "axios";
 import {useAuthContext} from "../../context/AuthContext.jsx";
+import {useAddressContext} from "../../context/AddressContext.jsx";
 
 function AddressPopUp({
                         // eslint-disable-next-line react/prop-types
@@ -22,49 +23,8 @@ function AddressPopUp({
   const [errors, setErrors] = useState({})
   const [address, setAddress] = useState('')
   const [editBtn, setEditBtn] = useState(false)
-  const {getUserAddresses, addresses} = useContext(UserContext)
+  const {getUserAddress, addresses, userAddress} = useAddressContext();
   const [currentAddress, setCurrentAddress] = useState({})
-  const storeAddress = async (e) => {
-    e.preventDefault()
-    const addressInfo = new FormData();
-    addressInfo.append('address', address)
-    addressInfo.append('user_id', user.id)
-    try {
-      await Axios.post('addresses', addressInfo).then(() => {
-        setAddress('')
-        getUserAddresses(user.id)
-      })
-    } catch (e) {
-      if (e.response.status === 422) {
-        setErrors(e.response.data.errors)
-      }
-    }
-  }
-
-  const deleteAddress = (addressID) => {
-    try {
-      Axios.delete(`addresses/${addressID}`).then(() => getUserAddresses(user.id))
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  const editAddress = async (addressID) => {
-    try {
-      await Axios.put(`addresses/${addressID}`,{
-        user_id: user.id,
-        address: address
-      }).then(() => {
-        getUserAddresses(user.id)
-        setAddress('')
-        setCurrentAddress({})
-        setEditBtn(!editBtn)
-      })
-    }catch (e){
-      console.log(e)
-    }
-  }
-
 
   // close on click outside
   useEffect(() => {
@@ -88,7 +48,7 @@ function AddressPopUp({
 
   useEffect(() => {
     modalOpen
-    getUserAddresses(user.id)
+    // getUserAddress(user.id)
     setEditBtn(false)
     setAddress('')
     setErrors({})
@@ -138,9 +98,8 @@ function AddressPopUp({
           {
             !editBtn ? <button onClick={(e) => {
                 e.stopPropagation()
-                storeAddress(e)
-              }}
-                               className={`w-1/2 mx-auto font-bold text-center text-blackFactory border border-redBase px-4 py-2 rounded-[4px] shadow-2xl`}>
+                // storeAddress(e)
+              }} className={`w-1/2 mx-auto font-bold text-center text-blackFactory border border-redBase px-4 py-2 rounded-[4px] shadow-2xl`}>
                 Create new
               </button> :
               <div className="flex justify-between gap-4">
@@ -154,7 +113,7 @@ function AddressPopUp({
                 </button>
                 <button onClick={(e) => {
                   e.stopPropagation()
-                  editAddress(currentAddress.id)
+                  // editAddress(currentAddress.id)
                 }}
                         className={`w-full mx-auto font-bold text-center text-blackFactory border border-redBase px-4 py-2 rounded-[4px] shadow-2xl`}>
                   Edit
@@ -164,8 +123,8 @@ function AddressPopUp({
 
           }
           <div>
-            {addresses.length === 0 && <div>No delivery address</div>}
-            {addresses?.map((address, key) => {
+            {addresses?.filter(address => address.user_id === user.id).length === 0 && <div>No delivery address</div>}
+            {addresses?.filter(address => address.user_id === user.id).map((address, key) => {
               return (
                 <div key={key} className="flex justify-between">
                   <p>{address.address}</p>
@@ -179,7 +138,7 @@ function AddressPopUp({
                     </button>
                     <button onClick={(e) => {
                       e.stopPropagation()
-                      deleteAddress(address.id)
+                      // deleteAddress(address.id)
                     }} className="text-redActive">Delete
                     </button>
                   </div>

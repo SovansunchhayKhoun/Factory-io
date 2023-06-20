@@ -12,7 +12,6 @@ export const UserProvider = ({children}) => {
   const [isLoading,setIsLoading] = useState(false)
   const [user, setUser] = useState({});
   const [admin,setAdmin] = useState({});
-  const [addresses,setAddresses] = useState([]);
 
   const [formValues, setFormValues] = useState({
     firstName: "",
@@ -41,16 +40,6 @@ export const UserProvider = ({children}) => {
       return res.data.data;
     })
   })
-
-
-
-  const getUserAddresses = async (id) => {
-    await Axios.get(`userAddress/${id}`).then(({data}) => {
-      setAddresses(data.data)
-    }).catch((e) => {
-      console.log(e);
-    })
-  }
 
   const getUser = async (id) => {
     await Axios.get(`users/${id}`).then(({data}) => {
@@ -195,9 +184,9 @@ export const UserProvider = ({children}) => {
       admin,
       setUserToFormValues,
       isLoading,
-      getUserAddresses,
-      addresses,
-      setAddresses,
+      // getUserAddresses,
+      // addresses,
+      // setAddresses,
       resetFormValues,
       updateAdmin,
       changeAdminPassword,

@@ -7,6 +7,7 @@
   use App\Http\Resources\V1\ProjectResource;
   use App\Models\Product;
   use App\Models\Project;
+  use http\Env\Response;
   use Illuminate\Http\Request;
   use Illuminate\Support\Carbon;
   use Illuminate\Support\Facades\Storage;
@@ -25,10 +26,12 @@
 
     public function store ( ProjectRequest $request )
     {
-      $data = $request -> validated ();
-      Project ::create ( $data );
-
-      return response () -> json ( 'Project Created' );
+        $data = $request -> validated ();
+      if ( $request -> hasFile ( 'image' ) && $request -> hasFile ( 'file' ) ) {
+        Project ::create ( $data );
+        return response () -> json ( 'Project Created' );
+      }
+//      abort ('422', 'Cannot process request');
     }
 
     public function destroy ( Project $project )

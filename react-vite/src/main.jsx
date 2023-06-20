@@ -28,23 +28,23 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <AuthContext>
         <UserProvider>
           <GoogleMapsProvider>
-            <ProjectProtoContext>
-              <ProjectContext>
-                <ChatProvider>
-                  <InvoiceProductProvider>
-                    <InvoiceProvider>
-                      <ProductProvider>
-                        <CartProvider>
-                          <DonateProvider>
+              <ProjectProtoContext>
+                <ProjectContext>
+                  <ChatProvider>
+                    <InvoiceProductProvider>
+                      <InvoiceProvider>
+                        <ProductProvider>
+                          <CartProvider>
+                            <DonateProvider>
                             <RouterProvider router={router}/>
-                          </DonateProvider>
+                            </DonateProvider>
                         </CartProvider>
-                      </ProductProvider>
-                    </InvoiceProvider>
-                  </InvoiceProductProvider>
-                </ChatProvider>
-              </ProjectContext>
-            </ProjectProtoContext>
+                        </ProductProvider>
+                      </InvoiceProvider>
+                    </InvoiceProductProvider>
+                  </ChatProvider>
+                </ProjectContext>
+              </ProjectProtoContext>
           </GoogleMapsProvider>
         </UserProvider>
       </AuthContext>

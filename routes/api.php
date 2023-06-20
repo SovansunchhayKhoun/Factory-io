@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\V1\InvoiceController;
   use App\Http\Controllers\Api\V1\ProjectPrototypeController;
   use App\Http\Controllers\Api\V1\ReviewController;
   use App\Http\Controllers\Api\V1\UserController;
+  use App\Http\Controllers\TemporaryFileController;
   use App\Models\ProjectPrototype;
   use Illuminate\Http\Request;
   use Illuminate\Support\Facades\Auth;
@@ -44,7 +45,8 @@ use App\Http\Controllers\Api\V1\InvoiceController;
     Route ::put ( 'admins/{id}/change-password' , [ UserController::class , 'changeAdminPassword' ] );
     Route ::get ( 'getAdmin' , [ UserController::class , 'getAdmins' ] );
     Route ::put ( 'updateAdmin/{id}' , [ UserController::class , 'updateAdmin' ] );
-
+    Route::post ('/tmp-post', [TemporaryFileController::class, 'store']);
+    Route::delete ('/tmp-delete', [TemporaryFileController::class, 'delete']);
   } );
 
   Route ::middleware ( 'auth:sanctum' ) -> group ( function () {
@@ -56,7 +58,6 @@ use App\Http\Controllers\Api\V1\InvoiceController;
   } );
 
 //Route::put('v1/products/update/{id}',[ProductController::class,'update']);
-
   Route ::post ( '/signup' , [ AuthController::class , 'signup' ] );
   Route ::post ( '/login' , [ AuthController::class , 'login' ] );
   Route ::post ( '/loginAsAdmin' , [ AuthController::class , 'loginAsAdmin' ] );

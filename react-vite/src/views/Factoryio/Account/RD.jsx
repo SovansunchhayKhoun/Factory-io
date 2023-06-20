@@ -65,7 +65,7 @@ export const RD = () => {
   }
 
   return (
-    <main className="flex flex-col gap-3 mr-24">
+    <main className="flex flex-col gap-3 mr-8">
       <section className="flex justify-between">
         <Dropdown style={{background: "#D9D9D9", padding: 0}} arrowIcon={false} label={<FilterIcon/>}>
           <Dropdown.Item>
@@ -74,7 +74,7 @@ export const RD = () => {
         </Dropdown>
         <UploadPrjBtn modalOpen={modalOpen} setModalOpen={setModalOpen}/>
       </section>
-      <section className="grid grid-cols-3 gap-6 auto-cols-fr">
+      <section className="grid grid-cols-3 gap-10 auto-rows-fr">
         {loading?.map(l => <LoadingProject key={l}/>)}
         {projects?.map((project, key) => <ProjectCard key={key} project={project}/>)}
       </section>

@@ -160,7 +160,7 @@ export const ProjectView = () => {
             </section>
 
             <section className="pt-4">
-              {tab === 'fh' && <PVFactoryHub/>}
+              {tab === 'fh' && <PVFactoryHub project={project}/>}
               {tab === 'project' && <PVProjectTab projectPrototypes={project?.projectPrototypes}/>}
             </section>
           </section>

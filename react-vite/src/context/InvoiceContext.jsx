@@ -21,6 +21,7 @@ export const InvoiceProvider = ({children}) => {
   });
   const [invoiceError, setInvoiceError] = useState([]);
   const {address, setAddress, placeId} = useContext(GoogleMapsContext)
+
   const {user} = useAuthContext();
   const [invStatus, setInvStatus] = useState(-1);
   const [invoice, setInvoice] = useState({});
@@ -36,24 +37,6 @@ export const InvoiceProvider = ({children}) => {
       behavior: "smooth",
     });
   }
-  // const storeInvoice = async (total, cartItem, paymentPic, setModalOpen, setLoadingSuccess) => {
-
-  // const validateInvoice = (e, cartItem, setModalOpen) => {
-  //   if (!address) {
-  //     e.stopPropagation();
-  //     cartItem.addressError = 'The Address field is required';
-  //     setModalOpen(false);
-  //     return false;
-  //   }
-  //   if (!paymentPic) {
-  //     e.stopPropagation()
-  //     cartItem.paymentError = 'Please include payment picture'
-  //     setModalOpen(false)
-  //     return false;
-  //   }
-  //   scrollTop(0);
-  //   return true;
-  // };
 
   const storeInvoice = async (total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess) => {
     const tempDate = new Date();
@@ -69,7 +52,7 @@ export const InvoiceProvider = ({children}) => {
       item_count: cartItem.length,
     };
 
-    // post invoice to  db
+    // post invoice to db
     await Axios.post('invoices', invoice, {
       headers: {'Content-Type': "multipart/form-data"}
     }).then(async () => {
