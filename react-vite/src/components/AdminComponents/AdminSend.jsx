@@ -3,7 +3,7 @@ import {ImageExpand} from "../ImageExpand.jsx";
 import ChatContext from "../../context/ChatContext.jsx";
 
 export const AdminSend = ({msg}) => {
-  const [handleExpand, setHandleExpand] = useState(0);
+  const [handleExpand, setHandleExpand] = useState(false);
   const timePrefix = new Date(msg?.time_sent).getHours();
 
   return (
@@ -19,7 +19,7 @@ export const AdminSend = ({msg}) => {
               <>
                 <img alt="" onClick={(e) => {
                   e.stopPropagation();
-                  setHandleExpand(1);
+                  setHandleExpand(true);
                 }} className="max-w-[250px] cursor-pointer" src={`http://127.0.0.1:8000/${msg?.image}`}/>
               </>
             )}

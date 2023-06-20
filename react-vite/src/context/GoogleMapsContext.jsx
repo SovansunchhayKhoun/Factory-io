@@ -35,7 +35,6 @@ export const GoogleMapsProvider = ({children}) => {
         .then((res) => {
           if (res.results[0]) {
             setAddress(res.results[0].formatted_address);
-            // setTempAddress(res.results[0].formatted_address);
             setPlaceId(res.results[0].place_id);
           } else {
             setAddress('No Results Found');
@@ -44,10 +43,6 @@ export const GoogleMapsProvider = ({children}) => {
           console.log(e);
         })
     }
-  }
-  const [tempAddress, setTempAddress] = useState('');
-  const handleAddressChange = (event) => {
-    setTempAddress(event.target.value);
   }
 
   const PlacesAutoComplete = ({setMarker}) => {
@@ -78,7 +73,9 @@ export const GoogleMapsProvider = ({children}) => {
         <div className="flex flex-col mt-3">
           {status === "OK" && data.map(({place_id, description}) => {
             return (
-              <button className="text-start px-4 py-2 border" onClick={()=>{handleSelect(description)}} key={place_id}>{description}</button>
+              <button className="text-start px-4 py-2 border" onClick={() => {
+                handleSelect(description)
+              }} key={place_id}>{description}</button>
             )
           })}
         </div>
@@ -88,9 +85,6 @@ export const GoogleMapsProvider = ({children}) => {
 
   const GoogleMaps = ({height}) => {
     const [map, setMap] = useState(/** @type google.maps.Map */ (null));
-    useEffect(() => {
-      getAddress(latitude, longitude)
-    }, [latitude, longitude]);
 
     const currentLocation = async () => {
       navigator.geolocation.getCurrentPosition(position => {
@@ -114,7 +108,7 @@ export const GoogleMapsProvider = ({children}) => {
     return (
       <>
         {/*<div className="mb-3">*/}
-          <PlacesAutoComplete setMarker={setMarker}/>
+        <PlacesAutoComplete setMarker={setMarker}/>
         {/*</div>*/}
         <div className="">
           <div className="relative flex gap-x-2">
@@ -174,8 +168,8 @@ export const GoogleMapsProvider = ({children}) => {
   return (
     <>
       <GoogleMapsContext.Provider value={{
-        setTempAddress,
-        tempAddress,
+        // setTempAddress,
+        // tempAddress,
         setLatitude,
         latitude,
         setLongitude,
@@ -186,7 +180,8 @@ export const GoogleMapsProvider = ({children}) => {
         GoogleMaps,
         address,
         setAddress,
-        handleAddressChange,
+        getAddress,
+        // handleAddressChange,
       }}>
         {children}
       </GoogleMapsContext.Provider>

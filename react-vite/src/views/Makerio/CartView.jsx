@@ -15,8 +15,24 @@ export const CartView = () => {
   const {user, isLoading} = useAuthContext();
   const {userAddress, getUserAddress, addressLoading} = useAddressContext();
   const {cartItem, getCartItem} = useContext(CartContext);
-  const {handleAddressChange, setTempAddress, tempAddress, address} = useContext(GoogleMapsContext);
-  const {scrollTop, invoiceError} = useContext(InvoiceContext);
+  const {setAddress, address, latitude, longitude, getAddress} = useContext(GoogleMapsContext);
+
+  useEffect(() => {
+    // const getAddress = async (lat, lng) => {
+    //   const geoCode = new google.maps.Geocoder();
+    //   await geoCode.geocode({location: {lat, lng}})
+    //     .then(res => {
+    //       if(res.results[0]) {
+    //         setAddress(res.results[0].formatted_address);
+    //       }
+    //     }).catch(e => console.log(e))
+    // }
+    getAddress(latitude, longitude)
+  }, [latitude, longitude])
+
+  const handleAddressChange = (event) => {
+    setAddress(event.target.value);
+  }
 
   useEffect(() => {
     getUserAddress(user?.id)
@@ -40,7 +56,7 @@ export const CartView = () => {
               <Dropdown style={{padding: 0, border: "none", backgroundColor: "#18264B"}} label={'Select Address'}>
                 {userAddress?.filter(address => address.user_id === user?.id)?.map(address => {
                   return (
-                    <Dropdown.Item onClick={() => {setTempAddress(address.address)}} key={address.id}>
+                    <Dropdown.Item onClick={() => {setAddress(address.address)}} key={address.id}>
                       {address.address}
                     </Dropdown.Item>
                   )
@@ -48,11 +64,12 @@ export const CartView = () => {
               </Dropdown>
             </div>
             <div className="relative w-full">
-              <input type="search" id="search-dropdown"
-                     className={"w-full ring-2 ring-tealHover font-semibold bg-tealActive text-blackFactory px-3 py-2 rounded-md"}
-                     value={cartItem.length > 0 ? tempAddress.toString() : ''}
-                     onChange={event => handleAddressChange(event)}
-                     placeholder="Enter your Address..." required/>
+              <textarea id="search-dropdown"
+                        className={"w-full ring-2 ring-tealHover font-semibold bg-tealActive text-blackFactory px-3 py-2 rounded-md"}
+                        value={cartItem.length > 0 ? address : ''}
+                        onChange={event => handleAddressChange(event)}
+                        placeholder="#, Street No., ..." required>
+              </textarea>
             </div>
           </div>
         </div>

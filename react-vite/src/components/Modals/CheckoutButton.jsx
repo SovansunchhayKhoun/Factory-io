@@ -10,6 +10,7 @@ import ProductContext from "../../context/ProductContext.jsx";
 import {Spinner} from "flowbite-react";
 import {Link, useNavigate} from "react-router-dom";
 import {GoogleMapsContext} from "../../context/GoogleMapsContext.jsx";
+import {InvoiceView} from "../ui/InvoiceView.jsx";
 
 export default function CheckoutButton() {
   const {user, token} = useAuthContext();
@@ -32,7 +33,7 @@ export default function CheckoutButton() {
     validateInvoice,
     storeInvoice
   } = useContext(InvoiceContext);
-  const {tempAddress, address} = useContext(GoogleMapsContext);
+  const {address} = useContext(GoogleMapsContext);
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
@@ -61,6 +62,7 @@ export default function CheckoutButton() {
           className={` transition duration-500 hover:shadow-blueBase hover:shadow-md bg-redHover text-[18px] text-whiteFactory px-4 py-1 rounded-[20px]`}>
           Check out
         </button>
+
         <Modal
           open={modalOpen}
           // onClose={() => setModalOpen(false)}
@@ -79,7 +81,7 @@ export default function CheckoutButton() {
                         {user?.username}
                       </div>
                       <div className={`bg-[#D9D9D9] w-[90%] px-2 py-1 rounded-lg`}>
-                        {tempAddress}
+                        {address}
                       </div>
                     </div>
                     <div className="flex flex-col gap-2">
