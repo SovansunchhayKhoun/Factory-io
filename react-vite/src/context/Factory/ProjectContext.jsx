@@ -16,7 +16,7 @@ export const ProjectContext = ({children}) => {
 
   const [errors, setErrors] = useState({});
   const [picture, setPicture] = useState('');
-  const [file, setFile] = useState('');
+  const [file, setFile] = useState(null);
   const [projectValues, setProjectValues] = useState({
     name: "",
     proposal: "",
@@ -40,7 +40,8 @@ export const ProjectContext = ({children}) => {
     }
   }
   const handleFile = (event) => {
-    setFile(event.target.files[0]);
+    setFile(event);
+    // console.log(event.target.files[0])
     // setProjectValues({...projectValues, file: event.target.files[0]})
   }
   const clearProjectValues = () => {
@@ -58,7 +59,7 @@ export const ProjectContext = ({children}) => {
       saved_count: 0,
     });
     setPicture('');
-    setFile('');
+    setFile(null);
   }
   const [tempPro, setTempPro] = useState({});
 
@@ -69,28 +70,32 @@ export const ProjectContext = ({children}) => {
       image: picture,
       file: file,
     }
+    projectValues.image = picture;
+    projectValues.file = file;
 
     try {
-      // post to project table
-      await Axios.post('projects', projectValues).then(async () => {
-        const lastProject = await Axios.get('last_project').then(({data}) => data);
-        projectAssets.project_id = lastProject?.id;
-        await Axios.post('project_assets', projectAssets, {
-          headers: {"Content-type": "multipart/form-data"}
-        }).then(async (res) => {
-          // post prototype
-          console.log(res);
-          // await postPrototype(lastProject);
+      await Axios.post('projects', projectValues, {
+        headers: {"Content-type": "multipart/form-data"}
+      }).then(async () => {
+        await Axios.get('last_project').then(({data}) => {
+          console.log(data);
+          projectAssets.project_id = data?.id;
         }).then(async () => {
-          await projectsReFetch();
-          clearProjectValues();
-          setModalOpen(false);
+          await Axios.post('project_assets', projectAssets, {
+            headers: {"Content-type": "multipart/form-data"}
+          }).then(async () => {
+            await postPrototype(projectAssets.project_id);
+          }).then(() => {
+            projectsReFetch();
+            clearProjectValues();
+            setModalOpen(false);
+          })
         })
-      });
+      })
     } catch (e) {
-      setErrors(e.response.data.errors);
-      console.log(e.response.data.errors);
+      setErrors(e.response.data.errors)
     }
+
   }
   return (
     <>

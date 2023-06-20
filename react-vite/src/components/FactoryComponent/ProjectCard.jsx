@@ -14,8 +14,8 @@ export const ProjectCard = ({project}) => {
       <div className="max-w-[400px] flex flex-col bg-whiteFactory shadow-blueHover shadow-md">
         <Link to={`/project/${id}`} className="justify-center flex-1 text-sm px-4 py-3
             flex flex-col gap-2">
-          <div>
-            {projectAssets?.map(projectAsset => <img key={projectAsset.id} loading="lazy"
+          <div className="bg-[#D9D9D9] flex justify-center shadow-blueActive shadow-sm">
+            {projectAssets?.map(projectAsset => <img key={projectAsset.id} loading="lazy" className="w-fit object-fill max-h-[270px]"
                                                      src={`${imgUrl}/${projectAsset.image}`} alt=""/>)}
           </div>
           <span className="font-semibold overflow-hidden text-ellipsis">

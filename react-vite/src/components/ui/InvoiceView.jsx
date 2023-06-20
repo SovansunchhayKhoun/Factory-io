@@ -35,9 +35,6 @@ export const InvoiceView = (props) => {
         <AccordionDetails>
           <AccordionBodyContent key={id} invProd={invProd} setInvProd={setInvProd} invoice={invoice}/>
         </AccordionDetails>
-        {/*<AccordionBody>*/}
-        {/*  <AccordionBodyContent key={id} invProd={invProd} setInvProd={setInvProd} invoice={invoice}/>*/}
-        {/*</AccordionBody>*/}
       </Accordion>
     </Fragment>
   );

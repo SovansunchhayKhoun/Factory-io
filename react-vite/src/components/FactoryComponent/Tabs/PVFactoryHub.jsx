@@ -1,7 +1,7 @@
-export const PVFactoryHub = () => {
+export const PVFactoryHub = ({project}) => {
     return (
         <main>
-          Factory Hub
+          {project?.proposal}
         </main>
     );
 };

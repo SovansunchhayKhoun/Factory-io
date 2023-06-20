@@ -43,9 +43,9 @@ export const ProjectTab = () => {
           <Slide direction={"up"} in={open} unmountOnExit mountOnEnter>
             <section className={'flex flex-col'}>
               <div className="flex gap-x-4 lg:flex-row flex-col border border-blackFactory  rounded-md gap-3 p-4">
-                <div className="flex-1 w-[500px]">
+                <div className="flex-1 flex justify-center">
                   <label htmlFor="image"
-                         className={`${picture && 'hidden'} lg:h-full md:h-[300px] h-[200px] transition duration-500 flex justify-center items-center gap-2 bg-gray-300 border rounded-md hover:bg-gray-500 cursor-pointer`}>
+                         className={`${picture && 'hidden'} flex-1 transition duration-200 flex items-center justify-center bg-gray-300 border rounded-md hover:bg-gray-500 cursor-pointer`}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                          stroke="currentColor" className="w-6 h-6">
                       <path strokeLinecap="round" strokeLinejoin="round"
@@ -54,18 +54,18 @@ export const ProjectTab = () => {
                     Add photo
                   </label>
                   {picture && (
-                    <div className="relative">
+                    <div className="relative flex justify-center bg-grayFactory shadow-blueActive shadow-sm">
                       <button onClick={() => {
                         setPicture('');
-                      }}
-                              className={`bg-blackFactory text-whiteFactory absolute top-1 right-1 transition duration-200 rounded-[50%] hover:bg-blackFactory/50`}>
+                      }} className={`bg-blackFactory text-whiteFactory absolute top-1 right-1 transition duration-200 rounded-[50%] hover:bg-blackFactory/50`}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                              stroke="currentColor"
                              className="transition duration-200 w-6 h-6 hover:text-whiteFactory hover:bg-none">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                       </button>
-                      <img loading="lazy" className="object-contain" src={URL.createObjectURL(picture)} alt=""/>
+                      <img loading="lazy" className="object-contain max-h-[450px]" src={URL.createObjectURL(picture)}
+                           alt=""/>
                     </div>
                   )}
                   <input onChange={(e) => handlePicture(e)} className="hidden" type="file" id='image'/>
@@ -73,7 +73,7 @@ export const ProjectTab = () => {
                 <div className="flex-1 flex flex-col gap-3">
                   <div className="flex flex-col gap-1">
                     <label htmlFor="price">Price</label>
-                    <input value={prjPrototypeValues.price}
+                    <input min={0} value={prjPrototypeValues.price}
                            onChange={e => setPrjPrototypeValues({...prjPrototypeValues, price: Number(e.target.value)})}
                            className={"rounded-md"} type="number" id={'price'}/>
                   </div>

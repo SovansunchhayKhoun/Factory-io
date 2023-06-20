@@ -8,18 +8,39 @@ import {Link} from "react-router-dom";
 import {useAuthContext} from "../../context/AuthContext.jsx";
 import {GoogleMapsContext} from "../../context/GoogleMapsContext.jsx";
 import {Dropdown} from "flowbite-react";
+import UserContext from "../../context/UserContext.jsx";
+import {useAddressContext} from "../../context/AddressContext.jsx";
 
 export const CartView = () => {
+  const {user, isLoading} = useAuthContext();
+  const {userAddress, getUserAddress, addressLoading} = useAddressContext();
   const {cartItem, getCartItem} = useContext(CartContext);
-  const {handleAddressChange, address, setTempAddress, tempAddress} = useContext(GoogleMapsContext);
-  const {scrollTop, invoiceError} = useContext(InvoiceContext);
-  useEffect(() => {
-    getCartItem();
-  }, []);
+  const {setAddress, address, latitude, longitude, getAddress} = useContext(GoogleMapsContext);
 
   useEffect(() => {
-    setTempAddress(address)
-  }, [address])
+    // const getAddress = async (lat, lng) => {
+    //   const geoCode = new google.maps.Geocoder();
+    //   await geoCode.geocode({location: {lat, lng}})
+    //     .then(res => {
+    //       if(res.results[0]) {
+    //         setAddress(res.results[0].formatted_address);
+    //       }
+    //     }).catch(e => console.log(e))
+    // }
+    getAddress(latitude, longitude)
+  }, [latitude, longitude])
+
+  const handleAddressChange = (event) => {
+    setAddress(event.target.value);
+  }
+
+  useEffect(() => {
+    getUserAddress(user?.id)
+  }, [])
+
+  useEffect( () => {
+    getCartItem();
+  }, []);
 
   return (
     <div>
@@ -27,23 +48,28 @@ export const CartView = () => {
       <div className="w-full flex md:flex-row md:gap-0 flex-col gap-y-3 md:mb-3 mb-6 justify-between">
         <div className="font-bold text-blueBase text-lg">Cart</div>
         <div className="flex flex-col
-          xl:w-[50%]
-          lg:w-[60%] lg:text-base
-          md:w-[60%] md:text-xs">
+            xl:w-[50%]
+            lg:w-[60%] lg:text-base
+            md:w-[60%] md:text-xs">
           <div className="flex">
             <div className="w-[205px]">
-              <Dropdown style={{padding: 0, border: "none"}} label={'Select Address'}>
-                <Dropdown.Item>
-                  Address
-                </Dropdown.Item>
+              <Dropdown style={{padding: 0, border: "none", backgroundColor: "#18264B"}} label={'Select Address'}>
+                {userAddress?.filter(address => address.user_id === user?.id)?.map(address => {
+                  return (
+                    <Dropdown.Item onClick={() => {setAddress(address.address)}} key={address.id}>
+                      {address.address}
+                    </Dropdown.Item>
+                  )
+                })}
               </Dropdown>
             </div>
             <div className="relative w-full">
-              <input type="search" id="search-dropdown"
-                     className={"w-full ring-2 ring-tealHover font-semibold bg-tealActive text-blackFactory px-3 py-2 rounded-md"}
-                     value={cartItem.length > 0 ? tempAddress.toString() : ''}
-                     onChange={event => handleAddressChange(event)}
-                     placeholder="Enter your Address..." required/>
+              <textarea id="search-dropdown"
+                        className={"w-full ring-2 ring-tealHover font-semibold bg-tealActive text-blackFactory px-3 py-2 rounded-md"}
+                        value={cartItem.length > 0 ? address : ''}
+                        onChange={event => handleAddressChange(event)}
+                        placeholder="#, Street No., ..." required>
+              </textarea>
             </div>
           </div>
         </div>
@@ -69,4 +95,5 @@ export const CartView = () => {
       </div>
     </div>
   );
+
 };
