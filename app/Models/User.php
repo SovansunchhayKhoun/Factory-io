@@ -70,4 +70,9 @@ class User extends Authenticatable
     return $this->hasMany(DeliveryAddresses::class,'user_id', 'id');
   }
 
+  public function donations()
+  {
+    return $this->hasMany(Donation::class,'user_id','id');
+  }
+
 }

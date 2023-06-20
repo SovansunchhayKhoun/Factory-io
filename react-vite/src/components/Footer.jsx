@@ -2,9 +2,11 @@ import {Link} from "react-router-dom";
 import React, {useState} from "react";
 import AdminPopUp from "./Modals/AdminPopUp.jsx";
 import {DonateContent} from "../views/DonateContent.jsx";
+import {useAuthContext} from "../context/AuthContext.jsx";
 
 export const Footer = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const {token} = useAuthContext()
   return (
     <>
       <footer
@@ -20,12 +22,14 @@ export const Footer = () => {
                    alt=""/>
             </Link>
           </div>
-          <button onClick={(e) => {
-            e.stopPropagation()
-            setModalOpen(true)
-          }} className="rounded-[20px] px-4 py-2 text-whiteFactory bg-redHover">
-            Donate
-          </button>
+          {
+            token && <button onClick={(e) => {
+              e.stopPropagation()
+              setModalOpen(true)
+            }} className="rounded-[20px] px-4 py-2 text-whiteFactory bg-redHover">
+              Donate
+            </button>
+          }
           <AdminPopUp content={<DonateContent modalOpen={modalOpen} setModalOpen={setModalOpen} />} modalOpen={modalOpen} setModalOpen={setModalOpen}/>
         </div>
 
