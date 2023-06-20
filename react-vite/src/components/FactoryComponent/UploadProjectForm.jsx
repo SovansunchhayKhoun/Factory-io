@@ -3,11 +3,13 @@ import React, {useEffect, useState} from "react";
 import {useAuthContext} from "../../context/AuthContext.jsx";
 import {ProposalTab} from "./Tabs/ProposalTab.jsx";
 import {ProjectTab} from "./Tabs/ProjectTab.jsx";
-// Import React FilePond
-import {FilePond, registerPlugin} from 'react-filepond';
+import {FilePond, registerPlugin} from 'react-filepond'
+// import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+import 'filepond/dist/filepond.min.css'
+// import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 
-// Import FilePond styles
-import 'filepond/dist/filepond.min.css';
+registerPlugin(FilePondPluginFileValidateType)
 
 export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
   const {
@@ -24,7 +26,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
 
   const {user} = useAuthContext();
   const [formTab, setFormTab] = useState('project');
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState([]);
 
   useEffect(() => {
     setErrors({});
@@ -161,14 +163,36 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
               className={`${!errors?.proposal && 'hidden'} text-redBase text-xs`}>{errors?.proposal?.map(error => error)}</span>
           </div>
           <div className={'w-full flex flex-col gap-4 px-4'}>
-            <div className="self-end">
-              <label
-                className="px-4 transition duration-200 text-whiteFactory bg-redHover rounded-[20px] text-center py-2 hover:bg-redBase cursor-pointer"
-                htmlFor="projectFile">
-                Upload Zip File
-                {/*<input onChange={event => handleFile(event)} id="projectFile" type="file" accept=".zip,.rar,.7z,.gz"*/}
-                {/*       className="hidden"/>*/}
-              </label>
+            <div className="self-end w-full">
+
+              <FilePond
+                styleButtonRemoveItemAlign={false}
+                files={file}
+                acceptedFileTypes={['application/x-zip-compressed' /*validate zip*/,
+                  'application/pdf' /* validate pdf*/
+                  , 'application/x-7z-compressed' /*validate 7zip files*/,
+                  'application/x-gzip' /*validate gzip files*/,
+                  'application/x-tar' /*validate tar files*/,
+                ]}
+                server={{
+                  process: "http://127.0.0.1:8000/api/v1/tmp-post",
+                  revert: "http://127.0.0.1:8000/api/v1/tmp-delete",
+                }}
+                onupdatefiles={(e) => {
+                  setFile(e)
+                  console.log(e)
+                  handleFile(e[0].file)
+                }}
+                allowDrop={true}
+                allowMultiple={true} maxFiles={3}/>
+
+              {/*<label*/}
+              {/*  className="px-4 transition duration-200 text-whiteFactory bg-redHover rounded-[20px] text-center py-2 hover:bg-redBase cursor-pointer"*/}
+              {/*  htmlFor="projectFile">*/}
+              {/*  Upload Zip File*/}
+              {/*  <input onChange={event => handleFile(event)} id="projectFile" type="file" accept=".zip,.rar,.7z,.gz"*/}
+              {/*         className="hidden"/>*/}
+              {/*</label>*/}
               <div
                 className={`${!errors?.file && 'hidden'} mt-2 text-redBase text-xs`}>{errors?.file?.map(error => error)}</div>
             </div>
@@ -185,19 +209,6 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
           </div>
         </section>
         {/*<input type="file" onChange={e => handleFile(e)}/>*/}
-        <FilePond
-          styleButtonRemoveItemAlign={false}
-          files={file}
-          server={{
-            process: "http://127.0.0.1:8000/api/v1/tmp-post",
-            revert: "http://127.0.0.1:8000/api/v1/tmp-delete",
-          }}
-          onupdatefiles={(e) => {
-            setFile(e)
-            handleFile(e[0].file)
-          }}
-          allowDrop={true}
-          allowMultiple={true} maxFiles={3}/>
       </section>
     </>
   )

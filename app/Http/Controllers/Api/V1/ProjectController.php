@@ -26,11 +26,19 @@
 
     public function store ( ProjectRequest $request )
     {
-        $data = $request -> validated ();
-      if ( $request -> hasFile ( 'image' ) && $request -> hasFile ( 'file' ) ) {
+      $data = $request -> validated ();
+      if ( $request -> hasFile ( 'image' )
+        && (
+        $request -> file ( 'file' ) -> getClientOriginalExtension () == 'zip' ||
+        $request -> file ( 'file' ) -> getClientOriginalExtension () == 'tar' ||
+        $request -> file ( 'file' ) -> getClientOriginalExtension () == 'gz' ||
+        $request -> file ( 'file' ) -> getClientOriginalExtension () == 'pdf' ||
+        $request -> file ( 'file' ) -> getClientOriginalExtension () == '7z'
+         ) ) {
         Project ::create ( $data );
         return response () -> json ( 'Project Created' );
       }
+      return response () -> json ('...');
 //      abort ('422', 'Cannot process request');
     }
 
