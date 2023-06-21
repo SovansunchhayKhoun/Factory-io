@@ -4,6 +4,7 @@ import {useQuery} from "@tanstack/react-query";
 import {useAuthContext} from "./AuthContext.jsx";
 import {GoogleMap, MarkerF, useJsApiLoader} from "@react-google-maps/api";
 import {GoogleMapsContext} from "./GoogleMapsContext.jsx";
+import {useAddressContext} from "./AddressContext.jsx";
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const libraries = ['places'];
@@ -38,20 +39,22 @@ export const InvoiceProvider = ({children}) => {
     });
   }
 
-  const storeInvoice = async (total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess) => {
+  const {addressExist} = useAddressContext();
+  const {storeAddress} = useContext(GoogleMapsContext);
+  const postInvoice = async (total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess, data) => {
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
     const invoice = {
       user_id: user?.id,
       date: currentDate,
       status: -1,
-      placeId: placeId,
-      address: address,
+      // placeId: placeId,
+      // address: address,
       totalPrice: total,
       payment_pic: paymentPic,
       item_count: cartItem.length,
     };
-
+    invoice.address_id = data?.id
     // post invoice to db
     await Axios.post('invoices', invoice, {
       headers: {'Content-Type': "multipart/form-data"}
@@ -82,10 +85,28 @@ export const InvoiceProvider = ({children}) => {
       setModalOpen(false);
       console.log(e.response.data.errors)
     });
+
+
     // to stop loading
     setSuccess(true)
   }
 
+  const storeInvoice = async (total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess) => {
+    if(addressExist) {
+      await Axios.get(`getAddress/${address}`).then(async ({data}) => {
+        console.log(data[0])
+        await postInvoice(total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess, data[0])
+      })
+    } else {
+      await storeAddress().then(async () => {
+        await Axios.get('getLastAddress').then(async ({data}) => {
+          console.log(data)
+          // invoice.address_id = data?.id
+          await postInvoice(total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess, data);
+        })
+      }).catch(e => console.log(e.response.data.errors))
+    }
+  }
   const handleQty = (invProd, setInvProd, item) => event => {
     if (event.target.value === '') {
       invProd.find((inv) => inv.id === item.id).qty = item.qty;

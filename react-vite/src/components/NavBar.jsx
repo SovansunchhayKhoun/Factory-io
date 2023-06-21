@@ -110,7 +110,7 @@ export const NavBar = (props) => {
             {filteredItem?.length === 0 && <div className="mx-auto mt-2"> No item found</div>}
             {filteredItem?.slice(0, 5).map((item, key) => {
               return (
-                <Link to={`maker-io/${item.id}`} onClick={e => {
+                <Link to={`${item.id}`} onClick={e => {
                   e.stopPropagation()
                   getItem(item.id)
                   setSearchInput("")

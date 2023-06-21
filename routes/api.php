@@ -30,6 +30,10 @@
     Route ::apiResource ( 'project_prototypes' , ProjectPrototypeController::class );
     Route ::apiResource ( 'project_assets' , ProjectAssetController::class );
     Route ::apiResource ( 'addresses' , DeliveryAddressController::class );
+    Route ::get ( 'checkAddress/{address}' , [DeliveryAddressController::class, 'checkAddress'] );
+    Route ::get ( 'getLastInvoice' , [DeliveryAddressController::class, 'getLastInvoice'] );
+    Route ::get ( 'getAddress/{address}' , [DeliveryAddressController::class, 'getAddress'] );
+    Route ::get ( 'getLastAddress' , [DeliveryAddressController::class, 'getLastAddress'] );
     Route ::get ( 'prototypes/{id}' , [ ProjectPrototypeController::class , 'prototypes' ] );
     Route ::get ( 'last_project' , [ ProjectController::class , 'fetchLastProject' ] );
     Route ::get ( 'userAddress/{id}' , [ DeliveryAddressController::class , 'getAddressByUserID' ] );

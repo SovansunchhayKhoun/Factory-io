@@ -4,6 +4,9 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng
 } from "use-places-autocomplete"
+import Axios from "axios";
+import {useAuthContext} from "./AuthContext.jsx";
+Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 
 export const GoogleMapsContext = createContext();
 const libraries = ['places'];
@@ -13,12 +16,27 @@ export const GoogleMapsProvider = ({children}) => {
       libraries
     }
   );
+  const {user} = useAuthContext();
   const [placeId, setPlaceId] = useState('');
   const [address, setAddress] = useState('');
+  const [errors, setErrors] = useState([]);
   const [longitude, setLongitude] = useState(0);
   const [latitude, setLatitude] = useState(0);
   const [marker, setMarker] = useState([]);
-
+  const storeAddress = async () => {
+    const postAddress = {
+      address: address,
+      user_id: user?.id,
+      placeId: placeId
+    }
+    console.log(JSON.stringify(postAddress))
+    try {
+      await Axios.post('addresses', postAddress).then(res => res)
+    } catch (e) {
+      setErrors(e.response.data.errors)
+      console.log(e.response.data.errors)
+    }
+  }
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       const {latitude, longitude} = position.coords;
@@ -28,16 +46,15 @@ export const GoogleMapsProvider = ({children}) => {
     })
   }, []);
 
-  const getAddress = async (lat, lng) => {
+  const getMapLocation = async (lat, lng) => {
     if (isLoaded) {
       const geoCode = new google.maps.Geocoder();
       await geoCode.geocode({location: {lat, lng}})
         .then((res) => {
           if (res.results[0]) {
-            setAddress(res.results[0].formatted_address);
             setPlaceId(res.results[0].place_id);
           } else {
-            setAddress('No Results Found');
+            setPlaceId('Not Specified');
           }
         }).catch((e) => {
           console.log(e);
@@ -85,7 +102,9 @@ export const GoogleMapsProvider = ({children}) => {
 
   const GoogleMaps = ({height}) => {
     const [map, setMap] = useState(/** @type google.maps.Map */ (null));
-
+    useEffect(() => {
+      getMapLocation(latitude, longitude)
+    }, [latitude, longitude])
     const currentLocation = async () => {
       navigator.geolocation.getCurrentPosition(position => {
         const {longitude, latitude} = position.coords;
@@ -170,6 +189,7 @@ export const GoogleMapsProvider = ({children}) => {
       <GoogleMapsContext.Provider value={{
         // setTempAddress,
         // tempAddress,
+        storeAddress,
         setLatitude,
         latitude,
         setLongitude,
@@ -180,7 +200,7 @@ export const GoogleMapsProvider = ({children}) => {
         GoogleMaps,
         address,
         setAddress,
-        getAddress,
+        getMapLocation,
         // handleAddressChange,
       }}>
         {children}

@@ -15,6 +15,7 @@ export const CartView = () => {
   const {user, isLoading} = useAuthContext();
   const {userAddress, getUserAddress, addressLoading} = useAddressContext();
   const {cartItem, getCartItem} = useContext(CartContext);
+  const {checkAddress} = useAddressContext();
   const {setAddress, address, latitude, longitude, placeId, setPlaceId} = useContext(GoogleMapsContext);
 
   useEffect(() => {
@@ -24,8 +25,8 @@ export const CartView = () => {
         .then(res => {
           if (res.results[0]) {
             setAddress(res.results[0].formatted_address);
+            // checkAddress(res.results[0].formatted_address)
             setPlaceId(res.results[0].place_id)
-            // console.log(placeId)
           }
         }).catch(e => console.log(e))
     }
@@ -50,6 +51,10 @@ export const CartView = () => {
   useEffect(() => {
     getCartItem();
   }, []);
+
+  useEffect(() => {
+    checkAddress(address)
+  }, [address, latitude, longitude])
 
   return (
     <div>
