@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {CartItem} from "../../components/CartComponents/CartItem.jsx";
 import ProductContext from "../../context/ProductContext.jsx";
 import {Payment} from "../../components/ui/Payment.jsx";
@@ -15,30 +15,39 @@ export const CartView = () => {
   const {user, isLoading} = useAuthContext();
   const {userAddress, getUserAddress, addressLoading} = useAddressContext();
   const {cartItem, getCartItem} = useContext(CartContext);
-  const {setAddress, address, latitude, longitude, getAddress} = useContext(GoogleMapsContext);
+  const {setAddress, address, latitude, longitude, placeId, setPlaceId} = useContext(GoogleMapsContext);
 
   useEffect(() => {
-    // const getAddress = async (lat, lng) => {
-    //   const geoCode = new google.maps.Geocoder();
-    //   await geoCode.geocode({location: {lat, lng}})
-    //     .then(res => {
-    //       if(res.results[0]) {
-    //         setAddress(res.results[0].formatted_address);
-    //       }
-    //     }).catch(e => console.log(e))
-    // }
+    const getAddress = async (lat, lng) => {
+      const geoCode = new google.maps.Geocoder();
+      await geoCode.geocode({location: {lat, lng}})
+        .then(res => {
+          if (res.results[0]) {
+            setAddress(res.results[0].formatted_address);
+            setPlaceId(res.results[0].place_id)
+            // console.log(placeId)
+          }
+        }).catch(e => console.log(e))
+    }
     getAddress(latitude, longitude)
   }, [latitude, longitude])
 
+  const ref = useRef();
+
   const handleAddressChange = (event) => {
     setAddress(event.target.value);
+  }
+
+  const handleNewAddress = () => {
+    ref.current.focus();
+    setAddress('');
   }
 
   useEffect(() => {
     getUserAddress(user?.id)
   }, [])
 
-  useEffect( () => {
+  useEffect(() => {
     getCartItem();
   }, []);
 
@@ -51,22 +60,27 @@ export const CartView = () => {
             xl:w-[50%]
             lg:w-[60%] lg:text-base
             md:w-[60%] md:text-xs">
-          <div className="flex">
+          <div className={`flex ${cartItem.length <= 0 && 'hidden'}`}>
             <div className="w-[205px]">
               <Dropdown style={{padding: 0, border: "none", backgroundColor: "#18264B"}} label={'Select Address'}>
                 {userAddress?.filter(address => address.user_id === user?.id)?.map(address => {
                   return (
-                    <Dropdown.Item onClick={() => {setAddress(address.address)}} key={address.id}>
+                    <Dropdown.Item onClick={() => {
+                      setAddress(address.address)
+                    }} key={address.id}>
                       {address.address}
                     </Dropdown.Item>
                   )
                 })}
+                <Dropdown.Item onClick={handleNewAddress}>
+                  Another Address?
+                </Dropdown.Item>
               </Dropdown>
             </div>
             <div className="relative w-full">
-              <textarea id="search-dropdown"
+              <textarea ref={ref} id="search-dropdown"
                         className={"w-full ring-2 ring-tealHover font-semibold bg-tealActive text-blackFactory px-3 py-2 rounded-md"}
-                        value={cartItem.length > 0 ? address : ''}
+                        value={address}
                         onChange={event => handleAddressChange(event)}
                         placeholder="#, Street No., ..." required>
               </textarea>

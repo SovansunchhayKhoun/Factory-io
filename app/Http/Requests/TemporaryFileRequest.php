@@ -4,7 +4,7 @@
 
   use Illuminate\Foundation\Http\FormRequest;
 
-  class ProjectAssetRequest extends FormRequest
+  class TemporaryFileRequest extends FormRequest
   {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,7 @@
     public function rules () : array
     {
       return [
-        'project_id' => [ 'required' ] ,
-        'image' => [ 'required', 'image' ] ,
-        'file' => [ 'required' , 'mimes:zip,rar,7z,gz,pdf,tar' ] ,
+        'file' => [ 'required' , 'mimes:zip,rar,7z,gz,pdf' ] ,
       ];
     }
   }

@@ -2,6 +2,7 @@
 
   namespace App\Http\Controllers;
 
+  use App\Http\Requests\TemporaryFileRequest;
   use App\Models\TemporaryFile;
   use Illuminate\Http\Request;
   use Illuminate\Support\Facades\Storage;
@@ -9,9 +10,10 @@
   class TemporaryFileController extends Controller
   {
 
-    public function store ( Request $request )
+    public function store ( TemporaryFileRequest $request )
     {
       $tmp_file = TemporaryFile::where('folder', $request->image)->first();
+//      dd($request->file('file'));
 
       if ( $request -> hasFile ( 'file' ) ) {
         $file = $request -> file ( 'file' );
