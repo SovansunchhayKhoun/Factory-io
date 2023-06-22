@@ -24,22 +24,27 @@ export const AddressContext = ({children}) => {
     });
   }
 
-  const storeAddress = async (e) => {
-    e.preventDefault()
-    const addressInfo = new FormData();
-    addressInfo.append('address', address)
-    addressInfo.append('user_id', user.id)
-    try {
-      await Axios.post('addresses', addressInfo).then(() => {
-        setAddress('')
-        getUserAddress(user.id)
-      })
-    } catch (e) {
-      if (e.response.status === 422) {
-        setErrors(e.response.data.errors)
-      }
+  const [addressExist, setAddressExist] = useState(false);
+
+  const checkAddress = async (deliveryAddress) => {
+    if(deliveryAddress) {
+      await Axios.get(`/checkAddress/${deliveryAddress}`).then((res) => setAddressExist(res.data))
     }
   }
+
+  // const storeAddress = async (address) => {
+  //
+  //   try {
+  //     await Axios.post('addresses', address).then(() => {
+  //       setAddress('')
+  //       getUserAddress(user.id)
+  //     })
+  //   } catch (e) {
+  //     if (e.response.status === 422) {
+  //       setErrors(e.response.data.errors)
+  //     }
+  //   }
+  // }
 
   const deleteAddress = (addressID) => {
     try {
@@ -68,6 +73,8 @@ export const AddressContext = ({children}) => {
 
   return (
     <StateContext.Provider value={{
+      addressExist,
+      setAddressExist,
       setAddressLoading,
       addressLoading,
       addresses,
@@ -76,10 +83,10 @@ export const AddressContext = ({children}) => {
       userAddress,
       setUserAddress,
       getUserAddress,
-      storeAddress,
+      // storeAddress,
       editAddress,
       deleteAddress,
-
+      checkAddress,
     }}>
       {children}
     </StateContext.Provider>

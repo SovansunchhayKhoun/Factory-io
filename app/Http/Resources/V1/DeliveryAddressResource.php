@@ -18,8 +18,7 @@ class DeliveryAddressResource extends JsonResource
       return [
         'id' => $this->id,
         'address' => $this->address,
-        'longitude' => $this->longitude,
-        'latitude' => $this->latitude,
+        'placeId' => $this->placeId,
         'user_id' => $this->user_id,
         'user' => User::where('id', $this->user_id)->get(),
       ];

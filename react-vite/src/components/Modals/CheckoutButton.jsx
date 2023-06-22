@@ -18,8 +18,6 @@ export default function CheckoutButton() {
   const {
     setCartItem,
     cartItem,
-    getCartItem,
-    checkOut,
     totalPrice,
     success,
     setSuccess,
