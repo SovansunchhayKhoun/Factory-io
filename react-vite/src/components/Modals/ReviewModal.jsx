@@ -137,7 +137,7 @@ function ReviewModal({
             </div>
             <div className="flex flex-col">
               <label htmlFor="description" className="mb-2">Description: </label>
-              <input className="py-2 px-4 border border-blackFactory rounded-md" id="description" name="description" onChange={e => setDescription(e.target.value)} value={description}/>
+              <textarea className="py-2 px-4 border border-blackFactory rounded-md" rows={8} id="description" name="description" onChange={e => setDescription(e.target.value)} value={description}/>
               <span className="text-sm text-red-600 mt-2">{errors.description}</span>
             </div>
             <label

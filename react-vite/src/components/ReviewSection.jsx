@@ -1,20 +1,22 @@
 import React from "react";
-
-
 export const ReviewSection =  (props) =>{
+  // eslint-disable-next-line react/prop-types
     const {user,created_at,title,description,image} = props.review
     return (
       <div>
         <div className="flex flex-col">
           <div className="flex gap-4">
             <div>
-              <img className="max-w-[50px] rounded-3xl shadow-xl" src={`https://robohash.org/${user[0].username}`} />
+              {/* eslint-disable-next-line react/prop-types */}
+              <img alt={title} className="max-w-[50px] rounded-3xl shadow-xl" src={`https://robohash.org/${user[0].username}`} />
             </div>
             <div>
               <div className="text-blackFactory font-semibold">
+                {/* eslint-disable-next-line react/prop-types */}
                 {user[0].username}
               </div>
               <div className="text-slate-400">
+                {/* eslint-disable-next-line react/prop-types */}
                 {created_at.slice(0, 10)}
               </div>
             </div>
