@@ -43,7 +43,7 @@ export const DashboardLanding = () => {
               {/*<DashboardCard05 />*/}
 
               {/*/!* Table (Top Channels) *!/*/}
-              {/*<DashboardCard07 />*/}
+              <DashboardCard07 />
               {/*/!* Line chart (Sales Over Time) *!/*/}
               {/*<DashboardCard08 />*/}
               {/*/!* Stacked bar chart (Sales VS Refunds) *!/*/}

@@ -26,6 +26,7 @@ class ReviewRequest extends FormRequest
             'title' => ['required'],
             'description' => ['required'],
             'user_id' => ['required'],
+            'image' => 'image'
         ];
     }
 }

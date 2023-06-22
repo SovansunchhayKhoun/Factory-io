@@ -13,6 +13,9 @@ export const ProductProvider = ({children}) => {
   const [pageSum, setPageSum] = useState(1);
   const [page, setPage] = useState(1);
 
+
+
+
   const [formValues, setFormValues] = useState({
     name: "",
     price: "",
@@ -200,7 +203,9 @@ export const ProductProvider = ({children}) => {
       searchInput,
       setSearchInput,
       reviewsQueryReFetch,
-      reviews
+      reviews,
+      // mostSoldItem,
+      // mostSoldItemQueryReFetch
     }}>{children}</ProductContext.Provider>;
 };
 
