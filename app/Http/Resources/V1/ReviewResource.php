@@ -22,6 +22,7 @@ class ReviewResource extends JsonResource
             'description' => $this->description,
             'product_id' => $this->product_id,
             'user_id' => $this->user_id,
+            'image' => $this->image,
             'user' => User::where('id', $this->user_id)->get(),
             'product' => Product::where('id', $this->product_id)->get(),
             'created_at' => $this->created_at,

@@ -1,7 +1,8 @@
 import React from "react";
 
+
 export const ReviewSection =  (props) =>{
-    const {user,created_at,title,description} = props.review
+    const {user,created_at,title,description,image} = props.review
     return (
       <div>
         <div className="flex flex-col">
@@ -21,6 +22,10 @@ export const ReviewSection =  (props) =>{
           <div className="mt-2 ml-16 ">
             <h1 className="font-bold text-xl text-blackFactory">{title}</h1>
             <p className="font-semibold text-blackFactory">{description}</p>
+            {
+              image &&
+                <img className="w-[150px] mb-5 mt-4" src={`http://127.0.0.1:8000/${image}`}/>
+            }
           </div>
         </div>
       </div>

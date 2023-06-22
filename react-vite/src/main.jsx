@@ -5,6 +5,7 @@ import "./index.css";
 import "./assets/styles/main.css";
 import {RouterProvider} from "react-router-dom";
 import router from "./router.jsx";
+import {AddressContext} from "./context/AddressContext.jsx";
 import {AuthContext} from "./context/AuthContext.jsx";
 import {ProductProvider} from "./context/ProductContext.jsx";
 import {CartProvider} from "./context/CartContext.jsx";
@@ -19,7 +20,7 @@ import {ChatProvider} from "./context/ChatContext.jsx";
 import {GoogleMapsProvider} from "./context/GoogleMapsContext.jsx";
 import {ProjectContext} from "./context/Factory/ProjectContext.jsx";
 import {ProjectProtoContext} from "./context/Factory/ProjectProtoContext.jsx";
-import {AddressContext} from "./context/AddressContext.jsx";
+import {DonateProvider} from "./context/DonateContext.jsx";
 
 const client = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -36,7 +37,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                       <InvoiceProvider>
                         <ProductProvider>
                           <CartProvider>
-                            <RouterProvider router={router}/>
+                            <DonateProvider>
+                              <RouterProvider router={router}/>
+                            </DonateProvider>
                           </CartProvider>
                         </ProductProvider>
                       </InvoiceProvider>

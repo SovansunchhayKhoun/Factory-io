@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreInvoiceProductRequest;
 use App\Http\Resources\V1\InvoiceProductResource;
+use App\Http\Resources\V1\MostSoldItemResource;
 use App\Models\InvoiceProduct;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
@@ -31,6 +32,6 @@ class InvoiceProductController extends Controller
 
   public function mostSoldItem()
   {
-    return DB::select("SELECT product_id,SUM(qty) FROM `invoice_products` group BY product_id order by SUM(qty) desc LIMIT 5");
+    return MostSoldItemResource::collection(DB::select("SELECT product_id,SUM(qty) as totalSold FROM `invoice_products` group BY product_id order by SUM(qty) desc LIMIT 5"));
   }
 }
