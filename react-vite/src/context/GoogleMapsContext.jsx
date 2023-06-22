@@ -6,6 +6,7 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete"
 import Axios from "axios";
 import {useAuthContext} from "./AuthContext.jsx";
+import {useQuery} from "@tanstack/react-query";
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 
 export const GoogleMapsContext = createContext();
@@ -23,20 +24,15 @@ export const GoogleMapsProvider = ({children}) => {
   const [longitude, setLongitude] = useState(0);
   const [latitude, setLatitude] = useState(0);
   const [marker, setMarker] = useState([]);
-  const storeAddress = async () => {
-    const postAddress = {
-      address: address,
-      user_id: user?.id,
-      placeId: placeId
-    }
-    console.log(JSON.stringify(postAddress))
-    try {
-      await Axios.post('addresses', postAddress).then(res => res)
-    } catch (e) {
-      setErrors(e.response.data.errors)
-      console.log(e.response.data.errors)
-    }
-  }
+  const [userAddress, setUserAddress] = useState([]);
+  const {data: addresses, refetch: addressesReFetch, isLoading: addressesIsLoading} = useQuery(['addresses'], () => {
+    return Axios.get(`addresses`).then(({data}) => {
+      return data.data;
+    })
+  })
+  const [addressLoading, setAddressLoading] = useState(false);
+  const [addressExist, setAddressExist] = useState(false);
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       const {latitude, longitude} = position.coords;
@@ -45,22 +41,6 @@ export const GoogleMapsProvider = ({children}) => {
       setMarker([{lat: latitude, lng: longitude}])
     })
   }, []);
-
-  const getMapLocation = async (lat, lng) => {
-    if (isLoaded) {
-      const geoCode = new google.maps.Geocoder();
-      await geoCode.geocode({location: {lat, lng}})
-        .then((res) => {
-          if (res.results[0]) {
-            setPlaceId(res.results[0].place_id);
-          } else {
-            setPlaceId('Not Specified');
-          }
-        }).catch((e) => {
-          console.log(e);
-        })
-    }
-  }
 
   const PlacesAutoComplete = ({setMarker}) => {
     const [map, setMap] = useState(/** @type google.maps.Map */ (null));
@@ -100,11 +80,89 @@ export const GoogleMapsProvider = ({children}) => {
     )
   }
 
-  const GoogleMaps = ({height}) => {
+  const getLatLng = (placeId) => {
+    const geoCode = new google.maps.Geocoder();
+    geoCode.geocode({placeId: placeId})
+      .then(res => {
+        if(res.results[0]) {
+          setLatitude(res.results[0].geometry.location.lat())
+          setLongitude(res.results[0].geometry.location.lng())
+        }
+      })
+  }
+
+  const getAddress = async (lat, lng) => {
+    const geoCode = new google.maps.Geocoder();
+    await geoCode.geocode({location: {lat, lng}})
+      .then(res => {
+        if (res.results[0]) {
+          setAddress(res.results[0].formatted_address);
+          // checkAddress(res.results[0].formatted_address)
+          setPlaceId(res.results[0].place_id)
+        }
+      }).catch(e => console.log(e))
+  }
+
+  const storeAddress = async () => {
+    const postAddress = {
+      address: address,
+      user_id: user?.id,
+      placeId: placeId
+    }
+
+    if(!addressExist) {
+      try {
+        await Axios.post('addresses', postAddress).then(res => res)
+        await addressesReFetch()
+      } catch (e) {
+        setErrors(e.response.data.errors)
+        console.log(e.response.data.errors)
+      }
+    }
+  }
+
+  const getUserAddress = async (id) => {
+    setAddressLoading(true);
+    await Axios.get(`userAddress/${id}`).then(({data}) => {
+      setUserAddress(data);
+      setAddressLoading(false);
+      return data.data
+    });
+  }
+
+  const checkAddress = async (deliveryAddress) => {
+    if(deliveryAddress) {
+      await Axios.get(`/checkAddress/${deliveryAddress}`).then((res) => setAddressExist(res.data))
+    }
+  }
+
+  const deleteAddress = (addressID) => {
+    try {
+      Axios.delete(`addresses/${addressID}`).then(() => getUserAddresses(user.id))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const editAddress = async (addressID) => {
+    try {
+      await Axios.put(`addresses/${addressID}`, {
+        user_id: user.id,
+        address: address
+      }).then((res) => {
+        console.log(res)
+        // getUserAddress(user.id)
+        // setAddress('')
+        // setCurrentAddress({})
+        // setEditBtn(!editBtn)
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const GoogleMaps = ({height, hideSearch}) => {
     const [map, setMap] = useState(/** @type google.maps.Map */ (null));
-    useEffect(() => {
-      getMapLocation(latitude, longitude)
-    }, [latitude, longitude])
     const currentLocation = async () => {
       navigator.geolocation.getCurrentPosition(position => {
         const {longitude, latitude} = position.coords;
@@ -127,7 +185,9 @@ export const GoogleMapsProvider = ({children}) => {
     return (
       <>
         {/*<div className="mb-3">*/}
-        <PlacesAutoComplete setMarker={setMarker}/>
+        <div className={`${hideSearch && 'hidden'}`}>
+          <PlacesAutoComplete setMarker={setMarker}/>
+        </div>
         {/*</div>*/}
         <div className="">
           <div className="relative flex gap-x-2">
@@ -187,8 +247,20 @@ export const GoogleMapsProvider = ({children}) => {
   return (
     <>
       <GoogleMapsContext.Provider value={{
-        // setTempAddress,
-        // tempAddress,
+        getLatLng,
+        addressExist,
+        setAddressExist,
+        setAddressLoading,
+        addressLoading,
+        addresses,
+        addressesReFetch,
+        addressesIsLoading,
+        userAddress,
+        setUserAddress,
+        getUserAddress,
+        editAddress,
+        deleteAddress,
+        checkAddress,
         storeAddress,
         setLatitude,
         latitude,
@@ -200,7 +272,7 @@ export const GoogleMapsProvider = ({children}) => {
         GoogleMaps,
         address,
         setAddress,
-        getMapLocation,
+        getAddress
         // handleAddressChange,
       }}>
         {children}

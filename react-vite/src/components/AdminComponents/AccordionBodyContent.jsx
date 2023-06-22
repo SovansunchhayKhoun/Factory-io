@@ -18,7 +18,8 @@ export const AccordionBodyContent = (props) => {
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
   const {invProd, setInvProd} = props;
-  const {id, date, totalPrice, status, address, invoice_product, user, placeId} = props.invoice;
+  const {totalPrice, status, invoice_product, user} = props.invoice;
+  const {address, placeId} = props.invoice.address[0];
   const {items, getType} = useContext(ProductContext);
   const {handleQty} = useContext(InvoiceContext);
   const [open, setOpen] = useState(false);

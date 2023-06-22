@@ -13,25 +13,30 @@ import {useAddressContext} from "../../context/AddressContext.jsx";
 
 export const CartView = () => {
   const {user, isLoading} = useAuthContext();
-  const {userAddress, getUserAddress, addressLoading} = useAddressContext();
   const {cartItem, getCartItem} = useContext(CartContext);
-  const {checkAddress} = useAddressContext();
-  const {setAddress, address, latitude, longitude, placeId, setPlaceId} = useContext(GoogleMapsContext);
+  const {
+    checkAddress,
+    setAddress,
+    address,
+    latitude,
+    longitude,
+    getAddress,
+    userAddress,
+    getUserAddress,
+  } = useContext(GoogleMapsContext);
 
   useEffect(() => {
-    const getAddress = async (lat, lng) => {
-      const geoCode = new google.maps.Geocoder();
-      await geoCode.geocode({location: {lat, lng}})
-        .then(res => {
-          if (res.results[0]) {
-            setAddress(res.results[0].formatted_address);
-            // checkAddress(res.results[0].formatted_address)
-            setPlaceId(res.results[0].place_id)
-          }
-        }).catch(e => console.log(e))
-    }
     getAddress(latitude, longitude)
   }, [latitude, longitude])
+
+  useEffect(() => {
+    getUserAddress(user?.id)
+    getCartItem();
+  }, [])
+
+  useEffect(() => {
+    checkAddress(address)
+  }, [address, latitude, longitude])
 
   const ref = useRef();
 
@@ -43,18 +48,6 @@ export const CartView = () => {
     ref.current.focus();
     setAddress('');
   }
-
-  useEffect(() => {
-    getUserAddress(user?.id)
-  }, [])
-
-  useEffect(() => {
-    getCartItem();
-  }, []);
-
-  useEffect(() => {
-    checkAddress(address)
-  }, [address, latitude, longitude])
 
   return (
     <div>

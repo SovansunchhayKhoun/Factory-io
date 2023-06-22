@@ -12,21 +12,21 @@ export const Users = () => {
   useEffect(()=>{
     getUsers();
   },[])
-  const [createUserModalOpen, setCreateUserModalOpen] = useState(false)
+  // const [createUserModalOpen, setCreateUserModalOpen] = useState(false)
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
       <WelcomeBanner title={`Users`}/>
-      <div className="flex justify-between">
-        <input className="rounded rounded-md border border-slate-600 w-2/3 py-2 px-4" onChange={(e) => setSearchInput(e.target.value)}/>
-        <button
-          className={`bg-blue-600 px-4 py-2 rounded rounded-lg text-whiteFactory dark:text-whiteFactory-500 ${createUserModalOpen && 'bg-blue-900'}`}
-          onClick={(e) => { e.stopPropagation(); resetFormValues();  setCreateUserModalOpen(true); }}
-          aria-controls="create-item-modal"
-        >
-          Register a new users
-        </button>
+      <div className="flex justify-center items-center">
+        <input placeholder="Search . . . " className=" rounded-md border border-slate-600 w-full py-2 px-12 search-bar" onChange={(e) => setSearchInput(e.target.value)}/>
+        {/*<button*/}
+        {/*  className={`bg-blue-600 px-4 py-2 rounded rounded-lg text-whiteFactory dark:text-whiteFactory-500 ${createUserModalOpen && 'bg-blue-900'}`}*/}
+        {/*  onClick={(e) => { e.stopPropagation(); resetFormValues();  setCreateUserModalOpen(true); }}*/}
+        {/*  aria-controls="create-item-modal"*/}
+        {/*>*/}
+        {/*  Register a new users*/}
+        {/*</button>*/}
       </div>
-      <CreateUserModal id="create-use-modal" modalOpen={createUserModalOpen} setModalOpen={setCreateUserModalOpen}/>
+      {/*<CreateUserModal id="create-use-modal" modalOpen={createUserModalOpen} setModalOpen={setCreateUserModalOpen}/>*/}
 
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -63,14 +63,7 @@ export const Users = () => {
              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
               </th>
               <td className="px-6 py-4">
-              </td>
-              <td className="px-6 py-4">
-              </td>
-              <td className="px-6 py-4">
-              </td>
-              <td className="px-6 py-4">
-              </td>
-              <td className="px-6 py-4">
+                No user yet
               </td>
             </tr>
           }
