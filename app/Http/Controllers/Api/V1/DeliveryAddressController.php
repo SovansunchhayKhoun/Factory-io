@@ -37,6 +37,7 @@
     {
       $data = $request -> validated ();
       $address -> update ( $data );
+
       return response () -> json ( 'Address updated' );
     }
 

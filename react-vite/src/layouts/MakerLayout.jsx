@@ -16,7 +16,6 @@ import {useQuery} from "@tanstack/react-query";
 export const MakerLayout = () => {
   const {setUser, token, setToken} = useAuthContext()
 
-
   // useEffect(() => {
   //   if (token) {
   //     setIsLoading(true)

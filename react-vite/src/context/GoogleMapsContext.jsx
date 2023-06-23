@@ -105,13 +105,15 @@ export const GoogleMapsProvider = ({children}) => {
       }).catch(e => console.log(e))
   }
 
-  const storeAddress = async () => {
-    const postAddress = {
-      address: address,
-      user_id: user?.id,
-      placeId: placeId
-    }
+  const storeAddress = async (postAddress) => {
 
+    console.log(postAddress);
+    // const postAddress = {
+    //   address: address,
+    //   user_id: user?.id,
+    //   placeId: placeId
+    // }
+    
     if (!addressExist) {
       try {
         await Axios.post('addresses', postAddress).then(res => res)
@@ -140,25 +142,21 @@ export const GoogleMapsProvider = ({children}) => {
 
   const deleteAddress = (addressID) => {
     try {
-      Axios.delete(`addresses/${addressID}`).then(() => getUserAddresses(user.id))
+      Axios.delete(`addresses/${addressID}`).then(() => {
+        addressesReFetch()
+      })
     } catch (e) {
       console.log(e)
     }
   }
 
-  const editAddress = async (addressID) => {
+  const editAddress = async (addressID, addressValue) => {
     try {
-      await Axios.put(`addresses/${addressID}`, {
-        user_id: user.id,
-        address: address
-      }).then((res) => {
-        console.log(res)
-        // getUserAddress(user.id)
-        // setAddress('')
-        // setCurrentAddress({})
-        // setEditBtn(!editBtn)
+      await Axios.put(`addresses/${addressID}`, addressValue).then((res) => {
+        addressesReFetch()
       })
     } catch (e) {
+      setErrors(e.response.data.errors)
       console.log(e)
     }
   }
@@ -249,6 +247,7 @@ export const GoogleMapsProvider = ({children}) => {
     <>
       <GoogleMapsContext.Provider value={{
         getLtLgPl,
+        editAddress,
         // getLtLgAd,
         addressExist,
         setAddressExist,
@@ -260,7 +259,6 @@ export const GoogleMapsProvider = ({children}) => {
         userAddress,
         setUserAddress,
         getUserAddress,
-        editAddress,
         deleteAddress,
         checkAddress,
         storeAddress,
