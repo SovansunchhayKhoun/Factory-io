@@ -7,6 +7,7 @@ import usePlacesAutocomplete, {
 import Axios from "axios";
 import {useAuthContext} from "./AuthContext.jsx";
 import {useQuery} from "@tanstack/react-query";
+
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 
 export const GoogleMapsContext = createContext();
@@ -80,15 +81,16 @@ export const GoogleMapsProvider = ({children}) => {
     )
   }
 
-  const getLatLng = (placeId) => {
-    const geoCode = new google.maps.Geocoder();
-    geoCode.geocode({placeId: placeId})
-      .then(res => {
-        if(res.results[0]) {
-          setLatitude(res.results[0].geometry.location.lat())
-          setLongitude(res.results[0].geometry.location.lng())
-        }
-      })
+  const getLtLgPl = (placeId) => {
+    const geocode = new google.maps.Geocoder();
+    geocode.geocode({placeId: placeId}, (results, status) => {
+      if (status === 'OK' && results[0]) {
+        const {lat, lng} = getLatLng(results[0]);
+        setLatitude(lat);
+        setLongitude(lng);
+        setMarker([{lat, lng}]);
+      }
+    })
   }
 
   const getAddress = async (lat, lng) => {
@@ -110,7 +112,7 @@ export const GoogleMapsProvider = ({children}) => {
       placeId: placeId
     }
 
-    if(!addressExist) {
+    if (!addressExist) {
       try {
         await Axios.post('addresses', postAddress).then(res => res)
         await addressesReFetch()
@@ -131,7 +133,7 @@ export const GoogleMapsProvider = ({children}) => {
   }
 
   const checkAddress = async (deliveryAddress) => {
-    if(deliveryAddress) {
+    if (deliveryAddress) {
       await Axios.get(`/checkAddress/${deliveryAddress}`).then((res) => setAddressExist(res.data))
     }
   }
@@ -182,13 +184,12 @@ export const GoogleMapsProvider = ({children}) => {
         </>
       )
     }
+
     return (
       <>
-        {/*<div className="mb-3">*/}
         <div className={`${hideSearch && 'hidden'}`}>
           <PlacesAutoComplete setMarker={setMarker}/>
         </div>
-        {/*</div>*/}
         <div className="">
           <div className="relative flex gap-x-2">
             <div className="absolute bottom-0 z-20">
@@ -247,7 +248,8 @@ export const GoogleMapsProvider = ({children}) => {
   return (
     <>
       <GoogleMapsContext.Provider value={{
-        getLatLng,
+        getLtLgPl,
+        // getLtLgAd,
         addressExist,
         setAddressExist,
         setAddressLoading,

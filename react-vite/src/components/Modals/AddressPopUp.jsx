@@ -25,7 +25,8 @@ function AddressPopUp({id, modalOpen, setModalOpen, user,}) {
     storeAddress,
     setPlaceId,
     placeId,
-    getLatLng,
+    getLtLgPl,
+    getLtLgAd
   } = useContext(GoogleMapsContext);
   // close if the esc key is pressed
   useEffect(() => {
@@ -52,8 +53,11 @@ function AddressPopUp({id, modalOpen, setModalOpen, user,}) {
 
   useEffect(() => {
     checkAddress(address)
-    getLatLng(placeId)
   }, [address, latitude, longitude]);
+
+  useEffect(() => {
+    getLtLgPl(placeId)
+  }, [placeId]);
 
   return (
     <>
@@ -115,10 +119,7 @@ function AddressPopUp({id, modalOpen, setModalOpen, user,}) {
                       <button onClick={(e) => {
                         e.stopPropagation()
                         setEditBtn(!editBtn)
-                        setAddress(address.address)
                         setPlaceId(address.placeId)
-                        console.log(JSON.stringify(address.placeId))
-                        // setCurrentAddress(address)
                       }} className="text-tealActive">Edit
                       </button>
                       <button onClick={(e) => {
