@@ -28,7 +28,7 @@ export const Payment = () => {
         <div className="md:w-[50%] w-full md:mb-0 mb-3">
           <GoogleMaps height={250}/>
         </div>
-        <div className="flex flex-col items-end px-6">
+        <div className="text-xl flex flex-col items-end px-6">
           <div>
             <span className="underline underline-offset-[2px]">Exchange Rate:</span> <span
             className="font-bold text-grayFactory">&#x17DB;{(4100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>

@@ -107,6 +107,7 @@ export const InvoiceProvider = ({children}) => {
       }).catch(e => console.log(e.response.data.errors))
     }
   }
+
   const handleQty = (invProd, setInvProd, item) => event => {
     if (event.target.value === '') {
       invProd.find((inv) => inv.id === item.id).qty = item.qty;

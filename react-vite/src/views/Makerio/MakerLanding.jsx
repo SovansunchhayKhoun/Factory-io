@@ -67,7 +67,6 @@ export const MakerLanding = () => {
           <div className="w-[270px]">
             <Dropdown.Item className="highlight-hover font-bold" onClick={() => {
               setSearchInput('')
-              // setCategory('All');
             }}>
               <div className={`${searchInput === '' && 'text-tealHover'}`}>
                 All
@@ -75,10 +74,8 @@ export const MakerLanding = () => {
             </Dropdown.Item>
             {types.map((type, key) => {
               return (
-                // eslint-disable-next-line react/jsx-key
                 <Dropdown.Item key={key} className={"highlight-hover font-bold"} onClick={() => {
                   setSearchInput(type.type)
-                  // setCategory('Sensors');
                 }}>
                   <div className={`${searchInput === type.type && 'text-tealHover'}`}>
                     {type.type}
