@@ -74,10 +74,10 @@ export const NavBar = (props) => {
           <div
             // onClick={() => {initChat(user.username, 'admin')}}
             className={"transition duration-500 flex relative hover:rounded-md rounded-md hover:bg-blackFactory/10 p-2 cursor-pointer"}
-            onClick={event => {
+            onClick={async (event) => {
+              await initChat(user.username, 'admin')
               event.stopPropagation();
               setModalOpen(true);
-              initChat(user.username, 'admin')
               setSeen(readMessage, user.username);
             }} title="Customer Support">
             <svg xmlns="http://www.w3.org/2000/svg"

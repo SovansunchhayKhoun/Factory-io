@@ -29,6 +29,11 @@ export const Chat = () => {
     setMessageImage
   } = useContext(ChatContext);
 
+  useEffect(() => {
+    getLatestMessage()
+    // console.log(message.filter(msg => msg.sender_id === 'JustChhayXP'))
+  }, [])
+
   // useEffect(() => {
   //   // messageReFetch();
   //   // chatReFetch();
@@ -48,26 +53,26 @@ export const Chat = () => {
         </span>
       );
     }
-    if (getLatestMessage('admin', usr?.username)?.msg_content && getLatestMessage('admin', usr?.username)?.image) {
-      return (
-        <WrapComponent children={`${usr.username} sent a photo`}/>
-      );
-    }
-    if (getLatestMessage('admin', usr?.username)?.image) {
-      return (
-        <WrapComponent children={`${usr?.username} sent a photo`}/>
-      );
-    }
-    if (getLatestMessage('admin', usr?.username)?.msg_content) {
-      return (
-        <WrapComponent children={getLatestMessage('admin', usr?.username)?.msg_content}/>
-      )
-    }
+    // if (getLatestMessage('admin', usr?.username)?.msg_content && getLatestMessage('admin', usr?.username)?.image) {
+    //   return (
+    //     <WrapComponent children={`${usr.username} sent a photo`}/>
+    //   );
+    // }
+    // if (getLatestMessage('admin', usr?.username)?.image) {
+    //   return (
+    //     <WrapComponent children={`${usr?.username} sent a photo`}/>
+    //   );
+    // }
+    // if (getLatestMessage('admin', usr?.username)?.msg_content) {
+    //   return (
+    //     <WrapComponent children={getLatestMessage('admin', usr?.username)?.msg_content}/>
+    //   )
+    // }
   }
 
   return (
     <>
-      <div className="mx-2 w-full h-full">
+      <div className="mx-2 w-full h-screen">
         <div className="min-w-full h-full rounded lg:grid lg:grid-cols-3">
           <div className="border-r border-gray-300 lg:col-span-1">
 
@@ -90,7 +95,7 @@ export const Chat = () => {
             {/*Search Bar*/}
 
             {/*User List*/}
-            <ul className="overflow-auto h-[32rem]">
+            <ul className="overflow-auto">
               <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
               {users.filter((user) => {
                 if (user.username.toLowerCase().includes(searchInput.toLowerCase())) {
@@ -99,10 +104,9 @@ export const Chat = () => {
                   return user
                 }
               }).map((usr) => {
-                const unreadMessages = message?.filter((msg) => msg.is_read === 0 && msg.sender_id !== 'admin');
+                const unreadMessages = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr?.username);
                 const userNotification = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr.username);
-                const timePrefix = new Date(getLatestMessage('admin', usr?.username)?.time_sent).getHours();
-
+                const timePrefix = new Date(message.filter(msg => msg.sender_id === usr?.username)[0]?.time_sent)?.getHours();
                 return (
                   <li
                     onClick={() => {
@@ -122,11 +126,19 @@ export const Chat = () => {
                             {usr.username}
                           </span>
                         <span className="block ml-2 text-sm text-gray-600">
-                          {getLatestMessage('admin', usr?.username) && getLatestMessage('admin', usr?.username).time_sent.slice(10).slice(0,6) + `${timePrefix >= 12 ? ' PM' : ' AM'}`}
+                          {/*time stamp*/}
+                          {message.filter(msg => msg.sender_id === usr?.username)[0]?.time_sent.slice(10).slice(0, 6) +`${timePrefix >= 12 ? ' PM' : ' AM'}`}
+                          {/*{getLatestMessage('admin', usr?.username) && getLatestMessage('admin', usr?.username).time_sent.slice(10).slice(0, 6) + `${timePrefix >= 12 ? ' PM' : ' AM'}`}*/}
                         </span>
                       </div>
                       <div className="flex justify-between pr-12">
                         <GetLatestMsg usr={usr} userNotification={userNotification}/>
+                        <span
+                          className={`${userNotification?.length > 0 && 'font-semibold'}` +
+                            " block ml-2 text-sm text-gray-600"}>
+                          {/*latest msg*/}
+                          {message.filter(msg => msg.sender_id === usr?.username)[0]?.msg_content}
+                        </span>
                         <span className={`${userNotification?.length === 0 && 'hidden'}` +
                           " w-[20px] h-[20px] bg-blueBase text-whiteFactory flex justify-center items-center rounded-[50%] text-xs"}>
                             {/*{getLatestMessage('admin', usr.username)?.length}*/}
@@ -149,15 +161,15 @@ export const Chat = () => {
                 Select a chat to start messaging
               </div>
             </div>
-            <div className={`${Object.keys(activeUser).length === 0 && 'hidden'} w-full`}>
+            <div
+              className={`${Object.keys(activeUser).length === 0 && 'hidden'} flex flex-col justify-between h-full w-full`}>
               <div className="relative flex items-center p-3 border-b border-gray-300">
                 <img className="object-contain w-10 h-10 rounded-full"
                      src={`https://robohash.org/${activeUser?.username}`} alt="username"/>
                 <span className="block ml-2 font-bold text-gray-600">{activeUser?.username}</span>
-                <span className="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3">
-              </span>
+                <span className="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3"></span>
               </div>
-              <div className="relative w-full p-6 overflow-y-auto h-[40rem]">
+              <div className="relative w-full p-6 overflow-y-auto">
                 <ul className="space-y-2">
                   {message?.filter(msg => msg.chat_id === findChat('admin', activeUser?.username)?.id).map((msg) => {
                     if (msg.receiver_id === activeUser?.username) {

@@ -16,11 +16,15 @@ export const CustomerService = ({setModalOpen}) => {
     handleMessage,
     findChat,
     setMessageImage,
+    chats,
     messageImage,
   } = useContext(ChatContext);
+
+
   const {user, token} = useAuthContext();
   const [messageInput, setMessageInput] = useState('');
   const [open, setOpen] = useState(false);
+
   if (token) {
     // useEffect(() => {
     //   // messageReFetch();
@@ -46,8 +50,8 @@ export const CustomerService = ({setModalOpen}) => {
             </button>
           </div>
           <div className="flex flex-col flex-grow h-0 p-4 overflow-auto">
-            {message?.filter(msg => {
-                return msg.chat_id === findChat(user.username, 'admin')?.id
+            {message?.filter(async (msg) => {
+                return msg.chat_id === findChat(user.username, 'admin')?.id ?? await findChat(user?.username, 'admin')?.then(res => res.id);
               }).length === 0 &&
               <>
                 <div>
@@ -58,8 +62,8 @@ export const CustomerService = ({setModalOpen}) => {
                 </div>
               </>
             }
-            {message?.filter(msg => {
-              return msg.chat_id === findChat(user.username, 'admin')?.id
+            {message?.filter(async (msg) => {
+              return msg.chat_id === findChat(user.username, 'admin')?.id ?? await findChat(user?.username, 'admin')?.then(res => res.id);
             }).map(msg => {
               if (msg.sender_id === user.username) {
                 return (
