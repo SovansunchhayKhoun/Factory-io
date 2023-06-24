@@ -43,6 +43,7 @@ function ReviewModal({
         setErrors([])
         setReviewPic('')
         reviewsQueryReFetch()
+        setModalOpen(false)
       } catch (e) {
         if (e.response.status === 422) {
           setErrors(e.response.data.errors)
@@ -80,7 +81,7 @@ function ReviewModal({
     <>
       <AdminPopUp modalOpen={modalOpen} setModalOpen={setModalOpen} id={"review-modal"} content={
         <div
-          className="max-w-[1000px] p-6 bg-white border border-gray-200 rounded-lg shadow mx-auto min-w-[600px]  flex flex-col gap-4">
+          className="max-w-[1000px] p-6 bg-white border border-gray-200 rounded-lg shadow mx-auto min-w-[600px] flex flex-col gap-4">
           <div className="flex items-center justify-between align-middle">
             <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">WRITE A REVIEW</h5>
             <button onClick={e => {
@@ -104,7 +105,8 @@ function ReviewModal({
           </div>
           <div className="flex flex-col">
             <label htmlFor="description" className="mb-2">Description: </label>
-            <input className="py-2 px-4 border border-blackFactory rounded-md" id="description" name="description"
+            <textarea className="py-2 px-4 border border-blackFactory rounded-md" id="description" name="description"
+                      rows={8}
                    onChange={e => setDescription(e.target.value)} value={description}/>
             <span className="text-sm text-red-600 mt-2">{errors.description}</span>
           </div>

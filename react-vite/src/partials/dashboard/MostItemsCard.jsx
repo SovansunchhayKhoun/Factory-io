@@ -3,7 +3,7 @@ import ProductContext from "../../context/ProductContext.jsx";
 import {useQuery} from "@tanstack/react-query";
 import Axios from "axios";
 
-function DashboardCard07() {
+function MostItemsCard() {
   const [mostSoldItem, setMostSoldItem] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   // const {data, refetch: mostSoldItemQueryReFetch} = useQuery(['mostSoldItem'], () => {
@@ -103,4 +103,4 @@ function DashboardCard07() {
 
 }
 
-export default DashboardCard07;
+export default MostItemsCard;

@@ -5,7 +5,7 @@ import DoughnutChart from '../../charts/DoughnutChart';
 import { tailwindConfig } from '../../utils/Utils';
 import UserContext from "../../context/UserContext.jsx";
 
-function DashboardCard06() {
+function TotalUserCard() {
   const {usersQuery} = useContext(UserContext)
 
   const chartData = {
@@ -43,4 +43,4 @@ function DashboardCard06() {
   );
 }
 
-export default DashboardCard06;
+export default TotalUserCard;
