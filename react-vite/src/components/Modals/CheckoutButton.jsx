@@ -56,7 +56,7 @@ export default function CheckoutButton() {
     return (
       <div key={"cart-pay-preview"}>
         <button
-          onClick={() => {token && totalPrice > 0 ? setModalOpen(true) : navigate('/login')}}
+          onClick={() => {token ? setModalOpen(true) : navigate('/login')}}
           className={` transition duration-500 hover:shadow-blueBase hover:shadow-md bg-redHover text-[18px] text-whiteFactory px-4 py-1 rounded-[20px]`}>
           Check out
         </button>

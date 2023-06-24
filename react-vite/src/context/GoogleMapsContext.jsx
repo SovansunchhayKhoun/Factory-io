@@ -71,7 +71,6 @@ export const GoogleMapsProvider = ({children}) => {
   }
 
   const storeAddress = async (postAddress) => {
-    console.log(postAddress)
     if (!addressExist) {
       try {
         await Axios.post('addresses', postAddress).then(res => res)
@@ -138,6 +137,7 @@ export const GoogleMapsProvider = ({children}) => {
       const {lat, lng} = await getLatLng(results[0]);
       setLatitude(lat);
       setLongitude(lng);
+      getAddress(lat,lng);
       setMarker([{lat, lng}]);
     };
     return (

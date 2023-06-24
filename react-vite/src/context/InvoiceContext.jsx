@@ -40,11 +40,7 @@ export const InvoiceProvider = ({children}) => {
   }
 
   const {storeAddress, addressExist, editAddress} = useContext(GoogleMapsContext);
-  const [addressPost, setAddressPost] = useState({
-    user_id: user?.id,
-    address: '',
-    placeId: ''
-  });
+
   const postInvoice = async (total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess, data) => {
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
@@ -59,9 +55,6 @@ export const InvoiceProvider = ({children}) => {
       payment_pic: paymentPic,
       item_count: cartItem.length,
     };
-
-    console.log(invoice)
-    // invoice.address_id = data?.id
     // post invoice to db
     await Axios.post('invoices', invoice, {
       headers: {'Content-Type': "multipart/form-data"}
@@ -85,16 +78,12 @@ export const InvoiceProvider = ({children}) => {
       clearCart();
       setCartItem([]);
       setModalOpen(false);
-      setAddress('');
     }).catch((e) => {
       setInvoiceError(e.response.data.errors);
       scrollTop(0);
       setModalOpen(false);
       console.log(e.response.data.errors)
     });
-
-    // to stop loading
-    setSuccess(true)
   }
 
   const storeInvoice = async (total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess) => {
@@ -108,23 +97,18 @@ export const InvoiceProvider = ({children}) => {
         })
       })
     } else {
-      setAddressPost({
-        ...addressPost,
-        address: address,
-        placeId: placeId,
-      })
       await storeAddress({
         address: address,
         placeId: placeId,
         user_id: user?.id
       }).then(async () => {
         await Axios.get('getLastAddress').then(async ({data}) => {
-          // console.log(2)
-          // console.log(data)
-          await postInvoice(total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess, data);
+          await postInvoice(total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess, data)
         })
       }).catch(e => setInvoiceError(e.response.data.errors))
     }
+    // to stop loading
+    setSuccess(true)
   }
 
   const handleQty = (invProd, setInvProd, item) => event => {

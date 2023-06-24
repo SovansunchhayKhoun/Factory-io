@@ -10,6 +10,8 @@ import {GoogleMapsContext} from "../../context/GoogleMapsContext.jsx";
 import {Dropdown} from "flowbite-react";
 import UserContext from "../../context/UserContext.jsx";
 import {useAddressContext} from "../../context/AddressContext.jsx";
+import Axios from "axios";
+Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 
 export const CartView = () => {
   const {user, isLoading} = useAuthContext();
@@ -27,10 +29,6 @@ export const CartView = () => {
     placeId,
     setPlaceId
   } = useContext(GoogleMapsContext);
-
-  // useEffect(() => {
-  //   getAddress(latitude, longitude)
-  // }, [ latitude, longitude])
 
   useEffect(() => {
     getUserAddress(user?.id)
@@ -51,6 +49,15 @@ export const CartView = () => {
     ref.current.focus();
     setAddress('');
   }
+
+  useEffect( () => {
+    const defaultAddress = async () => {
+      await Axios.get('getLastAddress').then(({data}) => {
+        setAddress(data?.address);
+      })
+    }
+    defaultAddress();
+  }, [])
 
   return (
     <div>
