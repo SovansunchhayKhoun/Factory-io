@@ -26,7 +26,8 @@ class StoreInvoiceRequest extends FormRequest
             'date' => ['required'],
             'status' => ['required'],
             'payment_pic' => ['required', 'image'],
-            'address_id' => ['required'],
+            'address' => ['required'],
+            'placeId' => ['required'],
             'item_count' => ['required', 'min: 1', 'not_in:0'],
             'totalPrice' => ['required', 'numeric', 'min:0', 'not_in:0'],
         ];

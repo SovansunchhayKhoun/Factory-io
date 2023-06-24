@@ -23,11 +23,14 @@ export const CartView = () => {
     getAddress,
     userAddress,
     getUserAddress,
+    getLtLgPl,
+    placeId,
+    setPlaceId
   } = useContext(GoogleMapsContext);
 
-  useEffect(() => {
-    getAddress(latitude, longitude)
-  }, [latitude, longitude])
+  // useEffect(() => {
+  //   getAddress(latitude, longitude)
+  // }, [ latitude, longitude])
 
   useEffect(() => {
     getUserAddress(user?.id)
@@ -35,7 +38,7 @@ export const CartView = () => {
   }, [])
 
   useEffect(() => {
-    checkAddress(address)
+    checkAddress(placeId)
   }, [address, latitude, longitude])
 
   const ref = useRef();
@@ -65,6 +68,8 @@ export const CartView = () => {
                   return (
                     <Dropdown.Item onClick={() => {
                       setAddress(address.address)
+                      setPlaceId(address.placeId)
+                      getLtLgPl(address.placeId)
                     }} key={address.id}>
                       {address.address}
                     </Dropdown.Item>

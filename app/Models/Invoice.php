@@ -1,31 +1,27 @@
 <?php
 
-namespace App\Models;
+  namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+  use Illuminate\Database\Eloquent\Factories\HasFactory;
+  use Illuminate\Database\Eloquent\Model;
+  use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Invoice extends Model
-{
+  class Invoice extends Model
+  {
     use HasFactory;
 
     protected $fillable = [
-        'id', 'user_id', 'date', 'status', 'address_id', 'totalPrice', 'payment_pic', 'item_count'
+      'id' , 'user_id' , 'date' , 'status' , 'address', 'placeId' , 'totalPrice' , 'payment_pic' , 'item_count'
     ];
 
-    public function products()
+    public function products ()
     {
-        return $this->belongsToMany(Product::class, 'invoice_products', 'invoice_id', 'product_id')->withPivot(['cart_item_price', 'qty']);
+      return $this -> belongsToMany ( Product::class , 'invoice_products' , 'invoice_id' , 'product_id' ) -> withPivot ( [ 'cart_item_price' , 'qty' ] );
     }
 
-    public function user(): BelongsTo
+    public function user () : BelongsTo
     {
-        return $this->belongsTo(User::class);
+      return $this -> belongsTo ( User::class );
     }
 
-    public function address()
-    {
-        return $this->hasOne(Address::class);
-    }
-}
+  }

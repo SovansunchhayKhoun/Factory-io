@@ -34,7 +34,11 @@ export const AdminOrder = () => {
 
         {invoices?.filter(inv => inv.status === invStatus).length === 0 && invStatus === -1 && 'No Pending orders'}
         {invoices?.filter(inv => inv.status === invStatus).length === 0 && invStatus !== -1 && 'Empty orders box'}
-        {invoices?.filter(inv => inv.status === invStatus).map(invoice => <InvoiceList key={invoice.id} invoice={invoice}/>)}
+        {invoices?.filter(inv => inv.status === invStatus).map(invoice => (
+          <div key={invoice.id} className="mb-6">
+            <InvoiceList invoice={invoice}/>
+          </div>
+        ))}
       </div>
     </>
   );

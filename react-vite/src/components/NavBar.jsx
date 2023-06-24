@@ -100,7 +100,10 @@ export const NavBar = (props) => {
         <div className="md:flex md:items-center md:gap-x-12 lg:w-[384px] hidden">
           <input type="text"
                  placeholder="Search..."
-                 className="w-[100%] px-12 search-bar py-1 border-none"
+                 style={{
+                   backgroundColor: "#D9D9D9",
+                 }}
+                 className="w-[100%] px-12 search-bar py-1 border rounded-[50px] bg-[#D9D9D9]"
                  value={searchInput}
                  onChange={event => {
                    handleSearchInput(event)

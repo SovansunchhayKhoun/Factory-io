@@ -14,8 +14,6 @@
     {
       Schema ::create ( 'invoices' , function ( Blueprint $table ) {
         $table -> id ();
-        $table -> integer ( 'address_id' );
-        $table -> foreign ( 'address_id' ) -> references ( 'id' ) -> on ( 'delivery_addresses' );
         $table -> foreignId ( 'user_id' ) -> references ( 'id' ) -> on ( 'users' ) -> onDelete ( 'cascade' );
 
         $table -> timestamp ( 'date' ) -> nullable ();
@@ -23,7 +21,8 @@
         $table -> tinyInteger ( 'status' ) -> default ( 0 );
         $table -> text ( 'payment_pic' ) -> nullable ();
         $table -> integer ( 'item_count' ) -> default ( 0 );
-
+        $table -> string ( 'address' );
+        $table -> string ( 'placeId' );
         $table -> timestamps ();
       } );
     }

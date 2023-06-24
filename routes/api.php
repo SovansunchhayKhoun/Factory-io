@@ -30,10 +30,10 @@
     Route ::apiResource ( 'project_prototypes' , ProjectPrototypeController::class );
     Route ::apiResource ( 'project_assets' , ProjectAssetController::class );
     Route ::apiResource ( 'addresses' , DeliveryAddressController::class );
-    Route ::get ( 'checkAddress/{address}' , [DeliveryAddressController::class, 'checkAddress'] );
-    Route ::get ( 'getLastInvoice' , [DeliveryAddressController::class, 'getLastInvoice'] );
-    Route ::get ( 'getAddress/{address}' , [DeliveryAddressController::class, 'getAddress'] );
-    Route ::get ( 'getLastAddress' , [DeliveryAddressController::class, 'getLastAddress'] );
+    Route ::get ( 'checkAddress/{address}' , [ DeliveryAddressController::class , 'checkAddress' ] );
+    Route ::get ( 'getLastInvoice' , [ DeliveryAddressController::class , 'getLastInvoice' ] );
+    Route ::get ( 'getAddress/{address}' , [ DeliveryAddressController::class , 'getAddress' ] );
+    Route ::get ( 'getLastAddress' , [ DeliveryAddressController::class , 'getLastAddress' ] );
     Route ::get ( 'prototypes/{id}' , [ ProjectPrototypeController::class , 'prototypes' ] );
     Route ::get ( 'last_project' , [ ProjectController::class , 'fetchLastProject' ] );
     Route ::get ( 'userAddress/{id}' , [ DeliveryAddressController::class , 'getAddressByUserID' ] );
@@ -47,8 +47,8 @@
     Route ::put ( 'admins/{id}/change-password' , [ UserController::class , 'changeAdminPassword' ] );
     Route ::get ( 'getAdmin' , [ UserController::class , 'getAdmins' ] );
     Route ::put ( 'updateAdmin/{id}' , [ UserController::class , 'updateAdmin' ] );
-    Route::post ('/tmp-post', [TemporaryFileController::class, 'store']);
-    Route::delete ('/tmp-delete', [TemporaryFileController::class, 'delete']);
+    Route ::post ( '/tmp-post' , [ TemporaryFileController::class , 'store' ] );
+    Route ::delete ( '/tmp-delete' , [ TemporaryFileController::class , 'delete' ] );
   } );
 
   Route ::middleware ( 'auth:sanctum' ) -> group ( function () {

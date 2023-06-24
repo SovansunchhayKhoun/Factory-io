@@ -22,7 +22,7 @@ export const InvoiceView = (props) => {
 
   return (
     <Fragment>
-      <Accordion className="border-2 border-tealActive px-2 rou nded-lg mb-6 shadow-2xl" open={open}>
+      <Accordion className="border-2 border-tealActive px-2 rounded-lg shadow-2xl" open={open}>
         <AccordionSummary aria-controls="order-header"
                           id="order-header">
           <AccordionHeaderContent key={id} invoice={invoice}/>

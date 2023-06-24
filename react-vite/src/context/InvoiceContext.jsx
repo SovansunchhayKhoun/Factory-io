@@ -39,22 +39,29 @@ export const InvoiceProvider = ({children}) => {
     });
   }
 
-  const {addressExist} = useAddressContext();
-  const {storeAddress} = useContext(GoogleMapsContext);
+  const {storeAddress, addressExist, editAddress} = useContext(GoogleMapsContext);
+  const [addressPost, setAddressPost] = useState({
+    user_id: user?.id,
+    address: '',
+    placeId: ''
+  });
   const postInvoice = async (total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess, data) => {
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
+    const {address, placeId} = data;
     const invoice = {
       user_id: user?.id,
       date: currentDate,
       status: -1,
-      // placeId: placeId,
-      // address: address,
+      placeId: placeId,
+      address: address,
       totalPrice: total,
       payment_pic: paymentPic,
       item_count: cartItem.length,
     };
-    invoice.address_id = data?.id
+
+    console.log(invoice)
+    // invoice.address_id = data?.id
     // post invoice to db
     await Axios.post('invoices', invoice, {
       headers: {'Content-Type': "multipart/form-data"}
@@ -86,25 +93,37 @@ export const InvoiceProvider = ({children}) => {
       console.log(e.response.data.errors)
     });
 
-
     // to stop loading
     setSuccess(true)
   }
 
   const storeInvoice = async (total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess) => {
-    if(addressExist) {
-      await Axios.get(`getAddress/${address}`).then(async ({data}) => {
-        console.log(data[0])
-        await postInvoice(total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess, data[0])
+    if (addressExist) {
+      await Axios.get(`getAddress/${placeId}`).then(async ({data}) => {
+        // in case user change address name
+        await Axios.put(`addresses/${data.id}`, {
+          ...data, address: address
+        }).then(async () => {
+          await postInvoice(total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess, data)
+        })
       })
     } else {
-      await storeAddress().then(async () => {
+      setAddressPost({
+        ...addressPost,
+        address: address,
+        placeId: placeId,
+      })
+      await storeAddress({
+        address: address,
+        placeId: placeId,
+        user_id: user?.id
+      }).then(async () => {
         await Axios.get('getLastAddress').then(async ({data}) => {
-          console.log(data)
-          // invoice.address_id = data?.id
+          // console.log(2)
+          // console.log(data)
           await postInvoice(total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess, data);
         })
-      }).catch(e => console.log(e.response.data.errors))
+      }).catch(e => setInvoiceError(e.response.data.errors))
     }
   }
 

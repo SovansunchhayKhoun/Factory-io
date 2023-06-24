@@ -12,7 +12,7 @@ export const DeclineOrderButton = (props) => {
   const DeclineOrderContent = () => {
     return (
       <div
-        className="text-blackFactory px-2 py-1 bg-white overflow-auto max-w-2xl w-full max-h-full rounded shadow-lg">
+        className="text-blackFactory px-6 py-6 bg-white overflow-auto max-w-2xl w-full max-h-full rounded shadow-lg">
         Are you sure to decline this order?
         <AccordionBodyContent invoice={invoice}/>
         <div className="flex gap-x-2">
@@ -38,7 +38,7 @@ export const DeclineOrderButton = (props) => {
         setDeclineOrderModalOpen(true);
       }}
               aria-controls={invoice.id}
-              className={`${invoice.status < 2 ? 'bg-redBase text-whiteFactory' : 'bg-grayFactory text-blackFactory cursor-pointer'} px-2 py-1 rounded-md font-semibold`}>
+              className={`${invoice.status < 2 ? 'bg-redBase text-whiteFactory' : 'hidden'} px-2 py-1 rounded-md font-semibold`}>
         Decline
       </button>
       <AdminPopUp content={<DeclineOrderContent/>} id={invoice.id} modalOpen={declineOrderModalOpen}

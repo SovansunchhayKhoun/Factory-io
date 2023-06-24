@@ -23,10 +23,9 @@ class InvoiceFactory extends Factory
             'user_id' => 1,
             'item_count' => fake()->numberBetween(1, 10),
             'totalPrice' => fake()->numberBetween(5, 200),
-          'address_id' => 1,
 //          'placeId'  => fake()->streetAddress()
-//            'address' => 'Bridge 2, National Road 6A, Sangkat Prek Leap, Khan Chroy Changva, Phnom Penh',
-//            'placeId' => 'ChIJY9O3tdhRCTERyyxui9pvK68'
+            'address' => 'Bridge 2, National Road 6A, Sangkat Prek Leap, Khan Chroy Changva, Phnom Penh',
+            'placeId' => 'ChIJY9O3tdhRCTERyyxui9pvK68'
         ];
     }
 }

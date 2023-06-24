@@ -28,9 +28,9 @@
       return DeliveryAddresses ::latest () -> first ();
     }
 
-    public function getAddress ($address)
+    public function getAddress ($placeId)
     {
-      return DeliveryAddresses::where('address', $address)->get();
+      return DeliveryAddresses::where('placeId', $placeId)->first();
     }
 
     public function update ( DeliveryAddressRequest $request , DeliveryAddresses $address )
@@ -47,9 +47,9 @@
       return response () -> json ( 'address deleted' );
     }
 
-    public function checkAddress ( $address )
+    public function checkAddress ( $placeId )
     {
-      $data =  DeliveryAddresses ::where ( 'address' , $address ) -> first ();
+      $data =  DeliveryAddresses ::where ( 'placeId' , $placeId ) -> first ();
       if($data) {
         return response()->json (true);
       }

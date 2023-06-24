@@ -3,6 +3,7 @@
   namespace App\Http\Resources\V1;
 
   use App\Models\DeliveryAddresses;
+  use App\Models\InvoiceAddress;
   use App\Models\InvoiceProduct;
   use App\Models\User;
   use Illuminate\Http\Request;
@@ -23,8 +24,8 @@
         'date' => $this -> date ,
         'totalPrice' => $this -> totalPrice ,
         'status' => $this -> status ,
-        'address_id' => $this -> address_id ,
-        'address' => DeliveryAddresses ::where ( 'id' , $this -> address_id ) -> get () ,
+        'address' => $this -> address ,
+//        'address' => InvoiceAddress ::where ( 'id' , $this -> address_id ) -> get () ,
         'placeId' => $this -> placeId ,
         'payment_pic' => $this -> payment_pic ,
         'item_count' => $this -> item_count ,

@@ -13,7 +13,7 @@
   {
     public function index ()
     {
-      return InvoiceResource ::collection ( Invoice ::all () );
+      return InvoiceResource ::collection ( Invoice ::orderBy('id', 'desc')->get() );
     }
 
     public function store ( StoreInvoiceRequest $request )
