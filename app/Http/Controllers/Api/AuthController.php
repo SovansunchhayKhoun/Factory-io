@@ -62,8 +62,8 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'username' => $data['username'],
-            'address' => $data['address'],
-          'gender' => $data['gender']
+//            'address' => $data['address'],
+//          'gender' => $data['gender']
         ]);
 
         $token = $user->createToken('main')->plainTextToken;
@@ -116,6 +116,10 @@ class AuthController extends Controller
       $request->validate([
         'email' => 'required|email'
       ]);
+      if(DB::table('password_reset_tokens')->where('email','=', $request['email'])->first()){
+        DB::table('password_reset_tokens')->where('email','=', $request['email'])->delete();
+      }
+
       if(User::where('email','=',$request['email'])->first()){
 //        dd(Str::random(64));
         $token = Str::random(64);

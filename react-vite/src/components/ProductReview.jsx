@@ -31,8 +31,7 @@ export const ProductReview = (props) => {
         {
           filteredItem.length === 0 ? <div>No review yet !</div> : null
         }
-        {
-          filteredItem.map((review, key) => {
+        {filteredItem.map((review, key) => {
             return (
               <ReviewSection review={review} key={key}/>
             )

@@ -12,10 +12,8 @@ export default function Signup() {
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
   const phoneNumberRef = useRef();
-  const addressRef = useRef();
   const usernameRef = useRef();
-  const genderRef = useRef();
-  const navigate = useNavigate()
+
   const [errors, setErrors] = useState(null)
   const {setUser, setToken, token} = useAuthContext()
   const onSubmit = (event) => {
@@ -28,8 +26,6 @@ export default function Signup() {
       password_confirmation: passwordConfirmationRef.current.value,
       phoneNumber: phoneNumberRef.current.value,
       username: usernameRef.current.value,
-      address: addressRef.current.value,
-      gender: genderRef.current.value,
     }
     console.log(formValues)
     axiosClient.post('/signup', formValues)
@@ -40,7 +36,6 @@ export default function Signup() {
       })
       .catch(err => {
         const response = err.response
-        console.log(response.data)
         if (response && response.status === 422) {
           setErrors(response.data.errors)
         }
@@ -84,13 +79,13 @@ export default function Signup() {
                   />
                 </div>
               </div>
-              <div className="mb-6 w-[500px]">
-                <input type="name" id="gender"
-                       ref={genderRef}
-                       className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
-                       placeholder="Gender"
-                />
-              </div>
+              {/*<div className="mb-6 w-[500px]">*/}
+              {/*  <input type="name" id="gender"*/}
+              {/*         ref={genderRef}*/}
+              {/*         className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"*/}
+              {/*         placeholder="Gender"*/}
+              {/*  />*/}
+              {/*</div>*/}
               <div className="mb-6 w-[500px]">
                 <input type="name" id="phoneNumber"
                        ref={phoneNumberRef}
@@ -105,13 +100,13 @@ export default function Signup() {
                        placeholder="Username"
                 />
               </div>
-              <div className="mb-6 w-[500px]">
-                <input type="name" id="address"
-                       ref={addressRef}
-                       className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
-                       placeholder="Address"
-                />
-              </div>
+              {/*<div className="mb-6 w-[500px]">*/}
+              {/*  <input type="name" id="address"*/}
+              {/*         ref={addressRef}*/}
+              {/*         className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"*/}
+              {/*         placeholder="Address"*/}
+              {/*  />*/}
+              {/*</div>*/}
               <div className="mb-6 w-[500px]">
                 <input type="email" id="email"
                        ref={emailRef}

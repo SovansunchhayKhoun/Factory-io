@@ -6,11 +6,11 @@ import {RD} from "./Account/RD.jsx";
 import {useProjectContext} from "../../context/Factory/ProjectContext.jsx";
 import {ProjectCard} from "../../components/FactoryComponent/ProjectCard.jsx";
 import UserContext from "../../context/UserContext.jsx";
-import {useNavigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import {UserRD} from "./Account/UserRD.jsx";
 
 export const AccountView = () => {
-  const {user,onLogout, token} = useAuthContext();
+  const {user, onLogout, token} = useAuthContext();
   const [tab, setTab] = useState('Community');
   const {projects} = useProjectContext();
   const navigate = useNavigate();

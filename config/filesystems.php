@@ -74,6 +74,21 @@
         'throw' => false ,
       ] ,
 
+      'donations' => [
+        'driver' => 'local' ,
+        'root' => storage_path ( 'app/public/donations/' ) ,
+        'url' => env ( 'APP_URL' ) . '/storage' ,
+        'visibility' => 'public' ,
+        'throw' => false ,
+      ] ,
+      'reviews' => [
+        'driver' => 'local' ,
+        'root' => storage_path ( 'app/public/reviews/' ) ,
+        'url' => env ( 'APP_URL' ) . '/storage' ,
+        'visibility' => 'public' ,
+        'throw' => false ,
+      ] ,
+
 //      'projectsImage' => [
 //        'driver' => 'local' ,
 //        'root' => storage_path ( 'app/public/projects/project/img' ) ,
@@ -120,6 +135,8 @@
       public_path ( 'invoices' ) => storage_path ( 'app/public/invoices' ) ,
       public_path ( 'messages' ) => storage_path ( 'app/public/messages' ) ,
       public_path ( 'projects' ) => storage_path ( 'app/public/projects' ) ,
+      public_path ( 'donations' ) => storage_path ( 'app/public/donations' ) ,
+      public_path ( 'reviews' ) => storage_path ( 'app/public/reviews' ) ,
     ] ,
 
   ];

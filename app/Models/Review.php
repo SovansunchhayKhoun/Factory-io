@@ -10,7 +10,7 @@ class Review extends Model
     use HasFactory;
 
     protected $fillable = [
-        'product_id', 'title', 'description', 'user_id',
+        'product_id', 'title', 'description', 'user_id','image'
     ];
 
     public function product()

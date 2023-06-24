@@ -6,6 +6,9 @@ import {Rating} from "@mui/material";
 import {PVFactoryHub} from "../../components/FactoryComponent/Tabs/PVFactoryHub.jsx";
 import {PVProjectTab} from "../../components/FactoryComponent/Tabs/PVProjectTab.jsx";
 import {FloatingUser} from "../../components/FactoryComponent/FloatingUser.jsx";
+import {DonateContent} from "../DonateContent.jsx";
+import AdminPopUp from "../../components/Modals/AdminPopUp.jsx";
+import {FundProjectContent} from "../FundProjectContent.jsx";
 
 const imgUrl = 'http://127.0.0.1:8000/projects/';
 export const ProjectView = () => {
@@ -14,7 +17,7 @@ export const ProjectView = () => {
   const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ];
-
+  const [modalOpen, setModalOpen] = useState(false);
   const [like, setLike] = useState(false);
 
   const {data: project, refetch: projectReFetch, isLoading: projectIsLoading} = useQuery(['project', id], () => {
@@ -79,9 +82,15 @@ export const ProjectView = () => {
                       name="read-only" readOnly
                       value={2} /*value = total_rating / total_user*/ />
                   </div>
-                  <button className="rounded-[20px] px-4 py-2 text-whiteFactory bg-redHover">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setModalOpen(true)
+                    }}
+                    className="rounded-[20px] px-4 py-2 text-whiteFactory bg-redHover">
                     Fund this project
                   </button>
+                  <AdminPopUp content={<FundProjectContent modalOpen={modalOpen} setModalOpen={setModalOpen} />} modalOpen={modalOpen} setModalOpen={setModalOpen}/>
                 </div>
 
                 <p className="w-[80%]">{project?.description}</p>

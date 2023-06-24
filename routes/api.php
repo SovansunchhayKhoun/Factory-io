@@ -3,7 +3,8 @@
   use App\Http\Controllers\Api\AuthController;
   use App\Http\Controllers\Api\V1\DeliveryAddressController;
   use App\Http\Controllers\Api\V1\ChatController;
-  use App\Http\Controllers\Api\V1\InvoiceController;
+use App\Http\Controllers\Api\V1\DonationController;
+use App\Http\Controllers\Api\V1\InvoiceController;
   use App\Http\Controllers\Api\V1\InvoiceProductController;
   use App\Http\Controllers\Api\V1\MessageController;
   use App\Http\Controllers\Api\V1\ProductController;
@@ -30,6 +31,7 @@
     Route ::apiResource ( 'project_prototypes' , ProjectPrototypeController::class );
     Route ::apiResource ( 'project_assets' , ProjectAssetController::class );
     Route ::apiResource ( 'addresses' , DeliveryAddressController::class );
+    Route ::apiResource ( 'donations' , DonationController::class );
     Route ::get ( 'checkAddress/{address}' , [ DeliveryAddressController::class , 'checkAddress' ] );
     Route ::get ( 'getLastInvoice' , [ DeliveryAddressController::class , 'getLastInvoice' ] );
     Route ::get ( 'getAddress/{address}' , [ DeliveryAddressController::class , 'getAddress' ] );
