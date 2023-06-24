@@ -18,19 +18,14 @@ export const CustomerService = ({setModalOpen}) => {
     setMessageImage,
     chats,
     messageImage,
+    getChat
   } = useContext(ChatContext);
-
 
   const {user, token} = useAuthContext();
   const [messageInput, setMessageInput] = useState('');
   const [open, setOpen] = useState(false);
 
   if (token) {
-    // useEffect(() => {
-    //   // messageReFetch();
-    //   setSeen(message?.filter((msg) => (msg.chat_id === findChat(user.username, 'admin')?.id) && msg.is_read === 0), user.username);
-    // }, []);
-
     return (
       <div className="flex flex-col items-center h-screen text-gray-800">
         <div
@@ -50,9 +45,7 @@ export const CustomerService = ({setModalOpen}) => {
             </button>
           </div>
           <div className="flex flex-col flex-grow h-0 p-4 overflow-auto">
-            {message?.filter(async (msg) => {
-                return msg.chat_id === findChat(user.username, 'admin')?.id ?? await findChat(user?.username, 'admin')?.then(res => res.id);
-              }).length === 0 &&
+            {message?.filter(msg => msg.chat_id === getChat(user?.username, 'admin')[0]?.id).length === 0 &&
               <>
                 <div>
                   Welcome to customer service
@@ -60,20 +53,20 @@ export const CustomerService = ({setModalOpen}) => {
                 <div>
                   We will try our best to get back to you as soon as possible
                 </div>
-              </>
-            }
-            {message?.filter(async (msg) => {
-              return msg.chat_id === findChat(user.username, 'admin')?.id ?? await findChat(user?.username, 'admin')?.then(res => res.id);
-            }).map(msg => {
+              </>}
+
+            {message?.filter(msg => msg.chat_id === getChat(user?.username, 'admin')[0]?.id).map(msg => {
               if (msg.sender_id === user.username) {
                 return (
-                  <Sender setModalOpen={setModalOpen} key={msg.id} time={msg.time_sent} messageContent={msg.msg_content} image={msg.image}/>
+                  <Sender setModalOpen={setModalOpen} key={msg.id} time={msg.time_sent} messageContent={msg.msg_content}
+                          image={msg.image}/>
                 );
               } else {
-                return <Replier setModalOpen={setModalOpen} key={msg.id} time={msg.time_sent} messageContent={msg.msg_content} image={msg.image}/>
+                return <Replier setModalOpen={setModalOpen} key={msg.id} time={msg.time_sent}
+                                messageContent={msg.msg_content} image={msg.image}/>
               }
-            })
-            }
+            })}
+
           </div>
           <div className="flex items-center gap-x-2 bg-gray-300 p-4">
             <label htmlFor="file_upload" className="cursor-pointer">
@@ -94,7 +87,7 @@ export const CustomerService = ({setModalOpen}) => {
               }}
             />
             <input
-              onKeyDown={event => {
+              onKeyDown={(event) => {
                 event.key === 'Enter' && sendMessage(user.username, 'admin', setMessageInput)
               }}
               value={messageInput}

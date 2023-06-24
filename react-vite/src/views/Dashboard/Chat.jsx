@@ -26,22 +26,16 @@ export const Chat = () => {
     messageReFetch,
     getLatestMessage,
     setSeen,
-    setMessageImage
+    setMessageImage,
+    getChat,
+    chats
   } = useContext(ChatContext);
-
-  useEffect(() => {
-    getLatestMessage()
-    // console.log(message.filter(msg => msg.sender_id === 'JustChhayXP'))
-  }, [])
-
-  // useEffect(() => {
-  //   // messageReFetch();
-  //   // chatReFetch();
-  //   // getUsers();
-  // }, []);
 
   const [messageInput, setMessageInput] = useState('');
   const [open, setOpen] = useState(false);
+  // useEffect(() => {
+  //   chats.forEach(chat => console.log(chat))
+  // }, [])
 
   const GetLatestMsg = ({usr, userNotification}) => {
     const WrapComponent = ({children}) => {
@@ -53,21 +47,21 @@ export const Chat = () => {
         </span>
       );
     }
-    // if (getLatestMessage('admin', usr?.username)?.msg_content && getLatestMessage('admin', usr?.username)?.image) {
-    //   return (
-    //     <WrapComponent children={`${usr.username} sent a photo`}/>
-    //   );
-    // }
-    // if (getLatestMessage('admin', usr?.username)?.image) {
-    //   return (
-    //     <WrapComponent children={`${usr?.username} sent a photo`}/>
-    //   );
-    // }
-    // if (getLatestMessage('admin', usr?.username)?.msg_content) {
-    //   return (
-    //     <WrapComponent children={getLatestMessage('admin', usr?.username)?.msg_content}/>
-    //   )
-    // }
+    if (getLatestMessage('admin', usr?.username)?.msg_content && getLatestMessage('admin', usr?.username)?.image) {
+      return (
+        <WrapComponent children={`${usr.username} sent a photo`}/>
+      );
+    }
+    if (getLatestMessage('admin', usr?.username)?.image) {
+      return (
+        <WrapComponent children={`${usr?.username} sent a photo`}/>
+      );
+    }
+    if (getLatestMessage('admin', usr?.username)?.msg_content) {
+      return (
+        <WrapComponent children={getLatestMessage('admin', usr?.username)?.msg_content}/>
+      )
+    }
   }
 
   return (
@@ -97,59 +91,98 @@ export const Chat = () => {
             {/*User List*/}
             <ul className="overflow-auto">
               <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
+              {/*{chats?.map(chat => {*/}
+              {/*  const {users} = chat;*/}
+              {/*  const {username, id} = users[0];*/}
+              {/*  const unreadMessages = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === username);*/}
+              {/*  const userNotification = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === username);*/}
+              {/*  // const timePrefix = new Date(message.filter(msg => msg.sender_id === username)[0]?.time_sent)?.getHours();*/}
+              {/*  const timePrefix = new Date(getLatestMessage(username, 'admin')?.time_sent)?.getHours();*/}
+              {/*  return (*/}
+              {/*    <li*/}
+              {/*      onClick={() => {*/}
+              {/*        setActiveUser(users[0]);*/}
+              {/*        initChat('admin', username);*/}
+              {/*        setSeen(unreadMessages, 'admin');*/}
+              {/*        setMessageInput('');*/}
+              {/*        messageReFetch();*/}
+              {/*      }}*/}
+              {/*      key={id}*/}
+              {/*      className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">*/}
+              {/*      <img className="object-cover w-10 h-10 rounded-full"*/}
+              {/*           src={`https://robohash.org/${username}`} alt="username"/>*/}
+              {/*      <div className="w-full pb-2">*/}
+              {/*        <div className="flex justify-between">*/}
+              {/*              <span className="block ml-2 font-semibold text-gray-600">*/}
+              {/*                {username}*/}
+              {/*              </span>*/}
+              {/*          <span className="block ml-2 text-sm text-gray-600">*/}
+              {/*              /!*time stamp*!/*/}
+              {/*            /!*{message.filter(msg => msg.sender_id === username).length > 0 && message.filter(msg => msg.sender_id === username)[0]?.time_sent.slice(10).slice(0, 6) +`${timePrefix >= 12 ? ' PM' : ' AM'}`}*!/*/}
+              {/*            {getLatestMessage('admin', username) && getLatestMessage('admin', username)?.time_sent.slice(10).slice(0, 6) + `${timePrefix >= 12 ? ' PM' : ' AM'}`}*/}
+              {/*            </span>*/}
+              {/*        </div>*/}
+              {/*        <div className="flex justify-between pr-12">*/}
+              {/*          /!*latest msg*!/*/}
+              {/*          <GetLatestMsg usr={users[0]} userNotification={userNotification}/>*/}
+              {/*          <span className={`${userNotification?.length === 0 && 'hidden'}` +*/}
+              {/*            " w-[20px] h-[20px] bg-blueBase text-whiteFactory flex justify-center items-center rounded-[50%] text-xs"}>*/}
+              {/*                /!*{getLatestMessage('admin', usr.username)?.length}*!/*/}
+              {/*            {userNotification?.length}*/}
+              {/*            </span>*/}
+              {/*        </div>*/}
+              {/*      </div>*/}
+              {/*    </li>*/}
+              {/*  )*/}
+              {/*})}*/}
               {users.filter((user) => {
                 if (user.username.toLowerCase().includes(searchInput.toLowerCase())) {
                   return user
                 } else if (searchInput === '') {
                   return user
                 }
-              }).map((usr) => {
-                const unreadMessages = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr?.username);
-                const userNotification = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr.username);
-                const timePrefix = new Date(message.filter(msg => msg.sender_id === usr?.username)[0]?.time_sent)?.getHours();
-                return (
-                  <li
-                    onClick={() => {
-                      setActiveUser(usr);
-                      initChat('admin', usr?.username);
-                      setSeen(unreadMessages, 'admin');
-                      setMessageInput('');
-                      messageReFetch();
-                    }}
-                    key={usr.id}
-                    className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">
-                    <img className="object-cover w-10 h-10 rounded-full"
-                         src={`https://robohash.org/${usr.username}`} alt="username"/>
-                    <div className="w-full pb-2">
-                      <div className="flex justify-between">
-                          <span className="block ml-2 font-semibold text-gray-600">
-                            {usr.username}
+                }).map((usr) => {
+                  const unreadMessages = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr?.username);
+                  const userNotification = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr.username);
+                  // const timePrefix = new Date(message.filter(msg => msg.sender_id === usr?.username)[0]?.time_sent)?.getHours();
+                  const timePrefix = new Date(getLatestMessage(usr?.username, 'admin')?.time_sent)?.getHours();
+                  return (
+                    <li
+                      onClick={() => {
+                        setActiveUser(usr);
+                        initChat('admin', usr?.username);
+                        setSeen(unreadMessages, 'admin');
+                        setMessageInput('');
+                        messageReFetch();
+                      }}
+                      key={usr.id}
+                      className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">
+                      <img className="object-cover w-10 h-10 rounded-full"
+                           src={`https://robohash.org/${usr.username}`} alt="username"/>
+                      <div className="w-full pb-2">
+                        <div className="flex justify-between">
+                            <span className="block ml-2 font-semibold text-gray-600">
+                              {usr.username}
+                            </span>
+                          <span className="block ml-2 text-sm text-gray-600">
+                            {/*time stamp*/}
+                            {/*{message.filter(msg => msg.sender_id === usr?.username).length > 0 && message.filter(msg => msg.sender_id === usr?.username)[0]?.time_sent.slice(10).slice(0, 6) +`${timePrefix >= 12 ? ' PM' : ' AM'}`}*/}
+                            {getLatestMessage('admin', usr?.username) && getLatestMessage('admin', usr?.username)?.time_sent.slice(10).slice(0, 6) + `${timePrefix >= 12 ? ' PM' : ' AM'}`}
                           </span>
-                        <span className="block ml-2 text-sm text-gray-600">
-                          {/*time stamp*/}
-                          {message.filter(msg => msg.sender_id === usr?.username)[0]?.time_sent.slice(10).slice(0, 6) +`${timePrefix >= 12 ? ' PM' : ' AM'}`}
-                          {/*{getLatestMessage('admin', usr?.username) && getLatestMessage('admin', usr?.username).time_sent.slice(10).slice(0, 6) + `${timePrefix >= 12 ? ' PM' : ' AM'}`}*/}
-                        </span>
-                      </div>
-                      <div className="flex justify-between pr-12">
-                        <GetLatestMsg usr={usr} userNotification={userNotification}/>
-                        <span
-                          className={`${userNotification?.length > 0 && 'font-semibold'}` +
-                            " block ml-2 text-sm text-gray-600"}>
+                        </div>
+                        <div className="flex justify-between pr-12">
                           {/*latest msg*/}
-                          {message.filter(msg => msg.sender_id === usr?.username)[0]?.msg_content}
-                        </span>
-                        <span className={`${userNotification?.length === 0 && 'hidden'}` +
-                          " w-[20px] h-[20px] bg-blueBase text-whiteFactory flex justify-center items-center rounded-[50%] text-xs"}>
-                            {/*{getLatestMessage('admin', usr.username)?.length}*/}
-                          {userNotification?.length}
-                        </span>
+                          <GetLatestMsg usr={usr} userNotification={userNotification}/>
+                          <span className={`${userNotification?.length === 0 && 'hidden'}` +
+                            " w-[20px] h-[20px] bg-blueBase text-whiteFactory flex justify-center items-center rounded-[50%] text-xs"}>
+                              {/*{getLatestMessage('admin', usr.username)?.length}*/}
+                            {userNotification?.length}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </li>
-                )
-              })
-              }
+                    </li>
+                  )
+                })}
             </ul>
             {/*User List*/}
           </div>
@@ -163,26 +196,39 @@ export const Chat = () => {
             </div>
             <div
               className={`${Object.keys(activeUser).length === 0 && 'hidden'} flex flex-col justify-between h-full w-full`}>
-              <div className="relative flex items-center p-3 border-b border-gray-300">
-                <img className="object-contain w-10 h-10 rounded-full"
-                     src={`https://robohash.org/${activeUser?.username}`} alt="username"/>
-                <span className="block ml-2 font-bold text-gray-600">{activeUser?.username}</span>
-                <span className="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3"></span>
-              </div>
-              <div className="relative w-full p-6 overflow-y-auto">
-                <ul className="space-y-2">
-                  {message?.filter(msg => msg.chat_id === findChat('admin', activeUser?.username)?.id).map((msg) => {
-                    if (msg.receiver_id === activeUser?.username) {
-                      return (
-                        <AdminSend key={msg.id} msg={msg}/>
-                      );
-                    } else {
-                      return (
-                        <AdminReply key={msg.id} msg={msg}/>
-                      );
-                    }
-                  })}
-                </ul>
+              <div>
+                <div className="relative flex items-center p-3 border-b border-gray-300">
+                  <img className="object-contain w-10 h-10 rounded-full"
+                       src={`https://robohash.org/${activeUser?.username}`} alt="username"/>
+                  <span className="block ml-2 font-bold text-gray-600">{activeUser?.username}</span>
+                  <span className="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3"></span>
+                </div>
+                <div className="relative w-full p-6 overflow-y-auto">
+                  <ul className="space-y-2">
+                    {message?.filter(msg => msg.chat_id === getChat('admin', activeUser?.username)[0]?.id).map((msg) => {
+                      if (msg.receiver_id === activeUser?.username) {
+                        return (
+                          <AdminSend key={msg.id} msg={msg}/>
+                        );
+                      } else {
+                        return (
+                          <AdminReply key={msg.id} msg={msg}/>
+                        );
+                      }
+                    })}
+                    {/*{message?.filter(msg => msg.chat_id === findChat('admin', activeUser?.username)?.id).map((msg) => {*/}
+                    {/*  if (msg.receiver_id === activeUser?.username) {*/}
+                    {/*    return (*/}
+                    {/*      <AdminSend key={msg.id} msg={msg}/>*/}
+                    {/*    );*/}
+                    {/*  } else {*/}
+                    {/*    return (*/}
+                    {/*      <AdminReply key={msg.id} msg={msg}/>*/}
+                    {/*    );*/}
+                    {/*  }*/}
+                    {/*})}*/}
+                  </ul>
+                </div>
               </div>
 
               <div className="flex items-center justify-between w-full p-3 border-t border-gray-300">

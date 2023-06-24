@@ -39,7 +39,8 @@ export const ImagePreview = ({
             </Typography>
             <Typography variant="div" id="modal-modal-description" sx={{mt: 2}}>
               {messageImage &&
-                <Card imgSrc={URL.createObjectURL(messageImage)}>
+                <Card>
+                  <img className="max-h-96 object-contain bg-[#D9D9D9]" src={URL.createObjectURL(messageImage)} alt=""/>
                   <div className="flex gap-x-2 font-normal text-gray-700 dark:text-gray-400">
                     <input
                       value={messageInput}

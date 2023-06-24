@@ -30,11 +30,12 @@ export const ChatProvider = ({children}) => {
     }
   };
 
-  const getLatestMessage = () => {
-    // const results = findChat(sender, receiver)?.messages[findChat(sender, receiver)?.messages?.length - 1] || 1;
-    // console.log(sender, receiver)
-    // return findChat(sender, receiver)?.messages[findChat(sender, receiver)?.messages?.length - 1];
-    console.log(message)
+  const getChat = (sender, receiver) => {
+    return chats?.filter(chat => chat.sender_id === sender && chat.receiver_id === receiver || chat.sender_id === receiver && chat.receiver_id === sender);
+  }
+
+  const getLatestMessage = (sender, receiver) => {
+    return getChat(sender, receiver)[0]?.messages[getChat(sender, receiver)[0].messages?.length -1];
   }
 
   const setSeen = (userMessage, receiver) => {
@@ -45,14 +46,14 @@ export const ChatProvider = ({children}) => {
       if (usrMsg.sender_id !== receiver) {
         usrMsg.is_read = 1;
         try {
-          await Axios.patch(`message/${usrMsg.id}`, usrMsg);
+          await Axios.patch(`message/${usrMsg.id}`, usrMsg).then(() => {
+            messageReFetch();
+          });
         } catch (e) {
           setChatErrors(e.response.data.errors)
           // console.log(e.response.data.errors);
         }
       }
-    }).then(() => {
-      messageReFetch();
     })
   };
 
@@ -74,7 +75,7 @@ export const ChatProvider = ({children}) => {
   };
   const findChat = (sender, receiver) => {
     if (!chats?.find((chat) => ((chat.sender_id === sender && chat.receiver_id === receiver) || (chat.sender_id === receiver && chat.receiver_id === sender)))) {
-      chatReFetch();
+      chatReFetch()
       return Axios.get(`getChat/${sender}/${receiver}`).then(({data}) => data);
     }
     return chats?.find((chat) => ((chat.sender_id === sender && chat.receiver_id === receiver) || (chat.sender_id === receiver && chat.receiver_id === sender)));
@@ -120,6 +121,7 @@ export const ChatProvider = ({children}) => {
   return (
     <>
       <ChatContext.Provider value={{
+        getChat,
         chatErrors,
         setChatErrors,
         clearMessage,
