@@ -12,7 +12,7 @@
   {
     public function index ()
     {
-      return ChatResource ::collection ( Chat ::all () );
+      return ChatResource ::collection ( Chat ::latest()->get() );
     }
 
     public function store ( ChatRequest $request )

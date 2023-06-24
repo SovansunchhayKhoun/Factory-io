@@ -11,68 +11,68 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+  use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'firstName',
-        'lastName',
-        'phoneNumber',
-        'email',
-        'password',
-        'bio',
-        'pfp',
-        'username',
-        'gender',
-      'address',
-    ];
+  /**
+   * The attributes that are mass assignable.
+   *
+   * @var array<int, string>
+   */
+  protected $fillable = [
+    'firstName',
+    'lastName',
+    'phoneNumber',
+    'email',
+    'password',
+    'bio',
+    'pfp',
+    'username',
+    'gender',
+    'address',
+  ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+  /**
+   * The attributes that should be hidden for serialization.
+   *
+   * @var array<int, string>
+   */
+  protected $hidden = [
+    'password',
+    'remember_token',
+  ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+  /**
+   * The attributes that should be cast.
+   *
+   * @var array<string, string>
+   */
+  protected $casts = [
+    'email_verified_at' => 'datetime',
+  ];
 
-    public function invoices(): HasMany
-    {
-        return $this->hasMany(Invoice::class);
-    }
+  public function invoices(): HasMany
+  {
+    return $this->hasMany(Invoice::class);
+  }
 
-    public function chats()
-    {
-        return $this->hasMany(Chat::class);
-    }
+  public function chats()
+  {
+    return $this->hasMany(Chat::class);
+  }
 
   public function reviews()
   {
-      return $this->hasMany(Review::class, 'user_id', 'id');
+    return $this->hasMany(Review::class, 'user_id', 'id');
   }
 
   public function deliveryAddresses()
   {
-    return $this->hasMany(DeliveryAddresses::class,'user_id', 'id');
+    return $this->hasMany(DeliveryAddresses::class, 'user_id', 'id');
   }
 
   public function donations()
   {
-    return $this->hasMany(Donation::class,'user_id','id');
+    return $this->hasMany(Donation::class, 'user_id', 'id');
   }
 
 }

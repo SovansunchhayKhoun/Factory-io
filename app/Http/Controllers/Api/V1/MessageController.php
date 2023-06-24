@@ -12,7 +12,8 @@ class MessageController extends Controller
 {
     public function index()
     {
-        return MessageResource::collection(Message::query()->selectRaw('*')->orderBy('time_sent', 'asc')->get());
+//        return MessageResource::collection(Message::query()->selectRaw('*')->orderBy('time_sent', 'asc')->get());
+        return MessageResource::collection(Message::orderBy('time_sent', 'asc')->get());
         //       dd($msg);
         //      return MessageResource::collection (Message::all());
         //      return Message->all();

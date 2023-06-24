@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1;
 
 use App\Models\Message;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -23,6 +24,7 @@ class ChatResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'messages' => MessageResource::collection(Message::where(['chat_id' => $this->id])->get()),
+            'latest_msg' => Message::where('chat_id', $this->id)->orderBy('time_sent', 'desc')->first()->time_sent ?? 0,
             'users' => UserResource::collection(User::where('username', $this->sender_id)->orWhere('username', $this->receiver_id)->get()),
         ];
     }
