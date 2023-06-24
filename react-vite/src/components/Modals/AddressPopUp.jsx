@@ -37,13 +37,6 @@ function AddressPopUp({modalOpen, setModalOpen}) {
     setCurrentAddress({...currentAddress, address: event.target.value})
   }
 
-  // useEffect(() => {
-  //   console.log(addressExist)
-  //   if(!addressExist) {
-  //     getAddress(latitude, longitude)
-  //   }
-  // }, [checkAddress])
-
   useEffect(() => {
     checkAddress(placeId)
     setCurrentAddress({...currentAddress, placeId: placeId, address: address})

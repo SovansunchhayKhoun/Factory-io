@@ -5,7 +5,6 @@ import "./index.css";
 import "./assets/styles/main.css";
 import {RouterProvider} from "react-router-dom";
 import router from "./router.jsx";
-import {AddressContext} from "./context/AddressContext.jsx";
 import {AuthContext} from "./context/AuthContext.jsx";
 import {ProductProvider} from "./context/ProductContext.jsx";
 import {CartProvider} from "./context/CartContext.jsx";
@@ -29,25 +28,23 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <AuthContext>
         <UserProvider>
           <GoogleMapsProvider>
-            <AddressContext>
-              <ProjectProtoContext>
-                <ProjectContext>
-                  <ChatProvider>
-                    <InvoiceProductProvider>
-                      <InvoiceProvider>
-                        <ProductProvider>
-                          <CartProvider>
-                            <DonateProvider>
-                              <RouterProvider router={router}/>
-                            </DonateProvider>
-                          </CartProvider>
-                        </ProductProvider>
-                      </InvoiceProvider>
-                    </InvoiceProductProvider>
-                  </ChatProvider>
-                </ProjectContext>
-              </ProjectProtoContext>
-            </AddressContext>
+            <ProjectProtoContext>
+              <ProjectContext>
+                <ChatProvider>
+                  <InvoiceProductProvider>
+                    <InvoiceProvider>
+                      <ProductProvider>
+                        <CartProvider>
+                          <DonateProvider>
+                            <RouterProvider router={router}/>
+                          </DonateProvider>
+                        </CartProvider>
+                      </ProductProvider>
+                    </InvoiceProvider>
+                  </InvoiceProductProvider>
+                </ChatProvider>
+              </ProjectContext>
+            </ProjectProtoContext>
           </GoogleMapsProvider>
         </UserProvider>
       </AuthContext>

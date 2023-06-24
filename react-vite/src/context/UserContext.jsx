@@ -46,7 +46,8 @@ export const UserProvider = ({children}) => {
       setUser(data.data)
       setUserToFormValues(data.data)
     }).catch((e) => {
-      console.log(e);
+      setErrors(e.response.data.errors);
+      // console.log(e);
     })
   }
 
@@ -151,7 +152,7 @@ export const UserProvider = ({children}) => {
   }
   const changeAdminPassword = async (e,adminID) => {
     e.preventDefault()
-      console.log(formValues)
+      // console.log(formValues)
     try {
       await Axios.put("admins/" + adminID + "/change-password", formValues)
       resetFormValues()

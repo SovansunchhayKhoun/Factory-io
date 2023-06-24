@@ -116,41 +116,6 @@ export const CartProvider = ({children}) => {
     localStorage.removeItem('CART_ITEM');
   }
 
-  // const {storeInvoice, invoicesReFetch} = useContext(InvoiceContext);
-  // const checkOut = async (cartItem, paymentPic, setModalOpen) => {
-  //   if (!isLoading) {
-  //     setSuccess(false);
-  //     try {
-  //       await storeInvoice(totalPrice, cartItem, paymentPic).then(async () => {
-  //         await Axios.get('getLastInv').then(async ({data})=>{
-  //           await cartItem?.forEach((item) => {
-  //             item.invoice_id = data?.id;
-  //             item.user_id = user?.id;
-  //             console.log(item);
-  //             try {
-  //               Axios.post('invoice_products', item)
-  //             } catch (e) {
-  //               console.log(e.response.data.errors)
-  //               setCartError(e.response.data.errors)
-  //             }
-  //           })
-  //         });
-  //       }).then(() => {
-  //         clearCart();
-  //         setCartItem([]);
-  //         invoicesReFetch();
-  //         setSuccess(true);
-  //         setModalOpen(false);
-  //       }).catch((e) => {
-  //         console.log('1')
-  //         console.log(e.response.data.errors);
-  //       });
-  //     } catch (e) {
-  //       console.log(e.response.data.errors)
-  //     }
-  //   }
-  // }
-
   return <CartContext.Provider value={{
     clearCart,
     setItemQty,

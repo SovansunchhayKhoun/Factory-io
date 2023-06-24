@@ -7,11 +7,6 @@ Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 
 const InvoiceProductContext = createContext();
 export const InvoiceProductProvider = ({children}) => {
-  // const [invoiceProducts, setInvoiceProducts] = useState([]);
-  // const getInvoiceProducts = async () => {
-  //   const apiItem = await Axios.get('invoice_products');
-  //   setInvoiceProducts(apiItem.data.data);
-  // };
   const {data:invoiceProduct, isLoading, refetch:invoiceProductReFetch} = useQuery(['invoice_products'], () => {
     return Axios.get("invoice_products").then((res) => {
       return res.data.data;

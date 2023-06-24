@@ -27,7 +27,7 @@ export default function Signup() {
       phoneNumber: phoneNumberRef.current.value,
       username: usernameRef.current.value,
     }
-    console.log(formValues)
+    // console.log(formValues)
     axiosClient.post('/signup', formValues)
       .then(({data}) => {
         setUser(data.user)

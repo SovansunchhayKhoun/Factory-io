@@ -13,9 +13,6 @@ export const ProductProvider = ({children}) => {
   const [pageSum, setPageSum] = useState(1);
   const [page, setPage] = useState(1);
 
-
-
-
   const [formValues, setFormValues] = useState({
     name: "",
     price: "",
@@ -43,7 +40,8 @@ export const ProductProvider = ({children}) => {
     await Axios.get('getAllTypes').then(({data}) => {
       setTypes(data)
     }).catch((e) => {
-      console.log(e)
+      setErrors(e.response.data.errors)
+      // console.log(e)
     })
   }
 
@@ -151,10 +149,11 @@ export const ProductProvider = ({children}) => {
       await itemsQueryReFetch()
       history.back()
     } catch (msg) {
-      console.log(msg.response.data.errors);
+      setErrors(msg.response.data.errors)
+      // console.log(msg.response.data.errors);
       if (msg.response.status === 422) {
         setErrors(msg.response.data.errors)
-        console.log(msg.response.data.errors)
+        // console.log(msg.response.data.errors)
       }
     }
   }
@@ -168,7 +167,7 @@ export const ProductProvider = ({children}) => {
     try {
       await Axios.put("products/" + stockItem.id, stockItem);
     } catch (msg) {
-      console.log(msg.response.data.errors);
+      // console.log(msg.response.data.errors);
       setErrors(msg.response.data.errors);
     }
   }

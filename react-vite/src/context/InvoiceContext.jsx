@@ -4,7 +4,7 @@ import {useQuery} from "@tanstack/react-query";
 import {useAuthContext} from "./AuthContext.jsx";
 import {GoogleMap, MarkerF, useJsApiLoader} from "@react-google-maps/api";
 import {GoogleMapsContext} from "./GoogleMapsContext.jsx";
-import {useAddressContext} from "./AddressContext.jsx";
+
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const libraries = ['places'];
@@ -69,7 +69,7 @@ export const InvoiceProvider = ({children}) => {
             .then(res => res)
             .catch(e => {
               setInvoiceError(e.response.data.errors);
-              console.log(e.response.data.errors);
+              // console.log(e.response.data.errors);
             })
         })
       })
@@ -82,7 +82,7 @@ export const InvoiceProvider = ({children}) => {
       setInvoiceError(e.response.data.errors);
       scrollTop(0);
       setModalOpen(false);
-      console.log(e.response.data.errors)
+      // console.log(e.response.data.errors)
     });
   }
 
@@ -126,7 +126,8 @@ export const InvoiceProvider = ({children}) => {
       try {
         await Axios.put(`invoice_products/${inv.id}`, inv);
       } catch (e) {
-        console.log(e.response.data.errors);
+        setInvoiceError(e.response.data.errors)
+        // console.log(e.response.data.errors);
       }
     })
   }
@@ -136,7 +137,7 @@ export const InvoiceProvider = ({children}) => {
       await Axios.patch(`invoices/${invoice.id}`, invoice);
       await invoicesReFetch();
     } catch (e) {
-      console.log(e.response.data.errors)
+      // console.log(e.response.data.errors)
       setInvoiceError(e.response.data.errors);
     }
   };
@@ -180,7 +181,7 @@ export const InvoiceProvider = ({children}) => {
         setModalOpen(false)
       });
     } catch (e) {
-      console.log(e.response.data.errors);
+      // console.log(e.response.data.errors);
       setInvoiceError(e.response.data.errors);
     }
   }

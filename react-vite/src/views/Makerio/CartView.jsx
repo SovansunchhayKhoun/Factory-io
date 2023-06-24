@@ -9,7 +9,6 @@ import {useAuthContext} from "../../context/AuthContext.jsx";
 import {GoogleMapsContext} from "../../context/GoogleMapsContext.jsx";
 import {Dropdown} from "flowbite-react";
 import UserContext from "../../context/UserContext.jsx";
-import {useAddressContext} from "../../context/AddressContext.jsx";
 import Axios from "axios";
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 

@@ -18,6 +18,7 @@ export const ChatProvider = ({children}) => {
   const {data: message, refetch: messageReFetch, isLoading: messageLoading} = useQuery(['message'], () => {
     return Axios.get('message').then((res) => res.data.data);
   });
+  const [chatErrors, setChatErrors] = useState([]);
   const [messageImage, setMessageImage] = useState('')
   const [messagePost, setMessagePost] = useState({});
 
@@ -43,7 +44,8 @@ export const ChatProvider = ({children}) => {
         try {
           await Axios.patch(`message/${usrMsg.id}`, usrMsg);
         } catch (e) {
-          console.log(e.response.data.errors);
+          setChatErrors(e.response.data.errors)
+          // console.log(e.response.data.errors);
         }
       }
     })
@@ -58,7 +60,8 @@ export const ChatProvider = ({children}) => {
       try {
         await Axios.post('chat', newChat);
       } catch (msg) {
-        console.log(msg.response.data.errors);
+        setChatErrors(msg.response.data.errors)
+        // console.log(msg.response.data.errors);
       }
     }
   };
@@ -97,13 +100,16 @@ export const ChatProvider = ({children}) => {
         await messageReFetch();
         clearMessage(setMessageInput);
       } catch (msg) {
-        console.log(msg.response.data.errors);
+        setChatErrors(msg.response.data.errors)
+        // console.log(msg.response.data.errors);
       }
     }
   }
   return (
     <>
       <ChatContext.Provider value={{
+        chatErrors,
+        setChatErrors,
         clearMessage,
         messageImage,
         checkChatExist,
