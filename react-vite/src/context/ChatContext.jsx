@@ -110,6 +110,7 @@ export const ChatProvider = ({children}) => {
           headers: {'Content-Type': "multipart/form-data"}
         }).then(async () => {
           await messageReFetch();
+          await chatReFetch()
           clearMessage(setMessageInput);
         });
       } catch (msg) {

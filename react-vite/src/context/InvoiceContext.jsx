@@ -40,7 +40,7 @@ export const InvoiceProvider = ({children}) => {
     });
   }
 
-  const {storeAddress, addressExist, editAddress} = useContext(GoogleMapsContext);
+  const {storeAddress, addressExist, editAddress, addressesReFetch} = useContext(GoogleMapsContext);
 
   const postInvoice = async (total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess, data) => {
     const tempDate = new Date();
@@ -80,6 +80,7 @@ export const InvoiceProvider = ({children}) => {
       setCartItem([]);
       setModalOpen(false);
       setInvoiceError([{...invoiceError, paymentPic:''}])
+      addressesReFetch()
     }).catch((e) => {
       setInvoiceError(e.response.data.errors);
       scrollTop(0);

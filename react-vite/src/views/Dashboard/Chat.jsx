@@ -32,8 +32,6 @@ export const Chat = () => {
 
   }
 
-  const ref = useRef();
-
   const {
     messageImage,
     chatReFetch,
@@ -52,6 +50,8 @@ export const Chat = () => {
 
   const [messageInput, setMessageInput] = useState('');
   const [open, setOpen] = useState(false);
+  const ref = useRef();
+
   // useEffect(() => {
   //   // chats.forEach(chat => console.log(chat))
   //   chats.sort((a, b) => {
@@ -162,10 +162,13 @@ export const Chat = () => {
             {/*User List*/}
             <ul className="overflow-auto">
               <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
-              {chats?.length === 0 && <div>Empty chat box, <span className="font-semibold" onClick={() => ref.current.focus()}>Maybe contact a few customers?</span></div>}
-              {chats?.sort((a,b) => new Date(b?.latest_msg) - new Date(a?.latest_msg)).map(chat => {
+              {chats?.length === 0 &&
+                <div>Empty chat box, <span className="font-semibold" onClick={() => ref.current.focus()}>Maybe contact a few customers?</span>
+                </div>}
+              {chats?.sort((a, b) => new Date(b?.latest_msg) - new Date(a?.latest_msg)).map(chat => {
                 return (
-                  <ChatListItem key={chat.id} chat={chat} GetLatestMsg={GetLatestMsg} setActiveUser={setActiveUser} setMessageInput={setMessageInput}/>
+                  <ChatListItem key={chat.id} chat={chat} GetLatestMsg={GetLatestMsg} setActiveUser={setActiveUser}
+                                setMessageInput={setMessageInput}/>
                 )
               })}
             </ul>
