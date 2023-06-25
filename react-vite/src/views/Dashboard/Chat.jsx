@@ -1,5 +1,5 @@
 import Axios from "axios";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import UserContext from "../../context/UserContext.jsx";
 import {act} from "react-dom/test-utils";
 import {useAuthContext} from "../../context/AuthContext.jsx";
@@ -18,6 +18,8 @@ export const Chat = () => {
   const [searchInput, setSearchInput] = useState('')
   const [messageInput, setMessageInput] = useState('');
   const [open, setOpen] = useState(false);
+  const ref = useRef();
+
   const {
     messageImage,
     chatReFetch,
@@ -84,7 +86,7 @@ export const Chat = () => {
                     <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                   </svg>
                 </span>
-                <input type="search" className="block w-full py-2 pl-10 bg-gray-100 rounded outline-none"
+                <input ref={ref} type="search" className="block w-full py-2 pl-10 bg-gray-100 rounded outline-none"
                        name="search"
                        placeholder="Search..."
                        onChange={(e) => setSearchInput(e.target.value)}
@@ -96,6 +98,7 @@ export const Chat = () => {
             {/*User List*/}
             <ul className="overflow-auto">
               <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
+              {chats?.length === 0 && <div>Empty chat box, <span className="font-semibold" onClick={() => ref.current.focus()}>Maybe contact a few customers?</span></div>}
               {chats?.sort((a,b) => new Date(b?.latest_msg) - new Date(a?.latest_msg)).map(chat => {
                 // const {users} = chat;
                 // const {username, id} = users[0];
