@@ -37,7 +37,6 @@ export const CartView = () => {
   }, [])
 
   useEffect(() => {
-    console.log(placeId)
     checkAddress(placeId)
   }, [placeId, latitude, longitude])
 

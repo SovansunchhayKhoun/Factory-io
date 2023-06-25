@@ -22,9 +22,10 @@ export const LandingHero = () => {
                 Shop your component with us
               </p>
               <p className="mb-3 leading-7 text-base">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum
-                tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae
-                erat.
+                Maker.io is an online marketplace that specializes in IoT gadgets. Our business is based on
+                inventing, manufacturing, and selling our own Internet of Things devices, such as device controllers
+                and sensors. We cater to a wide spectrum of clientele, from individual customers to small enterprises
+                and industrial clients.
               </p>
             </div>
             <div>
@@ -53,7 +54,8 @@ export const LandingHero = () => {
           <div className="md:flex md:flex-row md:justify-between flex flex-col items-center justify-center gap-y-12">
             <div className="flex justify-start items-center">
               <Link title="Factory.io" to={"/"}>
-                <img className="object-contain h-[20px] lg:h-[18px] md:h-[16px]" src="/assets/images/factory.png" alt=""/>
+                <img className="object-contain h-[20px] lg:h-[18px] md:h-[16px]" src="/assets/images/factory.png"
+                     alt=""/>
               </Link>
             </div>
             <div className="flex justify-start items-center">
@@ -63,7 +65,8 @@ export const LandingHero = () => {
             </div>
             <div className="flex justify-start items-center">
               <a title="Reachsa.io" href={"https://reachsaio.netlify.app"} target={"_blank"}>
-                <img className="object-contain h-[55px] lg:h-[50px] md:h-[46px]" src="/assets/images/reachsa.png" alt=""/>
+                <img className="object-contain h-[55px] lg:h-[50px] md:h-[46px]" src="/assets/images/reachsa.png"
+                     alt=""/>
               </a>
             </div>
           </div>
@@ -219,8 +222,10 @@ export const LandingHero = () => {
           </div>
 
           <div className="flex justify-center">
-            <Link to="shop"
-              className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-700 duration-300 bg-[#B21317] rounded-[50px] px-3 py-1">
+            <Link to="shop" onClick={() => {
+              setSearchInput('')
+            }}
+                  className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-700 duration-300 bg-[#B21317] rounded-[50px] px-3 py-1">
               SEE MORE
             </Link>
           </div>
@@ -241,14 +246,15 @@ export const LandingHero = () => {
               <div className="font-semibold text-lg">
                 Our Mojo
               </div>
-              <div className="font-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                exercitation ullamco
+              <div className="font-normal">
+                To provide Cambodians with the newest technology through readily available and inexpensive electrical
+                components.
               </div>
             </div>
 
             <div className="flex-1 flex justify-end">
-              <img className="w-[250px] h-[150px] object-contain" src="/assets/images/Sound-Detection-Sensor-Module.jpg" alt=""/>
+              <img className="w-[250px] h-[150px] object-contain" src="/assets/images/Sound-Detection-Sensor-Module.jpg"
+                   alt=""/>
             </div>
 
           </div>

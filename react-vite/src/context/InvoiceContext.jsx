@@ -92,7 +92,6 @@ export const InvoiceProvider = ({children}) => {
   const storeInvoice = async (total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess) => {
     if(address) {
       if (addressExist) {
-        console.log(placeId)
         await Axios.get(`getAddress/${placeId}`).then(async ({data}) => {
           // in case user change address name
           await Axios.put(`addresses/${data.id}`, {
