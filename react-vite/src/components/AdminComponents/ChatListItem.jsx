@@ -13,7 +13,7 @@ export const ChatListItem = ({chat, GetLatestMsg, setActiveUser, setMessageInput
         <>
           <li
             onClick={() => {
-              setActiveUser(users[0]);
+              setActiveUser(users[0])
               initChat('admin', username);
               setSeen(unreadMessages, 'admin');
               setMessageInput('');

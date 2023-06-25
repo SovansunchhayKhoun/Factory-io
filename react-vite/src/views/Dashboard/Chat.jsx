@@ -204,17 +204,6 @@ export const Chat = () => {
                         );
                       }
                     })}
-                    {/*{message?.filter(msg => msg.chat_id === findChat('admin', activeUser?.username)?.id).map((msg) => {*/}
-                    {/*  if (msg.receiver_id === activeUser?.username) {*/}
-                    {/*    return (*/}
-                    {/*      <AdminSend key={msg.id} msg={msg}/>*/}
-                    {/*    );*/}
-                    {/*  } else {*/}
-                    {/*    return (*/}
-                    {/*      <AdminReply key={msg.id} msg={msg}/>*/}
-                    {/*    );*/}
-                    {/*  }*/}
-                    {/*})}*/}
                   </ul>
                 </div>
               </div>
