@@ -1,5 +1,5 @@
-import {Navigate, useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {Link, Navigate, useNavigate, useParams} from "react-router-dom";
+import React, {useEffect, useState} from "react";
 import axiosClient from "../axios-client.js";
 import {useAuthContext} from "../context/AuthContext.jsx";
 
@@ -34,7 +34,13 @@ export const ResetPassword = () => {
   if(!token){
     return (
       <div className="flex justify-center items-center h-screen">
-        <div className="rounded-lg px-8 py-8 max-w-[500px] min-w-[300px] flex flex-col gap-6 shadow-2xl">
+        <div className="rounded-lg px-8 py-8 flex flex-col gap-6 shadow-2xl min-w-[500px]">
+          <Link to="/" className="absolute">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                 stroke="currentColor" className="w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </Link>
           <div className="flex justify-center">
             <img className="max-w-[250px] " src="/assets/images/makerio.png"/>
           </div>

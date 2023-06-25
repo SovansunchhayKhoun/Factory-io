@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignupRequest;
+use App\Http\Resources\V1\UserResource;
 use App\Models\Admin;
 use App\Models\User;
 use Carbon\Carbon;
@@ -120,17 +121,19 @@ class AuthController extends Controller
         DB::table('password_reset_tokens')->where('email','=', $request['email'])->delete();
       }
 
-      if(User::where('email','=',$request['email'])->first()){
+      if($user = User::where('email','=',$request['email'])->first()){
 //        dd(Str::random(64));
+
         $token = Str::random(64);
         DB::table('password_reset_tokens')->insert([
           'email' => $request['email'],
           'token' => $token,
           'created_at' => Carbon::now()
         ]);
-        Mail::send('forgotPassword',['token' => $token, 'email' => $request['email']],function($message) use ($request){
+
+        Mail::send('forgotPassword',['token' => $token, 'email' => $request['email'], 'name' => $user['firstName'] . ' ' . $user['lastName']],function($message) use ($request){
           $message->to($request['email']);
-          $message->subject('Reset Password');
+          $message->subject('Password Reset Request');
         });
         return response([
           'message' => 'We have e-mailed your password reset link!',
