@@ -107,54 +107,54 @@ export const Chat = () => {
                        placeholder="Search..."
                        onChange={(e) => handleSearchUser(e)}
                        required/>
-                {/*<div*/}
-                {/*  className={`flex flex-col gap-4 z-10 border border-gray-200 rounded-md absolute bg-white top-[75px] w-full cursor-pointer ${searchInput === "" && 'hidden'}`}>*/}
-                {/*  {filteredUser?.length === 0 && <div className="mx-auto mt-2"> No user found</div>}*/}
-                {/*  {filteredUser?.slice(0, 5).map((usr, key) => {*/}
-                {/*    const unreadMessages = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr?.username);*/}
-                {/*    const userNotification = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr.username);*/}
-                {/*    // const timePrefix = new Date(message.filter(msg => msg.sender_id === usr?.username)[0]?.time_sent)?.getHours();*/}
-                {/*    const timePrefix = new Date(getLatestMessage(usr?.username, 'admin')?.time_sent)?.getHours();*/}
-                {/*    return (*/}
-                {/*      <li*/}
-                {/*        onClick={() => {*/}
-                {/*          setActiveUser(usr);*/}
-                {/*          initChat('admin', usr?.username);*/}
-                {/*          setSeen(unreadMessages, 'admin');*/}
-                {/*          setMessageInput('');*/}
-                {/*          setSearchInput('')*/}
-                {/*          messageReFetch();*/}
-                {/*        }}*/}
-                {/*        key={usr.id}*/}
-                {/*        className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">*/}
-                {/*        <img className="object-cover w-10 h-10 rounded-full"*/}
-                {/*             src={`https://robohash.org/${usr.username}`} alt="username"/>*/}
-                {/*        <div className="w-full pb-2">*/}
-                {/*          <div className="flex justify-between">*/}
-                {/*            <span className="block ml-2 font-semibold text-gray-600">*/}
-                {/*              {usr.username}*/}
-                {/*            </span>*/}
-                {/*            <span className="block ml-2 text-sm text-gray-600">*/}
-                {/*            /!*time stamp*!/*/}
-                {/*              /!*{message.filter(msg => msg.sender_id === usr?.username).length > 0 && message.filter(msg => msg.sender_id === usr?.username)[0]?.time_sent.slice(10).slice(0, 6) +`${timePrefix >= 12 ? ' PM' : ' AM'}`}*!/*/}
-                {/*              {getLatestMessage('admin', usr?.username) && getLatestMessage('admin', usr?.username)?.time_sent.slice(10).slice(0, 6) + `${timePrefix >= 12 ? ' PM' : ' AM'}`}*/}
-                {/*          </span>*/}
-                {/*          </div>*/}
-                {/*          <div className="flex justify-between pr-12">*/}
-                {/*            /!*latest msg*!/*/}
-                {/*            <GetLatestMsg usr={usr} userNotification={userNotification}/>*/}
-                {/*            <span className={`${userNotification?.length === 0 && 'hidden'}` +*/}
-                {/*              " w-[20px] h-[20px] bg-blueBase text-whiteFactory flex justify-center items-center rounded-[50%] text-xs"}>*/}
-                {/*              /!*{getLatestMessage('admin', usr.username)?.length}*!/*/}
-                {/*              {userNotification?.length}*/}
-                {/*          </span>*/}
-                {/*          </div>*/}
-                {/*        </div>*/}
-                {/*      </li>*/}
-                {/*    )*/}
-                {/*  })*/}
-                {/*  }*/}
-                {/*</div>*/}
+                <div
+                  className={`flex flex-col z-10 border-b border-gray-200 rounded-md absolute top-12 bg-white w-full cursor-pointer ${searchInput === "" && 'hidden'}`}>
+                  {filteredUser?.length === 0 && <div className="mx-auto mt-2"> No user found</div>}
+                  {filteredUser?.slice(0, 5).map((usr, key) => {
+                    const unreadMessages = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr?.username);
+                    const userNotification = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr.username);
+                    // const timePrefix = new Date(message.filter(msg => msg.sender_id === usr?.username)[0]?.time_sent)?.getHours();
+                    const timePrefix = new Date(getLatestMessage(usr?.username, 'admin')?.time_sent)?.getHours();
+                    return (
+                      <li
+                        onClick={() => {
+                          setActiveUser(usr);
+                          initChat('admin', usr?.username);
+                          setSeen(unreadMessages, 'admin');
+                          setMessageInput('');
+                          setSearchInput('')
+                          messageReFetch();
+                        }}
+                        key={usr.id}
+                        className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">
+                        <img className="object-cover w-10 h-10 rounded-full"
+                             src={`https://robohash.org/${usr.username}`} alt="username"/>
+                        <div className="w-full pb-2">
+                          <div className="flex justify-between">
+                            <span className="block ml-2 font-semibold text-gray-600">
+                              {usr.username}
+                            </span>
+                            <span className="block ml-2 text-sm text-gray-600">
+                            {/*time stamp*/}
+                              {/*{message.filter(msg => msg.sender_id === usr?.username).length > 0 && message.filter(msg => msg.sender_id === usr?.username)[0]?.time_sent.slice(10).slice(0, 6) +`${timePrefix >= 12 ? ' PM' : ' AM'}`}*/}
+                              {getLatestMessage('admin', usr?.username) && getLatestMessage('admin', usr?.username)?.time_sent.slice(10).slice(0, 6) + `${timePrefix >= 12 ? ' PM' : ' AM'}`}
+                          </span>
+                          </div>
+                          <div className="flex justify-between pr-12">
+                            {/*latest msg*/}
+                            <GetLatestMsg usr={usr} userNotification={userNotification}/>
+                            <span className={`${userNotification?.length === 0 && 'hidden'}` +
+                              " w-[20px] h-[20px] bg-blueBase text-whiteFactory flex justify-center items-center rounded-[50%] text-xs"}>
+                              {/*{getLatestMessage('admin', usr.username)?.length}*/}
+                              {userNotification?.length}
+                          </span>
+                          </div>
+                        </div>
+                      </li>
+                    )
+                  })
+                  }
+                </div>
               </div>
             </div>
             {/*Search Bar*/}
@@ -164,99 +164,10 @@ export const Chat = () => {
               <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
               {chats?.length === 0 && <div>Empty chat box, <span className="font-semibold" onClick={() => ref.current.focus()}>Maybe contact a few customers?</span></div>}
               {chats?.sort((a,b) => new Date(b?.latest_msg) - new Date(a?.latest_msg)).map(chat => {
-                // const {users} = chat;
-                // const {username, id} = users[0];
-                // const unreadMessages = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === username);
-                // const userNotification = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === username);
-                // // const timePrefix = new Date(message.filter(msg => msg.sender_id === username)[0]?.time_sent)?.getHours();
-                // const timePrefix = new Date(getLatestMessage(username, 'admin')?.time_sent)?.getHours();
-                // const timePrefix = new Date(getLatestMessage(username, 'admin')?.time_sent)?.getHours();
                 return (
                   <ChatListItem key={chat.id} chat={chat} GetLatestMsg={GetLatestMsg} setActiveUser={setActiveUser} setMessageInput={setMessageInput}/>
-                // <li
-                //   onClick={() => {
-                //     setActiveUser(users[0]);
-                //     initChat('admin', username);
-                //     setSeen(unreadMessages, 'admin');
-                //     setMessageInput('');
-                //     messageReFetch();
-                //   }}
-                //   key={id}
-                //   className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">
-                //   <img className="object-cover w-10 h-10 rounded-full"
-                //        src={`https://robohash.org/${username}`} alt="username"/>
-                //   <div className="w-full pb-2">
-                //     <div className="flex justify-between">
-                //             <span className="block ml-2 font-semibold text-gray-600">
-                //               {username}
-                //             </span>
-                //       <span className="block ml-2 text-sm text-gray-600">
-                //             {/*time stamp*/}
-                //         {/*{message.filter(msg => msg.sender_id === username).length > 0 && message.filter(msg => msg.sender_id === username)[0]?.time_sent.slice(10).slice(0, 6) +`${timePrefix >= 12 ? ' PM' : ' AM'}`}*/}
-                //         {getLatestMessage('admin', username) && getLatestMessage('admin', username)?.time_sent.slice(10).slice(0, 6) + `${timePrefix >= 12 ? ' PM' : ' AM'}`}
-                //           </span>
-                //     </div>
-                //     <div className="flex justify-between pr-12">
-                //       {/*latest msg*/}
-                //       <GetLatestMsg usr={users[0]} userNotification={userNotification}/>
-                //       <span className={`${userNotification?.length === 0 && 'hidden'}` +
-                //         " w-[20px] h-[20px] bg-blueBase text-whiteFactory flex justify-center items-center rounded-[50%] text-xs"}>
-                //               {/*{getLatestMessage('admin', usr.username)?.length}*/}
-                //         {userNotification?.length}
-                //           </span>
-                //     </div>
-                //   </div>
-                // </li>
                 )
               })}
-              {/*{users.filter((user) => {*/}
-              {/*  if (user.username.toLowerCase().includes(searchInput.toLowerCase())) {*/}
-              {/*    return user*/}
-              {/*  } else if (searchInput === '') {*/}
-              {/*    return user*/}
-              {/*  }*/}
-              {/*  }).map((usr) => {*/}
-              {/*    const unreadMessages = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr?.username);*/}
-              {/*    const userNotification = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === usr.username);*/}
-              {/*    // const timePrefix = new Date(message.filter(msg => msg.sender_id === usr?.username)[0]?.time_sent)?.getHours();*/}
-              {/*    const timePrefix = new Date(getLatestMessage(usr?.username, 'admin')?.time_sent)?.getHours();*/}
-              {/*    return (*/}
-              {/*      <li*/}
-              {/*        onClick={() => {*/}
-              {/*          setActiveUser(usr);*/}
-              {/*          initChat('admin', usr?.username);*/}
-              {/*          setSeen(unreadMessages, 'admin');*/}
-              {/*          setMessageInput('');*/}
-              {/*          messageReFetch();*/}
-              {/*        }}*/}
-              {/*        key={usr.id}*/}
-              {/*        className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">*/}
-              {/*        <img className="object-cover w-10 h-10 rounded-full"*/}
-              {/*             src={`https://robohash.org/${usr.username}`} alt="username"/>*/}
-              {/*        <div className="w-full pb-2">*/}
-              {/*          <div className="flex justify-between">*/}
-              {/*              <span className="block ml-2 font-semibold text-gray-600">*/}
-              {/*                {usr.username}*/}
-              {/*              </span>*/}
-              {/*            <span className="block ml-2 text-sm text-gray-600">*/}
-              {/*              /!*time stamp*!/*/}
-              {/*              /!*{message.filter(msg => msg.sender_id === usr?.username).length > 0 && message.filter(msg => msg.sender_id === usr?.username)[0]?.time_sent.slice(10).slice(0, 6) +`${timePrefix >= 12 ? ' PM' : ' AM'}`}*!/*/}
-              {/*              {getLatestMessage('admin', usr?.username) && getLatestMessage('admin', usr?.username)?.time_sent.slice(10).slice(0, 6) + `${timePrefix >= 12 ? ' PM' : ' AM'}`}*/}
-              {/*            </span>*/}
-              {/*          </div>*/}
-              {/*          <div className="flex justify-between pr-12">*/}
-              {/*            /!*latest msg*!/*/}
-              {/*            <GetLatestMsg usr={usr} userNotification={userNotification}/>*/}
-              {/*            <span className={`${userNotification?.length === 0 && 'hidden'}` +*/}
-              {/*              " w-[20px] h-[20px] bg-blueBase text-whiteFactory flex justify-center items-center rounded-[50%] text-xs"}>*/}
-              {/*                /!*{getLatestMessage('admin', usr.username)?.length}*!/*/}
-              {/*              {userNotification?.length}*/}
-              {/*            </span>*/}
-              {/*          </div>*/}
-              {/*        </div>*/}
-              {/*      </li>*/}
-              {/*    )*/}
-              {/*  })}*/}
             </ul>
             {/*User List*/}
           </div>
