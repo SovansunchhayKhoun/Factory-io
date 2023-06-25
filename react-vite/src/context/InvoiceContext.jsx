@@ -4,6 +4,7 @@ import {useQuery} from "@tanstack/react-query";
 import {useAuthContext} from "./AuthContext.jsx";
 import {GoogleMap, MarkerF, useJsApiLoader} from "@react-google-maps/api";
 import {GoogleMapsContext} from "./GoogleMapsContext.jsx";
+import InvoiceProductContext from "./InvoiceProductContext.jsx";
 
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
@@ -78,6 +79,7 @@ export const InvoiceProvider = ({children}) => {
       clearCart();
       setCartItem([]);
       setModalOpen(false);
+      setInvoiceError([{...invoiceError, paymentPic:''}])
     }).catch((e) => {
       setInvoiceError(e.response.data.errors);
       scrollTop(0);
@@ -87,31 +89,39 @@ export const InvoiceProvider = ({children}) => {
   }
 
   const storeInvoice = async (total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess) => {
-    if (addressExist) {
-      await Axios.get(`getAddress/${placeId}`).then(async ({data}) => {
-        // in case user change address name
-        await Axios.put(`addresses/${data.id}`, {
-          ...data, address: address
+    if(address) {
+      if (addressExist) {
+        console.log(placeId)
+        await Axios.get(`getAddress/${placeId}`).then(async ({data}) => {
+          // in case user change address name
+          await Axios.put(`addresses/${data.id}`, {
+            ...data, address: address
+          }).then(async () => {
+            await postInvoice(total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess, data)
+          })
+        })
+      } else {
+        await storeAddress({
+          address: address,
+          placeId: placeId,
+          user_id: user?.id
         }).then(async () => {
-          await postInvoice(total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess, data)
-        })
-      })
+          await Axios.get(`getLastAddress/${user?.id}`).then(async ({data}) => {
+            await postInvoice(total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess, data)
+          })
+        }).catch(e => setInvoiceError(e.response.data.errors))
+      }
     } else {
-      await storeAddress({
-        address: address,
-        placeId: placeId,
-        user_id: user?.id
-      }).then(async () => {
-        await Axios.get('getLastAddress').then(async ({data}) => {
-          await postInvoice(total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess, data)
-        })
-      }).catch(e => setInvoiceError(e.response.data.errors))
+      setInvoiceError([{...invoiceError, addressError: 'You need to have an address'}])
+      // to stop loading
+      setModalOpen(false)
+      scrollTop(0)
     }
     // to stop loading
     setSuccess(true)
   }
 
-  const handleQty = (invProd, setInvProd, item) => event => {
+  const handleQty = (invProd, item) => event => {
     if (event.target.value === '') {
       invProd.find((inv) => inv.id === item.id).qty = item.qty;
     } else if (Number(event.target.value)) {
@@ -121,10 +131,13 @@ export const InvoiceProvider = ({children}) => {
     }
   }
 
+  const {invoiceProductReFetch} = useContext(InvoiceProductContext)
   const updateInvProd = (invoice_product) => {
     invoice_product.forEach(async (inv) => {
       try {
-        await Axios.put(`invoice_products/${inv.id}`, inv);
+        await Axios.put(`invoice_products/${inv.id}`, inv).then(() => {
+          invoiceProductReFetch()
+        });
       } catch (e) {
         setInvoiceError(e.response.data.errors)
         // console.log(e.response.data.errors);

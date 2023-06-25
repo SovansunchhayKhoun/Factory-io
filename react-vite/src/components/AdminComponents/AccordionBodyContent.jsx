@@ -17,8 +17,13 @@ export const AccordionBodyContent = (props) => {
   const [map, setMap] = useState(/** @type google.maps.Map*/ (null))
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
-  const {invProd, setInvProd} = props;
+  // const {invProd, setInvProd} = props;
   const {totalPrice, status, invoice_product, user, address, placeId} = props.invoice;
+
+  // useEffect(() => {
+  //   console.log(invoice_product)
+  // }, [])
+
   const {items, getType} = useContext(ProductContext);
   const {handleQty} = useContext(InvoiceContext);
   const [open, setOpen] = useState(false);
@@ -55,15 +60,13 @@ export const AccordionBodyContent = (props) => {
                   setOpen(!open);
                   await handleOpen()
                 }}>
-                  <div className="flex items-center justify-between bg-[#D9D9D9] px-2 py-1 rounded-lg w-full">
-                    <div className='text-sm'>
+                  <div className="flex items-center justify-between bg-tealActive px-2 py-1 rounded-lg w-full">
+                    <div className='text-sm text-whiteFactory'>
                       {address}
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                         stroke="currentColor" className={`md:w-6 md:h-6
-                           w-4 h-4`}>
-                      <path className="text-tealHover" strokeLinecap="round" strokeLinejoin="round"
-                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                      <path className="text-blueActive" strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path className="text-blueActive" strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                     </svg>
                   </div>
                 </AccordionHeader>
@@ -135,7 +138,7 @@ export const AccordionBodyContent = (props) => {
                 {/*--for user view*/}
                 {/*for admin to update qty if no stock*/}
                 <div className="flex flex-col items-center gap-2">
-                  <input onChange={handleQty(invProd, setInvProd, item)}
+                  <input onChange={handleQty(invoice_product, item)}
                          min="1"
                          className={`${props.invoice.status >= 2 && inputStyle} max-w-[64px] p-0 border text-center`}
                          disabled={props.invoice.status >= 2}

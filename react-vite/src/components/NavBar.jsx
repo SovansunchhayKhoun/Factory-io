@@ -60,7 +60,7 @@ export const NavBar = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
-    <nav className=" z-50 fixed top-0 flex flex-col w-full bg-whiteFactory
+    <nav className="shadow-md z-50 fixed top-0 flex flex-col w-full bg-whiteFactory
     min-[1920px]:px-36 min-[1920px]:py-4
     lg:px-16 lg:py-3
     md:px-6 md:py-2

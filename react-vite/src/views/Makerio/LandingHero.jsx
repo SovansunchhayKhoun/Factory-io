@@ -219,9 +219,9 @@ export const LandingHero = () => {
           </div>
 
           <div className="flex justify-center">
-            <Link to="/maker-io"
+            <Link to="shop"
               className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-700 duration-300 bg-[#B21317] rounded-[50px] px-3 py-1">
-              See more
+              SEE MORE
             </Link>
           </div>
 

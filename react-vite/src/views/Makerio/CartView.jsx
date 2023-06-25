@@ -10,6 +10,7 @@ import {GoogleMapsContext} from "../../context/GoogleMapsContext.jsx";
 import {Dropdown} from "flowbite-react";
 import UserContext from "../../context/UserContext.jsx";
 import Axios from "axios";
+
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 
 export const CartView = () => {
@@ -28,6 +29,7 @@ export const CartView = () => {
     placeId,
     setPlaceId
   } = useContext(GoogleMapsContext);
+  const {invoiceError} = useContext(InvoiceContext);
 
   useEffect(() => {
     getUserAddress(user?.id)
@@ -35,8 +37,9 @@ export const CartView = () => {
   }, [])
 
   useEffect(() => {
+    console.log(placeId)
     checkAddress(placeId)
-  }, [address, latitude, longitude])
+  }, [placeId, latitude, longitude])
 
   const ref = useRef();
 
@@ -49,13 +52,21 @@ export const CartView = () => {
     setAddress('');
   }
 
-  useEffect( () => {
-    const defaultAddress = async () => {
-      await Axios.get('getLastAddress').then(({data}) => {
-        setAddress(data?.address);
+  useEffect(() => {
+    const defaultAddress = async (user) => {
+      await Axios.get(`getLastAddress/${user?.id}`).then(({data}) => {
+        if (data) {
+          setAddress(data?.address);
+          setPlaceId(data?.placeId)
+        } else {
+          navigator.geolocation.getCurrentPosition((position) => {
+            const {latitude, longitude} = position.coords;
+            getAddress(latitude, longitude)
+          })
+        }
       })
     }
-    defaultAddress();
+    defaultAddress(user);
   }, [])
 
   return (
@@ -93,6 +104,7 @@ export const CartView = () => {
                         onChange={event => handleAddressChange(event)}
                         placeholder="#, Street No., ..." required>
               </textarea>
+              <span className="text-redHover text-sm">{invoiceError && invoiceError[0]?.addressError}</span>
             </div>
           </div>
         </div>

@@ -67,8 +67,8 @@ export default function Login() {
   }
   if (!token) {
     return (
-      <>
-        <div className="flex absolute top-[20px] left-[30px]">
+      <main className={"h-screen border flex flex-col md:justify-center items-center"}>
+        <div className="flex self-start p-6">
           <div>
             <Link to="/">
               <ArrowLeftIcon className="h-6 mr-5"/>
@@ -79,48 +79,48 @@ export default function Login() {
           </div>
         </div>
 
-        <form onSubmit={onSubmit}>
-          <div className="flex items-center justify-center h-screen flex-col">
-            <h1 className="mb-[50px] text-tealHover font-bold text-5xl">Sign In</h1>
-            {
-              errors && <div className="text-white text-semibold mb-5 p-5 bg-red-500 rounded-[4px]">
-                {Object.keys(errors).map(key => (
-                  <p key={key}>{errors[key][0]}</p>
-                ))}
+        <form className="m-auto flex flex-col items-center w-full" onSubmit={onSubmit}>
+          <div className="flex flex-col items-center gap-12 w-full">
+            <h1 className="text-center text-tealHover font-bold text-5xl">Sign In</h1>
+            {/*{*/}
+            {/*  errors && <div className="text-white text-semibold mb-3 p-5 bg-red-500 rounded-[4px]">*/}
+            {/*    {Object.keys(errors).map(key => (*/}
+            {/*      <p key={key}>{errors[key][0]}</p>*/}
+            {/*    ))}*/}
+            {/*  </div>*/}
+            {/*}*/}
+            <div className="flex flex-col gap-4 md:w-[600px] md:p-0 w-full px-6">
+              <div className="flex flex-col items-center gap-4">
+                <input type="email" id="email"
+                       name="email"
+                       ref={emailRef}
+                       className="bg-tealActive border-none text-BlackNuetral text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
+                       placeholder="Email"
+                />
+                <input type="password" id="password"
+                       name="password"
+                       ref={passwordRef}
+                       className="bg-tealActive border-none text-BlackNuetral text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
+                       placeholder="Password"
+                />
               </div>
-            }
-            <div className="flex flex-col w-[450px] gap-6 justify-center">
-              <input type="email" id="email"
-                     name="email"
-                     ref={emailRef}
-                     className="bg-tealActive border-none text-BlackNuetral text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
-                     placeholder="Email"
-              />
-              <input type="password" id="password"
-                     name="password"
-                     ref={passwordRef}
-                     className="bg-tealActive border-none text-BlackNuetral text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
-                     placeholder="Password"
-              />
-              <div className="flex justify-between items-center">
+              <div className="flex md:justify-between md:items-center md:flex-row md:gap-0 flex-col gap-3">
                 <button
-                  className="font-bold text-center text-blackFactory border border-redBase px-[35px] py-[7px] rounded-[4px] shadow-2xl">
+                  className="font-bold text-center text-blackFactory border border-redBase rounded-[4px] shadow-2xl md:px-[35px] md:py-[7px] md:w-fit w-full py-2">
                   Sign In
                 </button>
-                <div>
-                  <div className="flex gap-x-1">
+                <div className="">
+                  <div className="justify-center flex gap-x-1">
                     <p>Don't have an account?</p>
                     <Link to="/signup"
                           className="text-tealHover font-bold"
                     >Sign up
                     </Link>
                   </div>
-                  <div className="flex justify-end">
-                    <Link to="/forgot-password"
-                          className="text-tealHover font-bold hover:underline"
-                    >Forgot Password
-                    </Link>
-                  </div>
+                  <Link to="/forgot-password"
+                        className="flex md:justify-end justify-center text-tealHover font-bold hover:underline"
+                  >Forgot Password
+                  </Link>
                 </div>
 
               </div>
@@ -128,7 +128,7 @@ export default function Login() {
           </div>
         </form>
 
-      </>
+      </main>
     )
   } else {
     return <Navigate to="/user"/>

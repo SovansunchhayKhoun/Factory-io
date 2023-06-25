@@ -85,7 +85,7 @@ export const OrderView = () => {
       return (
         <main>
           <div className="mb-3">
-            {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status !== 3).map((invoice) => {
+            {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status !== 3)?.sort((a,b) => b.status - a.status).map((invoice) => {
               return (
                 <Invoice key={invoice?.id} invoice={invoice}/>
               );

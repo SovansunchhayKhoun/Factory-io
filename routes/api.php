@@ -36,7 +36,7 @@ use App\Http\Controllers\Api\V1\InvoiceController;
     Route ::get ( 'checkAddress/{address}' , [ DeliveryAddressController::class , 'checkAddress' ] );
     Route ::get ( 'getLastInvoice' , [ DeliveryAddressController::class , 'getLastInvoice' ] );
     Route ::get ( 'getAddress/{address}' , [ DeliveryAddressController::class , 'getAddress' ] );
-    Route ::get ( 'getLastAddress' , [ DeliveryAddressController::class , 'getLastAddress' ] );
+    Route ::get ( 'getLastAddress/{user_id}' , [ DeliveryAddressController::class , 'getLastAddress' ] );
     Route ::get ( 'prototypes/{id}' , [ ProjectPrototypeController::class , 'prototypes' ] );
     Route ::get ( 'last_project' , [ ProjectController::class , 'fetchLastProject' ] );
     Route ::get ( 'userAddress/{id}' , [ DeliveryAddressController::class , 'getAddressByUserID' ] );
