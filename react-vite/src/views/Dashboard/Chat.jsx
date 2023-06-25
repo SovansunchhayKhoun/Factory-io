@@ -29,7 +29,6 @@ export const Chat = () => {
         }
       })
     )
-
   }
 
   const {
@@ -167,7 +166,8 @@ export const Chat = () => {
                 </div>}
               {chats?.sort((a, b) => new Date(b?.latest_msg) - new Date(a?.latest_msg)).map(chat => {
                 return (
-                  <ChatListItem key={chat.id} chat={chat} GetLatestMsg={GetLatestMsg} setActiveUser={setActiveUser}
+                  <ChatListItem key={chat?.id} chat={chat} GetLatestMsg={GetLatestMsg}
+                                setActiveUser={setActiveUser}
                                 setMessageInput={setMessageInput}/>
                 )
               })}
