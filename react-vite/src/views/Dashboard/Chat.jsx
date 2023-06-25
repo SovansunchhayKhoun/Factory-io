@@ -95,7 +95,7 @@ export const Chat = () => {
             {/*User List*/}
             <ul className="overflow-auto">
               <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
-              {chats?.sort((a,b) => new Date(b?.latest_msg - a?.latest_msg)).map(chat => {
+              {chats?.sort((a,b) => new Date(b?.latest_msg) - new Date(a?.latest_msg)).map(chat => {
                 const {users} = chat;
                 const {username, id} = users[0];
                 const unreadMessages = message?.filter((msg) => msg.is_read === 0 && msg.sender_id === username);
