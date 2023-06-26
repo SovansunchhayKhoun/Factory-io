@@ -2,12 +2,15 @@ import {Link} from "react-router-dom";
 import Axios from "axios";
 import {useContext} from "react";
 import UserContext from "../context/UserContext.jsx";
+import InvoiceContext from "../context/InvoiceContext.jsx";
 
 export const UserRow = (props) => {
   const {getUsers} = useContext(UserContext)
+  const {invoicesReFetch} = useContext(InvoiceContext);
   const deleteUser = async (id) => {
     await Axios.delete("http://127.0.0.1:8000/api/v1/users/" + id)
     getUsers()
+    invoicesReFetch()
   }
   const {id,firstName,lastName,gender,phoneNumber,email,username,bio} = props.user
   return (

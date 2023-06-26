@@ -68,7 +68,7 @@ export const ProjectTab = () => {
                            alt=""/>
                     </div>
                   )}
-                  <input onChange={(e) => handlePicture(e)} className="hidden" type="file" id='image'/>
+                  <input onChange={(e) => handlePicture(e)} className="hidden" type="file" accept={"ïmage/*"} id='image'/>
                 </div>
                 <div className="flex-1 flex flex-col gap-3">
                   <div className="flex flex-col gap-1">
