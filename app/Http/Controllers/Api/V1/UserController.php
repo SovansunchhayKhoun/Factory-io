@@ -111,6 +111,7 @@ class UserController extends Controller
         $user->delete();
         $user->reviews()->delete();
         $user->deliveryAddresses()->delete();
+        $user->invoices()->delete ();
         return response()->json('user deleted');
     }
 
