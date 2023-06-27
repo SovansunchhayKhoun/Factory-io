@@ -10,6 +10,7 @@ import {GoogleMapsContext} from "../../context/GoogleMapsContext.jsx";
 import {Dropdown} from "flowbite-react";
 import UserContext from "../../context/UserContext.jsx";
 import Axios from "axios";
+import {getLatLng} from "use-places-autocomplete";
 
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 

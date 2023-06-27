@@ -47,9 +47,9 @@
       return response () -> json ( 'address deleted' );
     }
 
-    public function checkAddress ( $placeId )
+    public function checkAddress ( $userId, $placeId )
     {
-      $data = DeliveryAddresses ::where ( 'placeId' , $placeId ) -> first ();
+      $data = DeliveryAddresses ::where ( 'placeId' , $placeId )->where('user_id', $userId) -> first ();
       if ( $data ) {
         return response () -> json ( true );
       }

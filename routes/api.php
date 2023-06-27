@@ -33,7 +33,7 @@ use App\Http\Controllers\Api\V1\InvoiceController;
     Route ::apiResource ( 'addresses' , DeliveryAddressController::class );
     Route ::apiResource ( 'donations' , DonationController::class );
     Route ::get('getChat/{sender}/{receiver}', [ChatController::class, 'getChat']);
-    Route ::get ( 'checkAddress/{address}' , [ DeliveryAddressController::class , 'checkAddress' ] );
+    Route ::get ( 'checkAddress/{userId}/{placeId}' , [ DeliveryAddressController::class , 'checkAddress' ] );
     Route ::get ( 'getLastInvoice' , [ DeliveryAddressController::class , 'getLastInvoice' ] );
     Route ::get ( 'getAddress/{address}' , [ DeliveryAddressController::class , 'getAddress' ] );
     Route ::get ( 'getLastAddress/{user_id}' , [ DeliveryAddressController::class , 'getLastAddress' ] );
