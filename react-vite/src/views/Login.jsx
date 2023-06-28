@@ -63,8 +63,8 @@ export default function Login() {
           }
         })
     }
-
   }
+
   if (!token) {
     return (
       <main className={"h-screen border flex flex-col md:justify-center items-center"}>
@@ -97,12 +97,18 @@ export default function Login() {
                        className="bg-tealActive border-none text-BlackNuetral text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
                        placeholder="Email"
                 />
+                <span className='text-redHover self-start text-xs'>
+                  {errors && errors?.email?.map(error => error)}
+                </span>
                 <input type="password" id="password"
                        name="password"
                        ref={passwordRef}
                        className="bg-tealActive border-none text-BlackNuetral text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
                        placeholder="Password"
                 />
+                <span className='text-redHover self-start text-xs'>
+                  {errors && errors?.password?.map(error => error)}
+                </span>
               </div>
               <div className="flex md:justify-between md:items-center md:flex-row md:gap-0 flex-col gap-3">
                 <button

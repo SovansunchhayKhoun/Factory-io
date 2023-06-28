@@ -96,7 +96,7 @@ export const OrderView = () => {
             {invoices?.filter((invoice) => {
               return (invoice.user_id === user?.id && invoice.status === 3)
             }).length === 0 && (
-              <div>No orders have arrived yet... <Link className="text-tealHover font-semibold" to="shop"><br/>Maybe
+              <div>No orders have arrived yet... <Link className="text-tealHover font-semibold" to="/makerio/shop"><br/>Maybe
                 be browse some more products?</Link></div>
             )}
 

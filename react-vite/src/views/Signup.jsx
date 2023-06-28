@@ -72,6 +72,9 @@ export default function Signup() {
                        className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
                        placeholder="First name"
                 />
+                <span className='text-redHover self-start text-xs'>
+                  {errors && errors?.firstName?.map(error => error)}
+                </span>
               </div>
               <div className="w-1/2">
                 <input type="name" id="lastName"
@@ -79,6 +82,9 @@ export default function Signup() {
                        className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
                        placeholder="Last name"
                 />
+                <span className='text-redHover self-start text-xs'>
+                  {errors && errors?.lastName?.map(error => error)}
+                </span>
               </div>
             </div>
             <div className="mb-6 w-full">
@@ -87,6 +93,9 @@ export default function Signup() {
                      className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
                      placeholder="Phone Number"
               />
+              <span className='text-redHover self-start text-xs'>
+                  {errors && errors?.phoneNumber?.map(error => error)}
+                </span>
             </div>
             <div className="mb-6 w-full">
               <input type="name" id="username"
@@ -94,6 +103,9 @@ export default function Signup() {
                      className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
                      placeholder="Username"
               />
+              <span className='text-redHover self-start text-xs'>
+                  {errors && errors?.username?.map(error => error)}
+                </span>
             </div>
             <div className="mb-6 w-full">
               <input type="email" id="email"
@@ -101,6 +113,9 @@ export default function Signup() {
                      className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
                      placeholder="Email"
               />
+              <span className='text-redHover self-start text-xs'>
+                  {errors && errors?.email?.map(error => error)}
+                </span>
             </div>
             <div className="mb-6 w-full">
               <input type="password" id="password"
@@ -108,6 +123,9 @@ export default function Signup() {
                      className="bg-tealActive border-none text-blackFactory text-lg rounded-[4px] focus:ring-tealHover focus:border-tealHover block w-full p-2.5 placeholder:text-blackFactory"
                      placeholder="Password"
               />
+              <span className='text-redHover self-start text-xs'>
+                  {errors && errors?.password?.map(error => error)}
+                </span>
             </div>
             <div className="mb-6 w-full">
               <input type="password" id="confpassword"

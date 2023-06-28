@@ -95,7 +95,7 @@ export const GoogleMapsProvider = ({children}) => {
 
   const checkAddress = async (placeId) => {
     if (placeId) {
-      await Axios.get(`/checkAddress/${placeId}`).then((res) => setAddressExist(res.data))
+      await Axios.get(`/checkAddress/${user?.id}/${placeId}`).then((res) => setAddressExist(res.data))
     }
   }
 
