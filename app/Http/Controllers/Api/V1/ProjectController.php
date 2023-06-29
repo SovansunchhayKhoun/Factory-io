@@ -35,8 +35,8 @@
         $request -> file ( 'file' ) -> getClientOriginalExtension () == 'pdf' ||
         $request -> file ( 'file' ) -> getClientOriginalExtension () == '7z'
          ) ) {
-        Project ::create ( $data );
-        return response () -> json ( 'Project Created' );
+//        Project ::create ( $data );
+        return Project ::create ( $data );
       }
       return response () -> json ('...');
 //      abort ('422', 'Cannot process request');
