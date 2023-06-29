@@ -8,6 +8,7 @@ import {FilePond, registerPlugin} from 'react-filepond'
 import 'filepond/dist/filepond.min.css'
 // import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
+import AdminPopUp from "../Modals/AdminPopUp.jsx";
 
 registerPlugin(FilePondPluginFileValidateType)
 
@@ -22,6 +23,9 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
     handleFile,
     setProjectValues,
     projectValues,
+    projectsIsLoading,
+    setIsPosting,
+    isPosting
   } = useProjectContext();
 
   const {user} = useAuthContext();
@@ -32,6 +36,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
     setErrors({});
     setFile(null)
   }, [modalOpen]);
+  const [popupOpen, setPopupOpen] = useState(false);
 
   return (
     <>
@@ -168,6 +173,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
               <FilePond
                 styleButtonRemoveItemAlign={false}
                 files={file}
+
                 acceptedFileTypes={['application/x-zip-compressed' /*validate zip*/,
                   'application/pdf' /* validate pdf*/
                   , 'application/x-7z-compressed' /*validate 7zip files*/,
@@ -203,10 +209,18 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
             </div>
 
             <button
-              onClick={() => postProject(setModalOpen, user)}
+              disabled={isPosting}
+              onClick={() => {
+                setIsPosting(true);
+                postProject(setModalOpen, user)
+              }}
               className="self-end transition duration-150 bg-blueBase text-whiteFactory px-6 py-2 rounded-[20px] font-semibold hover:bg-blueHover">
               Post
+              {isPosting && <span>...</span>}
             </button>
+            {/*<AdminPopUp setModalOpen={setPopupOpen} modalOpen={popupOpen} id={"success-post"} content={*/}
+            {/*  <PostModal setModalOpen={setModalOpen} setPopupOpen={setPopupOpen}/>*/}
+            {/*}/>*/}
           </div>
         </section>
         {/*<input type="file" onChange={e => handleFile(e)}/>*/}

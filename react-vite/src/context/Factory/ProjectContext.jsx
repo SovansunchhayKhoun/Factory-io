@@ -64,8 +64,9 @@ export const ProjectContext = ({children}) => {
     setFile(null);
   }
   const [tempPro, setTempPro] = useState({});
-
-  const postProject = async (setModalOpen, user) => {
+  const [isPosting, setIsPosting] = useState(false);
+  const postProject = async (setToastOpen, setModalOpen, user) => {
+    console.log(isPosting)
     setErrors(null);
     projectValues.user_id = user.id;
     const projectAssets = {
@@ -78,25 +79,48 @@ export const ProjectContext = ({children}) => {
     try {
       await Axios.post('projects', projectValues, {
         headers: {"Content-type": "multipart/form-data"}
-      }).then(async () => {
-        await Axios.get('last_project').then(({data}) => {
-          console.log(data);
-          projectAssets.project_id = data?.id;
+      }).then(async ({data}) => {
+        projectAssets.project_id = data?.id;
+        await Axios.post('project_assets', projectAssets, {
+          headers: {"Content-type": "multipart/form-data"}
         }).then(async () => {
-          await Axios.post('project_assets', projectAssets, {
-            headers: {"Content-type": "multipart/form-data"}
-          }).then(async () => {
-            await postPrototype(projectAssets.project_id);
-          }).then(() => {
-            projectsReFetch();
-            clearProjectValues();
-            setModalOpen(false);
-          })
+          await postPrototype(projectAssets.project_id);
+        }).then(() => {
+          setIsPosting(false)
+          projectsReFetch();
+          clearProjectValues();
+          setModalOpen(false);
         })
       })
     } catch (e) {
       setErrors(e.response.data.errors)
     }
+
+    // stop loading if posting
+    setIsPosting(false);
+    // try {
+    //   await Axios.post('projects', projectValues, {
+    //     headers: {"Content-type": "multipart/form-data"}
+    //   }).then(async () => {
+    //     await Axios.get('last_project').then(({data}) => {
+    //       console.log(data);
+    //       projectAssets.project_id = data?.id;
+    //     }).then(async () => {
+    //       await Axios.post('project_assets', projectAssets, {
+    //         headers: {"Content-type": "multipart/form-data"}
+    //       }).then(async () => {
+    //         await postPrototype(projectAssets.project_id);
+    //       }).then(() => {
+    //         setIsPosting(false)
+    //         projectsReFetch();
+    //         clearProjectValues();
+    //         setModalOpen(false);
+    //       })
+    //     })
+    //   })
+    // } catch (e) {
+    //   setErrors(e.response.data.errors)
+    // }
 
   }
   return (
@@ -115,7 +139,9 @@ export const ProjectContext = ({children}) => {
         handlePicture,
         projects,
         projectsReFetch,
-        projectsIsLoading
+        projectsIsLoading,
+        setIsPosting,
+        isPosting
       }}>
         {children}
       </StateContext.Provider>
