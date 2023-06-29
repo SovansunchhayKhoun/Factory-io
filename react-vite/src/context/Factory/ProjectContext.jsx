@@ -15,7 +15,7 @@ export const ProjectContext = ({children}) => {
   const {postPrototype} = useProjectProtoContext();
 
   const [errors, setErrors] = useState({});
-  const [picture, setPicture] = useState('');
+  const [picture, setPicture] = useState([]);
   const [file, setFile] = useState({});
   const [projectValues, setProjectValues] = useState({
     name: "",
@@ -33,13 +33,16 @@ export const ProjectContext = ({children}) => {
   })
 
   const handlePicture = (event) => {
-    // check if input is image
-    if (event.target.attributes.accept.value.slice(0, 5) === event.target.files[0]?.type.slice(0, 5)) {
-      setPicture(event.target.files[0]);
-      setProjectValues({...projectValues, image: event.target.files[0]})
-    } else {
-      setPicture('');
-    }
+    console.log(event.target.files)
+    setPicture(event.target.files)
+
+    // // check if input is image
+    // if (event.target.attributes.accept.value.slice(0, 5) === event.target.files[0]?.type.slice(0, 5)) {
+    //   setPicture(event.target.files[0]);
+    //   setProjectValues({...projectValues, image: event.target.files[0]})
+    // } else {
+    //   setPicture('');
+    // }
   }
   const handleFile = (event) => {
     if(event.length > 0) {
@@ -71,7 +74,7 @@ export const ProjectContext = ({children}) => {
     setIsPosting(true);
     setErrors(null);
     projectValues.user_id = user.id;
-    console.log(file)
+    console.log(picture)
     const projectAssets = {
       image: picture,
       file: file,

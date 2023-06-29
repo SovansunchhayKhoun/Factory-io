@@ -19,7 +19,6 @@
 
     public function store ( ProjectAssetRequest $request )
     {
-      dd('hello');
       $data = $request -> validated ();
       $project = Project ::latest () -> first ();
       $myTime = Carbon ::now ();
