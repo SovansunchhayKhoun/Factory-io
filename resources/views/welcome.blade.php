@@ -54,6 +54,13 @@
 
 {{--  </div>--}}
 {{--</div>--}}
-
+<form method="post" action="{{ url ('post') }}">
+  @csrf
+  @method('POST')
+  <input type="file" multiple>
+  <button type="submit">
+   submit
+  </button>
+</form>
 </body>
 </html>

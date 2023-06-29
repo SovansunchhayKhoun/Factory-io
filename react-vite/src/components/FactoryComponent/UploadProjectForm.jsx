@@ -36,7 +36,6 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
     setErrors({});
     setFile(null)
   }, [modalOpen]);
-  const [popupOpen, setPopupOpen] = useState(false);
 
   return (
     <>
@@ -70,7 +69,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                 </svg>
                 Add Photos
               </div>
-              <input type="file" id="projectImage" className="hidden" accept="image/*" onChange={(event) => {
+              <input multiple type="file" id="projectImage" className="hidden" accept="image/*" onChange={(event) => {
                 handlePicture(event)
               }}/>
             </label>
@@ -173,10 +172,9 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
               <FilePond
                 styleButtonRemoveItemAlign={false}
                 files={file}
-
                 acceptedFileTypes={['application/x-zip-compressed' /*validate zip*/,
-                  'application/pdf' /* validate pdf*/
-                  , 'application/x-7z-compressed' /*validate 7zip files*/,
+                  'application/pdf' /* validate pdf*/,
+                  'application/x-7z-compressed' /*validate 7zip files*/,
                   'application/x-gzip' /*validate gzip files*/,
                   'application/x-tar' /*validate tar files*/,
                 ]}
@@ -186,11 +184,10 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                 }}
                 onupdatefiles={(e) => {
                   setFile(e)
-                  console.log(e)
-                  handleFile(e[0].file)
+                  handleFile(e)
                 }}
                 allowDrop={true}
-                allowMultiple={true} maxFiles={3}/>
+                allowMultiple={true} maxFiles={1}/>
 
               {/*<label*/}
               {/*  className="px-4 transition duration-200 text-whiteFactory bg-redHover rounded-[20px] text-center py-2 hover:bg-redBase cursor-pointer"*/}
@@ -210,16 +207,12 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
             <button
               disabled={isPosting}
               onClick={() => {
-                setIsPosting(true);
                 postProject(setModalOpen, user)
               }}
               className="self-end transition duration-150 bg-blueBase text-whiteFactory px-6 py-2 rounded-[20px] font-semibold hover:bg-blueHover">
               Post
               {isPosting && <span>...</span>}
             </button>
-            {/*<AdminPopUp setModalOpen={setPopupOpen} modalOpen={popupOpen} id={"success-post"} content={*/}
-            {/*  <PostModal setModalOpen={setModalOpen} setPopupOpen={setPopupOpen}/>*/}
-            {/*}/>*/}
           </div>
         </section>
         {/*<input type="file" onChange={e => handleFile(e)}/>*/}
