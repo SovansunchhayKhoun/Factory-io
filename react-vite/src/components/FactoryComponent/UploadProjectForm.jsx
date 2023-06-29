@@ -183,6 +183,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                   console.log(e)
                   handleFile(e[0].file)
                 }}
+
                 allowDrop={true}
                 allowMultiple={true} maxFiles={3}/>
 
