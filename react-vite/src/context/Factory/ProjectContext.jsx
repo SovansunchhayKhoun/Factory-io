@@ -16,7 +16,7 @@ export const ProjectContext = ({children}) => {
 
   const [errors, setErrors] = useState({});
   const [picture, setPicture] = useState('');
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState({});
   const [projectValues, setProjectValues] = useState({
     name: "",
     proposal: "",
@@ -42,9 +42,11 @@ export const ProjectContext = ({children}) => {
     }
   }
   const handleFile = (event) => {
-    setFile(event);
-    // console.log(event.target.files[0])
-    // setProjectValues({...projectValues, file: event.target.files[0]})
+    if(event.length > 0) {
+      setFile(event[0].file);
+    } else {
+      setFile(null)
+    }
   }
   const clearProjectValues = () => {
     setErrors(null);
@@ -63,11 +65,13 @@ export const ProjectContext = ({children}) => {
     setPicture('');
     setFile(null);
   }
-  const [tempPro, setTempPro] = useState({});
-
+  const [isPosting, setIsPosting] = useState(false);
+  const [toastOpen, setToastOpen] = useState(false);
   const postProject = async (setModalOpen, user) => {
+    setIsPosting(true);
     setErrors(null);
     projectValues.user_id = user.id;
+    console.log(file)
     const projectAssets = {
       image: picture,
       file: file,
@@ -78,26 +82,27 @@ export const ProjectContext = ({children}) => {
     try {
       await Axios.post('projects', projectValues, {
         headers: {"Content-type": "multipart/form-data"}
-      }).then(async () => {
-        await Axios.get('last_project').then(({data}) => {
-          console.log(data);
-          projectAssets.project_id = data?.id;
+      }).then(async ({data}) => {
+        projectAssets.project_id = data?.id;
+        await Axios.post('project_assets', projectAssets, {
+          headers: {"Content-type": "multipart/form-data"}
         }).then(async () => {
-          await Axios.post('project_assets', projectAssets, {
-            headers: {"Content-type": "multipart/form-data"}
-          }).then(async () => {
-            await postPrototype(projectAssets.project_id);
-          }).then(() => {
-            projectsReFetch();
-            clearProjectValues();
-            setModalOpen(false);
-          })
+          await postPrototype(projectAssets.project_id);
+        }).then(() => {
+          setIsPosting(false)
+          projectsReFetch();
+          clearProjectValues();
+          setModalOpen(false);
+          setToastOpen(true);
         })
       })
     } catch (e) {
       setErrors(e.response.data.errors)
+      setIsPosting(false)
     }
 
+    // stop loading if posting
+    setIsPosting(false);
   }
   return (
     <>
@@ -115,7 +120,11 @@ export const ProjectContext = ({children}) => {
         handlePicture,
         projects,
         projectsReFetch,
-        projectsIsLoading
+        projectsIsLoading,
+        setIsPosting,
+        isPosting,
+        setToastOpen,
+        toastOpen,
       }}>
         {children}
       </StateContext.Provider>
