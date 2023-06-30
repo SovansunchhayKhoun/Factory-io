@@ -3,6 +3,7 @@
   namespace App\Http\Resources\V1;
 
   use App\Models\ProjectAsset;
+  use App\Models\ProjectImage;
   use App\Models\ProjectPrototype;
   use App\Models\User;
   use Illuminate\Http\Request;
@@ -33,6 +34,7 @@
         'created_at' => $this -> created_at ,
         'user' => User ::where ( 'id' , $this -> user_id ) -> first () ,
         'projectAssets' => ProjectAsset ::where ( 'project_id' , $this -> id ) -> get (),
+        'projectImages' => ProjectImage ::where ( 'project_id' , $this -> id ) -> get (),
         'projectPrototypes' => ProjectPrototype::where('project_id', $this->id) -> get(),
       ];
     }

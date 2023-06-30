@@ -11,7 +11,7 @@
 
     protected $fillable = [
       'project_id' ,
-      'image' ,
+//      'image' ,
       'file' ,
     ];
 

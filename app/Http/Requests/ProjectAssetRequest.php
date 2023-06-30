@@ -23,7 +23,7 @@
     {
       return [
         'project_id' => [ 'required' ] ,
-        'image' => [ 'required', 'image' ] ,
+//        'image' => [ 'required', 'image' ] ,
         'file' => [ 'required' , 'mimes:zip,rar,7z,gz,pdf,tar' ] ,
       ];
     }

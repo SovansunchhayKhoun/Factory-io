@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer ('project_id');
             $table->foreign ('project_id')->references ('id')->on('projects')->onDelete ('cascade');
 
-            $table->string ('image');
+//            $table->string ('image');
             $table->string ('file');
             $table->timestamps();
         });

@@ -17,7 +17,7 @@
       return [
         'id' => $this -> id ,
         'project_id' => $this -> project_id ,
-        'image' => $this -> image ,
+//        'image' => $this -> image ,
         'file' => $this -> file ,
       ];
     }

@@ -1,30 +1,38 @@
 import {useProjectContext} from "../../context/Factory/ProjectContext.jsx";
-import {Spinner} from "flowbite-react";
-import {useState} from "react";
+import {Carousel, Spinner} from "flowbite-react";
+import React, {useState} from "react";
 import {Link} from "react-router-dom";
 
-const imgUrl = `http://127.0.0.1:8000/projects/`
+const imgUrl = `http://127.0.0.1:8000/projects`
 export const ProjectCard = ({project}) => {
-  const {id, name, user, projectAssets} = project;
+  const {id, name, user, projectImages} = project;
   const [like, setLike] = useState(false);
   const {username} = user;
 
   return (
     <>
-      <div className="max-w-[400px] flex flex-col bg-whiteFactory shadow-blueHover shadow-md">
-        <Link to={`/project/${id}`} className="justify-center flex-1 text-sm px-4 py-3
-            flex flex-col gap-2">
-          <div className="bg-[#D9D9D9] flex justify-center shadow-blueActive shadow-sm">
-            {projectAssets?.map(projectAsset => <img key={projectAsset.id} loading="lazy" className="w-fit object-fill max-h-[270px]"
-                                                     src={`${imgUrl}/${projectAsset.image}`} alt=""/>)}
+      <div className="max-w-[400px] flex flex-col bg-whiteFactory shadow-blueHover shadow-md rounded-md">
+        <div className="justify-center flex-1 text-sm px-4 py-3 flex flex-col gap-2">
+          <div className="bg-[#D9D9D9] flex justify-center shadow-blueActive shadow-sm rounded-md">
+            <Carousel>
+              {projectImages?.map((projectImage) => {
+                return (
+                  <img key={projectImage?.id} loading="lazy" className="relative w-fit object-contain max-h-[270px]"
+                       src={`${imgUrl}/${projectImage?.image}`} alt=""/>
+                )
+              })}
+            </Carousel>
+
           </div>
-          <span className="font-semibold overflow-hidden text-ellipsis">
-            {name}
-          </span>
-          <div className="text-grayFactory">
-            {username}
-          </div>
-        </Link>
+          <Link to={`/project/${id}`}>
+            <span className="font-semibold overflow-hidden text-ellipsis">
+              {name}
+            </span>
+            <div className="text-grayFactory">
+              {username}
+            </div>
+          </Link>
+        </div>
 
         {/*comment part*/}
         <div
@@ -49,7 +57,7 @@ export const ProjectCard = ({project}) => {
           </button>
           {/*save post icon*/}
           <button>
-            <svg  xmlns="http://www.w3.org/2000/svg" width="15" height="19" viewBox="0 0 15 19" fill="none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="19" viewBox="0 0 15 19" fill="none">
               <path
                 d="M0.208252 18.875V2.20833C0.208252 1.63542 0.412418 1.14479 0.820752 0.73646C1.22909 0.328127 1.71936 0.124307 2.29159 0.125002H12.7083C13.2812 0.125002 13.7718 0.329168 14.1801 0.737502C14.5885 1.14584 14.7923 1.63611 14.7916 2.20833V18.875L7.49992 15.75L0.208252 18.875ZM2.29159 15.6979L7.49992 13.4583L12.7083 15.6979V2.20833H2.29159V15.6979Z"
                 fill="#8A0000"/>

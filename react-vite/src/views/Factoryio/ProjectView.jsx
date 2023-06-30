@@ -9,8 +9,9 @@ import {FloatingUser} from "../../components/FactoryComponent/FloatingUser.jsx";
 import {DonateContent} from "../DonateContent.jsx";
 import AdminPopUp from "../../components/Modals/AdminPopUp.jsx";
 import {FundProjectContent} from "../FundProjectContent.jsx";
+import {Carousel} from "flowbite-react";
 
-const imgUrl = 'http://127.0.0.1:8000/projects/';
+const imgUrl = 'http://127.0.0.1:8000/projects';
 export const ProjectView = () => {
   const {id} = useParams();
   const navigate = useNavigate();
@@ -56,9 +57,16 @@ export const ProjectView = () => {
 
         <section className="flex flex-col">
           <section className="rounded-md flex gap-6 shadow-2xl px-6 py-4">
-            <section className="max-w-[640px] object-contain">
-              {project?.projectAssets?.map(projectAsset => <img key={projectAsset.id} loading={"lazy"}
-                                                                src={`${imgUrl}/${projectAsset?.image}`} alt=""/>)}
+            <section className="w-full">
+              <Carousel>
+                {project?.projectImages?.map(projectImage => {
+                  return (
+                    <img key={projectImage.id} className="relative max-h-[350px] object-contain bg-grayFactory"
+                         loading={"lazy"}
+                         src={`${imgUrl}/${projectImage?.image}`} alt=""/>
+                  )
+                })}
+              </Carousel>
             </section>
 
             <section className='justify-center flex flex-col w-full gap-y-3'>
@@ -90,7 +98,8 @@ export const ProjectView = () => {
                     className="rounded-[20px] px-4 py-2 text-whiteFactory bg-redHover">
                     Fund this project
                   </button>
-                  <AdminPopUp content={<FundProjectContent modalOpen={modalOpen} setModalOpen={setModalOpen} />} modalOpen={modalOpen} setModalOpen={setModalOpen}/>
+                  <AdminPopUp content={<FundProjectContent modalOpen={modalOpen} setModalOpen={setModalOpen}/>}
+                              modalOpen={modalOpen} setModalOpen={setModalOpen}/>
                 </div>
 
                 <p className="w-[80%]">{project?.description}</p>
@@ -98,7 +107,7 @@ export const ProjectView = () => {
                 <section className="flex py-4 justify-between border-y-2 border-[#D9D9D9]">
                   <div className='flex flex-col items-center'>
                     <div>500$</div>
-                    <div className=''>Target of <span className="text-redHover">1000$</span></div>
+                    <div className=''>Target of <span className="text-redHover">{project?.target_fund}</span></div>
                   </div>
 
                   <div className='flex flex-col items-center'>
@@ -159,7 +168,7 @@ export const ProjectView = () => {
               </button>
             </section>
 
-            <section className="pt-4">
+            <section className="pt-4 w-full">
               {tab === 'fh' && <PVFactoryHub project={project}/>}
               {tab === 'project' && <PVProjectTab projectPrototypes={project?.projectPrototypes}/>}
             </section>

@@ -45,7 +45,7 @@ export const ProjectContext = ({children}) => {
     // }
   }
   const handleFile = (event) => {
-    if(event.length > 0) {
+    if (event.length > 0) {
       setFile(event[0].file);
     } else {
       setFile(null)
@@ -65,7 +65,7 @@ export const ProjectContext = ({children}) => {
       comment_count: 0,
       saved_count: 0,
     });
-    setPicture('');
+    setPicture([]);
     setFile(null);
   }
   const [isPosting, setIsPosting] = useState(false);
@@ -74,23 +74,43 @@ export const ProjectContext = ({children}) => {
     setIsPosting(true);
     setErrors(null);
     projectValues.user_id = user.id;
-    console.log(picture)
-    const projectAssets = {
-      image: picture,
-      file: file,
-    }
     projectValues.image = picture;
     projectValues.file = file;
+
+    console.log(picture)
+
+    // await Array.from(picture).forEach((pic) => {
+    //   Axios.post('project_images', {
+    //     image: pic,
+    //     project_id: 1
+    //   }, {
+    //     headers: {"Content-Type" : "multipart/form-data"}
+    //   }).then(res => console.log(res)).catch((e) => console.log(e.response.data.errors))
+    // })
+
 
     try {
       await Axios.post('projects', projectValues, {
         headers: {"Content-type": "multipart/form-data"}
       }).then(async ({data}) => {
-        projectAssets.project_id = data?.id;
-        await Axios.post('project_assets', projectAssets, {
+        console.log(data)
+        const project_id = data?.id;
+        await Axios.post('project_assets', {
+          file: file,
+          project_id: project_id
+        }, {
           headers: {"Content-type": "multipart/form-data"}
         }).then(async () => {
-          await postPrototype(projectAssets.project_id);
+          await Array.from(picture).forEach((pic) => {
+            Axios.post('project_images', {
+              image: pic,
+              project_id: project_id
+            }, {
+              headers: {"Content-Type": "multipart/form-data"}
+            })
+          })
+        }).then(async () => {
+          await postPrototype(project_id);
         }).then(() => {
           setIsPosting(false)
           projectsReFetch();
