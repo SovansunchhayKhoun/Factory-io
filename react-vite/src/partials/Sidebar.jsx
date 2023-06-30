@@ -5,7 +5,7 @@ import React, {useState} from "react";
 import {HiMenuAlt3} from "react-icons/hi";
 import {MdOutlineDashboard, MdOutlinePending} from "react-icons/md";
 import {AiOutlineUser, AiOutlineCheckCircle} from "react-icons/ai";
-import {FiMessageSquare, FiFolder} from "react-icons/fi";
+import {FiMessageSquare, FiFolder, FiDollarSign} from "react-icons/fi";
 import {TbRoad, TbHomeCheck, TbPackageOff} from "react-icons/tb"
 import {Link, NavLink} from "react-router-dom";
 import ChatContext from "../context/ChatContext.jsx";
@@ -27,6 +27,7 @@ const Sidebar = () => {
     {name: "Dashboard", link: "/admin/dashboard", icon: MdOutlineDashboard},
     {name: "Users", link: "/admin/users", icon: AiOutlineUser},
     {name: "Inventory", link: "/admin/inventory", icon: FiFolder},
+    {name: "Manage Donations", link: "/admin/donation", icon: FiDollarSign},
     {name: "Customer Service", link: "/admin/customer-service", icon: FiMessageSquare, notification: message?.filter((msg) => msg.is_read === 0 && msg.sender_id !== 'admin').length},
     {name: "Pending", link: "/admin/orders", icon: MdOutlinePending, handleClick: -1, notification: notificationCounter(-1)},
     {name: "Accepted", link: "/admin/orders", icon: AiOutlineCheckCircle, handleClick: 1, notification: notificationCounter(1)},
