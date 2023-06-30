@@ -9,6 +9,7 @@ import 'filepond/dist/filepond.min.css'
 // import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 import AdminPopUp from "../Modals/AdminPopUp.jsx";
+import {Carousel} from "flowbite-react"
 
 registerPlugin(FilePondPluginFileValidateType)
 
@@ -75,43 +76,31 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
             </label>
             <span
               className={`${!errors?.image && 'hidden'} self-end text-redBase text-xs`}>{errors?.image?.map(error => error)}</span>
-            {picture && Array.from(picture)?.map((pic, key) => {
-              return (
-                <div key={key}
-                     className="relative flex justify-center max-h-[400px] bg-grayFactory shadow-blueActive shadow-sm">
-                  <button
-                    className={`bg-blackFactory text-whiteFactory absolute top-1 right-1 transition duration-200 rounded-[50%] hover:bg-blackFactory/50`}
-                    onClick={() => {
-                      const fileListArr = [...picture]; // convert filelist to arr
-                      fileListArr.splice(key, 1)
-                      setPicture(fileListArr)
-                    }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                         stroke="currentColor"
-                         className="transition duration-200 w-6 h-6 hover:text-whiteFactory hover:bg-none">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                  </button>
-                  <img loading="lazy" className="object-contain" src={URL.createObjectURL(pic)} alt=""/>
-                </div>
-              )
-            })}
-            {/*{picture && (*/}
-            {/*  <div className="relative flex justify-center max-h-[400px] bg-grayFactory shadow-blueActive shadow-sm">*/}
-            {/*    <button*/}
-            {/*      className={`bg-blackFactory text-whiteFactory absolute top-1 right-1 transition duration-200 rounded-[50%] hover:bg-blackFactory/50`}*/}
-            {/*      onClick={() => {*/}
-            {/*        setPicture('');*/}
-            {/*      }}>*/}
-            {/*      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}*/}
-            {/*           stroke="currentColor"*/}
-            {/*           className="transition duration-200 w-6 h-6 hover:text-whiteFactory hover:bg-none">*/}
-            {/*        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>*/}
-            {/*      </svg>*/}
-            {/*    </button>*/}
-            {/*    <img loading="lazy" className="object-contain" src={URL.createObjectURL(picture)} alt=""/>*/}
-            {/*  </div>*/}
-            {/*)}*/}
+            {picture.length > 0 && (
+              <Carousel>
+                {Array.from(picture)?.map((pic, key) => {
+                  return (
+                    <div key={key}
+                         className="relative flex justify-center h-full bg-grayFactory shadow-blueActive shadow-sm">
+                      <button
+                        className={`bg-blackFactory text-whiteFactory absolute transition duration-200 rounded-[50%] hover:bg-blackFactory/50`}
+                        onClick={() => {
+                          const fileListArr = [...picture]; // convert filelist to arr
+                          fileListArr.splice(key, 1)
+                          setPicture(fileListArr)
+                        }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                             stroke="currentColor"
+                             className="transition duration-200 w-6 h-6 hover:text-whiteFactory hover:bg-none">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                      </button>
+                      <img loading="lazy" className="object-contain" src={URL.createObjectURL(pic)} alt=""/>
+                    </div>
+                  )
+                })}
+              </Carousel>
+            )}
           </section>
 
           <section className="flex-1 flex flex-col gap-3 justify-start">
