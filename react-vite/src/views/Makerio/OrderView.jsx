@@ -85,7 +85,7 @@ export const OrderView = () => {
       return (
         <main>
           <div className="mb-3">
-            {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status !== 3).map((invoice) => {
+            {invoices?.filter((invoice) => invoice.user_id === user?.id && invoice.status !== 3)?.sort((a,b) => b.status - a.status).map((invoice) => {
               return (
                 <Invoice key={invoice?.id} invoice={invoice}/>
               );
@@ -96,7 +96,7 @@ export const OrderView = () => {
             {invoices?.filter((invoice) => {
               return (invoice.user_id === user?.id && invoice.status === 3)
             }).length === 0 && (
-              <div>No orders have arrived yet... <Link className="text-tealHover font-semibold" to="/makerio"><br/>Maybe
+              <div>No orders have arrived yet... <Link className="text-tealHover font-semibold" to="/makerio/shop"><br/>Maybe
                 be browse some more products?</Link></div>
             )}
 

@@ -3,15 +3,38 @@ import React, {useContext, useEffect, useState} from "react";
 import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 import {useAuthContext} from "../../context/AuthContext.jsx";
-import {Tooltip} from "flowbite-react";
+import Tooltip, {tooltipClasses} from '@mui/material/Tooltip';
+import {styled} from '@mui/material/styles'
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 import ProductContext from "../../context/ProductContext.jsx";
 
 export const ItemCard = (props) => {
   const navigate = useNavigate()
   const {name, price, id, image, status} = props.item;
   const {addToCart} = useContext(CartContext);
-  const {setItem} = useContext(ProductContext)
-  const {token} = useAuthContext()
+  const [open, setOpen] = React.useState(false);
+  const CustomTooltip = styled(({className, ...props}) => (
+    <Tooltip {...props} arrow classes={{popper: className}}/>
+  ))({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: "white",
+      border: "1px solid #048D95",
+      fontSize: "12px",
+      maxWidth: "120px"
+    },
+    [`& .${tooltipClasses.arrow}`]: {
+      color: "#048D95",
+    },
+  });
+  const handleTooltipClose = () => {
+    setOpen(false);
+  };
+
+  const handleTooltipOpen = () => {
+    setOpen(true);
+    addToCart(props.item);
+  };
+
   return (
     <>
       {/*cart-item */}
@@ -25,7 +48,8 @@ export const ItemCard = (props) => {
             {
               (image === null || image === undefined)
                 ?
-                <img loading={"lazy"} className="hover:scale-75 ease-in-out duration-300 object-contain" src="/assets/images/makerio.png"
+                <img loading={"lazy"} className="hover:scale-75 ease-in-out duration-300 object-contain"
+                     src="/assets/images/makerio.png"
                      alt={name}/>
                 : <img loading={"lazy"} className="hover:scale-75 ease-in-out duration-300 object-contain"
                        src={`http://127.0.0.1:8000/${image}`} alt={name}/>
@@ -41,22 +65,44 @@ export const ItemCard = (props) => {
                   {status === 1 ? 'In Stock' : 'Out of Stock'}
                 </span>
               </div>
-              <Tooltip
-                arrow={false}
-                className="text-tealBase border-2 border-tealBase"
-                content={props.item.tooltip && 'Item has been added to cart'}
-                trigger="click"
-                style="light"
-                animation="duration-500"
-              >
-                <button
-                  className={" rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300"}
-                  onClick={() => {
-                    addToCart(props.item);
-                  }}>
-                  <img loading={"lazy"} width="36" src="/assets/images/cart-icon.png" alt=""/>
-                </button>
-              </Tooltip>
+              <ClickAwayListener onClickAway={handleTooltipClose}>
+                <div>
+                  <CustomTooltip
+                    PopperProps={{
+                      disablePortal: true,
+                    }}
+                    onClose={handleTooltipClose}
+                    open={open}
+                    placement={"right"}
+                    disableFocusListener
+                    disableHoverListener
+                    title={<span className='text-tealBase'>Item has been added to cart</span>}
+                  >
+                    <button
+                      className={" rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300"}
+                      onClick={handleTooltipOpen}>
+                      <img loading={"lazy"} width="36" src="/assets/images/cart-icon.png" alt=""/>
+                    </button>
+                  </CustomTooltip>
+                </div>
+              </ClickAwayListener>
+              {/*<Tooltip*/}
+              {/*  */}
+              {/*  arrow={false}*/}
+              {/*  className="text-tealBase border-2 border-tealBase"*/}
+              {/*  content={props.item.tooltip && 'Item has been added to cart'}*/}
+              {/*  trigger="click"*/}
+              {/*  style="light"*/}
+              {/*  animation="duration-500"*/}
+              {/*>*/}
+              {/*  <button*/}
+              {/*    className={" rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300"}*/}
+              {/*    onClick={() => {*/}
+              {/*      addToCart(props.item);*/}
+              {/*    }}>*/}
+              {/*    <img loading={"lazy"} width="36" src="/assets/images/cart-icon.png" alt=""/>*/}
+              {/*  </button>*/}
+              {/*</Tooltip>*/}
 
             </div>
           </div>

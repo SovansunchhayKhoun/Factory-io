@@ -39,10 +39,11 @@ export const AcceptOrderButton = (props) => {
                         updateProduct(product);
                       });
                     }
+                    setAcceptOrderModalOpen(false)
                   }}
                   className={`${buttonStyle(invoice.status)}
                   w-full text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center`}>
-            {invoice.status === -2 && 'No Stock'}
+            {invoice.status === -2 && 'Confirm Edit'}
             {invoice.status === -1 && 'Accept Order'}
             {invoice.status === 1 && 'Deliver Order'}
             {invoice.status === 2 && 'Arrived'}
@@ -67,7 +68,7 @@ export const AcceptOrderButton = (props) => {
               aria-controls={invoice?.id}
               className={`${buttonStyle(invoice.status)} cursor-pointer px-2 py-1 rounded-md font-semibold`}>
         {invoice.status === -1 && 'Accept'}
-        {invoice.status === -2 && 'No Stock'}
+        {invoice.status === -2 && 'Edit Qty'}
         {invoice.status === 1 && 'Deliver'}
         {invoice.status === 2 && 'Delivering'}
         {invoice.status === 3 && 'Arrived'}

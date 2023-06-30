@@ -63,9 +63,10 @@ export const ChatProvider = ({children}) => {
       receiver_id: receiver,
     }
     if (!checkChatExist(newChat)) {
+      console.log('init');
       try {
         await Axios.post('chat', newChat).then(async ({data}) => {
-          // console.log(data)
+          chatReFetch()
         });
       } catch (msg) {
         setChatErrors(msg.response.data.errors)
@@ -100,7 +101,8 @@ export const ChatProvider = ({children}) => {
     if (messageImage !== '' || messagePost.msg_content) {
       messagePost.image = messageImage;
       messagePost.receiver_id = receiver;
-      messagePost.chat_id = findChat(user?.username, receiver)?.id ?? await findChat(user?.username, receiver)?.then(res => res.id);
+      // messagePost.chat_id = findChat(user?.username, receiver)?.id ?? await findChat(user?.username, receiver)?.then(res => res.id);
+      messagePost.chat_id = getChat(user?.username, receiver)[0]?.id || await findChat(user?.username, receiver)?.then(res => res.id);
       messagePost.sender_id = user?.username;
       messagePost.time_sent = currentDate;
       messagePost.is_read = 0;
@@ -110,6 +112,7 @@ export const ChatProvider = ({children}) => {
           headers: {'Content-Type': "multipart/form-data"}
         }).then(async () => {
           await messageReFetch();
+          await chatReFetch()
           clearMessage(setMessageInput);
         });
       } catch (msg) {

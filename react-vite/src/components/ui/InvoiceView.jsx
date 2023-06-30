@@ -17,7 +17,7 @@ export const InvoiceView = (props) => {
   const {invoice} = props;
   const {id, invoice_product} = invoice;
   // console.log(invoice_product)
-  const [invProd, setInvProd] = useState(invoice_product);
+  // const [invProd, setInvProd] = useState(invoice_product);
   const [open, setOpen] = useState(false);
 
   return (
@@ -28,7 +28,8 @@ export const InvoiceView = (props) => {
           <AccordionHeaderContent key={id} invoice={invoice}/>
         </AccordionSummary>
         <AccordionDetails>
-          <AccordionBodyContent key={id} invProd={invProd} setInvProd={setInvProd} invoice={invoice}/>
+          {/*<AccordionBodyContent key={id} invProd={invProd} setInvProd={setInvProd} invoice={invoice}/>*/}
+          <AccordionBodyContent key={id} invoice={invoice}/>
         </AccordionDetails>
       </Accordion>
     </Fragment>

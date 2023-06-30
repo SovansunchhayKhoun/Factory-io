@@ -13,7 +13,7 @@
   {
     public function index ()
     {
-      return DeliveryAddressResource ::collection ( DeliveryAddresses ::all () );
+      return DeliveryAddressResource ::collection ( DeliveryAddresses ::latest () -> orderby ( 'id' , 'desc' ) -> get () );
     }
 
     public function store ( DeliveryAddressRequest $request )
@@ -23,14 +23,14 @@
       return response () -> json ( 'Successfully created' );
     }
 
-    public function getLastAddress ()
+    public function getLastAddress ( $user_id )
     {
-      return DeliveryAddresses ::latest () -> first ();
+      return DeliveryAddresses ::where ( 'user_id' , $user_id ) -> orderBy ( 'id' , 'desc' ) -> first ();
     }
 
-    public function getAddress ($placeId)
+    public function getAddress ( $placeId )
     {
-      return DeliveryAddresses::where('placeId', $placeId)->first();
+      return DeliveryAddresses ::where ( 'placeId' , $placeId ) -> first ();
     }
 
     public function update ( DeliveryAddressRequest $request , DeliveryAddresses $address )
@@ -47,19 +47,19 @@
       return response () -> json ( 'address deleted' );
     }
 
-    public function checkAddress ( $placeId )
+    public function checkAddress ( $userId, $placeId )
     {
-      $data =  DeliveryAddresses ::where ( 'placeId' , $placeId ) -> first ();
-      if($data) {
-        return response()->json (true);
+      $data = DeliveryAddresses ::where ( 'placeId' , $placeId )->where('user_id', $userId) -> first ();
+      if ( $data ) {
+        return response () -> json ( true );
       }
-      return response()->json (false);
+      return response () -> json ( false );
     }
 
     public function getAddressByUserID ( $user_id )
     {
 //    return DeliveryAddressResource::collection(DB::table('delivery_addresses')->where('user_id', $request->route('id'))->get());
-      return DeliveryAddresses ::latest () -> where ( 'user_id' , $user_id ) -> get ();
+      return DeliveryAddresses ::latest () -> where ( 'user_id' , $user_id ) -> orderBy ( 'id' , 'desc' ) -> get ();
     }
 
   }

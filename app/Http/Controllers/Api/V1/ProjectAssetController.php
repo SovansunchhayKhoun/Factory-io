@@ -19,9 +19,9 @@
 
     public function store ( ProjectAssetRequest $request )
     {
+      dd('hello');
       $data = $request -> validated ();
       $project = Project ::latest () -> first ();
-
       $myTime = Carbon ::now ();
       if ( $request -> hasFile ( 'file' ) ) {
         $filename = $request -> file ( 'file' ) -> getClientOriginalName ();
@@ -37,7 +37,6 @@
         Storage ::disk ( 'projects' ) -> put ( $filepath , file_get_contents ( $data[ 'image' ] ) );
         $data[ 'image' ] = $filepath;
       }
-
       ProjectAsset ::create ( $data );
 
       return response () -> json ( 'Project Assets created' );
