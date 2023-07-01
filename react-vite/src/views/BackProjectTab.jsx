@@ -33,7 +33,7 @@ export const BackProjectTab = ({projectPrototypes,setIsHidden,setSection,project
     <section className="min-w-[1920px]:px-96 xl:px-56 md:px-12
         w-screen h-screen overflow-auto py-4 text-blackFactory rounded-md bg-whiteFactory">
       <div
-        className="flex flex-row gap-y-3 mx-auto items-center justify-center gap-x-12 max-w-[700px] min-w-[500px] border-slate-600">
+        className="flex flex-row gap-y-3 mx-auto items-start justify-center gap-x-12 max-w-[700px] min-w-[500px] border-slate-600">
         <button onClick={(e) => {
           e.stopPropagation();
           setIsHidden(false)
@@ -45,7 +45,7 @@ export const BackProjectTab = ({projectPrototypes,setIsHidden,setSection,project
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
-        <div>
+        <div className={`border border-blackFactory p-4`}>
           {projectPrototypes?.map(projectPrototype => {
             const {id, description, price, image} = projectPrototype;
             return (
@@ -66,7 +66,10 @@ export const BackProjectTab = ({projectPrototypes,setIsHidden,setSection,project
                         </p>
                       </p>
                     </div>
-                    <button className={"text-whiteFactory bg-[#1037A9] rounded-[20px] px-4 py-2"}>Back this project</button>
+                    <button
+                      className={" rounded-[50%] px-1 py-1 hover:bg-tealActive active:bg-tealBase transition duration-300"}>
+                      <img loading={"lazy"} width="36" src="/assets/images/cart-icon.png" alt=""/>
+                    </button>
                   </div>
                 </section>
               </Slide>

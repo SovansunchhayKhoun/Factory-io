@@ -18,27 +18,28 @@ export const FundProjectTab = ({project,setSection,setIsHidden}) => {
   const handleChange = event => {
     setSelected(Number(event.target.value));
   };
-
   return (
     <section className="min-w-[1920px]:px-96 xl:px-56 md:px-12
         w-screen h-screen overflow-auto py-4 text-blackFactory rounded-md bg-whiteFactory">
       <div
-        className="flex flex-col gap-y-3 mx-auto items-center justify-center max-w-[700px] min-w-[500px] border-slate-600">
+        className="flex flex-col pt-4 gap-y-4 mx-auto items-center justify-center max-w-[500px] min-w-[400px]">
         <div className="flex justify-center items-start flex-row gap-x-2">
-          <div className="items-center flex flex-col">
-            <h1 className="font-bold text-2xl">Fund Project</h1>
-          </div>
           <button onClick={(e) => {
             e.stopPropagation();
             setIsHidden(false)
             setSection('')
-          }} className="transition duration-200 rounded-[50%] hover:bg-blackFactory/50">
+          }} className="transition duration-200 rounded-[50%] hover:bg-blackFactory/50 pt-1">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                  stroke="currentColor"
                  className="transition duration-200 w-6 h-6 hover:text-whiteFactory hover:bg-none">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
             </svg>
           </button>
+          <div className="items-center flex flex-col gap-y-2">
+            <h1 className="font-bold text-2xl">Fund Project</h1>
+            <p>Project name: {project?.name}</p>
+            <p>Created by: {project?.user.firstName + ' ' + project?.user.lastName}</p>
+          </div>
         </div>
         <select
           value={selected}
@@ -134,23 +135,6 @@ export const FundProjectTab = ({project,setSection,setIsHidden}) => {
             </div>
           }
           {errors && <span className="text-red-600 text-sm mt-2">{errors.image}</span>}
-          {/*<FilePond*/}
-          {/*  styleButtonRemoveItemAlign={false}*/}
-          {/*  files={file}*/}
-          {/*  server={{*/}
-          {/*    process: "http://127.0.0.1:8000/api/v1/tmp-post",*/}
-          {/*    revert: "http://127.0.0.1:8000/api/v1/tmp-delete",*/}
-          {/*  }}*/}
-          {/*  onupdatefiles={(e) => {*/}
-          {/*    setFile(e)*/}
-          {/*    handleFile(e[0].file)*/}
-          {/*  }}*/}
-          {/*  allowDrop={true}*/}
-          {/*  allowMultiple={false}*/}
-          {/*  acceptedFileTypes={['image/*']}*/}
-          {/*/>*/}
-
-
         </div>
         <button
           onClick={(e) => {

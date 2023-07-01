@@ -21,9 +21,10 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
 
   return (
     <>
-      <section className="p-12 overflow-auto h-screen text-blackFactory flex flex-col justify-center rounded-md bg-whiteFactory shadow-2xl">
+      <section className="min-w-[1920px]:px-96 xl:px-56 md:px-12
+        w-screen h-screen overflow-auto text-blackFactory rounded-md bg-whiteFactory">
         <div
-          className="flex flex-col gap-y-3 mx-auto items-center justify-center max-w-[500px] min-w-[300px] border-slate-600">
+          className="flex flex-col gap-y-3 pt-24 mx-auto items-center justify-center max-w-[500px] min-w-[300px] border-slate-600">
           <div className="flex justify-center items-center flex-row gap-x-2">
             <h1 className="font-bold text-2xl">Donate for Community Platform</h1>
             <button onClick={(e) => {
@@ -94,11 +95,10 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
               id="amount" className="border border-slate-600 rounded-md px-2 py-1"/>
             {errors && <span className="text-red-600 text-sm mt-2">{errors.amount}</span>}
           </div>
-          <div className="flex flex-col justify-center items-center gap-2">
+          <div className="flex flex-col w-2/3 justify-center items-center gap-y-4">
             <label
-              className="cursor-pointer lg:inline-flex md:px-3 md:py-1 md:w-60
-                flex px-2 py-[0.1rem] border border-slate-600 rounded-lg text-blackFactory
-                md:text-base text-[12px]" htmlFor="file">
+              className="cursor-pointer w-full justify-center items-center
+                flex px-2 py-[0.1rem] border border-slate-600 rounded-lg text-blackFactory" htmlFor="file">
               Select Image
               <input className='hidden' type="file"
                      id="file" accept="image/*"
@@ -112,7 +112,7 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
                   <img className="md:w-[250px] object-contain"
                        src={URL.createObjectURL(image)} alt=""/>
                 </div>
-                <div className="flex gap-x-2">
+                <div className="flex gap-x-2 justify-between">
                   <button className="rounded-md md:text-base text-[14px] bg-redHover text-whiteFactory px-2 py-1"
                           onClick={(e) => setImage('')}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}

@@ -17,11 +17,15 @@ const imgUrl = 'http://127.0.0.1:8000/projects';
 export const ProjectView = () => {
   const {id} = useParams();
   const navigate = useNavigate();
+  const {user} = useAuthContext();
+  const {users} = useContext(UserContext);
   const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ];
   const [modalOpen, setModalOpen] = useState(false);
   const [like, setLike] = useState(false);
+  const {postLike, projectsReFetch} = useProjectContext();
+  const [isHidden,setIsHidden] = useState(false)
 
   const {data: project, refetch: projectReFetch, isLoading: projectIsLoading} = useQuery(['project', id], () => {
     return Axios.get(`projects/${id}`).then(res => {

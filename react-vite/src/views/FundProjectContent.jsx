@@ -1,15 +1,5 @@
-import React, {useContext, useEffect, useState} from "react";
-import { FilePond, registerPlugin } from 'react-filepond'
-import 'filepond/dist/filepond.min.css'
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
-import DonateContext from "../context/DonateContext.jsx";
-import {useAuthContext} from "../context/AuthContext.jsx";
-import {ImagePreview} from "../components/ImagePreview.jsx";
-import {ImageExpand} from "../components/ImageExpand.jsx";
-import AdminPopUp from "../components/Modals/AdminPopUp.jsx";
 import {FundProjectTab} from "./FundProjectTab.jsx";
 import {BackProjectTab} from "./BackProjectTab.jsx";
-registerPlugin(FilePondPluginFileValidateType)
 
 export const FundProjectContent = ({setModalOpen, modalOpen,isHidden,setIsHidden,section,setSection,project,projectPrototypes}) => {
   return (
