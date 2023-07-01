@@ -19,7 +19,6 @@
 
     public function store ( ProjectAssetRequest $request )
     {
-      dd('hello');
       $data = $request -> validated ();
       $project = Project ::latest () -> first ();
       $myTime = Carbon ::now ();
@@ -30,15 +29,31 @@
         Storage ::disk ( 'projects' ) -> put ( $filepath , file_get_contents ( $data[ 'file' ] ) );
         $data[ 'file' ] = $filepath;
       }
-      if ( $request -> hasFile ( 'image' ) ) {
-        $imageFile = $request -> file ( 'image' ) -> getClientOriginalName ();
-        $filepath = 'prj-' . $project[ 'id' ] . '-usr-' . $project[ 'user_id' ] . '-' . str_replace ( ' ' , '_' , str_replace ( ':' , '-' , str_split ( $myTime -> toString () , 24 )[ 0 ] ) ) . '/img/' . $imageFile;
-        Storage ::makeDirectory ( public_path ( $filepath ) );
-        Storage ::disk ( 'projects' ) -> put ( $filepath , file_get_contents ( $data[ 'image' ] ) );
-        $data[ 'image' ] = $filepath;
-      }
+//      if ( $request -> hasFile ( 'image' ) ) {
+//        $imageFile = $request -> file ( 'image' ) -> getClientOriginalName ();
+//        $filepath = 'prj-' . $project[ 'id' ] . '-usr-' . $project[ 'user_id' ] . '-' . str_replace ( ' ' , '_' , str_replace ( ':' , '-' , str_split ( $myTime -> toString () , 24 )[ 0 ] ) ) . '/img/' . $imageFile;
+//        Storage ::makeDirectory ( public_path ( $filepath ) );
+//        Storage ::disk ( 'projects' ) -> put ( $filepath , file_get_contents ( $data[ 'image' ] ) );
+//        $data[ 'image' ] = $filepath;
+//      }
       ProjectAsset ::create ( $data );
 
       return response () -> json ( 'Project Assets created' );
+    }
+
+    public function download ($id)
+    {
+//      return $name;
+      $projectAsset = ProjectAsset::where('project_id', $id)->first();
+//      dd($projectAsset->file);
+      $path = public_path ('All-Khmer-Fonts-9-26-15.zip');
+//      $path = public_path ('projects\\'.$projectAsset->file);
+//      dd($path);
+//      dd($path);
+//      $headers = array ('Accept' => 'application/octet-stream',
+//        'Content-Disposition' => 'attachment; filename="'.$projectAsset->file."\"",
+//        'Content-Type' => 'multipart/form-data');
+//      return Storage::download ($path, $projectAsset->file, $headers);
+      return response ()->download ($path);
     }
   }

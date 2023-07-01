@@ -4,7 +4,7 @@
 
   use Illuminate\Foundation\Http\FormRequest;
 
-  class ProjectAssetRequest extends FormRequest
+  class ProjectLikeRequest extends FormRequest
   {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,8 @@
     {
       return [
         'project_id' => [ 'required' ] ,
-//        'image' => [ 'required', 'image' ] ,
-        'file' => [ 'required' , 'mimes:zip,rar,7z,gz,pdf,tar' ] ,
+        'user_id' => [ 'required' ] ,
+        'like_state' => ['nullable']
       ];
     }
   }

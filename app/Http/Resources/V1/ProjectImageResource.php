@@ -5,7 +5,7 @@
   use Illuminate\Http\Request;
   use Illuminate\Http\Resources\Json\JsonResource;
 
-  class ProjectAssetResource extends JsonResource
+  class ProjectImageResource extends JsonResource
   {
     /**
      * Transform the resource into an array.
@@ -17,8 +17,7 @@
       return [
         'id' => $this -> id ,
         'project_id' => $this -> project_id ,
-//        'image' => $this -> image ,
-        'file' => $this -> file ,
+        'image' => $this -> image
       ];
     }
   }

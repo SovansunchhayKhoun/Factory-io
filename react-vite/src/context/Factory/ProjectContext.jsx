@@ -8,14 +8,21 @@ import {useProjectProtoContext} from "./ProjectProtoContext.jsx";
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const StateContext = createContext();
 export const ProjectContext = ({children}) => {
+  const {user} = useAuthContext();
   // fetch project
   const {data: projects, refetch: projectsReFetch, isLoading: projectsIsLoading} = useQuery(['projects'], () => {
     return Axios.get('projects').then(({data}) => data.data);
   })
+  const {
+    data: projectLikes,
+    refetch: projectLikesReFetch,
+    isLoading: projectLikesIsLoading
+  } = useQuery(['projectLikes'], () => {
+    return Axios.get('project_likes').then(({data}) => data.data);
+  })
   const {postPrototype} = useProjectProtoContext();
-
   const [errors, setErrors] = useState({});
-  const [picture, setPicture] = useState('');
+  const [picture, setPicture] = useState([]);
   const [file, setFile] = useState({});
   const [projectValues, setProjectValues] = useState({
     name: "",
@@ -33,16 +40,19 @@ export const ProjectContext = ({children}) => {
   })
 
   const handlePicture = (event) => {
-    // check if input is image
-    if (event.target.attributes.accept.value.slice(0, 5) === event.target.files[0]?.type.slice(0, 5)) {
-      setPicture(event.target.files[0]);
-      setProjectValues({...projectValues, image: event.target.files[0]})
-    } else {
-      setPicture('');
-    }
+    // console.log(event.target.files)
+    setPicture([...event.target.files])
+
+    // // check if input is image
+    // if (event.target.attributes.accept.value.slice(0, 5) === event.target.files[0]?.type.slice(0, 5)) {
+    //   setPicture(event.target.files[0]);
+    //   setProjectValues({...projectValues, image: event.target.files[0]})
+    // } else {
+    //   setPicture('');
+    // }
   }
   const handleFile = (event) => {
-    if(event.length > 0) {
+    if (event.length > 0) {
       setFile(event[0].file);
     } else {
       setFile(null)
@@ -62,7 +72,7 @@ export const ProjectContext = ({children}) => {
       comment_count: 0,
       saved_count: 0,
     });
-    setPicture('');
+    setPicture([]);
     setFile(null);
   }
   const [isPosting, setIsPosting] = useState(false);
@@ -71,23 +81,38 @@ export const ProjectContext = ({children}) => {
     setIsPosting(true);
     setErrors(null);
     projectValues.user_id = user.id;
-    console.log(file)
-    const projectAssets = {
-      image: picture,
-      file: file,
-    }
-    projectValues.image = picture;
+
+    // to make sure that we have at least 1 image when we upload
+    projectValues.image = picture[0];
     projectValues.file = file;
 
     try {
       await Axios.post('projects', projectValues, {
         headers: {"Content-type": "multipart/form-data"}
       }).then(async ({data}) => {
-        projectAssets.project_id = data?.id;
-        await Axios.post('project_assets', projectAssets, {
+        const project_id = data?.id;
+        await Axios.post('project_assets', {
+          file: file,
+          project_id: project_id
+        }, {
           headers: {"Content-type": "multipart/form-data"}
         }).then(async () => {
-          await postPrototype(projectAssets.project_id);
+          await Array.from(picture).forEach((pic) => {
+            Axios.post('project_images', {
+              image: pic,
+              project_id: project_id
+            }, {
+              headers: {"Content-Type": "multipart/form-data"}
+            })
+          })
+        }).then(async () => {
+          await Axios.post('project_likes', {
+            project_id: project_id,
+            user_id: user?.id,
+            like_state: 0
+          })
+        }).then(async () => {
+          await postPrototype(project_id);
         }).then(() => {
           setIsPosting(false)
           projectsReFetch();
@@ -104,9 +129,46 @@ export const ProjectContext = ({children}) => {
     // stop loading if posting
     setIsPosting(false);
   }
+  const postLike = async (project) => {
+    await Axios.post('checkLike', {
+      user_id: user?.id,
+      project_id: project.id
+    }).then(async ({data}) => {
+      if (data) {
+        await Axios.put(`project_likes/${data.id}`, {
+          like_state: !data.like_state,
+          user_id: user?.id,
+          project_id: project.id
+        })
+      } else {
+        await Axios.post('project_likes', {
+          project_id: project.id,
+          user_id: user?.id,
+          like_state: 1
+        })
+      }
+    }).then(() => {
+      projectsReFetch();
+    }).catch(e => console.log(e.response.data.errors))
+
+    // await Axios.put(`project_likes/${project.id}`, {
+    //   like_state: !likeState,
+    //   user_id: user?.id,
+    //   project_id: project.id
+    // }).then(async () => {
+    //   project.like_count = project.projectLikes.filter(p => p.like_state === 1)
+    //     .forEach(p => console.log(p))
+    //   console.log(project.like_count)
+    //   await Axios.put(`projects/${project.id}`, project)
+    // }).then(() => {
+    //   projectsReFetch();
+    // }).catch(e => console.log(e.response.data.errors))
+  }
   return (
     <>
       <StateContext.Provider value={{
+        projectLikes,
+        postLike,
         setErrors,
         errors,
         postProject,

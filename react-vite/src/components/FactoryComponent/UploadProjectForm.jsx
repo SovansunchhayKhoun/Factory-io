@@ -9,6 +9,7 @@ import 'filepond/dist/filepond.min.css'
 // import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 import AdminPopUp from "../Modals/AdminPopUp.jsx";
+import {Carousel} from "flowbite-react"
 
 registerPlugin(FilePondPluginFileValidateType)
 
@@ -25,7 +26,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
     projectValues,
     projectsIsLoading,
     setIsPosting,
-    isPosting
+    isPosting,
   } = useProjectContext();
 
   const {user} = useAuthContext();
@@ -58,9 +59,9 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
         <section className="px-4 pt-4 gap-12 flex items-center lg:flex-row flex-col">
           <section className="flex gap-2 flex-col justify-center lg:w-[440px] md:w-full md:min-h-[400px]">
             <label
-              className={`${picture && 'hidden'} flex-1 transition duration-200 flex items-center justify-center bg-gray-300 border rounded-md hover:bg-gray-500 cursor-pointer`}
+              className={`${picture.length > 0 && 'hidden'} flex-1 transition duration-200 flex items-center justify-center bg-gray-300 border rounded-md hover:bg-gray-500 cursor-pointer`}
               htmlFor="projectImage">
-              <div className={`${picture && 'hidden'} flex items-center gap-2`}>
+              <div className={`${picture.length > 0 && 'hidden'} flex items-center gap-2`}>
                 {/*image icon*/}
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                      stroke="currentColor" className="w-6 h-6">
@@ -75,21 +76,40 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
             </label>
             <span
               className={`${!errors?.image && 'hidden'} self-end text-redBase text-xs`}>{errors?.image?.map(error => error)}</span>
-            {picture && (
-              <div className="relative flex justify-center max-h-[400px] bg-grayFactory shadow-blueActive shadow-sm">
-                <button
-                  className={`bg-blackFactory text-whiteFactory absolute top-1 right-1 transition duration-200 rounded-[50%] hover:bg-blackFactory/50`}
-                  onClick={() => {
-                    setPicture('');
-                  }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                       stroke="currentColor"
-                       className="transition duration-200 w-6 h-6 hover:text-whiteFactory hover:bg-none">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                  </svg>
-                </button>
-                <img loading="lazy" className="object-contain" src={URL.createObjectURL(picture)} alt=""/>
-              </div>
+            {picture.length > 0 && (
+              <>
+                <Carousel indicators={false}>
+                  {picture?.map((pic, key) => {
+                    return (
+                      <div key={key}
+                           className="relative flex-col flex justify-center bg-grayFactory shadow-blueActive shadow-sm">
+                        <img loading="lazy" className="mt-auto object-contain max-h-[350px]"
+                             src={URL.createObjectURL(pic)}
+                             alt=""/>
+                        <button
+                          className={`self-center py-2 mt-auto bg-blackFactory text-whiteFactory transition w-full duration-200 hover:bg-blackFactory/50`}
+                          onClick={() => {
+                            const fileListArr = [...picture]; // convert filelist to arr
+                            fileListArr.splice(key, 1)
+                            setPicture(fileListArr)
+                          }}>
+                          Remove
+                        </button>
+                      </div>
+                    )
+                  })}
+                < /Carousel>
+                <label
+                  className="transition duration-200 self-center rounded-md bg-blueBase text-sm text-whiteFactory py-2 w-fit px-12 hover:shadow-lg hover:shadow-grayFactory"
+                  htmlFor="addMore">
+                  Add More
+                  <input accept={"image/*"} id={"addMore"} multiple className="hidden" type="file"
+                         onChange={event => {
+                           const fileList = [...event.target.files];
+                           setPicture([...picture, ...fileList])
+                         }}/>
+                </label>
+              </>
             )}
           </section>
 
@@ -216,7 +236,8 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
             </button>
           </div>
         </section>
-        {/*<input type="file" onChange={e => handleFile(e)}/>*/}
+        {/*<input type="file" onChange={e => handleFile(e)}/>*/
+        }
       </section>
     </>
   )

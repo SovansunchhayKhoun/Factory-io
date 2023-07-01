@@ -11,11 +11,11 @@
 
     protected $fillable = [
       'project_id' ,
-      'image' ,
+//      'image' ,
       'file' ,
     ];
 
-    public function project ()
+    public function projects ()
     {
       return $this -> belongsTo ( Project::class );
     }

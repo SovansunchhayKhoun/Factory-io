@@ -16,7 +16,7 @@ export const FactoryHome = () => {
     localStorage.setItem('LAST_TAB', tab);
   }
   const navigate = useNavigate();
-  const {toastOpen} = useProjectContext();
+  const {toastOpen, setToastOpen} = useProjectContext();
 
   if (token) {
     return (
@@ -57,6 +57,7 @@ export const FactoryHome = () => {
                 </div>
                 <Toast.Toggle/>
               </Toast>
+              {setTimeout(() => setToastOpen(false), 1500)}
             </div>
           </div>
           <FloatingUser user={user}/>
