@@ -4,6 +4,8 @@ import 'filepond/dist/filepond.min.css'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 import DonateContext from "../context/DonateContext.jsx";
 import {useAuthContext} from "../context/AuthContext.jsx";
+import {ImagePreview} from "../components/ImagePreview.jsx";
+import {ImageExpand} from "../components/ImageExpand.jsx";
 registerPlugin(FilePondPluginFileValidateType)
 
 export const DonateContent = ({setModalOpen, modalOpen}) => {
@@ -19,7 +21,7 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
 
   return (
     <>
-      <section className="p-12 overflow-auto text-blackFactory rounded-md bg-whiteFactory shadow-2xl">
+      <section className="p-12 overflow-auto h-screen text-blackFactory flex flex-col justify-center rounded-md bg-whiteFactory shadow-2xl">
         <div
           className="flex flex-col gap-y-3 mx-auto items-center justify-center max-w-[500px] min-w-[300px] border-slate-600">
           <div className="flex justify-center items-center flex-row gap-x-2">
@@ -53,10 +55,13 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
           </select>
           <div>
             {selected === 1 &&
-              <img className={`object-contain
+              (
+                  <img className={`object-contain
               md:w-[200px] md:h-[200px] md:mt-0 mt-2
               `} src="/assets/images/qr-dollars.jpg"
-                   alt=""/>}
+                       alt=""/>
+              )
+            }
 
             {selected === 2 &&
               <img className={`object-contain
@@ -89,22 +94,27 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
               id="amount" className="border border-slate-600 rounded-md px-2 py-1"/>
             {errors && <span className="text-red-600 text-sm mt-2">{errors.amount}</span>}
           </div>
-          <div className="flex flex-col w-2/3">
-            <label htmlFor="upload">Upload Screenshot</label>
-            <input
-              accept="image/*"
-              onChange={(e) => setImage(e.target.files[0])}
-              name="image" type="file" id="upload" className="border border-slate-600 rounded-md px-2 py-1"/>
-            {errors && <span className="text-red-600 text-sm mt-2">{errors.image}</span>}
+          <div className="flex flex-col justify-center items-center gap-2">
+            <label
+              className="cursor-pointer lg:inline-flex md:px-3 md:py-1 md:w-60
+                flex px-2 py-[0.1rem] border border-slate-600 rounded-lg text-blackFactory
+                md:text-base text-[12px]" htmlFor="file">
+              Select Image
+              <input className='hidden' type="file"
+                     id="file" accept="image/*"
+                     onChange={(e) => {
+                       setImage(e.target.files[0])
+                     }}/>
+            </label>
             {image &&
-              <>
+              <div className={"flex flex-col gap-2"}>
                 <div className="">
-                  <img className="md:w-[150px] object-contain"
+                  <img className="md:w-[250px] object-contain"
                        src={URL.createObjectURL(image)} alt=""/>
                 </div>
                 <div className="flex gap-x-2">
                   <button className="rounded-md md:text-base text-[14px] bg-redHover text-whiteFactory px-2 py-1"
-                          onClick={() => setImage('')}>
+                          onClick={(e) => setImage('')}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                          stroke="currentColor" className="w-6 h-6">
                       <path strokeLinecap="round" strokeLinejoin="round"
@@ -121,8 +131,9 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
                     </svg>
                   </label>
                 </div>
-              </>
+              </div>
             }
+            {errors && <span className="text-red-600 text-sm mt-2">{errors.image}</span>}
             {/*<FilePond*/}
             {/*  styleButtonRemoveItemAlign={false}*/}
             {/*  files={file}*/}

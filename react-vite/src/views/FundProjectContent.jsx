@@ -1,72 +1,56 @@
+import React, {useContext, useEffect, useState} from "react";
+import { FilePond, registerPlugin } from 'react-filepond'
+import 'filepond/dist/filepond.min.css'
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
+import DonateContext from "../context/DonateContext.jsx";
+import {useAuthContext} from "../context/AuthContext.jsx";
+import {ImagePreview} from "../components/ImagePreview.jsx";
+import {ImageExpand} from "../components/ImageExpand.jsx";
+import AdminPopUp from "../components/Modals/AdminPopUp.jsx";
+import {FundProjectTab} from "./FundProjectTab.jsx";
+import {BackProjectTab} from "./BackProjectTab.jsx";
+registerPlugin(FilePondPluginFileValidateType)
 
-import React, {useEffect, useState} from "react";
-
-export const FundProjectContent = ({setModalOpen, modalOpen}) => {
-
-  const options = [
-    {value: '1', text: 'ABA - $$$'},
-    {value: '2', text: 'ABA - KHR'},
-  ];
-  const [selected, setSelected] = useState(1);
-  const handleChange = event => {
-    setSelected(Number(event.target.value));
-  };
-    return (
-        <>
-          <section className="min-w-[1920px]:px-96 xl:px-56 md:px-12
-        w-screen overflow-auto py-4 text-blackFactory rounded-md bg-whiteFactory">
-            <div className="flex flex-col gap-y-3 mx-auto h-screen items-center justify-center max-w-[500px] min-w-[300px] border-slate-600">
-              <div className="flex justify-center items-center flex-row gap-x-2">
-              <h1 className="font-bold text-2xl">Donate for Community Platform</h1>
-                <button onClick={(e) => {
-                  e.stopPropagation();
-                  setModalOpen(false);
-                }} className="transition duration-200 rounded-[50%] hover:bg-blackFactory/50">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                       stroke="currentColor"
-                       className="transition duration-200 w-6 h-6 hover:text-whiteFactory hover:bg-none">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                  </svg>
-                </button>
+export const FundProjectContent = ({setModalOpen, modalOpen,isHidden,setIsHidden,section,setSection,project,projectPrototypes}) => {
+  return (
+    <>
+      <section className="p-4 text-blackFactory flex flex-col justify-center rounded-md bg-whiteFactory shadow-2xl min-w-[500px]">
+        {section === 'bp' && <BackProjectTab project={project} projectPrototypes={projectPrototypes} setIsHidden={setIsHidden} setSection={setSection}/>}
+        {section === 'fp' && <FundProjectTab project={project} setIsHidden={setIsHidden} setSection={setSection}/>}
+        <div>
+          <div className={`${isHidden && 'hidden'}`}>
+            <button onClick={(e) => {
+              e.stopPropagation();
+              setModalOpen(false);
+            }} className="transition duration-200 rounded-[50%] hover:bg-blackFactory/50">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                   stroke="currentColor"
+                   className="transition duration-200 w-6 h-6 hover:text-whiteFactory hover:bg-none">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+          <div className={`${isHidden && 'hidden'} flex flex-col justify-center items-center gap-x-4 gap-y-8`}>
+            <p>Do you want to get prototypes?</p>
+            <div className="flex flex-row justify-between gap-x-12">
+              <div onClick={(e) => {
+                e.stopPropagation();
+                setIsHidden(true)
+                setSection('bp')
+              }} className=" justify-center flex px-4 py-4 bg-redBase rounded-md cursor-pointer transition duration-200 hover:bg-redHover w-full items-center">
+                <p className="text-whiteFactory">Yes, I want to fund the project and also get prototypes.</p>
               </div>
-              <div className="flex gap-x-1">Target 10 000$ Currently <p className="text-red-600"> 800$</p></div>
-              <select
-                value={selected}
-                onChange={event => handleChange(event)}
-                className="bg-whiteFactory py-0 px-2 rounded-sm w-2/3
-              md:text-base text-blackFactory font-semibold text-[10px]">
-                {options.map((option) => {
-                  return (
-                    <option key={option.value} value={option.value}>
-                      {option.text}
-                    </option>
-                  );
-                })}
-              </select>
-              <div>
-                {selected === 1 &&
-                  <img className={`object-contain
-              md:w-[200px] md:h-[200px] md:mt-0 mt-2
-              `} src="/assets/images/qr-dollars.jpg"
-                       alt=""/>}
-
-                {selected === 2 &&
-                  <img className={`object-contain
-              md:w-[200px] md:h-[200px] md:mt-0 mt-2
-              `} src="/assets/images/qr-riel.jpg"
-                       alt=""/>}
+              <div onClick={(e) => {
+                e.stopPropagation();
+                setIsHidden(true)
+                setSection('fp')
+              }} className="justify-center flex px-4 py-4 bg-redBase rounded-md cursor-pointer transition duration-200 hover:bg-redHover w-full items-center">
+                <p className="text-whiteFactory">No, I just want to fund this project.</p>
               </div>
-              <div className="flex flex-col w-2/3">
-                <label htmlFor="comment">Comment</label>
-                <input id="comment" className="border border-slate-600 rounded-md px-2 py-1"/>
-              </div>
-              <div className="flex flex-col w-2/3">
-                <label htmlFor="upload">Upload Screenshot</label>
-                <input id="upload" className="border border-slate-600 rounded-md px-2 py-1"/>
-              </div>
-              <button className="rounded-[20px] px-6 py-2 text-whiteFactory bg-redHover" >Submit</button>
             </div>
-          </section>
-        </>
-    )
+          </div>
+        </div>
+      </section>
+    </>
+  )
 }

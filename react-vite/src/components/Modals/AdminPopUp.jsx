@@ -28,9 +28,8 @@ function AdminPopUp({id, modalOpen, setModalOpen, content}) {
   }, [modalOpen]);
 
   useEffect(() => {
-      modalOpen ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'auto'
+    modalOpen ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'auto'
   }, [modalOpen]);
-
   return (
     <>
       {/* Modal backdrop */}
