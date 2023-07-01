@@ -8,12 +8,19 @@ import {useProjectProtoContext} from "./ProjectProtoContext.jsx";
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const StateContext = createContext();
 export const ProjectContext = ({children}) => {
+  const {user} = useAuthContext();
   // fetch project
   const {data: projects, refetch: projectsReFetch, isLoading: projectsIsLoading} = useQuery(['projects'], () => {
     return Axios.get('projects').then(({data}) => data.data);
   })
+  const {
+    data: projectLikes,
+    refetch: projectLikesReFetch,
+    isLoading: projectLikesIsLoading
+  } = useQuery(['projectLikes'], () => {
+    return Axios.get('project_likes').then(({data}) => data.data);
+  })
   const {postPrototype} = useProjectProtoContext();
-
   const [errors, setErrors] = useState({});
   const [picture, setPicture] = useState([]);
   const [file, setFile] = useState({});
@@ -33,8 +40,8 @@ export const ProjectContext = ({children}) => {
   })
 
   const handlePicture = (event) => {
-    console.log(event.target.files)
-    setPicture(event.target.files)
+    // console.log(event.target.files)
+    setPicture([...event.target.files])
 
     // // check if input is image
     // if (event.target.attributes.accept.value.slice(0, 5) === event.target.files[0]?.type.slice(0, 5)) {
@@ -74,26 +81,15 @@ export const ProjectContext = ({children}) => {
     setIsPosting(true);
     setErrors(null);
     projectValues.user_id = user.id;
-    projectValues.image = picture;
+
+    // to make sure that we have at least 1 image when we upload
+    projectValues.image = picture[0];
     projectValues.file = file;
-
-    console.log(picture)
-
-    // await Array.from(picture).forEach((pic) => {
-    //   Axios.post('project_images', {
-    //     image: pic,
-    //     project_id: 1
-    //   }, {
-    //     headers: {"Content-Type" : "multipart/form-data"}
-    //   }).then(res => console.log(res)).catch((e) => console.log(e.response.data.errors))
-    // })
-
 
     try {
       await Axios.post('projects', projectValues, {
         headers: {"Content-type": "multipart/form-data"}
       }).then(async ({data}) => {
-        console.log(data)
         const project_id = data?.id;
         await Axios.post('project_assets', {
           file: file,
@@ -108,6 +104,12 @@ export const ProjectContext = ({children}) => {
             }, {
               headers: {"Content-Type": "multipart/form-data"}
             })
+          })
+        }).then(async () => {
+          await Axios.post('project_likes', {
+            project_id: project_id,
+            user_id: user?.id,
+            like_state: 0
           })
         }).then(async () => {
           await postPrototype(project_id);
@@ -127,9 +129,46 @@ export const ProjectContext = ({children}) => {
     // stop loading if posting
     setIsPosting(false);
   }
+  const postLike = async (project) => {
+    await Axios.post('checkLike', {
+      user_id: user?.id,
+      project_id: project.id
+    }).then(async ({data}) => {
+      if (data) {
+        await Axios.put(`project_likes/${data.id}`, {
+          like_state: !data.like_state,
+          user_id: user?.id,
+          project_id: project.id
+        })
+      } else {
+        await Axios.post('project_likes', {
+          project_id: project.id,
+          user_id: user?.id,
+          like_state: 1
+        })
+      }
+    }).then(() => {
+      projectsReFetch();
+    }).catch(e => console.log(e.response.data.errors))
+
+    // await Axios.put(`project_likes/${project.id}`, {
+    //   like_state: !likeState,
+    //   user_id: user?.id,
+    //   project_id: project.id
+    // }).then(async () => {
+    //   project.like_count = project.projectLikes.filter(p => p.like_state === 1)
+    //     .forEach(p => console.log(p))
+    //   console.log(project.like_count)
+    //   await Axios.put(`projects/${project.id}`, project)
+    // }).then(() => {
+    //   projectsReFetch();
+    // }).catch(e => console.log(e.response.data.errors))
+  }
   return (
     <>
       <StateContext.Provider value={{
+        projectLikes,
+        postLike,
         setErrors,
         errors,
         postProject,

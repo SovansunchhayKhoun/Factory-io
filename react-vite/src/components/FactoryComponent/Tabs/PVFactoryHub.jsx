@@ -1,7 +1,6 @@
 import Axios from "axios";
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 
-console.log(import.meta.env.VITE_APP_URL)
 export const PVFactoryHub = ({project}) => {
   const downloadZip = () => {
     return Axios.get(`downloadFile/${project?.id}`).then(res => console.log(res))

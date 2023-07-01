@@ -1,13 +1,15 @@
 import {useProjectContext} from "../../context/Factory/ProjectContext.jsx";
 import {Carousel, Spinner} from "flowbite-react";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import {useAuthContext} from "../../context/AuthContext.jsx";
 
 const imgUrl = `http://127.0.0.1:8000/projects`
 export const ProjectCard = ({project}) => {
-  const {id, name, user, projectImages} = project;
-  const [like, setLike] = useState(false);
-  const {username} = user;
+  const {user} = useAuthContext();
+  const {id, name, projectImages, like_count} = project;
+  const {username} = project.user;
+  const {postLike} = useProjectContext();
 
   return (
     <>
@@ -39,13 +41,16 @@ export const ProjectCard = ({project}) => {
           className={"border-t-2 border-grayFactory mt-auto px-4 pt-2 pb-3 flex items-center gap-x-3 justify-between"}>
           {/*star icon*/}
           <button onClick={() => {
-            setLike(!like)
+            postLike(project);
           }}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#F24E1E"
                  className="w-6 h-6">
-              <path fill={`${like && '#F24E1E'}`} strokeLinecap="round" strokeLinejoin="round"
+              <path fill={`${project.like_state?.filter(pro => pro.user_id === user?.id)[0]?.like_state === 1 && '#F24E1E'}`} strokeLinecap="round" strokeLinejoin="round"
                     d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
             </svg>
+            <span className="font-semibold text-sm">
+              {like_count}
+            </span>
           </button>
           {/*comment icon*/}
           <button>

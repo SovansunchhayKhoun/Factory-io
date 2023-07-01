@@ -1,7 +1,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
 import Axios from "axios";
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Rating} from "@mui/material";
 import {PVFactoryHub} from "../../components/FactoryComponent/Tabs/PVFactoryHub.jsx";
 import {PVProjectTab} from "../../components/FactoryComponent/Tabs/PVProjectTab.jsx";
@@ -10,30 +10,35 @@ import {DonateContent} from "../DonateContent.jsx";
 import AdminPopUp from "../../components/Modals/AdminPopUp.jsx";
 import {FundProjectContent} from "../FundProjectContent.jsx";
 import {Carousel} from "flowbite-react";
+import {useProjectContext} from "../../context/Factory/ProjectContext.jsx";
+import {useAuthContext} from "../../context/AuthContext.jsx";
+import UserContext from "../../context/UserContext.jsx";
 
 const imgUrl = 'http://127.0.0.1:8000/projects';
 export const ProjectView = () => {
   const {id} = useParams();
-  const navigate = useNavigate();
-  const monthNames = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
-  const [modalOpen, setModalOpen] = useState(false);
-  const [like, setLike] = useState(false);
-
+  const {user} = useAuthContext();
+  const {users} = useContext(UserContext);
   const {data: project, refetch: projectReFetch, isLoading: projectIsLoading} = useQuery(['project', id], () => {
     return Axios.get(`projects/${id}`).then(res => {
       return res.data.data;
     })
   })
+  const {postLike, projectsReFetch} = useProjectContext();
 
-  const postDate = `${new Date(project?.created_at.slice(0, 10)).getDate()}-${monthNames[new Date(project?.created_at.slice(0, 10)).getMonth()]}-${new Date(project?.created_at.slice(0, 10)).getFullYear()}`
+  const navigate = useNavigate();
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  const [modalOpen, setModalOpen] = useState(false);
+  const postDate = `${new Date(project?.created_at.slice(0, 10)).getDate()}-
+    ${monthNames[new Date(project?.created_at.slice(0, 10)).getMonth()]}-${new Date(project?.created_at.slice(0, 10)).getFullYear()}`
 
   const [tab, setTab] = useState('fh');
 
   useEffect(() => {
     projectReFetch()
-  }, []);
+  }, [postLike]);
 
   const StarIcon = () => {
     return (
@@ -88,7 +93,7 @@ export const ProjectView = () => {
                     <Rating
                       icon={<StarIcon/>}
                       name="read-only" readOnly
-                      value={2} /*value = total_rating / total_user*/ />
+                      value={(project?.like_count)*5 / users?.length} /*value = total_rating / total_user*/ />
                   </div>
                   <button
                     onClick={(e) => {
@@ -107,7 +112,7 @@ export const ProjectView = () => {
                 <section className="flex py-4 justify-between border-y-2 border-[#D9D9D9]">
                   <div className='flex flex-col items-center'>
                     <div>500$</div>
-                    <div className=''>Target of <span className="text-redHover">{project?.target_fund}</span></div>
+                    <div className=''>Target of <span className="text-redHover">${project?.target_fund}</span></div>
                   </div>
 
                   <div className='flex flex-col items-center'>
@@ -125,14 +130,16 @@ export const ProjectView = () => {
                   className={"px-4 pt-2 pb-3 flex items-center gap-x-3 justify-between"}>
                   {/*star icon*/}
                   <button onClick={() => {
-                    setLike(!like)
+                    postLike(project);
                   }}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                          stroke="#F24E1E"
                          className="w-8 h-8">
-                      <path fill={`${like && '#F24E1E'}`} strokeLinecap="round" strokeLinejoin="round"
+                      {/*<path fill={`${project.like_state?.filter(pro => pro.user_id === user?.id)[0]?.like_state === 1 && '#F24E1E'}`} strokeLinecap="round" strokeLinejoin="round"*/}
+                      <path fill={`${project?.like_state?.filter(pro => pro.user_id === user?.id)[0]?.like_state === 1 && '#F24E1E'}`} strokeLinecap="round" strokeLinejoin="round"
                             d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
                     </svg>
+                    {project?.like_count}
                   </button>
                   {/*comment icon*/}
                   <button>

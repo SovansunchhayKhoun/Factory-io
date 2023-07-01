@@ -26,7 +26,7 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
     projectValues,
     projectsIsLoading,
     setIsPosting,
-    isPosting
+    isPosting,
   } = useProjectContext();
 
   const {user} = useAuthContext();
@@ -77,29 +77,39 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
             <span
               className={`${!errors?.image && 'hidden'} self-end text-redBase text-xs`}>{errors?.image?.map(error => error)}</span>
             {picture.length > 0 && (
-              <Carousel>
-                {Array.from(picture)?.map((pic, key) => {
-                  return (
-                    <div key={key}
-                         className="relative flex justify-center h-full bg-grayFactory shadow-blueActive shadow-sm">
-                      <button
-                        className={`bg-blackFactory text-whiteFactory absolute transition duration-200 rounded-[50%] hover:bg-blackFactory/50`}
-                        onClick={() => {
-                          const fileListArr = [...picture]; // convert filelist to arr
-                          fileListArr.splice(key, 1)
-                          setPicture(fileListArr)
-                        }}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                             stroke="currentColor"
-                             className="transition duration-200 w-6 h-6 hover:text-whiteFactory hover:bg-none">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                      </button>
-                      <img loading="lazy" className="object-contain" src={URL.createObjectURL(pic)} alt=""/>
-                    </div>
-                  )
-                })}
-              </Carousel>
+              <>
+                <Carousel indicators={false}>
+                  {picture?.map((pic, key) => {
+                    return (
+                      <div key={key}
+                           className="relative flex-col flex justify-center bg-grayFactory shadow-blueActive shadow-sm">
+                        <img loading="lazy" className="mt-auto object-contain max-h-[350px]"
+                             src={URL.createObjectURL(pic)}
+                             alt=""/>
+                        <button
+                          className={`self-center py-2 mt-auto bg-blackFactory text-whiteFactory transition w-full duration-200 hover:bg-blackFactory/50`}
+                          onClick={() => {
+                            const fileListArr = [...picture]; // convert filelist to arr
+                            fileListArr.splice(key, 1)
+                            setPicture(fileListArr)
+                          }}>
+                          Remove
+                        </button>
+                      </div>
+                    )
+                  })}
+                < /Carousel>
+                <label
+                  className="transition duration-200 self-center rounded-md bg-blueBase text-sm text-whiteFactory py-2 w-fit px-12 hover:shadow-lg hover:shadow-grayFactory"
+                  htmlFor="addMore">
+                  Add More
+                  <input accept={"image/*"} id={"addMore"} multiple className="hidden" type="file"
+                         onChange={event => {
+                           const fileList = [...event.target.files];
+                           setPicture([...picture, ...fileList])
+                         }}/>
+                </label>
+              </>
             )}
           </section>
 
@@ -226,7 +236,8 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
             </button>
           </div>
         </section>
-        {/*<input type="file" onChange={e => handleFile(e)}/>*/}
+        {/*<input type="file" onChange={e => handleFile(e)}/>*/
+        }
       </section>
     </>
   )

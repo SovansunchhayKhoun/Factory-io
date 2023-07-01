@@ -24,21 +24,29 @@
       return new ProjectResource( $project );
     }
 
-    public function store ( ProjectRequest $request )
+    public function store ( ProjectRequest $projectRequest )
     {
-      $data = $request -> validated ();
-      if ( $request -> hasFile ( 'image' )
-        && (
-        $request -> file ( 'file' ) -> getClientOriginalExtension () == 'zip' ||
-        $request -> file ( 'file' ) -> getClientOriginalExtension () == 'tar' ||
-        $request -> file ( 'file' ) -> getClientOriginalExtension () == 'gz' ||
-        $request -> file ( 'file' ) -> getClientOriginalExtension () == 'pdf' ||
-        $request -> file ( 'file' ) -> getClientOriginalExtension () == '7z'
-         ) ) {
-//        Project ::create ( $data );
+      $data = $projectRequest -> validated ();
+      $projectRequest->validate ([
+        'image' => [ 'required', 'image' ] ,
+        'file' => [ 'required' , 'mimes:zip,rar,7z,gz' ] ,
+      ]);
+//      $request -> validate ( [
+//        'image' => 'image' ,
+//        'file' => 'mimetypes:zip, tar,gz,pdf,7z'
+//      ] );
+//      if ( $request -> hasFile ( 'image' )
+//        && (
+//        $request -> file ( 'file' ) -> getClientOriginalExtension () == 'zip' ||
+//        $request -> file ( 'file' ) -> getClientOriginalExtension () == 'tar' ||
+//        $request -> file ( 'file' ) -> getClientOriginalExtension () == 'gz' ||
+//        $request -> file ( 'file' ) -> getClientOriginalExtension () == 'pdf' ||
+//        $request -> file ( 'file' ) -> getClientOriginalExtension () == '7z'
+//         ) )
+      if ( $projectRequest -> hasFile ( 'image' ) && $projectRequest -> file ( 'file' ) ) {
         return Project ::create ( $data );
       }
-      return response () -> json ('...');
+      return response () -> json ( '...' );
 //      abort ('422', 'Cannot process request');
     }
 
@@ -46,6 +54,13 @@
     {
       $project -> delete ();
       return response () -> json ( 'Product deleted' );
+    }
+
+    public function update ( ProjectRequest $request , Project $project )
+    {
+      $data = $request -> validated ();
+      $project -> update ( $data );
+      return response () -> json ( 'Project Updated' );
     }
 
     public function fetchLastProject ()

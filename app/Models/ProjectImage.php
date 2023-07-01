@@ -12,7 +12,7 @@ class ProjectImage extends Model
       'project_id', 'image'
     ];
 
-  public function project ()
+  public function projects ()
   {
     return $this -> belongsTo ( Project::class );
   }

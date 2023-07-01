@@ -55,24 +55,29 @@ class User extends Authenticatable
     return $this->hasMany(Invoice::class);
   }
 
-  public function chats()
+  public function chats() : HasMany
   {
     return $this->hasMany(Chat::class);
   }
 
-  public function reviews()
+  public function reviews() : HasMany
   {
     return $this->hasMany(Review::class, 'user_id', 'id');
   }
 
-  public function deliveryAddresses()
+  public function deliveryAddresses() : HasMany
   {
     return $this->hasMany(DeliveryAddresses::class, 'user_id', 'id');
   }
 
-  public function donations()
+  public function donations() : HasMany
   {
     return $this->hasMany(Donation::class, 'user_id', 'id');
+  }
+
+  public function project_likes () : HasMany
+  {
+    return $this->hasMany (ProjectLike::class, 'user_id', 'id');
   }
 
 }

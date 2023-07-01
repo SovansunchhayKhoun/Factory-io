@@ -22,16 +22,12 @@ export const PVProjectTab = ({projectPrototypes}) => {
                        alt={`prototype-${id}`}/>
                 </div>
 
-                <div className=''>
-                  <div className="flex flex-col text-lg">
-                    <p className='font-semibold text-redBase'>{price}</p>
-                    <p className="text-blackFactory">Description
-                      <p>
-                        {description}
-                      </p>
-                    </p>
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-col">
+                    <p className='font-semibold text-lg text-redBase'>${price}</p>
+                    <div className="text-blackFactory">Description <p className="">{description}</p></div>
                   </div>
-                  <button className={"text-whiteFactory bg-[#1037A9] rounded-[20px] px-4 py-2"}>Back this project</button>
+                  <button className={"w-fit text-whiteFactory bg-[#1037A9] rounded-[20px] px-4 py-2"}>Back this project</button>
                 </div>
               </section>
             </Slide>
