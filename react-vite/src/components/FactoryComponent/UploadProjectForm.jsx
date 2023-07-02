@@ -55,7 +55,6 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
             </svg>
           </button>
         </section>
-
         <section className="px-4 pt-4 gap-12 flex items-center lg:flex-row flex-col">
           <section className="flex gap-2 flex-col justify-center lg:w-[440px] md:w-full md:min-h-[400px]">
             <label
@@ -112,7 +111,6 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
               </>
             )}
           </section>
-
           <section className="flex-1 flex flex-col gap-3 justify-start">
 
             <div className="flex gap-3">
@@ -135,7 +133,6 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                   className={`${!errors?.category && 'hidden'} text-redBase text-xs`}>{errors?.category?.map(error => error)}</span>
               </div>
             </div>
-
             <div className="flex flex-col items-start">
               <label htmlFor="description">Description</label>
               <textarea value={projectValues.description}

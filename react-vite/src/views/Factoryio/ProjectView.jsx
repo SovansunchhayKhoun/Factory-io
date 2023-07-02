@@ -25,7 +25,6 @@ export const ProjectView = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [like, setLike] = useState(false);
   const {postLike, projectsReFetch} = useProjectContext();
-  const [isHidden,setIsHidden] = useState(false)
 
   const {data: project, refetch: projectReFetch, isLoading: projectIsLoading} = useQuery(['project', id], () => {
     return Axios.get(`projects/${id}`).then(res => {
@@ -36,7 +35,6 @@ export const ProjectView = () => {
   const postDate = `${new Date(project?.created_at.slice(0, 10)).getDate()}-${monthNames[new Date(project?.created_at.slice(0, 10)).getMonth()]}-${new Date(project?.created_at.slice(0, 10)).getFullYear()}`
 
   const [tab, setTab] = useState('fh');
-  const [section,setSection] = useState('')
 
   useEffect(() => {
     projectReFetch()
@@ -99,14 +97,12 @@ export const ProjectView = () => {
                   <button
                     onClick={(e) => {
                       e.stopPropagation()
-                      setIsHidden(false)
                       setModalOpen(true)
-                      setSection('')
                     }}
                     className="rounded-[20px] px-4 py-2 text-whiteFactory bg-redHover">
                     Fund this project
                   </button>
-                  <AdminPopUp content={<FundProjectContent setSection={setSection} section={section} project={project} projectPrototypes={project?.projectPrototypes} modalOpen={modalOpen} setModalOpen={setModalOpen} isHidden={isHidden} setIsHidden={setIsHidden}/>}
+                  <AdminPopUp content={<FundProjectContent project={project} projectPrototypes={project?.projectPrototypes} modalOpen={modalOpen} setModalOpen={setModalOpen}/>}
                               modalOpen={modalOpen} setModalOpen={setModalOpen}/>
                 </div>
 
