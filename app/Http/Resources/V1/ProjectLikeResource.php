@@ -17,11 +17,14 @@
     public function toArray ( Request $request ) : array
     {
       return [
+        'id' => $this -> id ,
         'project_id' => $this -> project_id ,
         'like_state' => $this -> like_state ,
         'user_id' => $this -> user_id ,
+        'like_indicator' => $this -> like_indicator ,
         'user' => User ::where ( 'id' , $this -> user_id ) -> first () ,
-        'project' => Project ::where ( 'id' , $this -> project_id ) -> first ()
+        'like_time' => $this -> like_time ,
+        'project_resource' => ProjectResource ::collection ( Project ::where ( 'id' , $this -> project_id ) -> get () ) ,
       ];
     }
   }

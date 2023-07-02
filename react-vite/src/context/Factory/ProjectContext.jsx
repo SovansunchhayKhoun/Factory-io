@@ -27,7 +27,21 @@ export const ProjectContext = ({children}) => {
   } = useQuery(['projectSaves'], () => {
     return Axios.get('saved_projects').then(({data}) => data.data);
   })
-
+  const {
+    data: userLike,
+    refetch: userLikeReFetch,
+    isLoading: userLikeIsLoading
+  } = useQuery(['userLike', user.id], () => {
+    return Axios.get(`find_project/${user?.id}`).then((res) => {
+      return res.data.data
+    });
+  })
+  const reFetchAll = async () => {
+    await projectsReFetch()
+    await projectSavesReFetch()
+    await projectLikesReFetch()
+    await userLikeReFetch()
+  }
   const {postPrototype} = useProjectProtoContext();
   const [errors, setErrors] = useState({});
   const [picture, setPicture] = useState([]);
@@ -117,7 +131,8 @@ export const ProjectContext = ({children}) => {
           await postPrototype(project_id);
         }).then(() => {
           setIsPosting(false)
-          projectsReFetch();
+          // projectsReFetch();
+          reFetchAll()
           clearProjectValues();
           setModalOpen(false);
           setToastOpen(true);
@@ -132,39 +147,37 @@ export const ProjectContext = ({children}) => {
     setIsPosting(false);
   }
   const postLike = async (project) => {
+    const likeTime = new Date().toLocaleDateString('en-GB', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).split('/').reverse().join('-') + ' ' + new Date().toTimeString().slice(0, 8);
     await Axios.post('checkLike', {
       user_id: user?.id,
       project_id: project.id
     }).then(async ({data}) => {
-      if (data) {
-        await Axios.put(`project_likes/${data.id}`, {
-          like_state: !data.like_state,
-          user_id: user?.id,
-          project_id: project.id
-        })
-      } else {
+      if (!data) {
         await Axios.post('project_likes', {
           project_id: project.id,
           user_id: user?.id,
-          like_state: 1
+          like_state: 1,
+          like_indicator: project?.user?.id === user?.id ? 0 : 1,
+          like_time: likeTime,
+        })
+      } else {
+        await Axios.put(`project_likes/${data.id}`, {
+          like_state: !data.like_state,
+          user_id: user?.id,
+          project_id: project.id,
+          like_indicator: project?.user?.id === user?.id ? 0 : !data.like_indicator,
+          like_time: likeTime,
         })
       }
     }).then(() => {
-      projectsReFetch();
+      reFetchAll()
+      // projectsReFetch();
+      // userLikeReFetch();
     }).catch(e => console.log(e.response.data.errors))
-
-    // await Axios.put(`project_likes/${project.id}`, {
-    //   like_state: !likeState,
-    //   user_id: user?.id,
-    //   project_id: project.id
-    // }).then(async () => {
-    //   project.like_count = project.projectLikes.filter(p => p.like_state === 1)
-    //     .forEach(p => console.log(p))
-    //   console.log(project.like_count)
-    //   await Axios.put(`projects/${project.id}`, project)
-    // }).then(() => {
-    //   projectsReFetch();
-    // }).catch(e => console.log(e.response.data.errors))
   }
 
   const postSave = async (project) => {
@@ -183,13 +196,25 @@ export const ProjectContext = ({children}) => {
         await Axios.put(`saved_projects/${data?.id}`, {...data, save_state: !data.save_state})
       }
     }).then(() => {
-      projectsReFetch()
-      projectSavesReFetch()
+      // projectsReFetch()
+      // projectSavesReFetch()
+      reFetchAll()
     }).catch(e => console.log(e.response.data.errors))
+  }
+  const updateIndicator = async (project) => {
+    console.log(project)
+    await Axios.put(`project_likes/${project?.id}`, {...project, like_indicator: 0})
+      .then(() => {
+        // userLikeReFetch()
+        reFetchAll()
+      }).catch(e => console.log(e.response.data.errors))
   }
   return (
     <>
       <StateContext.Provider value={{
+        reFetchAll,
+        updateIndicator,
+        userLike,
         projectSaves,
         projectSavesReFetch,
         projectSavesIsLoading,

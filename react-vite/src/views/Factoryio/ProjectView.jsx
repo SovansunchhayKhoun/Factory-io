@@ -34,8 +34,7 @@ export const ProjectView = () => {
     "July", "August", "September", "October", "November", "December"
   ];
   const [modalOpen, setModalOpen] = useState(false);
-  const postDate = `${new Date(project?.created_at.slice(0, 10)).getDate()}-
-    ${monthNames[new Date(project?.created_at.slice(0, 10)).getMonth()]}-${new Date(project?.created_at.slice(0, 10)).getFullYear()}`
+  const postDate = `${new Date(project?.created_at.slice(0, 10)).getDate()}-${monthNames[new Date(project?.created_at.slice(0, 10)).getMonth()]}-${new Date(project?.created_at.slice(0, 10)).getFullYear()}`
 
   const [tab, setTab] = useState('fh');
 
@@ -159,7 +158,7 @@ export const ProjectView = () => {
           </section>
         </section>
       </section>
-      <FloatingUser user={project?.user}/>
+      <FloatingUser user={user}/>
     </main>
   );
 };

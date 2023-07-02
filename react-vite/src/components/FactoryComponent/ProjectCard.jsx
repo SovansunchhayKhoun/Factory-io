@@ -41,7 +41,7 @@ export const ProjectCard = ({project}) => {
         <div
           className={"border-t-2 border-grayFactory mt-auto px-4 pt-2 pb-3 flex items-center gap-x-3 justify-between"}>
           <ProjectStar project={project}/>
-          <ProjectComment/>
+          <ProjectComment />
           <ProjectSave project={project}/>
         </div>
       </div>

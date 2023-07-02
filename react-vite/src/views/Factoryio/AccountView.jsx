@@ -90,7 +90,7 @@ export const AccountView = () => {
                 </button>
               </div>
 
-              <div>
+              <div className="w-full">
                 {tab === 'Community' && 'Community User'}
                 {tab === 'RD' && <UserRD/>}
               </div>

@@ -38,6 +38,10 @@
     Route ::apiResource ( 'donations' , DonationController::class );
     Route ::apiResource ( 'project_likes' , ProjectLikeController::class );
     Route ::apiResource ( 'saved_projects' , SavedProjectController::class );
+
+    Route ::controller ( ProjectController::class ) -> group ( function () {
+      Route ::get ( 'find_project/{user_id}' , 'find_project' );
+    });
     Route ::controller ( ProjectLikeController::class ) -> group ( function () {
       Route ::post ( 'checkLike' , 'checkLike' );
     } );

@@ -24,7 +24,9 @@
       return [
         'project_id' => [ 'required' ] ,
         'user_id' => [ 'required' ] ,
-        'like_state' => ['nullable']
+        'like_state' => [ 'nullable' ] ,
+        'like_indicator' => [ 'nullable' ] ,
+        'like_time' => [ 'required' ]
       ];
     }
   }

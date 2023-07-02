@@ -4,9 +4,12 @@ import React, {useContext, useEffect, useState} from "react";
 import AxiosClient from "../axios-client.js";
 import ProductContext from "../context/ProductContext.jsx";
 import {ProfileDropdown} from "./ui/NavBarui/ProfileDropdown.jsx";
+import {useQuery} from "@tanstack/react-query";
+import Axios from "axios";
+import {useProjectContext} from "../context/Factory/ProjectContext.jsx";
 
 export const LandingNavBar = () => {
-
+  const {user, token, setUser, isLoading, onLogout} = useAuthContext();
   const [searchInput, setSearchInput] = useState('')
   const [filteredItem, setFilteredItem] = useState([])
   const {items} = useContext(ProductContext);
@@ -22,6 +25,7 @@ export const LandingNavBar = () => {
   //     })
   //   )
   // }
+  const {userLike} = useProjectContext();
 
   // Not signed in Navbar
   const [navBar, setNavBar] = useState([
@@ -31,7 +35,7 @@ export const LandingNavBar = () => {
     {name: "Contest", to: "contest", img: {imgSrc: "", imgWidth: 0}},
     {name: "", to: "/makerio", img: {imgSrc: "/assets/images/makerio.png", imgWidth: 100}},
   ]);
-  const {user,token, setUser,isLoading, onLogout} = useAuthContext();
+
   if (token) {
     return (
       <>
@@ -57,10 +61,10 @@ export const LandingNavBar = () => {
           </div>
           {/*search bar*/}
 
-          <div className="md:flex md:items-center md:gap-x-12 lg:w-[384px] hidden">
+          <div className="bg-[#D9D9D9] rounded-[20px] md:flex md:items-center md:gap-x-12 lg:w-[384px] hidden">
             <input type="text"
                    placeholder="Search..."
-                   className="w-[100%] px-12 search-bar py-1 border-none"/>
+                   className="w-[100%] px-12 search-bar py-1 border-none focus:ring-2 focus:ring-blueActive rounded-[20px]"/>
           </div>
 
           <div className="flex items-center gap-6">
@@ -91,7 +95,7 @@ export const LandingNavBar = () => {
               </svg>
             </Link>
             {/*bell icon*/}
-            <button>
+            <Link to={"notification"} className="relative">
               <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
                 <g clipPath="url(#clip0_140_1014)">
                   <path
@@ -107,7 +111,11 @@ export const LandingNavBar = () => {
                   </clipPath>
                 </defs>
               </svg>
-            </button>
+              <span
+                className={`${userLike?.filter(pro => pro.user_id !== user?.id && pro.like_indicator === 1)?.length === 0 && 'hidden'} absolute flex justify-center items-center top-[-6px] right-[-8px] rounded-[50%] aspect-square bg-redBase text-whiteFactory w-5 text-[12px]`}>
+                {userLike?.filter(pro => pro.user_id !== user?.id && pro.like_indicator === 1)?.length}
+              </span>
+            </Link>
             <ProfileDropdown to="/user" user={user} arrowIcon={true}/>
           </div>
         </nav>

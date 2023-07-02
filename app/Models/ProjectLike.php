@@ -9,7 +9,7 @@ class ProjectLike extends Model
 {
     use HasFactory;
     protected $fillable = [
-      'project_id', 'user_id', 'like_state'
+      'project_id', 'user_id', 'like_state', 'like_indicator', 'like_time'
     ];
 
     public function users ()
