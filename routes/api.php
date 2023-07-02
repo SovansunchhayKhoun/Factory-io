@@ -14,6 +14,7 @@
   use App\Http\Controllers\Api\V1\ProjectLikeController;
   use App\Http\Controllers\Api\V1\ProjectPrototypeController;
   use App\Http\Controllers\Api\V1\ReviewController;
+  use App\Http\Controllers\Api\V1\SavedProjectController;
   use App\Http\Controllers\Api\V1\UserController;
   use App\Http\Controllers\TemporaryFileController;
   use App\Models\ProjectPrototype;
@@ -36,8 +37,12 @@
     Route ::apiResource ( 'addresses' , DeliveryAddressController::class );
     Route ::apiResource ( 'donations' , DonationController::class );
     Route ::apiResource ( 'project_likes' , ProjectLikeController::class );
+    Route ::apiResource ( 'saved_projects' , SavedProjectController::class );
     Route ::controller ( ProjectLikeController::class ) -> group ( function () {
       Route ::post ( 'checkLike' , 'checkLike' );
+    } );
+    Route ::controller ( SavedProjectController::class ) -> group ( function () {
+      Route ::post ( 'checkUserSave' , 'checkUserSave' );
     } );
     Route ::controller ( DeliveryAddressController::class ) -> group ( function () {
       Route ::get ( 'checkAddress/{userId}/{placeId}' , 'checkAddress' );

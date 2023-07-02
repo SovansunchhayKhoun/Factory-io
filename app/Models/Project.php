@@ -43,12 +43,17 @@
 
     public function project_images ()
     {
-      return $this->hasMany (ProjectImage::class, 'project_id', 'id');
+      return $this -> hasMany ( ProjectImage::class , 'project_id' , 'id' );
     }
 
     public function project_likes ()
     {
-      return $this->hasMany (ProjectLike::class, 'project_id', 'id');
+      return $this -> hasMany ( ProjectLike::class , 'project_id' , 'id' );
+    }
+
+    public function project_saves ()
+    {
+      return $this -> hasMany ( SavedProject::class , 'project_id' , 'id' );
     }
 //    public function users() {
 //      return $this->belongsToMany (User::class, 'project_users', 'project_id', 'user_id');

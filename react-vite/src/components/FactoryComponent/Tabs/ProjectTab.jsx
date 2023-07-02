@@ -17,12 +17,11 @@ export const ProjectTab = () => {
     submitPrototype,
     prototypeList
   } = useProjectProtoContext();
-
   return (
     <div className={'transition duration-500 flex flex-col gap-4'}>
       {prototypeList?.map((prototype, key) => {
         return (
-          <PrototypeView key={key} prototype={prototype}/>
+          <PrototypeView key={key} id={key} prototype={prototype}/>
         )
       })}
       <button onClick={(e) => {
@@ -45,7 +44,7 @@ export const ProjectTab = () => {
               <div className="flex gap-x-4 lg:flex-row flex-col border border-blackFactory  rounded-md gap-3 p-4">
                 <div className="flex-1 flex justify-center">
                   <label htmlFor="image"
-                         className={`${picture && 'hidden'} flex-1 transition duration-200 flex items-center justify-center bg-gray-300 border rounded-md hover:bg-gray-500 cursor-pointer`}>
+                         className={`${picture?.type?.slice(0, 5) === 'image' && 'hidden'} flex-1 transition duration-200 flex items-center justify-center bg-gray-300 border rounded-md hover:bg-gray-500 cursor-pointer`}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                          stroke="currentColor" className="w-6 h-6">
                       <path strokeLinecap="round" strokeLinejoin="round"
@@ -53,11 +52,12 @@ export const ProjectTab = () => {
                     </svg>
                     Add photo
                   </label>
-                  {picture && (
+                  {picture?.type?.slice(0, 5) === 'image' && (
                     <div className="relative flex justify-center bg-grayFactory shadow-blueActive shadow-sm">
                       <button onClick={() => {
-                        setPicture('');
-                      }} className={`bg-blackFactory text-whiteFactory absolute top-1 right-1 transition duration-200 rounded-[50%] hover:bg-blackFactory/50`}>
+                        setPicture(null);
+                      }}
+                              className={`bg-blackFactory text-whiteFactory absolute top-1 right-1 transition duration-200 rounded-[50%] hover:bg-blackFactory/50`}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                              stroke="currentColor"
                              className="transition duration-200 w-6 h-6 hover:text-whiteFactory hover:bg-none">
@@ -68,7 +68,8 @@ export const ProjectTab = () => {
                            alt=""/>
                     </div>
                   )}
-                  <input onChange={(e) => handlePicture(e)} className="hidden" type="file" accept={"ïmage/*"} id='image'/>
+                  <input onChange={(e) => handlePicture(e)} className="hidden" type="file" accept={"ïmage/*"}
+                         id='image'/>
                 </div>
                 <div className="flex-1 flex flex-col gap-3">
                   <div className="flex flex-col gap-1">

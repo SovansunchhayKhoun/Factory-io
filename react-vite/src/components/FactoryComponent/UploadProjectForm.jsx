@@ -59,9 +59,9 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
         <section className="px-4 pt-4 gap-12 flex items-center lg:flex-row flex-col">
           <section className="flex gap-2 flex-col justify-center lg:w-[440px] md:w-full md:min-h-[400px]">
             <label
-              className={`${picture.length > 0 && 'hidden'} flex-1 transition duration-200 flex items-center justify-center bg-gray-300 border rounded-md hover:bg-gray-500 cursor-pointer`}
+              className={`${picture?.filter(pic => pic?.type.slice(0,5) === 'image').length > 0 && 'hidden'} flex-1 transition duration-200 flex items-center justify-center bg-gray-300 border rounded-md hover:bg-gray-500 cursor-pointer`}
               htmlFor="projectImage">
-              <div className={`${picture.length > 0 && 'hidden'} flex items-center gap-2`}>
+              <div className={`${picture?.filter(pic => pic?.type.slice(0,5) === 'image').length > 0 && 'hidden'} flex items-center gap-2`}>
                 {/*image icon*/}
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                      stroke="currentColor" className="w-6 h-6">
@@ -76,10 +76,10 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
             </label>
             <span
               className={`${!errors?.image && 'hidden'} self-end text-redBase text-xs`}>{errors?.image?.map(error => error)}</span>
-            {picture.length > 0 && (
+            {picture?.filter(pic => pic?.type.slice(0,5) === 'image').length > 0 && (
               <>
                 <Carousel indicators={false}>
-                  {picture?.map((pic, key) => {
+                  {picture?.filter(pic => pic?.type.slice(0,5) === 'image').map((pic, key) => {
                     return (
                       <div key={key}
                            className="relative flex-col flex justify-center bg-grayFactory shadow-blueActive shadow-sm">
@@ -97,8 +97,11 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                         </button>
                       </div>
                     )
+                    // if(pic?.type.slice(0,5) === 'image') {
+                    //
+                    // }
                   })}
-                < /Carousel>
+                </Carousel>
                 <label
                   className="transition duration-200 self-center rounded-md bg-blueBase text-sm text-whiteFactory py-2 w-fit px-12 hover:shadow-lg hover:shadow-grayFactory"
                   htmlFor="addMore">
@@ -188,7 +191,6 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
           </div>
           <div className={'w-full flex flex-col gap-4 px-4'}>
             <div className="self-end w-full">
-
               <FilePond
                 styleButtonRemoveItemAlign={false}
                 files={file}
@@ -206,7 +208,6 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                   setFile(e)
                   handleFile(e)
                 }}
-
                 allowDrop={true}
                 allowMultiple={true} maxFiles={1}/>
 
@@ -214,8 +215,8 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
               {/*  className="px-4 transition duration-200 text-whiteFactory bg-redHover rounded-[20px] text-center py-2 hover:bg-redBase cursor-pointer"*/}
               {/*  htmlFor="projectFile">*/}
               {/*  Upload Zip File*/}
-              {/*  <input onChange={event => handleFile(event)} id="projectFile" type="file" accept=".zip,.rar,.7z,.gz"*/}
-              {/*         className="hidden"/>*/}
+              {/*  /!*<input onChange={event => handleFile(event)} id="projectFile" type="file" accept=".zip,.rar,.7z,.gz"*!/*/}
+              {/*  /!*       className="hidden"/>*!/*/}
               {/*</label>*/}
               <div
                 className={`${!errors?.file && 'hidden'} mt-2 text-redBase text-xs`}>{errors?.file?.map(error => error)}</div>

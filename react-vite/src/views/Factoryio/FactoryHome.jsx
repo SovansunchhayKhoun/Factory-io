@@ -43,22 +43,7 @@ export const FactoryHome = () => {
               {tab === 'RD' && <RD/>}
             </div>
 
-            <div className={`${!toastOpen && 'hidden'} flex justify-end w-full`}>
-              <Toast>
-                <div
-                  className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                       stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
-                  </svg>
-                </div>
-                <div className="ml-3 text-sm font-normal">
-                  Your project is finished posting
-                </div>
-                <Toast.Toggle/>
-              </Toast>
-              {setTimeout(() => setToastOpen(false), 1500)}
-            </div>
+            <ToastMessage setToastOpen={setToastOpen} toastOpen={toastOpen} />
           </div>
           <FloatingUser user={user}/>
         </main>
@@ -68,3 +53,24 @@ export const FactoryHome = () => {
     navigate('/');
   }
 };
+
+const ToastMessage = ({setToastOpen, toastOpen}) => {
+  setTimeout(() => setToastOpen(false), 15000)
+  return (
+    <div className={`${!toastOpen && 'hidden'} flex justify-end w-full`}>
+      <Toast>
+        <div
+          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+               stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+          </svg>
+        </div>
+        <div className="ml-3 text-sm font-normal">
+          Your project is finished posting
+        </div>
+        <Toast.Toggle/>
+      </Toast>
+    </div>
+  )
+}

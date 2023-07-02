@@ -11,7 +11,7 @@ export const ProjectProtoContext = ({children}) => {
   })
   const [errors, setErrors] = useState([]);
 
-  const [picture, setPicture] = useState('');
+  const [picture, setPicture] = useState(null);
   const [prototypeList, setPrototypeList] = useState([]);
   const [prjPrototypeValues, setPrjPrototypeValues] = useState({
     price: "",
@@ -19,8 +19,10 @@ export const ProjectProtoContext = ({children}) => {
   });
 
   const handlePicture = (event) => {
-    setPicture(event.target.files[0])
-    prjPrototypeValues.image = event.target.files[0];
+    if(event.target.files[0].type?.slice(0,5) === 'image') {
+      setPicture(event.target.files[0])
+      prjPrototypeValues.image = event.target.files[0];
+    }
   }
 
   const clearPrototype = () => {
@@ -28,11 +30,11 @@ export const ProjectProtoContext = ({children}) => {
       price: "",
       description: ""
     })
-    setPicture("");
+    setPicture(null);
   }
 
   const submitPrototype = (setOpen) => {
-    if (!prjPrototypeValues.price || !prjPrototypeValues.description || !prjPrototypeValues.image) {
+    if (!prjPrototypeValues.price || !prjPrototypeValues.description || !prjPrototypeValues.image ) {
       setPrjPrototypeValues({...prjPrototypeValues, errorMsg: 'Please fill all missing fields'})
     } else {
       setPrototypeList([...prototypeList, prjPrototypeValues])
@@ -60,6 +62,7 @@ export const ProjectProtoContext = ({children}) => {
     <StateContext.Provider value={{
       postPrototype,
       prototypeList,
+      setPrototypeList,
       submitPrototype,
       prjPrototypeValues,
       setPrjPrototypeValues,

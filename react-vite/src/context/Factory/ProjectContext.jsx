@@ -20,6 +20,14 @@ export const ProjectContext = ({children}) => {
   } = useQuery(['projectLikes'], () => {
     return Axios.get('project_likes').then(({data}) => data.data);
   })
+  const {
+    data: projectSaves,
+    refetch: projectSavesReFetch,
+    isLoading: projectSavesIsLoading
+  } = useQuery(['projectSaves'], () => {
+    return Axios.get('saved_projects').then(({data}) => data.data);
+  })
+
   const {postPrototype} = useProjectProtoContext();
   const [errors, setErrors] = useState({});
   const [picture, setPicture] = useState([]);
@@ -106,12 +114,6 @@ export const ProjectContext = ({children}) => {
             })
           })
         }).then(async () => {
-          await Axios.post('project_likes', {
-            project_id: project_id,
-            user_id: user?.id,
-            like_state: 0
-          })
-        }).then(async () => {
           await postPrototype(project_id);
         }).then(() => {
           setIsPosting(false)
@@ -164,9 +166,34 @@ export const ProjectContext = ({children}) => {
     //   projectsReFetch();
     // }).catch(e => console.log(e.response.data.errors))
   }
+
+  const postSave = async (project) => {
+    // console.log('saved')
+    await Axios.post('checkUserSave', {
+      project_id: project?.id,
+      user_id: user?.id
+    }).then(async ({data}) => {
+      if (!data) {
+        await Axios.post('saved_projects', {
+          project_id: project?.id,
+          user_id: user?.id,
+          save_state: true,
+        })
+      } else {
+        await Axios.put(`saved_projects/${data?.id}`, {...data, save_state: !data.save_state})
+      }
+    }).then(() => {
+      projectsReFetch()
+      projectSavesReFetch()
+    }).catch(e => console.log(e.response.data.errors))
+  }
   return (
     <>
       <StateContext.Provider value={{
+        projectSaves,
+        projectSavesReFetch,
+        projectSavesIsLoading,
+        postSave,
         projectLikes,
         postLike,
         setErrors,
