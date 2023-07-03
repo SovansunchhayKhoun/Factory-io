@@ -28,7 +28,8 @@ export const ProjectProtoContext = ({children}) => {
   const clearPrototype = () => {
     setPrjPrototypeValues({
       price: "",
-      description: ""
+      description: "",
+      proto_name: ""
     })
     setPicture(null);
   }
@@ -38,6 +39,7 @@ export const ProjectProtoContext = ({children}) => {
       setPrjPrototypeValues({...prjPrototypeValues, errorMsg: 'Please fill all missing fields'})
     } else {
       prjPrototypeValues.id = prototypeList.length + 1;
+      prjPrototypeValues.proto_name = "Prototype - " + prjPrototypeValues.id;
       setPrototypeList([...prototypeList, prjPrototypeValues])
       clearPrototype();
       console.log(prototypeList)
@@ -47,7 +49,7 @@ export const ProjectProtoContext = ({children}) => {
 
   const postPrototype = async (project_id) => {
     try {
-      await prototypeList.forEach((prototype,index) => {
+      await prototypeList.forEach((prototype, index) => {
         prototype.project_id = project_id;
         Axios.post('project_prototypes', {...prototype, image: prototype.image[0]}, {
           headers: {"Content-Type": "multipart/form-data"}

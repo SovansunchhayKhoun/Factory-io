@@ -16,6 +16,7 @@
     {
       return [
         'id' => $this -> id ,
+        'proto_name' => $this -> proto_name ,
         'project_id' => $this -> project_id ,
 //        'image' => $this -> image ,
         'description' => $this -> description ,

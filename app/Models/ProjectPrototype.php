@@ -10,6 +10,7 @@
     use HasFactory;
 
     protected $fillable = [
+      'proto_name' ,
       'image' ,
       'description' ,
       'price' ,

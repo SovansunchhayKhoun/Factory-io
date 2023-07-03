@@ -38,6 +38,8 @@ export const PrototypeView = ({prototype, id}) => {
 
             <div className="flex-1 flex flex-col gap-3">
               <div className="flex flex-col gap-1 text-lg">
+                <label htmlFor="proto_name">
+                  <span className="font-semibold text-blueActive">{prototype.proto_name}</span></label>
                 <label htmlFor="price">Price: <span
                   className="font-semibold text-redBase">${prototype.price}</span></label>
               </div>

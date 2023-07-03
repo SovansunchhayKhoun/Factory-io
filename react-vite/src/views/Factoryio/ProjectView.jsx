@@ -72,12 +72,12 @@ export const ProjectView = () => {
               <Carousel>
                 {project?.projectImages?.map(projectImage => {
                   return (
-                    <button onClick={(e) => {
+                    <button key={projectImage.id} onClick={(e) => {
                       e.stopPropagation()
                       setExpand(!expand)
                       setImgExpand(projectImage.image)
                     }} className={"relative flex justify-center"}>
-                        <img key={projectImage.id} className=" max-h-[350px] object-contain bg-grayFactory"
+                        <img className=" max-h-[350px] object-contain bg-grayFactory"
                              loading={"lazy"}
                              src={`${imgUrl}/${projectImage?.image}`} alt=""/>
                     </button>

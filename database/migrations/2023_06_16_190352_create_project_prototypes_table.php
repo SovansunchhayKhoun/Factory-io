@@ -12,6 +12,7 @@
     {
       Schema ::create ( 'project_prototypes' , function ( Blueprint $table ) {
         $table -> id ();
+        $table -> string ( 'proto_name' );
         $table -> double ( 'price' );
 //        $table -> string ( 'image' );
         $table -> text ( 'description' );
