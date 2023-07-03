@@ -34,6 +34,7 @@ import {useQuery} from "@tanstack/react-query";
 import axiosClient from "./axios-client.js";
 import {ProjectView} from "./views/Factoryio/ProjectView.jsx";
 import {DonationManagement} from "./views/Dashboard/DonationManagement.jsx";
+import {NotificationView} from "./views/Factoryio/NotificationView.jsx";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
       {
         path: 'explore',
         element: <FactoryHome/>
+      },
+      {
+        path: 'notification',
+        element: <NotificationView />
       },
       {
         path: 'project/:id',

@@ -4,7 +4,7 @@
 
   use Illuminate\Foundation\Http\FormRequest;
 
-  class ProjectLikeRequest extends FormRequest
+  class ProjectPrototypeAssetRequest extends FormRequest
   {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,8 @@
     public function rules () : array
     {
       return [
-        'project_id' => [ 'required' ] ,
-        'user_id' => [ 'required' ] ,
-        'like_state' => [ 'nullable' ] ,
-        'like_indicator' => [ 'nullable' ] ,
-        'like_time' => [ 'required' ]
+        'project_prototype_id' => [ 'required' ] ,
+        'image' => [ 'required' , 'image' ]
       ];
     }
   }

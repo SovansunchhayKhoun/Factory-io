@@ -8,14 +8,22 @@
   class ProjectPrototype extends Model
   {
     use HasFactory;
+
     protected $fillable = [
-      'image',
-      'description',
-      'price',
-      'project_id',
+      'image' ,
+      'description' ,
+      'price' ,
+      'project_id' ,
     ];
+
     public function project ()
     {
-      return $this -> belongsTo ( Project::class );
+      return $this -> belongsTo ( Project::class , 'project_id' , 'id' );
     }
+
+    public function project_prototype_assets ()
+    {
+      return $this -> hasMany ( ProjectPrototypeAsset::class , 'project_prototype_id' , 'id' );
+    }
+
   }

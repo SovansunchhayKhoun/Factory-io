@@ -7,6 +7,7 @@
   use App\Http\Resources\V1\ProjectAssetResource;
   use App\Models\Project;
   use App\Models\ProjectAsset;
+  use App\Models\TemporaryFile;
   use Illuminate\Support\Carbon;
   use Illuminate\Support\Facades\Storage;
 
@@ -28,15 +29,8 @@
         Storage ::makeDirectory ( public_path ( $filepath ) );
         Storage ::disk ( 'projects' ) -> put ( $filepath , file_get_contents ( $data[ 'file' ] ) );
         $data[ 'file' ] = $filepath;
+        ProjectAsset ::create ( $data );
       }
-//      if ( $request -> hasFile ( 'image' ) ) {
-//        $imageFile = $request -> file ( 'image' ) -> getClientOriginalName ();
-//        $filepath = 'prj-' . $project[ 'id' ] . '-usr-' . $project[ 'user_id' ] . '-' . str_replace ( ' ' , '_' , str_replace ( ':' , '-' , str_split ( $myTime -> toString () , 24 )[ 0 ] ) ) . '/img/' . $imageFile;
-//        Storage ::makeDirectory ( public_path ( $filepath ) );
-//        Storage ::disk ( 'projects' ) -> put ( $filepath , file_get_contents ( $data[ 'image' ] ) );
-//        $data[ 'image' ] = $filepath;
-//      }
-      ProjectAsset ::create ( $data );
 
       return response () -> json ( 'Project Assets created' );
     }

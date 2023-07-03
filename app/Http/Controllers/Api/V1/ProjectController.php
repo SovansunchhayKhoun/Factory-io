@@ -4,6 +4,7 @@
 
   use App\Http\Controllers\Controller;
   use App\Http\Requests\ProjectRequest;
+  use App\Http\Resources\V1\ProjectLikeResource;
   use App\Http\Resources\V1\ProjectResource;
   use App\Models\Product;
   use App\Models\Project;
@@ -22,6 +23,14 @@
     public function show ( Project $project )
     {
       return new ProjectResource( $project );
+    }
+
+    public function find_project ( Request $request )
+    {
+      return ProjectLikeResource::collection (Project::join('project_likes', 'projects.id', '=', 'project_likes.project_id')->select('projects.*', 'project_likes.*')->where([
+        ['project_likes.like_state', '=', 1],
+        ['projects.user_id', '=', $request->user_id]
+      ])->get());
     }
 
     public function store ( ProjectRequest $projectRequest )

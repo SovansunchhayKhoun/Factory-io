@@ -1,7 +1,12 @@
-import React, {useContext, useEffect, useState} from "react";
-import { FilePond, registerPlugin } from 'react-filepond'
+import React, {useContext, useContext, useEffect, useState} from "react";
+import {FilePond, registerPlugin} from 'react-filepond'
 import 'filepond/dist/filepond.min.css'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
+import DonateContext from "../context/DonateContext.jsx";
+import {useAuthContext} from "../context/AuthContext.jsx";
+import {ImagePreview} from "../components/ImagePreview.jsx";
+import {ImageExpand} from "../components/ImageExpand.jsx";
+
 import DonateContext from "../context/DonateContext.jsx";
 import {useAuthContext} from "../context/AuthContext.jsx";
 import {ImagePreview} from "../components/ImagePreview.jsx";
@@ -9,7 +14,19 @@ import {ImageExpand} from "../components/ImageExpand.jsx";
 registerPlugin(FilePondPluginFileValidateType)
 
 export const DonateContent = ({setModalOpen, modalOpen}) => {
-  const {storeDonation,amount,setAmount,setImage,comment,setComment,image,resetInput,errors,response,setResponse} = useContext(DonateContext)
+  const {
+    storeDonation,
+    amount,
+    setAmount,
+    setImage,
+    comment,
+    setComment,
+    image,
+    resetInput,
+    errors,
+    response,
+    setResponse
+  } = useContext(DonateContext)
   const options = [
     {value: '1', text: 'ABA - $$$'},
     {value: '2', text: 'ABA - KHR'},
@@ -22,9 +39,9 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
   return (
     <>
       <main className="w-screen h-screen flex justify-center">
-        <div className={`flex flex-col w-full justify-center items-center`}>
+        <div className={`flex flex-col justify-center items-center`}>
           <div
-            className="flex flex-col gap-y-3 pt-12 mx-auto items-center justify-center w-[50%] h-full bg-whiteFactory overflow-auto">
+            className="flex flex-col gap-y-3 p-12 rounded-md items-center h-[70%] bg-whiteFactory overflow-auto">
             <div className="flex justify-center items-center flex-row gap-x-2">
               <h1 className="font-bold text-2xl">Donate for Community Platform</h1>
               <button onClick={(e) => {
@@ -58,16 +75,13 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
               {selected === 1 &&
                 (
                   <img className={`object-contain
-              md:w-[200px] md:h-[200px] md:mt-0 mt-2
-              `} src="/assets/images/qr-dollars.jpg"
-                       alt=""/>
-                )
-              }
-
+                    md:w-[200px] md:h-[200px] md:mt-0 mt-2
+                    `} src="/assets/images/qr-dollars.jpg"
+                       alt=""/>)}
               {selected === 2 &&
                 <img className={`object-contain
-              md:w-[200px] md:h-[200px] md:mt-0 mt-2
-              `} src="/assets/images/qr-riel.jpg"
+                  md:w-[200px] md:h-[200px] md:mt-0 mt-2
+                  `} src="/assets/images/qr-riel.jpg"
                      alt=""/>}
             </div>
             <div className="flex flex-col w-2/3">
@@ -156,7 +170,8 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
               onClick={(e) => {
                 storeDonation()
               }}
-              className="rounded-[20px] px-6 py-2 text-whiteFactory bg-redHover">Submit</button>
+              className="rounded-[20px] px-6 py-2 text-whiteFactory bg-redHover">Submit
+            </button>
             {response && <span className="text-sm
           text-green-500">{response.data}</span>}
           </div>

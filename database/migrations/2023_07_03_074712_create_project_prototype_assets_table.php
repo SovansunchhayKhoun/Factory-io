@@ -10,14 +10,12 @@
      */
     public function up () : void
     {
-      Schema ::create ( 'project_prototypes' , function ( Blueprint $table ) {
+      Schema ::create ( 'project_prototype_assets' , function ( Blueprint $table ) {
         $table -> id ();
-        $table -> double ( 'price' );
-//        $table -> string ( 'image' );
-        $table -> text ( 'description' );
-        $table -> integer ( 'project_id' );
+        $table -> string ( 'image' );
+        $table -> integer ( 'project_prototype_id' );
 
-        $table -> foreign ( 'project_id' ) -> references ( 'id' ) -> on ( 'projects' ) -> onDelete ( 'cascade' );
+        $table -> foreign ( 'project_prototype_id' ) -> references ( 'id' ) -> on ( 'project_prototypes' ) -> onDelete ( 'cascade' );
         $table -> timestamps ();
       } );
     }
@@ -27,6 +25,6 @@
      */
     public function down () : void
     {
-      Schema ::dropIfExists ( 'project_prototypes' );
+      Schema ::dropIfExists ( 'project_prototype_assets' );
     }
   };

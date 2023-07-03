@@ -2,10 +2,11 @@
 
   namespace App\Http\Resources\V1;
 
+  use App\Models\Project;
   use Illuminate\Http\Request;
   use Illuminate\Http\Resources\Json\JsonResource;
 
-  class ProjectPrototypeResource extends JsonResource
+  class SavedProjectResource extends JsonResource
   {
     /**
      * Transform the resource into an array.
@@ -16,11 +17,12 @@
     {
       return [
         'id' => $this -> id ,
+        'user_id' => $this -> user_id ,
         'project_id' => $this -> project_id ,
-//        'image' => $this -> image ,
-        'description' => $this -> description ,
-        'price' => $this -> price ,
-        'project_prototype_assets' => $this -> project_prototype_assets ,
+        'save_state' => $this -> save_state ,
+        'project' => $this -> project ,
+        'project_resource' => ProjectResource::collection (Project::where('id', $this->project_id)->get()),
+        'user' => $this -> user
       ];
     }
   }

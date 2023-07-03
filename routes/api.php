@@ -13,8 +13,10 @@ use App\Http\Controllers\Api\V1\InvoiceController;
   use App\Http\Controllers\Api\V1\ProjectController;
   use App\Http\Controllers\Api\V1\ProjectImageController;
   use App\Http\Controllers\Api\V1\ProjectLikeController;
+  use App\Http\Controllers\Api\V1\ProjectPrototypeAssetController;
   use App\Http\Controllers\Api\V1\ProjectPrototypeController;
   use App\Http\Controllers\Api\V1\ReviewController;
+  use App\Http\Controllers\Api\V1\SavedProjectController;
   use App\Http\Controllers\Api\V1\UserController;
   use App\Http\Controllers\TemporaryFileController;
   use App\Models\ProjectPrototype;
@@ -32,14 +34,23 @@ use App\Http\Controllers\Api\V1\InvoiceController;
     Route ::apiResource ( 'users' , UserController::class );
     Route ::apiResource ( 'projects' , ProjectController::class );
     Route ::apiResource ( 'project_prototypes' , ProjectPrototypeController::class );
+    Route ::apiResource ( 'project_prototype_assets' , ProjectPrototypeAssetController::class );
     Route ::apiResource ( 'project_assets' , ProjectAssetController::class );
     Route ::apiResource ( 'project_images' , ProjectImageController::class );
     Route ::apiResource ( 'addresses' , DeliveryAddressController::class );
     Route ::apiResource ( 'donations' , DonationController::class );
     Route ::apiResource ( 'project_likes' , ProjectLikeController::class );
+    Route ::apiResource ( 'saved_projects' , SavedProjectController::class );
+
+    Route ::controller ( ProjectController::class ) -> group ( function () {
+      Route ::get ( 'find_project/{user_id}' , 'find_project' );
+    } );
     Route ::apiResource ( 'fundings' , FundingController::class );
     Route ::controller ( ProjectLikeController::class ) -> group ( function () {
       Route ::post ( 'checkLike' , 'checkLike' );
+    } );
+    Route ::controller ( SavedProjectController::class ) -> group ( function () {
+      Route ::post ( 'checkUserSave' , 'checkUserSave' );
     } );
     Route::get('totalDonations', [DonationController::class,'totalDonation']);
     Route ::controller ( DeliveryAddressController::class ) -> group ( function () {

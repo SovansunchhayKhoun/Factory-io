@@ -5,7 +5,7 @@
   use Illuminate\Http\Request;
   use Illuminate\Http\Resources\Json\JsonResource;
 
-  class ProjectPrototypeResource extends JsonResource
+  class ProjectPrototypeAssetResource extends JsonResource
   {
     /**
      * Transform the resource into an array.
@@ -16,11 +16,9 @@
     {
       return [
         'id' => $this -> id ,
-        'project_id' => $this -> project_id ,
-//        'image' => $this -> image ,
-        'description' => $this -> description ,
-        'price' => $this -> price ,
-        'project_prototype_assets' => $this -> project_prototype_assets ,
+        'project_prototype_id' => $this -> project_prototype_id ,
+        'image' => $this -> image ,
+        'project_prototype' => $this -> project_prototype
       ];
     }
   }

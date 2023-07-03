@@ -11,7 +11,7 @@ export const ProjectProtoContext = ({children}) => {
   })
   const [errors, setErrors] = useState([]);
 
-  const [picture, setPicture] = useState('');
+  const [picture, setPicture] = useState([null]);
   const [prototypeList, setPrototypeList] = useState([]);
   const [prjPrototypeValues, setPrjPrototypeValues] = useState({
     price: "",
@@ -19,8 +19,10 @@ export const ProjectProtoContext = ({children}) => {
   });
 
   const handlePicture = (event) => {
-    setPicture(event.target.files[0])
-    prjPrototypeValues.image = event.target.files[0];
+    setPicture([...event.target.files])
+    prjPrototypeValues.image = event.target.files;
+    // if(event.target.files[0].type?.slice(0,5) === 'image') {
+    // }
   }
 
   const clearPrototype = () => {
@@ -28,28 +30,38 @@ export const ProjectProtoContext = ({children}) => {
       price: "",
       description: ""
     })
-    setPicture("");
+    setPicture(null);
   }
 
   const submitPrototype = (setOpen) => {
     if (!prjPrototypeValues.price || !prjPrototypeValues.description || !prjPrototypeValues.image) {
       setPrjPrototypeValues({...prjPrototypeValues, errorMsg: 'Please fill all missing fields'})
     } else {
+      prjPrototypeValues.id = prototypeList.length + 1;
       setPrototypeList([...prototypeList, prjPrototypeValues])
       clearPrototype();
+      console.log(prototypeList)
       setOpen(false)
     }
   }
 
   const postPrototype = async (project_id) => {
     try {
-      await prototypeList.forEach(prototype => {
+      await prototypeList.forEach((prototype,index) => {
         prototype.project_id = project_id;
-        Axios.post('project_prototypes', prototype, {
+        Axios.post('project_prototypes', {...prototype, image: prototype.image[0]}, {
           headers: {"Content-Type": "multipart/form-data"}
+        }).then(async ({data}) => {
+          Array.from(prototype?.image).forEach((pic) => {
+            Axios.post('project_prototype_assets', {
+              project_prototype_id: data?.id,
+              image: pic,
+            }, {headers: {"Content-Type": "multipart/form-data"}})
+          })
+        }).then(() => {
+          setPrototypeList([]);
         })
       })
-      clearPrototype();
     } catch (e) {
       setErrors(e.response.data.errors);
       console.log(e.response.data.errors);
@@ -60,6 +72,7 @@ export const ProjectProtoContext = ({children}) => {
     <StateContext.Provider value={{
       postPrototype,
       prototypeList,
+      setPrototypeList,
       submitPrototype,
       prjPrototypeValues,
       setPrjPrototypeValues,
