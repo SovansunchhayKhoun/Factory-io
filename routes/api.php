@@ -12,6 +12,7 @@
   use App\Http\Controllers\Api\V1\ProjectController;
   use App\Http\Controllers\Api\V1\ProjectImageController;
   use App\Http\Controllers\Api\V1\ProjectLikeController;
+  use App\Http\Controllers\Api\V1\ProjectPrototypeAssetController;
   use App\Http\Controllers\Api\V1\ProjectPrototypeController;
   use App\Http\Controllers\Api\V1\ReviewController;
   use App\Http\Controllers\Api\V1\SavedProjectController;
@@ -32,6 +33,7 @@
     Route ::apiResource ( 'users' , UserController::class );
     Route ::apiResource ( 'projects' , ProjectController::class );
     Route ::apiResource ( 'project_prototypes' , ProjectPrototypeController::class );
+    Route ::apiResource ( 'project_prototype_assets' , ProjectPrototypeAssetController::class );
     Route ::apiResource ( 'project_assets' , ProjectAssetController::class );
     Route ::apiResource ( 'project_images' , ProjectImageController::class );
     Route ::apiResource ( 'addresses' , DeliveryAddressController::class );
@@ -41,7 +43,7 @@
 
     Route ::controller ( ProjectController::class ) -> group ( function () {
       Route ::get ( 'find_project/{user_id}' , 'find_project' );
-    });
+    } );
     Route ::controller ( ProjectLikeController::class ) -> group ( function () {
       Route ::post ( 'checkLike' , 'checkLike' );
     } );

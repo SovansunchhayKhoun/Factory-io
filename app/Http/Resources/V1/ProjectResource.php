@@ -37,7 +37,7 @@
         'user' => $this -> users ,
         'like_count' => ProjectLike ::where ( 'project_id' , $this -> id ) -> sum ( 'like_state' ) ,
         'save_count' => SavedProject ::where ( 'project_id' , $this -> id ) -> sum ( 'save_state' ) ,
-        'projectPrototypes' => $this -> project_prototypes ,
+        'projectPrototypes' => ProjectPrototypeResource::collection ($this -> project_prototypes) ,
         'projectAssets' => $this -> project_assets ,
         'projectImages' => $this -> project_images ,
         'projectLikes' => $this -> project_likes ,

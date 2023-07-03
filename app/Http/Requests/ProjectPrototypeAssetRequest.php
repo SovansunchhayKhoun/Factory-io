@@ -4,7 +4,7 @@
 
   use Illuminate\Foundation\Http\FormRequest;
 
-  class ProjectPrototypeRequest extends FormRequest
+  class ProjectPrototypeAssetRequest extends FormRequest
   {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,8 @@
     public function rules () : array
     {
       return [
-        'project_id' => [ 'required' ] ,
-        'price' => [ 'required' , 'min:0' , 'not_in:0' ] ,
-        'description' => [ 'required' ] ,
-//        'image' => [ 'required' ]
+        'project_prototype_id' => [ 'required' ] ,
+        'image' => [ 'required' , 'image' ]
       ];
     }
   }

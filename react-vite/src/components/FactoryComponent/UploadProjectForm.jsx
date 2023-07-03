@@ -210,14 +210,6 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                 }}
                 allowDrop={true}
                 allowMultiple={true} maxFiles={1}/>
-
-              {/*<label*/}
-              {/*  className="px-4 transition duration-200 text-whiteFactory bg-redHover rounded-[20px] text-center py-2 hover:bg-redBase cursor-pointer"*/}
-              {/*  htmlFor="projectFile">*/}
-              {/*  Upload Zip File*/}
-              {/*  /!*<input onChange={event => handleFile(event)} id="projectFile" type="file" accept=".zip,.rar,.7z,.gz"*!/*/}
-              {/*  /!*       className="hidden"/>*!/*/}
-              {/*</label>*/}
               <div
                 className={`${!errors?.file && 'hidden'} mt-2 text-redBase text-xs`}>{errors?.file?.map(error => error)}</div>
             </div>

@@ -12,14 +12,11 @@
 
     public function store ( TemporaryFileRequest $request )
     {
-      $tmp_file = TemporaryFile::where('folder', $request->image)->first();
-//      dd($request->file('file'));
-
       if ( $request -> hasFile ( 'file' ) ) {
         $file = $request -> file ( 'file' );
-        $filename = $file -> getClientOriginalName ();
+        $filename = $file -> getClientOriginalName 	();
         $folder = uniqid ( 'post' , true );
-        $file->storeAs ('/posts/tmp'.$folder, $filename);
+        $file->storeAs ('/posts/tmp/'.$folder, $filename);
 
         TemporaryFile ::create ( [
           'folder' => $folder ,

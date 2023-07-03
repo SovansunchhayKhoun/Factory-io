@@ -16,6 +16,7 @@ import UserContext from "../../context/UserContext.jsx";
 import {ProjectStar} from "../../components/FactoryComponent/ProjectStar.jsx";
 import {ProjectSave} from "../../components/FactoryComponent/ProjectSave.jsx";
 import {ProjectComment} from "../../components/FactoryComponent/ProjectComment.jsx";
+import {ImageExpand} from "../../components/ImageExpand.jsx";
 
 const imgUrl = 'http://127.0.0.1:8000/projects';
 export const ProjectView = () => {
@@ -29,6 +30,7 @@ export const ProjectView = () => {
   })
   const {postLike, postSave} = useProjectContext();
 
+  // console.log(project)
   const navigate = useNavigate();
   const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -37,6 +39,8 @@ export const ProjectView = () => {
   const postDate = `${new Date(project?.created_at.slice(0, 10)).getDate()}-${monthNames[new Date(project?.created_at.slice(0, 10)).getMonth()]}-${new Date(project?.created_at.slice(0, 10)).getFullYear()}`
 
   const [tab, setTab] = useState('fh');
+  const [expand, setExpand] = useState(false)
+  const [imgExpand, setImgExpand] = useState('');
 
   useEffect(() => {
     projectReFetch()
@@ -68,12 +72,19 @@ export const ProjectView = () => {
               <Carousel>
                 {project?.projectImages?.map(projectImage => {
                   return (
-                    <img key={projectImage.id} className="relative max-h-[350px] object-contain bg-grayFactory"
-                         loading={"lazy"}
-                         src={`${imgUrl}/${projectImage?.image}`} alt=""/>
+                    <button onClick={(e) => {
+                      e.stopPropagation()
+                      setExpand(!expand)
+                      setImgExpand(projectImage.image)
+                    }} className={"relative flex justify-center"}>
+                        <img key={projectImage.id} className=" max-h-[350px] object-contain bg-grayFactory"
+                             loading={"lazy"}
+                             src={`${imgUrl}/${projectImage?.image}`} alt=""/>
+                    </button>
                   )
                 })}
               </Carousel>
+              <ImageExpand imgSrc={`${imgUrl}/${imgExpand}`} setOpen={setExpand} open={expand}/>
             </section>
 
             <section className='justify-center flex flex-col w-full gap-y-3'>

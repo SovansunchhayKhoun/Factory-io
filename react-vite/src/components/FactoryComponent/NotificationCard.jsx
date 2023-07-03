@@ -8,7 +8,7 @@ export const NotificationCard = ({project}) => {
   const {projectImages, id} = project_resource[0];
   const {updateIndicator} = useProjectContext()
   const getTimePastHour = (time) => {
-    return new Date().getHours() - new Date(time).getHours()
+    return new Date().getHours() - new Date(time).getHours() > 0 ? new Date().getHours() - new Date(time).getHours() : -(new Date().getHours() - new Date(time).getHours());
   }
 
   const getTimePastMinute = (time) => {

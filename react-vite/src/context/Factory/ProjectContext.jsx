@@ -42,7 +42,7 @@ export const ProjectContext = ({children}) => {
     await projectLikesReFetch()
     await userLikeReFetch()
   }
-  const {postPrototype} = useProjectProtoContext();
+  const {postPrototype, clearPrototypes} = useProjectProtoContext();
   const [errors, setErrors] = useState({});
   const [picture, setPicture] = useState([]);
   const [file, setFile] = useState({});
