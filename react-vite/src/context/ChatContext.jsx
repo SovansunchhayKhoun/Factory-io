@@ -96,6 +96,7 @@ export const ChatProvider = ({children}) => {
   };
 
   const sendMessage = async (sender, receiver, setMessageInput) => {
+
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
     if (messageImage !== '' || messagePost.msg_content) {
@@ -121,6 +122,32 @@ export const ChatProvider = ({children}) => {
       }
     }
   }
+  const autoSendMessage = async (sender, receiver,msg) => {
+    messagePost.msg_content = msg
+    const tempDate = new Date();
+    const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
+    if (messageImage !== '' || messagePost.msg_content) {
+      messagePost.image = messageImage;
+      messagePost.receiver_id = receiver;
+      // messagePost.chat_id = findChat(user?.username, receiver)?.id ?? await findChat(user?.username, receiver)?.then(res => res.id);
+      messagePost.chat_id = getChat(user?.username, receiver)[0]?.id || await findChat(user?.username, receiver)?.then(res => res.id);
+      messagePost.sender_id = user?.username;
+      messagePost.time_sent = currentDate;
+      messagePost.is_read = 0;
+      setMessagePost({...messagePost});
+      try {
+        await Axios.post('message', messagePost, {
+          headers: {'Content-Type': "multipart/form-data"}
+        }).then(async () => {
+          await messageReFetch();
+          await chatReFetch()
+        });
+      } catch (msg) {
+        console.log(msg)
+      }
+    }
+  }
+
   return (
     <>
       <ChatContext.Provider value={{
@@ -141,7 +168,8 @@ export const ChatProvider = ({children}) => {
         message,
         messageReFetch,
         setMessageImage,
-        setMessagePost
+        setMessagePost,
+        autoSendMessage,
       }}>
         {children}
       </ChatContext.Provider>

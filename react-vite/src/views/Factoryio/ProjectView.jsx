@@ -12,6 +12,7 @@ import {Carousel} from "flowbite-react";
 import {useProjectContext} from "../../context/Factory/ProjectContext.jsx";
 import {useAuthContext} from "../../context/AuthContext.jsx";
 import UserContext from "../../context/UserContext.jsx";
+import chatContext from "../../context/ChatContext.jsx";
 
 const imgUrl = 'http://127.0.0.1:8000/projects';
 export const ProjectView = () => {
@@ -19,6 +20,7 @@ export const ProjectView = () => {
   const navigate = useNavigate();
   const {user} = useAuthContext();
   const {users} = useContext(UserContext);
+  const {initChat} = useContext(chatContext)
   const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ];
@@ -97,6 +99,7 @@ export const ProjectView = () => {
                   <button
                     onClick={(e) => {
                       e.stopPropagation()
+                      initChat('admin', user.username)
                       setModalOpen(true)
                     }}
                     className="rounded-[20px] px-4 py-2 text-whiteFactory bg-redHover">

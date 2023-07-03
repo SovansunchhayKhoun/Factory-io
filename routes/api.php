@@ -4,7 +4,8 @@
   use App\Http\Controllers\Api\V1\DeliveryAddressController;
   use App\Http\Controllers\Api\V1\ChatController;
   use App\Http\Controllers\Api\V1\DonationController;
-  use App\Http\Controllers\Api\V1\InvoiceController;
+use App\Http\Controllers\Api\V1\FundingController;
+use App\Http\Controllers\Api\V1\InvoiceController;
   use App\Http\Controllers\Api\V1\InvoiceProductController;
   use App\Http\Controllers\Api\V1\MessageController;
   use App\Http\Controllers\Api\V1\ProductController;
@@ -36,9 +37,11 @@
     Route ::apiResource ( 'addresses' , DeliveryAddressController::class );
     Route ::apiResource ( 'donations' , DonationController::class );
     Route ::apiResource ( 'project_likes' , ProjectLikeController::class );
+    Route ::apiResource ( 'fundings' , FundingController::class );
     Route ::controller ( ProjectLikeController::class ) -> group ( function () {
       Route ::post ( 'checkLike' , 'checkLike' );
     } );
+    Route::get('totalDonations', [DonationController::class,'totalDonation']);
     Route ::controller ( DeliveryAddressController::class ) -> group ( function () {
       Route ::get ( 'checkAddress/{userId}/{placeId}' , 'checkAddress' );
       Route ::get ( 'getLastInvoice' , 'getLastInvoice' );
@@ -68,6 +71,7 @@
     Route ::get ( 'last_project' , [ ProjectController::class , 'fetchLastProject' ] );
     Route ::get ( 'mostSoldItem' , [ InvoiceProductController::class , 'mostSoldItem' ] );
     Route ::get ( 'getLastInv' , [ InvoiceController::class , 'getLastInv' ] );
+
 //    Route ::get ( 'checkAddress/{userId}/{placeId}' , [ DeliveryAddressController::class , 'checkAddress' ] );
 //    Route ::get ( 'getLastInvoice' , [ DeliveryAddressController::class , 'getLastInvoice' ] );
 //    Route ::get ( 'getAddress/{address}' , [ DeliveryAddressController::class , 'getAddress' ] );

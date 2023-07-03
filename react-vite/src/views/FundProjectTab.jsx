@@ -1,21 +1,17 @@
-import React, {useContext, useEffect, useState} from "react";
-import { FilePond, registerPlugin } from 'react-filepond'
-import 'filepond/dist/filepond.min.css'
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
-import DonateContext from "../context/DonateContext.jsx";
+import React, {useContext, useState} from "react";
+import FundingContext from "../context/FundingContext.jsx";
+import ChatContext from "../context/ChatContext.jsx";
 import {useAuthContext} from "../context/AuthContext.jsx";
-import {ImagePreview} from "../components/ImagePreview.jsx";
-import {ImageExpand} from "../components/ImageExpand.jsx";
-import {Carousel} from "flowbite-react";
-registerPlugin(FilePondPluginFileValidateType)
 
-export const FundProjectTab = ({project,setSection,setIsHidden}) => {
-  const imgUrl = 'http://127.0.0.1:8000/projects/'
-  const {storeDonation,amount,setAmount,setImage,comment,setComment,image,errors,response} = useContext(DonateContext)
+export const FundProjectTab = ({project}) => {
+  const {storeFunding,amount,setAmount,setImage,comment,setComment,image,errors,response} = useContext(FundingContext)
   const options = [
     {value: '1', text: 'ABA - $$$'},
     {value: '2', text: 'ABA - KHR'},
   ];
+  const {
+    setMessageImage,
+  } = useContext(ChatContext);
   const [selected, setSelected] = useState(1);
   const handleChange = event => {
     setSelected(Number(event.target.value));
@@ -29,24 +25,16 @@ export const FundProjectTab = ({project,setSection,setIsHidden}) => {
             <p>Project name: {project?.name}</p>
             <p>Created by: {project?.user.firstName + ' ' + project?.user.lastName}</p>
             <p>Target: $ {project?.target_fund}</p>
-            {/*<section className="w-full">*/}
-            {/*  <Carousel>*/}
-            {/*    {project?.projectImages?.map(projectImage => {*/}
-            {/*      return (*/}
-            {/*        <img key={projectImage.id} className="relative max-h-[250px] object-contain bg-grayFactory"*/}
-            {/*             loading={"lazy"}*/}
-            {/*             src={`${imgUrl}/${projectImage?.image}`} alt=""/>*/}
-            {/*      )*/}
-            {/*    })}*/}
-            {/*  </Carousel>*/}
-            {/*</section>*/}
           </div>
         </div>
         <div className="flex flex-col w-full">
           <label htmlFor="comment">Comment</label>
           <textarea
             rows={4}
-            onChange={(e) => setComment(e.target.value)}
+            value={comment}
+            onChange={(e) => {
+              setComment(e.target.value)
+            }}
             name="comment" id="comment" className="border border-slate-600 rounded-md"/>
           {errors && <span className="text-red-600 text-sm mt-2">{errors.comment}</span>}
         </div>
@@ -109,6 +97,7 @@ export const FundProjectTab = ({project,setSection,setIsHidden}) => {
                      id="file" accept="image/*"
                      onChange={(e) => {
                        setImage(e.target.files[0])
+                       setMessageImage(e.target.files[0])
                      }}/>
             </label>
             {image &&
@@ -119,7 +108,10 @@ export const FundProjectTab = ({project,setSection,setIsHidden}) => {
                 </div>
                 <div className="flex gap-x-2">
                   <button className="rounded-md md:text-base text-[14px] bg-redHover text-whiteFactory px-2 py-1"
-                          onClick={(e) => setImage('')}>
+                          onClick={(e) => {
+                            setImage('')
+                            setMessageImage('')
+                          }}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                          stroke="currentColor" className="w-6 h-6">
                       <path strokeLinecap="round" strokeLinejoin="round"
@@ -141,7 +133,8 @@ export const FundProjectTab = ({project,setSection,setIsHidden}) => {
             {errors && <span className="text-red-600 text-sm mt-2">{errors.image}</span>}
             <button
               onClick={(e) => {
-                storeDonation()
+                setMessageImage(image)
+                storeFunding(project)
               }}
               className="rounded-[20px] px-6 py-2 text-blackFactory bg-whiteFactory">Submit</button>
             {response && <span className="text-sm

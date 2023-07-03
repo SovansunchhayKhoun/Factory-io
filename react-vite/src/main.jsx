@@ -20,6 +20,7 @@ import {GoogleMapsProvider} from "./context/GoogleMapsContext.jsx";
 import {ProjectContext} from "./context/Factory/ProjectContext.jsx";
 import {ProjectProtoContext} from "./context/Factory/ProjectProtoContext.jsx";
 import {DonateProvider} from "./context/DonateContext.jsx";
+import {FundingProvider} from "./context/FundingContext.jsx";
 
 const client = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -35,9 +36,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                     <InvoiceProvider>
                       <ProductProvider>
                         <CartProvider>
-                          <DonateProvider>
-                            <RouterProvider router={router}/>
-                          </DonateProvider>
+                          <FundingProvider>
+                            <DonateProvider>
+                              <RouterProvider router={router}/>
+                            </DonateProvider>
+                          </FundingProvider>
                         </CartProvider>
                       </ProductProvider>
                     </InvoiceProvider>

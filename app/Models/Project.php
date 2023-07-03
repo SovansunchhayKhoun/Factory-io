@@ -50,6 +50,11 @@
     {
       return $this->hasMany (ProjectLike::class, 'project_id', 'id');
     }
+
+    public function fundings() : HasMany
+    {
+      return $this->hasMany(Funding::class,'project_id','id');
+    }
 //    public function users() {
 //      return $this->belongsToMany (User::class, 'project_users', 'project_id', 'user_id');
 //    }

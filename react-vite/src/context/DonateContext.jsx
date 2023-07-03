@@ -12,6 +12,7 @@ export const DonateProvider = ({children}) => {
   const [amount,setAmount] = useState('')
   const [errors,setErrors] = useState({})
   const [response,setResponse] = useState({})
+  const [totalDonation,setTotalDonation] = useState('')
   const {user} = useAuthContext()
 
   const {data: donationsQuery, refetch: donationsQueryReFetch, isLoading: donationLoading} = useQuery(['donationsQuery'], () => {
@@ -21,6 +22,14 @@ export const DonateProvider = ({children}) => {
       });
     }
   );
+  const {data: totalDonations, refetch: totalDonationsReFetch} = useQuery(['totalDonations'], () => {
+      return Axios.get(`totalDonations`).then((res) => {
+        setTotalDonation(res.data[0])
+        return res.data[0].total
+      });
+    }
+  );
+
 
   const resetInput = () => {
     setAmount('')
@@ -28,6 +37,8 @@ export const DonateProvider = ({children}) => {
     setComment('')
     setErrors({})
   }
+
+
 
   const storeDonation = async () => {
     await Axios.post('donations',{
@@ -47,6 +58,13 @@ export const DonateProvider = ({children}) => {
       }
     })
   }
+  const deleteDonation = async (id) => {
+    await Axios.delete('donations/' + id).then(() => {
+      donationsQueryReFetch()
+      totalDonationsReFetch()
+    }).catch((err) => {console.log(err)
+    })
+  }
 
   return <DonateContext.Provider value={{
     donations,
@@ -64,7 +82,11 @@ export const DonateProvider = ({children}) => {
     errors,
     setErrors,
     response,
-    setResponse
+    setResponse,
+    totalDonations,
+    totalDonation,
+    totalDonationsReFetch,
+    deleteDonation
   }}>
     {children}</DonateContext.Provider>;
 };

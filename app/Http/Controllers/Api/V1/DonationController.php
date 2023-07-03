@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DonationRequest;
 use App\Http\Resources\V1\DonationResource;
 use App\Models\Donation;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class DonationController extends Controller
@@ -26,5 +28,19 @@ class DonationController extends Controller
     }
     Donation::create($data);
     return response () -> json ( 'Donation Created' );
+  }
+  public function destroy ( Donation $donation )
+  {
+    $filename = substr ( $donation -> image , 10 );
+    $storage = Storage ::disk ( 'donations' );
+    if ( $storage -> exists ( $filename ) ) {
+      $storage -> delete ( $filename );
+    }
+    $donation -> delete ();
+    return response () -> json ( 'Donation deleted' );
+  }
+  public function totalDonation()
+  {
+    return (DB::select("SELECT SUM(amount) as total FROM donations"));
   }
 }
