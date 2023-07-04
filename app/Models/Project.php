@@ -58,4 +58,8 @@
 //    public function users() {
 //      return $this->belongsToMany (User::class, 'project_users', 'project_id', 'user_id');
 //    }
+    public function comments ()
+    {
+      return $this -> morphMany ( Comment::class , 'commentable' )->whereNull ('parent_id');
+    }
   }

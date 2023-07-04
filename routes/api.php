@@ -1,6 +1,7 @@
 <?php
 
   use App\Http\Controllers\Api\AuthController;
+  use App\Http\Controllers\Api\V1\CommentController;
   use App\Http\Controllers\Api\V1\DeliveryAddressController;
   use App\Http\Controllers\Api\V1\ChatController;
   use App\Http\Controllers\Api\V1\DonationController;
@@ -40,6 +41,7 @@
     Route ::apiResource ( 'donations' , DonationController::class );
     Route ::apiResource ( 'project_likes' , ProjectLikeController::class );
     Route ::apiResource ( 'saved_projects' , SavedProjectController::class );
+    Route ::apiResource ( 'comments' , CommentController::class );
 
     Route ::controller ( ProjectController::class ) -> group ( function () {
       Route ::get ( 'find_project/{user_id}' , 'find_project' );
