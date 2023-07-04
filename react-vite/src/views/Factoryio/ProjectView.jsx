@@ -17,6 +17,7 @@ import {ProjectSave} from "../../components/FactoryComponent/ProjectSave.jsx";
 import {ProjectComment} from "../../components/FactoryComponent/ProjectComment.jsx";
 import {ImageExpand} from "../../components/ImageExpand.jsx";
 import chatContext from "../../context/ChatContext.jsx";
+import FundingContext from "../../context/FundingContext.jsx";
 
 const imgUrl = 'http://127.0.0.1:8000/projects';
 export const ProjectView = () => {
@@ -29,22 +30,15 @@ export const ProjectView = () => {
     "July", "August", "September", "October", "November", "December"
   ];
   const [modalOpen, setModalOpen] = useState(false);
-  const [like, setLike] = useState(false);
-  const {postLike, projectsReFetch} = useProjectContext();
+  const {postLike, postSave} = useProjectContext();
+  const {setSection,setCurrentItem} = useContext(FundingContext)
 
   const {data: project, refetch: projectReFetch, isLoading: projectIsLoading} = useQuery(['project', id], () => {
     return Axios.get(`projects/${id}`).then(res => {
       return res.data.data;
     })
   })
-  const {postLike, postSave} = useProjectContext();
 
-  // console.log(project)
-  const navigate = useNavigate();
-  const monthNames = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
-  const [modalOpen, setModalOpen] = useState(false);
   const postDate = `${new Date(project?.created_at.slice(0, 10)).getDate()}-${monthNames[new Date(project?.created_at.slice(0, 10)).getMonth()]}-${new Date(project?.created_at.slice(0, 10)).getFullYear()}`
 
   const [tab, setTab] = useState('fh');
@@ -80,6 +74,7 @@ export const ProjectView = () => {
               <Carousel>
                 {project?.projectImages?.map(projectImage => {
                   return (
+                    // eslint-disable-next-line react/jsx-key
                     <button onClick={(e) => {
                       e.stopPropagation()
                       setExpand(!expand)
@@ -120,6 +115,7 @@ export const ProjectView = () => {
                     onClick={(e) => {
                       e.stopPropagation()
                       initChat('admin', user.username)
+                      setSection('fp')
                       setModalOpen(true)
                     }}
                     className="rounded-[20px] px-4 py-2 text-whiteFactory bg-redHover">
@@ -173,7 +169,7 @@ export const ProjectView = () => {
 
             <section className="pt-4 w-full">
               {tab === 'fh' && <PVFactoryHub project={project}/>}
-              {tab === 'project' && <PVProjectTab projectPrototypes={project?.projectPrototypes}/>}
+              {tab === 'project' && <PVProjectTab setSection={setSection} setCurrentItem={setCurrentItem} user={user} initChat={initChat} project={project} projectPrototypes={project?.projectPrototypes}/>}
             </section>
           </section>
         </section>

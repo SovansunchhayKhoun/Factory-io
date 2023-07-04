@@ -18,13 +18,41 @@ export const FundProjectTab = ({project}) => {
   };
   return (
       <div
-        className="flex flex-col gap-y-2 items-center justify-center">
+        className="flex flex-col gap-y-2 mx-auto items-center justify-center w-full min-w-[500px] pt-2">
         <div className="flex justify-center items-center flex-row gap-x-2">
           <div className="items-center flex flex-col gap-y-2">
             <h1 className="font-bold text-2xl">Fund Project</h1>
-            <p>Project name: {project?.name}</p>
-            <p>Created by: {project?.user.firstName + ' ' + project?.user.lastName}</p>
-            <p>Target: $ {project?.target_fund}</p>
+            <div className={`flex flex-col gap-y-4`}>
+              <select
+                value={selected}
+                onChange={event => handleChange(event)}
+                className="bg-whiteFactory py-0 px-2 rounded-sm w-full
+              md:text-base text-blackFactory font-semibold text-[10px]">
+                {options.map((option) => {
+                  return (
+                    <option key={option.value} value={option.value}>
+                      {option.text}
+                    </option>
+                  );
+                })}
+              </select>
+              <div>
+                {selected === 1 &&
+                  (
+                    <img className={`object-contain
+              md:w-[200px] md:h-[200px] md:mt-0 mt-2
+              `} src="/assets/images/qr-dollars.jpg"
+                         alt=""/>
+                  )
+                }
+
+                {selected === 2 &&
+                  <img className={`object-contain
+              md:w-[200px] md:h-[200px] md:mt-0 mt-2
+              `} src="/assets/images/qr-riel.jpg"
+                       alt=""/>}
+              </div>
+            </div>
           </div>
         </div>
         <div className="flex flex-col w-full">
@@ -55,43 +83,11 @@ export const FundProjectTab = ({project}) => {
             id="amount" className="border border-slate-600 rounded-md px-2 py-1"/>
           {errors && <span className="text-red-600 text-sm mt-2">{errors.amount}</span>}
         </div>
-        <div className="flex flex-row items-start gap-2 bg-redHover p-12 w-full rounded-md justify-evenly">
-          <div className={`flex flex-col gap-y-8`}>
-            <select
-              value={selected}
-              onChange={event => handleChange(event)}
-              className="bg-whiteFactory py-0 px-2 rounded-sm w-full
-              md:text-base text-blackFactory font-semibold text-[10px]">
-              {options.map((option) => {
-                return (
-                  <option key={option.value} value={option.value}>
-                    {option.text}
-                  </option>
-                );
-              })}
-            </select>
-            <div>
-              {selected === 1 &&
-                (
-                  <img className={`object-contain
-              md:w-[200px] md:h-[200px] md:mt-0 mt-2
-              `} src="/assets/images/qr-dollars.jpg"
-                       alt=""/>
-                )
-              }
-
-              {selected === 2 &&
-                <img className={`object-contain
-              md:w-[200px] md:h-[200px] md:mt-0 mt-2
-              `} src="/assets/images/qr-riel.jpg"
-                     alt=""/>}
-            </div>
-          </div>
           <div className={`flex flex-col`}>
             <label
               className="cursor-pointer lg:inline-flex md:px-3 md:py-1 md:w-60 bg-whiteFactory
                 flex px-2 py-[0.1rem] border border-slate-600 rounded-lg text-blackFactory
-                md:text-base text-[12px]" htmlFor="file">
+                md:text-base text-[12px] mb-2" htmlFor="file">
               Select Image
               <input className='hidden' type="file"
                      id="file" accept="image/*"
@@ -130,17 +126,16 @@ export const FundProjectTab = ({project}) => {
                 </div>
               </div>
             }
-            {errors && <span className="text-red-600 text-sm mt-2">{errors.image}</span>}
+            {errors && <span className="text-red-600 text-sm mt-2 mb-2">{errors.image}</span>}
             <button
               onClick={(e) => {
                 setMessageImage(image)
                 storeFunding(project)
               }}
-              className="rounded-[20px] px-6 py-2 text-blackFactory bg-whiteFactory">Submit</button>
+              className="rounded-[20px] px-6 py-2 text-blackFactory bg-redHover text-whiteFactory">Submit</button>
             {response && <span className="text-sm
           text-green-500">{response.data}</span>}
           </div>
-        </div>
       </div>
   )
 }

@@ -8,6 +8,7 @@ Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const FundingContext = createContext();
 export const FundingProvider = ({children}) => {
   const [fundings,setFundings] = useState([])
+  const [section, setSection] = useState('fp')
   const [image,setImage] = useState('')
   const [comment,setComment] = useState('')
   const [amount,setAmount] = useState('')
@@ -55,9 +56,9 @@ export const FundingProvider = ({children}) => {
       resetInput()
     }).catch((err) =>{
       console.log(err)
-      // if(err.response.status === 422){
-      //   setErrors(err.response.data.errors)
-      // }
+      if(err.response.status === 422){
+        setErrors(err.response.data.errors)
+      }
     })
   }
 
@@ -77,6 +78,8 @@ export const FundingProvider = ({children}) => {
     setErrors,
     response,
     setResponse,
+    section,
+    setSection
   }}>
     {children}</FundingContext.Provider>;
 };

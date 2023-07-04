@@ -2,13 +2,13 @@
 
 namespace App\Http\Resources\V1;
 
-use App\Models\Product;
 use App\Models\Project;
+use App\Models\ProjectPrototype;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FundingResource extends JsonResource
+class BackProjectResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -23,9 +23,12 @@ class FundingResource extends JsonResource
           'image' => $this->image,
           'project_id' => $this->project_id,
           'funder_id' => $this->funder_id,
+          'prototype_id' => $this->prototype_id,
           'amount' => $this->amount,
+          'qty' => $this->qty,
           'funder' => User::where('id', $this->funder_id)->get(),
           'project' => ProjectResource::collection(Project::where('id', $this->project_id)->get()),
+          'prototype' => ProjectPrototypeResource::collection(ProjectPrototype::where('id', $this->prototype_id)->get()),
           'created_at' => $this->created_at,
         ];
     }

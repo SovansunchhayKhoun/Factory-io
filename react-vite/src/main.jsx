@@ -21,6 +21,7 @@ import {ProjectContext} from "./context/Factory/ProjectContext.jsx";
 import {ProjectProtoContext} from "./context/Factory/ProjectProtoContext.jsx";
 import {DonateProvider} from "./context/DonateContext.jsx";
 import {FundingProvider} from "./context/FundingContext.jsx";
+import {BackProjectProvider} from "./context/BackProjectContext.jsx";
 
 const client = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -36,11 +37,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                     <InvoiceProvider>
                       <ProductProvider>
                         <CartProvider>
-                          <FundingProvider>
-                            <DonateProvider>
-                              <RouterProvider router={router}/>
-                            </DonateProvider>
-                          </FundingProvider>
+                          <BackProjectProvider>
+                            <FundingProvider>
+                              <DonateProvider>
+                                <RouterProvider router={router}/>
+                              </DonateProvider>
+                            </FundingProvider>
+                          </BackProjectProvider>
                         </CartProvider>
                       </ProductProvider>
                     </InvoiceProvider>

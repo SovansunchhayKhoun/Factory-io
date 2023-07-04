@@ -1,18 +1,5 @@
-import React, {useContext, useContext, useEffect, useState} from "react";
-import {FilePond, registerPlugin} from 'react-filepond'
-import 'filepond/dist/filepond.min.css'
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
+import React, {useContext, useState} from "react";
 import DonateContext from "../context/DonateContext.jsx";
-import {useAuthContext} from "../context/AuthContext.jsx";
-import {ImagePreview} from "../components/ImagePreview.jsx";
-import {ImageExpand} from "../components/ImageExpand.jsx";
-
-import DonateContext from "../context/DonateContext.jsx";
-import {useAuthContext} from "../context/AuthContext.jsx";
-import {ImagePreview} from "../components/ImagePreview.jsx";
-import {ImageExpand} from "../components/ImageExpand.jsx";
-registerPlugin(FilePondPluginFileValidateType)
-
 export const DonateContent = ({setModalOpen, modalOpen}) => {
   const {
     storeDonation,
@@ -25,7 +12,6 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
     resetInput,
     errors,
     response,
-    setResponse
   } = useContext(DonateContext)
   const options = [
     {value: '1', text: 'ABA - $$$'},
@@ -47,7 +33,6 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
               <button onClick={(e) => {
                 e.stopPropagation();
                 resetInput()
-                setResponse({})
                 setModalOpen(false);
               }} className="transition duration-200 rounded-[50%] hover:bg-blackFactory/50">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
@@ -148,23 +133,6 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
                 </div>
               }
               {errors && <span className="text-red-600 text-sm mt-2">{errors.image}</span>}
-              {/*<FilePond*/}
-              {/*  styleButtonRemoveItemAlign={false}*/}
-              {/*  files={file}*/}
-              {/*  server={{*/}
-              {/*    process: "http://127.0.0.1:8000/api/v1/tmp-post",*/}
-              {/*    revert: "http://127.0.0.1:8000/api/v1/tmp-delete",*/}
-              {/*  }}*/}
-              {/*  onupdatefiles={(e) => {*/}
-              {/*    setFile(e)*/}
-              {/*    handleFile(e[0].file)*/}
-              {/*  }}*/}
-              {/*  allowDrop={true}*/}
-              {/*  allowMultiple={false}*/}
-              {/*  acceptedFileTypes={['image/*']}*/}
-              {/*/>*/}
-
-
             </div>
             <button
               onClick={(e) => {
