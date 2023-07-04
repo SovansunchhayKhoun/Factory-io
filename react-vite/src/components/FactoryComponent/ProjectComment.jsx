@@ -1,9 +1,13 @@
 import React, {useState} from "react";
 import AdminPopUp from "../Modals/AdminPopUp.jsx";
 import {CommentCard} from "./CommentCard.jsx";
+import {useCommentContext} from "../../context/Factory/CommentContext.jsx";
 
 export const ProjectComment = ({iconWidth, iconHeight}) => {
   const [cmtOpen, setCmtOpen] = useState(false);
+  const {comments} = useCommentContext()
+
+  // console.log(comments[0].body)
   return (
     <>
       {/*comment icon*/}
@@ -19,12 +23,12 @@ export const ProjectComment = ({iconWidth, iconHeight}) => {
         </svg>
       </button>
       <AdminPopUp id={"comment-screen"} modalOpen={cmtOpen} setModalOpen={setCmtOpen}
-                  content={<CommentView cmtOpen={cmtOpen} setCmtOpen={setCmtOpen}/>}/>
+                  content={<CommentView comments={comments} cmtOpen={cmtOpen} setCmtOpen={setCmtOpen}/>}/>
     </>
   );
 };
 
-const CommentView = ({cmtOpen, setCmtOpen}) => {
+const CommentView = ({cmtOpen, setCmtOpen, comments}) => {
   return (
     <section className={"w-screen h-screen flex justify-center items-center"}>
       <div className="w-1/2 h-2/3 flex flex-col bg-white rounded-md">
@@ -49,7 +53,12 @@ const CommentView = ({cmtOpen, setCmtOpen}) => {
 
         {/*cmt body*/}
         <section className={"h-full overflow-auto p-4"}>
-          <CommentCard/>
+          {/*{comments[0].body}*/}
+          {comments?.map(cmt => {
+            return (
+              <CommentCard key={cmt.id} cmt={cmt}/>
+            )
+          })}
         </section>
 
         {/*cmt input*/}

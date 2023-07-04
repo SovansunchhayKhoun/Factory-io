@@ -60,6 +60,6 @@
 //    }
     public function comments ()
     {
-      return $this -> morphMany ( Comment::class , 'commentable' )->whereNull ('parent_id');
+      return $this -> hasMany ( Comment::class , 'project_id', 'id' );
     }
   }

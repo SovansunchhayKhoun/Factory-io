@@ -13,7 +13,7 @@
   {
     public function index ()
     {
-      return CommentResource ::collection ( Comment ::latest () -> orderBy ( 'id' , 'asc' ) -> get () );
+      return CommentResource ::collection ( Comment ::latest () -> orderBy('id', 'desc')-> where ( 'parent_id' , null ) -> get () );
     }
 
     public function store ( CommentRequest $request )
