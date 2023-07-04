@@ -21,6 +21,7 @@
         'user_id' => $this -> user_id ,
         'project_id' => $this -> project_id ,
         'parent_id' => $this -> parent_id ,
+        'user_cmt' => $this->user,
         'replies' => CommentResource ::collection ( $this -> replies ) ,
       ];
     }

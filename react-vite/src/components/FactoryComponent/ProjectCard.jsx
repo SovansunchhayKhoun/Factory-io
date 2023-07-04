@@ -50,7 +50,7 @@ export const ProjectCard = ({project}) => {
           </Link>
           <div className={"border-t-2 border-grayFactory mt-auto pt-2 pb-3 flex items-center gap-x-3 justify-between"}>
             <ProjectStar project={project}/>
-            <ProjectComment />
+            <ProjectComment project={project}/>
             <ProjectSave project={project}/>
           </div>
         </div>

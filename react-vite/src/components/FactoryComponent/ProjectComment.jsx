@@ -3,10 +3,8 @@ import AdminPopUp from "../Modals/AdminPopUp.jsx";
 import {CommentCard} from "./CommentCard.jsx";
 import {useCommentContext} from "../../context/Factory/CommentContext.jsx";
 
-export const ProjectComment = ({iconWidth, iconHeight}) => {
+export const ProjectComment = ({iconWidth, iconHeight, project}) => {
   const [cmtOpen, setCmtOpen] = useState(false);
-  const {comments} = useCommentContext()
-
   // console.log(comments[0].body)
   return (
     <>
@@ -23,12 +21,13 @@ export const ProjectComment = ({iconWidth, iconHeight}) => {
         </svg>
       </button>
       <AdminPopUp id={"comment-screen"} modalOpen={cmtOpen} setModalOpen={setCmtOpen}
-                  content={<CommentView comments={comments} cmtOpen={cmtOpen} setCmtOpen={setCmtOpen}/>}/>
+                  content={<CommentView project={project} cmtOpen={cmtOpen} setCmtOpen={setCmtOpen}/>}/>
     </>
   );
 };
 
-const CommentView = ({cmtOpen, setCmtOpen, comments}) => {
+const CommentView = ({cmtOpen, setCmtOpen, project}) => {
+  const {comments, handleCommentInput, setCommentInput, commentInput, submitComment} = useCommentContext()
   return (
     <section className={"w-screen h-screen flex justify-center items-center"}>
       <div className="w-1/2 h-2/3 flex flex-col bg-white rounded-md">
@@ -54,9 +53,10 @@ const CommentView = ({cmtOpen, setCmtOpen, comments}) => {
         {/*cmt body*/}
         <section className={"h-full overflow-auto p-4"}>
           {/*{comments[0].body}*/}
+          {comments?.length === 0 && <span className={"text-grayFactory"}>Write the first comment...</span>}
           {comments?.map(cmt => {
             return (
-              <CommentCard key={cmt.id} cmt={cmt}/>
+              <CommentCard key={cmt.id} cmt={cmt} project={project}/>
             )
           })}
         </section>
@@ -71,9 +71,9 @@ const CommentView = ({cmtOpen, setCmtOpen, comments}) => {
             </svg>
             <input id={"file-input"} className="hidden" type="file"/>
           </label>
-          <input type="text" className="rounded-[20px] w-2/3 placeholder:text-sm p-1 px-4"
+          <input value={commentInput} onChange={handleCommentInput} type="text" className="rounded-[20px] w-2/3 placeholder:text-sm p-1 px-4"
                  placeholder={"Speak your mind..."}/>
-          <button>
+          <button onClick={() => submitComment(project)}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                  stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round"
