@@ -11,6 +11,7 @@ export const CommentContext = ({children}) => {
   })
   const {user} = useAuthContext();
   const [commentInput, setCommentInput] = useState('');
+  const [picture, setPicture] = useState(null);
   const handleCommentInput = (event) => {
     setCommentInput(event.target.value);
   }
@@ -21,16 +22,19 @@ export const CommentContext = ({children}) => {
       day: '2-digit',
     }).split('/').reverse().join('-') + ' ' + new Date().toTimeString().slice(0, 8);
 
-    await Axios.post('comments', {
-      project_id: project.id,
-      user_id: user?.id,
-      comment_time: comment_time,
-      body: commentInput
-    }).then(({data}) => {
-      commentsReFetch()
-      setCommentInput('')
-      console.log(data)
-    })
+    if(commentInput || picture) {
+      await Axios.post('comments', {
+        project_id: project.id,
+        user_id: user?.id,
+        comment_time: comment_time,
+        body: commentInput,
+        image: picture,
+      }, {headers: {"Content-type" : "multipart/form-data"}}).then(({data}) => {
+        commentsReFetch()
+        setCommentInput('')
+        console.log(data)
+      })
+    }
   }
 
   const replyComment = async (cmt, project, setReplyOpen) => {
@@ -41,21 +45,30 @@ export const CommentContext = ({children}) => {
       month: '2-digit',
       day: '2-digit',
     }).split('/').reverse().join('-') + ' ' + new Date().toTimeString().slice(0, 8);
-    await Axios.post ('comments', {
-      user_id: user?.id,
-      project_id: project?.id,
-      parent_id: cmt?.id,
-      body: commentInput,
-      comment_time: comment_time,
-    }).then(() => {
-      commentsReFetch()
-      setReplyOpen(false)
-      setCommentInput('')
-    })
+    if(commentInput || picture) {
+      await Axios.post ('comments', {
+        user_id: user?.id,
+        project_id: project?.id,
+        parent_id: cmt?.id,
+        body: commentInput,
+        comment_time: comment_time,
+        image: picture
+      }, {headers: {"Content-type" : "multipart/form-data"}}).then(() => {
+        commentsReFetch()
+        setReplyOpen(false)
+        setCommentInput('')
+      })
+    }
   }
 
+  const handlePicture = (event) => {
+    setPicture(event.target.files[0])
+  }
   return (
     <StateContext.Provider value={{
+      setPicture,
+      picture,
+      handlePicture,
       replyComment,
       submitComment,
       comments,

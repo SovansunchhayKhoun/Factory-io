@@ -6,6 +6,7 @@ import {useCommentContext} from "../../context/Factory/CommentContext.jsx";
 export const ProjectComment = ({iconWidth, iconHeight, project}) => {
   const [cmtOpen, setCmtOpen] = useState(false);
   // console.log(comments[0].body)
+  const {handlePicture, setPicture, picture} = useCommentContext()
   return (
     <>
       {/*comment icon*/}
@@ -27,7 +28,7 @@ export const ProjectComment = ({iconWidth, iconHeight, project}) => {
 };
 
 const CommentView = ({cmtOpen, setCmtOpen, project}) => {
-  const {comments, handleCommentInput, setCommentInput, commentInput, submitComment} = useCommentContext()
+  const {comments, handleCommentInput, setCommentInput, commentInput, submitComment, handlePicture} = useCommentContext()
   return (
     <section className={"w-screen h-screen flex justify-center items-center"}>
       <div className="w-1/2 h-2/3 flex flex-col bg-white rounded-md">
@@ -53,8 +54,8 @@ const CommentView = ({cmtOpen, setCmtOpen, project}) => {
         {/*cmt body*/}
         <section className={"h-full overflow-auto p-4"}>
           {/*{comments[0].body}*/}
-          {comments?.length === 0 && <span className={"text-grayFactory"}>Write the first comment...</span>}
-          {comments?.map(cmt => {
+          {comments?.filter(cmt => cmt.project_id === project?.id)?.length === 0 && <span className={"text-grayFactory"}>Be the first to write a comment . . .</span>}
+          {comments?.filter(cmt => cmt.project_id === project?.id)?.map(cmt => {
             return (
               <CommentCard key={cmt.id} cmt={cmt} project={project}/>
             )
@@ -69,7 +70,7 @@ const CommentView = ({cmtOpen, setCmtOpen, project}) => {
               <path strokeLinecap="round" strokeLinejoin="round"
                     d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"/>
             </svg>
-            <input id={"file-input"} className="hidden" type="file"/>
+            <input onChange={handlePicture} id={"file-input"} className="hidden" type="file"/>
           </label>
           <input value={commentInput} onChange={handleCommentInput} type="text" className="rounded-[20px] w-2/3 placeholder:text-sm p-1 px-4"
                  placeholder={"Speak your mind..."}/>

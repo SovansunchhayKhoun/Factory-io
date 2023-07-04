@@ -17,11 +17,12 @@
       return [
         'id' => $this -> id ,
         'body' => $this -> body ,
+        'image' => $this -> image ,
         'comment_time' => $this -> comment_time ,
         'user_id' => $this -> user_id ,
         'project_id' => $this -> project_id ,
         'parent_id' => $this -> parent_id ,
-        'user_cmt' => $this->user,
+        'user_cmt' => $this -> user ,
         'replies' => CommentResource ::collection ( $this -> replies ) ,
       ];
     }

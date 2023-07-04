@@ -5,7 +5,6 @@ import React, {useState} from "react";
 export const CommentCard = ({cmt, project}) => {
   const {user} = useAuthContext()
   const {replies, user_cmt} = cmt;
-  console.log(cmt)
   const {replyComment, handleCommentInput, commentInput} = useCommentContext();
   const [replyOpen, setReplyOpen] = useState(false);
   return (

@@ -22,7 +22,8 @@
     public function rules () : array
     {
       return [
-        'body' => [ 'required' , 'min:1' ] ,
+        'body' => [ 'nullable' , 'min:1' ] ,
+        'image' => ['nullable', 'image'],
         'comment_time' => [ 'required' ] ,
         'user_id' => [ 'required' ] ,
         'project_id' => [ 'required' ] ,

@@ -12,11 +12,12 @@
     {
       Schema ::create ( 'comments' , function ( Blueprint $table ) {
         $table -> id ();
-        $table -> string ( 'body' );
+        $table -> string ( 'body' ) -> nullable ();
         $table -> timestamp ( 'comment_time' );
         $table -> integer ( 'user_id' );
         $table -> integer ( 'project_id' );
         $table -> integer ( 'parent_id' ) -> nullable ();
+        $table -> string ( 'image' ) -> nullable ();
 
         $table -> foreign ( 'user_id' ) -> references ( 'id' ) -> on ( 'users' ) -> onDelete ( 'cascade' );
         $table -> foreign ( 'project_id' ) -> references ( 'id' ) -> on ( 'projects' ) -> onDelete ( 'cascade' );

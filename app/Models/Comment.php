@@ -10,7 +10,7 @@
     use HasFactory;
 
     protected $fillable = [
-      'body' , 'comment_time' , 'user_id' , 'project_id' , 'parent_id'
+      'body' , 'comment_time' , 'user_id' , 'project_id' , 'parent_id', 'image'
     ];
 
     public function user ()

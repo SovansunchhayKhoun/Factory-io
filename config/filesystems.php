@@ -74,6 +74,14 @@
         'throw' => false ,
       ] ,
 
+      'comments' => [
+        'driver' => 'local' ,
+        'root' => storage_path ( 'app/public/comments' ) ,
+        'url' => env ( 'APP_URL' ) . '/storage' ,
+        'visibility' => 'public' ,
+        'throw' => false ,
+      ] ,
+
       'donations' => [
         'driver' => 'local' ,
         'root' => storage_path ( 'app/public/donations/' ) ,
@@ -137,6 +145,7 @@
       public_path ( 'projects' ) => storage_path ( 'app/public/projects' ) ,
       public_path ( 'donations' ) => storage_path ( 'app/public/donations' ) ,
       public_path ( 'reviews' ) => storage_path ( 'app/public/reviews' ) ,
+      public_path ( 'comments' ) => storage_path ( 'app/public/comments' ) ,
     ] ,
 
   ];
