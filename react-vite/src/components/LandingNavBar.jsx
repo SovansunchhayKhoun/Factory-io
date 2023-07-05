@@ -7,24 +7,12 @@ import {ProfileDropdown} from "./ui/NavBarui/ProfileDropdown.jsx";
 import {useQuery} from "@tanstack/react-query";
 import Axios from "axios";
 import {useProjectContext} from "../context/Factory/ProjectContext.jsx";
+import AdminPopUp from "./Modals/AdminPopUp.jsx";
+import {SearchContent} from "../views/SearchContent.jsx";
 
 export const LandingNavBar = () => {
   const {user, token, setUser, isLoading, onLogout} = useAuthContext();
-  const [searchInput, setSearchInput] = useState('')
-  const [filteredItem, setFilteredItem] = useState([])
-  const {items} = useContext(ProductContext);
-  // const handleSearchInput = (e) => {
-  //   setSearchInput(e.target.value)
-  //   setFilteredItem(
-  //     items?.filter((item) => {
-  //       if (searchInput !== "") {
-  //         if (item?.name.toLowerCase().includes(searchInput.toLowerCase()) || item?.type.toLowerCase().includes(searchInput.toLowerCase())) {
-  //           return item
-  //         }
-  //       }
-  //     })
-  //   )
-  // }
+  const [modalOpen,setModalOpen] = useState(false)
   const {userLike} = useProjectContext();
 
   // Not signed in Navbar
@@ -62,9 +50,14 @@ export const LandingNavBar = () => {
           {/*search bar*/}
 
           <div className="bg-[#D9D9D9] rounded-[20px] md:flex md:items-center md:gap-x-12 lg:w-[384px] hidden">
-            <input type="text"
-                   placeholder="Search..."
-                   className="w-[100%] px-12 search-bar py-1 border-none focus:ring-2 focus:ring-blueActive rounded-[20px]"/>
+            <button
+                    onClick={()=>{
+                      setModalOpen(true)
+                    }}
+                   className="w-[100%] px-12 search-bar py-2 text-start border-none text-slate-600 focus:ring-2 focus:ring-blueActive rounded-[20px]">
+              Search....
+            </button>
+            <AdminPopUp modalOpen={modalOpen} setModalOpen={setModalOpen} content={<SearchContent setModalOpen={setModalOpen} modalOpen={modalOpen}/>}/>
           </div>
 
           <div className="flex items-center gap-6">
