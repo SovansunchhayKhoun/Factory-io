@@ -22,7 +22,7 @@
     public function rules () : array
     {
       return [
-        'body' => [ 'nullable' , 'min:1' ] ,
+        'body' => [ 'nullable'] ,
         'image' => ['nullable', 'image'],
         'comment_time' => [ 'required' ] ,
         'user_id' => [ 'required' ] ,

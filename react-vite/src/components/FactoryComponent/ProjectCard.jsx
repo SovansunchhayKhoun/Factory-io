@@ -10,7 +10,7 @@ import {ProjectComment} from "./ProjectComment.jsx";
 const imgUrl = `http://127.0.0.1:8000/projects`
 export const ProjectCard = ({project}) => {
   const {id, name, projectImages} = project;
-  const {username} = project.user;
+  const {username} = project?.user;
 
   return (
     <>
@@ -27,14 +27,6 @@ export const ProjectCard = ({project}) => {
             </Carousel>
 
           </div>
-          {/*<Link to={`/project/${id}`}>*/}
-          {/*  <span className="font-semibold overflow-hidden text-ellipsis">*/}
-          {/*    {name}*/}
-          {/*  </span>*/}
-          {/*  <div className="text-grayFactory">*/}
-          {/*    {username}*/}
-          {/*  </div>*/}
-          {/*</Link>*/}
         </div>
 
         {/*comment part*/}

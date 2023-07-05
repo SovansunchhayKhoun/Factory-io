@@ -142,7 +142,7 @@ export const ProjectView = () => {
                 <section
                   className={"px-4 pt-2 pb-3 flex items-center gap-x-3 justify-between"}>
                   <ProjectStar project={project} iconWidth={8} iconHeight={8}/>
-                  <ProjectComment iconWidth={24} iconHeight={24}/>
+                  <ProjectComment project={project} iconWidth={24} iconHeight={24}/>
                   <ProjectSave project={project} iconWidth={8} iconHeight={8}/>
                 </section>
               </section>

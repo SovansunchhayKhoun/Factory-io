@@ -1,12 +1,12 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import AdminPopUp from "../Modals/AdminPopUp.jsx";
 import {CommentCard} from "./CommentCard.jsx";
 import {useCommentContext} from "../../context/Factory/CommentContext.jsx";
+import {CommentInput} from "./CommentInput.jsx";
 
 export const ProjectComment = ({iconWidth, iconHeight, project}) => {
   const [cmtOpen, setCmtOpen] = useState(false);
   // console.log(comments[0].body)
-  const {handlePicture, setPicture, picture} = useCommentContext()
   return (
     <>
       {/*comment icon*/}
@@ -22,20 +22,22 @@ export const ProjectComment = ({iconWidth, iconHeight, project}) => {
         </svg>
       </button>
       <AdminPopUp id={"comment-screen"} modalOpen={cmtOpen} setModalOpen={setCmtOpen}
-                  content={<CommentView project={project} cmtOpen={cmtOpen} setCmtOpen={setCmtOpen}/>}/>
+                  content={<CommentView project={project} setCmtOpen={setCmtOpen}/>}/>
     </>
   );
 };
 
-const CommentView = ({cmtOpen, setCmtOpen, project}) => {
-  const {comments, handleCommentInput, setCommentInput, commentInput, submitComment, handlePicture} = useCommentContext()
+const CommentView = ({setCmtOpen, project}) => {
+  const {comments, replyOpen, setReplyOpen} = useCommentContext()
+  // const {user} = project;
+
   return (
     <section className={"w-screen h-screen flex justify-center items-center"}>
-      <div className="w-1/2 h-2/3 flex flex-col bg-white rounded-md">
+      <div className="w-1/2 h-2/3 flex flex-col bg-white rounded-xl">
 
-        <section className={"flex p-4 border"}>
-          <div className={"m-auto"}>
-            User's Post
+        <section className={"flex p-4 border-b-2"}>
+          <div className={"m-auto font-semibold"}>
+            {project?.user?.username}'s Post
           </div>
           <button
             className={"transition duration-100 self-end w-fit text-white bg-[#4E4F50] rounded-[50%] p-2 hover:bg-opacity-90"}
@@ -54,34 +56,46 @@ const CommentView = ({cmtOpen, setCmtOpen, project}) => {
         {/*cmt body*/}
         <section className={"h-full overflow-auto p-4"}>
           {/*{comments[0].body}*/}
-          {comments?.filter(cmt => cmt.project_id === project?.id)?.length === 0 && <span className={"text-grayFactory"}>Be the first to write a comment . . .</span>}
-          {comments?.filter(cmt => cmt.project_id === project?.id)?.map(cmt => {
+          {comments?.filter(cmt => cmt.project_id === project?.id)?.length === 0 &&
+            <span className={"text-grayFactory"}>Be the first to write a comment . . .</span>}
+          {comments?.sort((a, b) => b.id - a.id)?.filter(cmt => cmt.project_id === project?.id)?.map(cmt => {
             return (
-              <CommentCard key={cmt.id} cmt={cmt} project={project}/>
+              <CommentCard replyOpen={replyOpen} setReplyOpen={setReplyOpen} key={cmt.id} id={cmt?.id} cmt={cmt}
+                           project={project}/>
             )
           })}
         </section>
 
         {/*cmt input*/}
-        <section className="mt-auto flex justify-center items-center gap-2 p-4 border-t-2 border-grayFactory">
-          <label htmlFor="file-input" className="cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                 stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round"
-                    d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"/>
-            </svg>
-            <input onChange={handlePicture} id={"file-input"} className="hidden" type="file"/>
-          </label>
-          <input value={commentInput} onChange={handleCommentInput} type="text" className="rounded-[20px] w-2/3 placeholder:text-sm p-1 px-4"
-                 placeholder={"Speak your mind..."}/>
-          <button onClick={() => submitComment(project)}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                 stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round"
-                    d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
-            </svg>
-          </button>
-        </section>
+        <div className={"px-8 border-t-2  py-2"}>
+          {replyOpen === 0 ? (
+            <div className={"flex gap-2 border-grayFactory"}>
+              <div className={"flex justify-center items-center border-grayFactory"}>
+                <button title={"Toggle Comment"} onClick={() => setReplyOpen(-1)}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                       stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                  </svg>
+                </button>
+              </div>
+              <div className={"flex w-full justify-center"}>
+                <div className={"w-2/3"}>
+                  <CommentInput setReplyOpen={setReplyOpen} project={project}/>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className={"w-fit flex justify-center items-center border-grayFactory"}>
+              <button title={"Toggle Comment"} className={""} onClick={() => setReplyOpen(0)}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                     stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                </svg>
+              </button>
+            </div>
+          )}
+        </div>
+
 
       </div>
     </section>

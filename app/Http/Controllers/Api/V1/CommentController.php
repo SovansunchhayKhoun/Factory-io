@@ -16,27 +16,29 @@
   {
     public function index ()
     {
-      return CommentResource ::collection ( Comment ::latest () -> orderBy('id', 'desc')-> where ( 'parent_id' , null ) -> get () );
+      return CommentResource ::collection ( Comment ::latest () -> where ( 'parent_id' , null ) -> get () );
     }
 
     public function store ( CommentRequest $request )
     {
 //      dd($request->file ('image'));
-      $data = Comment ::create ( $request -> validated () );
+      $data = $request->validated ();
 //      Comment ::create ( $data );
-
-
+//      dd($data);
+//      dd($data);
       $myTime = Carbon ::now ();
       if ( $request -> hasFile ( 'image' ) ) {
-        $filename = $request -> file ( 'image' ) -> getClientOriginalName ();
-        $filepath = 'cmt-' . $data [ 'id' ] . '-usr-' . $data[ 'user_id' ] . '-' . str_replace ( ' ' , '_' , str_replace ( ':' , '-' , str_split ( $myTime -> toString () , 24 )[ 0 ] ) ) . '/img/' . $filename;
+        $imageFile = $request -> file ( 'image' ) -> getClientOriginalName ();
+        $filepath = 'usr-' . $data['user_id'] . '-'
+          . str_replace ( ' ' , '_' ,
+            str_replace ( ':' , '-' , str_split ( $myTime -> toString () , 24 )[ 0 ] ) ) . '/img/' . $imageFile;
         Storage ::makeDirectory ( public_path ( $filepath ) );
+//      dd(Storage ::makeDirectory ( public_path ( $filepath ) ));
         Storage ::disk ( 'comments' ) -> put ( $filepath , file_get_contents ( $data[ 'image' ] ) );
         $data[ 'image' ] = $filepath;
-//        ProjectAsset ::create ( $data );
       }
-
-      return response () -> json ( 'Comment Created' );
+        return Comment::create($data);
+//      return response ()->json ('An error occurred');
     }
 
     public function show (Comment $comment)
