@@ -66,7 +66,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'notification',
-        element: <NotificationView />
+        element: <NotificationView />,
       },
       {
         path: 'project/:id',

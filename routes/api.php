@@ -43,8 +43,13 @@
     Route ::apiResource ( 'saved_projects' , SavedProjectController::class );
     Route ::apiResource ( 'comments' , CommentController::class );
 
+    Route ::controller (CommentController::class) -> group (function () {
+      Route ::get('comment_notification', 'comment_notification');
+    });
+
     Route ::controller ( ProjectController::class ) -> group ( function () {
       Route ::get ( 'find_project/{user_id}' , 'find_project' );
+      Route ::get ( 'find_comment/{user_id}' , 'find_comment' );
     } );
     Route ::controller ( ProjectLikeController::class ) -> group ( function () {
       Route ::post ( 'checkLike' , 'checkLike' );

@@ -16,20 +16,26 @@
   {
     public function index ()
     {
-      return CommentResource ::collection ( Comment ::latest () -> where ( 'parent_id' , null ) -> get () );
+//      return CommentResource ::collection ( Comment ::latest () -> where ( 'parent_id' , null ) -> get () );
+      return CommentResource ::collection ( Comment ::latest () -> get () );
+    }
+
+    public function comment_notification ()
+    {
+      return CommentResource ::collection ( Comment ::latest () -> where ( [ ['comment_indicator' , '!=' , 0] ] ) -> get () );
     }
 
     public function store ( CommentRequest $request )
     {
 //      dd($request->file ('image'));
-      $data = $request->validated ();
+      $data = $request -> validated ();
 //      Comment ::create ( $data );
 //      dd($data);
 //      dd($data);
       $myTime = Carbon ::now ();
       if ( $request -> hasFile ( 'image' ) ) {
         $imageFile = $request -> file ( 'image' ) -> getClientOriginalName ();
-        $filepath = 'usr-' . $data['user_id'] . '-'
+        $filepath = 'usr-' . $data[ 'user_id' ] . '-'
           . str_replace ( ' ' , '_' ,
             str_replace ( ':' , '-' , str_split ( $myTime -> toString () , 24 )[ 0 ] ) ) . '/img/' . $imageFile;
         Storage ::makeDirectory ( public_path ( $filepath ) );
@@ -37,12 +43,19 @@
         Storage ::disk ( 'comments' ) -> put ( $filepath , file_get_contents ( $data[ 'image' ] ) );
         $data[ 'image' ] = $filepath;
       }
-        return Comment::create($data);
+      return Comment ::create ( $data );
 //      return response ()->json ('An error occurred');
     }
 
-    public function show (Comment $comment)
+    public function show ( Comment $comment )
     {
-      return new CommentResource($comment);
+      return new CommentResource( $comment );
+    }
+
+    public function update ( CommentRequest $request , Comment $comment )
+    {
+      $data = $request -> validated ();
+      $comment -> update ( $data );
+      return response () -> json ( 'Comment Updated' );
     }
   }

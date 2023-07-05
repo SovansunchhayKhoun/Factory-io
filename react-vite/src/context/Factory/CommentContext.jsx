@@ -9,12 +9,21 @@ export const CommentContext = ({children}) => {
   const {data: comments, isLoading: commentsIsLoading, refetch: commentsReFetch} = useQuery(['comments'], () => {
     return Axios.get('comments').then(({data}) => data.data);
   })
+  const {
+    data: commentNotification,
+    isLoading: commentNotificationIsLoading,
+    refetch: commentNotificationReFetch
+  } = useQuery(['commentNotification'], () => {
+    return Axios.get('comment_notification').then(({data}) => data.data)
+  })
   const [cmtErrors, setCmtErrors] = useState([]);
   const {user} = useAuthContext();
   const [commentInput, setCommentInput] = useState('');
   const [picture, setPicture] = useState(null);
   const [replyOpen, setReplyOpen] = useState(0);
   const [row, setRow] = useState(1); // text area row
+  const commentNotiCount = parseInt(comments?.filter(cmt => cmt?.parent_id === null && cmt?.user_id === user?.id)?.map(cmt => cmt.replies?.filter(cmt => cmt?.replier_id === user?.id)?.length)) +
+    parseInt(comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id)?.length);
   const handleCommentInput = (event) => {
     if (event.target.value !== '\n' && event.target.value !== ' ')
       setCommentInput(event.target.value);
@@ -27,6 +36,7 @@ export const CommentContext = ({children}) => {
   }
   const reFetchAll = async () => {
     await commentsReFetch();
+    await commentNotificationReFetch()
   }
   const submitComment = async (project, cmt) => {
     const comment_time = new Date().toLocaleDateString('en-GB', {
@@ -35,7 +45,6 @@ export const CommentContext = ({children}) => {
       day: '2-digit',
     }).split('/').reverse().join('-') + ' ' + new Date().toTimeString().slice(0, 8);
 
-    console.log(commentInput)
     if (commentInput !== '' || picture) { // check whether we have at least a picture or message before submit
       await Axios.post('comments', {
         project_id: project.id,
@@ -43,7 +52,13 @@ export const CommentContext = ({children}) => {
         comment_time: comment_time,
         body: commentInput,
         image: picture,
-        parent_id: cmt?.id || null
+        parent_id: cmt?.id || null,
+        replier_id: cmt?.user_id !== user?.id ? cmt?.user_id : null,
+        comment_indicator:
+          (!cmt?.user_id && project?.user?.id === user?.id) || (cmt?.user_id === user?.id && project?.user?.id === user?.id) ? 0 :
+            project?.user?.id !== user?.id && !cmt ? 1 :
+              project?.user?.id !== user?.id && cmt?.user_id === user?.id ? 1 :
+                project && cmt?.user_id !== user?.id && 2
       }, {headers: {"Content-type": "multipart/form-data"}}).then(({data}) => {
         reFetchAll();
         clearComment()
@@ -60,6 +75,10 @@ export const CommentContext = ({children}) => {
   }
   return (
     <StateContext.Provider value={{
+      commentNotiCount,
+      commentNotificationIsLoading,
+      commentNotification,
+      commentNotificationReFetch,
       row,
       setRow,
       cmtErrors,

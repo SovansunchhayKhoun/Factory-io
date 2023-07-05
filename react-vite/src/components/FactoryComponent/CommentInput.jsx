@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useCommentContext} from "../../context/Factory/CommentContext.jsx";
 
 export const CommentInput = ({project, cmt}) => {
@@ -13,6 +13,11 @@ export const CommentInput = ({project, cmt}) => {
     row,
     setRow,
   } = useCommentContext();
+  const ref = useRef(null);
+  useEffect(() => {
+    ref.current.setSelectionRange(commentInput.length, commentInput.length)
+    setRow(Math.ceil((commentInput.length*15)/ref.current.clientWidth))
+  }, [commentInput]);
 
   return (
     <>
@@ -27,9 +32,9 @@ export const CommentInput = ({project, cmt}) => {
             <input onKeyDown={({key, target}) => key === 'Enter' && submitComment(target, project, cmt)}
                    onChange={handlePicture} id={"file-input"} accept={"image/*"} className="hidden" type="file"/>
           </label>
-          <textarea autoFocus value={commentInput} onChange={(event) => {
+          <textarea ref={ref} autoFocus value={commentInput} onChange={(event) => {
             if (event.key === 'Enter' && event.shiftKey) return
-            handleCommentInput(event);
+              handleCommentInput(event);
           }} onKeyDown={(event) => {
             if (event.key === 'Enter' && !event.shiftKey) {
               event.preventDefault()
@@ -39,8 +44,8 @@ export const CommentInput = ({project, cmt}) => {
             if (event.key === 'Backspace')
               row > 1 && setRow(row - 1)
           }} className="rounded-[20px] w-full placeholder:text-sm p-1 px-4 resize-none"
-                    placeholder={"Speak your mind..."} rows={row}></textarea>
-          <button onClick={({target}) => submitComment(target, project, cmt)}>
+                    placeholder={"Speak your mind..."} rows={row || 1}></textarea>
+          <button onClick={({target}) => submitComment(project, cmt)}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                  stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round"

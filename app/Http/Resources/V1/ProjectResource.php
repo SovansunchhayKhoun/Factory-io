@@ -44,7 +44,7 @@
         'like_state' => ProjectLike ::select ( 'id' , 'like_state' , 'user_id' , 'project_id' ) -> where ( 'project_id' , $this -> id ) -> get () ,
         'save_state' => SavedProject ::select ( 'id' , 'save_state' , 'user_id' , 'project_id' ) -> where ( 'project_id' , $this -> id ) -> get () ,
         'projectSaves' => $this -> project_saves ,
-        'comments' => $this -> comments
+        'comments' => CommentResource ::collection ( $this -> comments )
 //        'user' => User ::where ( 'id' , $this -> user_id ) -> first () ,
 //        'projectAssets' => ProjectAsset ::where ( 'project_id' , $this -> id ) -> get () ,
 //        'projectImages' => ProjectImage ::where ( 'project_id' , $this -> id ) -> get () ,

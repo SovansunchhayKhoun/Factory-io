@@ -7,25 +7,15 @@ import {ProfileDropdown} from "./ui/NavBarui/ProfileDropdown.jsx";
 import {useQuery} from "@tanstack/react-query";
 import Axios from "axios";
 import {useProjectContext} from "../context/Factory/ProjectContext.jsx";
+import {useCommentContext} from "../context/Factory/CommentContext.jsx";
 
 export const LandingNavBar = () => {
-  const {user, token, setUser, isLoading, onLogout} = useAuthContext();
-  const [searchInput, setSearchInput] = useState('')
-  const [filteredItem, setFilteredItem] = useState([])
-  const {items} = useContext(ProductContext);
-  // const handleSearchInput = (e) => {
-  //   setSearchInput(e.target.value)
-  //   setFilteredItem(
-  //     items?.filter((item) => {
-  //       if (searchInput !== "") {
-  //         if (item?.name.toLowerCase().includes(searchInput.toLowerCase()) || item?.type.toLowerCase().includes(searchInput.toLowerCase())) {
-  //           return item
-  //         }
-  //       }
-  //     })
-  //   )
-  // }
-  const {userLike} = useProjectContext();
+  const {user, token} = useAuthContext();
+  const {likeNotiCount} = useProjectContext();
+  const {commentNotiCount} = useCommentContext();
+  // const commentNotiCount = parseInt(comments?.filter(cmt => cmt?.parent_id === null && cmt?.user_id === user?.id)?.map(cmt => cmt.replies?.filter(cmt => cmt?.replier_id === user?.id)?.length)) +
+  //   parseInt(comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id)?.length);
+  // const likeNotiCount = userLike?.filter(pro => pro.user_id !== user?.id)?.length;
 
   // Not signed in Navbar
   const [navBar, setNavBar] = useState([
@@ -112,8 +102,9 @@ export const LandingNavBar = () => {
                 </defs>
               </svg>
               <span
-                className={`${userLike?.filter(pro => pro.user_id !== user?.id && pro.like_indicator === 1)?.length === 0 && 'hidden'} absolute flex justify-center items-center top-[-6px] right-[-8px] rounded-[50%] aspect-square bg-redBase text-whiteFactory w-5 text-[12px]`}>
-                {userLike?.filter(pro => pro.user_id !== user?.id && pro.like_indicator === 1)?.length}
+                className={`${commentNotiCount + likeNotiCount === 0 && 'hidden'} absolute flex justify-center items-center top-[-6px] right-[-8px] rounded-[50%] aspect-square bg-redBase text-whiteFactory w-5 text-[12px]`}>
+                {/*{userLike?.filter(pro => pro.user_id !== user?.id && pro.like_indicator === 1)?.length}*/}
+                {commentNotiCount + likeNotiCount}
               </span>
             </Link>
             <ProfileDropdown to="/user" user={user} arrowIcon={true}/>

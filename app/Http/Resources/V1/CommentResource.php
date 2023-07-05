@@ -2,6 +2,7 @@
 
   namespace App\Http\Resources\V1;
 
+  use App\Models\Project;
   use Illuminate\Http\Request;
   use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,9 +22,13 @@
         'comment_time' => $this -> comment_time ,
         'user_id' => $this -> user_id ,
         'project_id' => $this -> project_id ,
+        'project' => $this -> project ,
         'parent_id' => $this -> parent_id ,
         'user_cmt' => $this -> user ,
+        'comment_indicator' => $this -> comment_indicator ,
         'replies' => CommentResource ::collection ( $this -> replies ) ,
+        'replier_id' => $this -> replier_id ,
+        'replier' => $this -> replier ,
       ];
     }
   }

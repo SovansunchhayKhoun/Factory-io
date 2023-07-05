@@ -58,7 +58,7 @@ const CommentView = ({setCmtOpen, project}) => {
           {/*{comments[0].body}*/}
           {comments?.filter(cmt => cmt.project_id === project?.id)?.length === 0 &&
             <span className={"text-grayFactory"}>Be the first to write a comment . . .</span>}
-          {comments?.sort((a, b) => b.id - a.id)?.filter(cmt => cmt.project_id === project?.id)?.map(cmt => {
+          {comments?.sort((a, b) => b.id - a.id)?.filter(cmt => cmt.project_id === project?.id && cmt.parent_id === null)?.map(cmt => {
             return (
               <CommentCard replyOpen={replyOpen} setReplyOpen={setReplyOpen} key={cmt.id} id={cmt?.id} cmt={cmt}
                            project={project}/>

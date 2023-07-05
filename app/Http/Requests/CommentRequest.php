@@ -22,10 +22,12 @@
     public function rules () : array
     {
       return [
-        'body' => [ 'nullable'] ,
-        'image' => ['nullable', 'image'],
+        'body' => [ 'nullable' ] ,
+        'image' => [ 'nullable' , 'image' ] ,
         'comment_time' => [ 'required' ] ,
+        'comment_indicator' => [ 'required' ] ,
         'user_id' => [ 'required' ] ,
+        'replier_id' => [ 'nullable' ] ,
         'project_id' => [ 'required' ] ,
         'parent_id' => [ 'nullable' ]
       ];

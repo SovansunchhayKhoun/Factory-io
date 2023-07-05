@@ -28,6 +28,13 @@ export const ProjectContext = ({children}) => {
     return Axios.get('saved_projects').then(({data}) => data.data);
   })
   const {
+    data: projectImages,
+    refetch: projectImagesReFetch,
+    isLoading: projectImagesIsLoading
+  } = useQuery(['projectImages'], () => {
+    return Axios.get('project_images').then(({data}) => data.data)
+  })
+  const {
     data: userLike,
     refetch: userLikeReFetch,
     isLoading: userLikeIsLoading
@@ -36,12 +43,25 @@ export const ProjectContext = ({children}) => {
       return res.data.data
     });
   })
+
+  const {
+    data: userComments,
+    refetch: userCommentsReFetch,
+    isLoading: userCommentsIsLoading
+  } = useQuery(['userComments', user.id], () => {
+    return Axios.get(`find_comment/${user?.id}`).then((res) => {
+      return res.data.data
+    });
+  })
+
   const reFetchAll = async () => {
     await projectsReFetch()
+    await projectImagesReFetch()
     await projectSavesReFetch()
     await projectLikesReFetch()
     await userLikeReFetch()
   }
+  const likeNotiCount = userLike?.filter(pro => pro.user_id !== user?.id && pro.like_indicator === 1)?.length;
   const {postPrototype, clearPrototypes} = useProjectProtoContext();
   const [errors, setErrors] = useState({});
   const [picture, setPicture] = useState([]);
@@ -202,7 +222,6 @@ export const ProjectContext = ({children}) => {
     }).catch(e => console.log(e.response.data.errors))
   }
   const updateIndicator = async (project) => {
-    console.log(project)
     await Axios.put(`project_likes/${project?.id}`, {...project, like_indicator: 0})
       .then(() => {
         // userLikeReFetch()
@@ -212,6 +231,10 @@ export const ProjectContext = ({children}) => {
   return (
     <>
       <StateContext.Provider value={{
+        likeNotiCount,
+        userComments,
+        userCommentsIsLoading,
+        userCommentsReFetch,
         reFetchAll,
         updateIndicator,
         userLike,
