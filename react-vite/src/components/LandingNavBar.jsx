@@ -133,9 +133,9 @@ export const LandingNavBar = () => {
                 </defs>
               </svg>
               <span
-                className={`${commentNotiCount + likeNotiCount === 0 && 'hidden'} absolute flex justify-center items-center top-[-6px] right-[-8px] rounded-[50%] aspect-square bg-redBase text-whiteFactory w-5 text-[12px]`}>
+                className={`${(commentNotiCount + likeNotiCount) || 0 === 0 && 'hidden'} absolute flex justify-center items-center top-[-6px] right-[-8px] rounded-[50%] aspect-square bg-redBase text-whiteFactory w-5 text-[12px]`}>
                 {/*{userLike?.filter(pro => pro.user_id !== user?.id && pro.like_indicator === 1)?.length}*/}
-                {(commentNotiCount + likeNotiCount).toString()}
+                {(commentNotiCount + likeNotiCount) || 0}
               </span>
             </Link>
             <ProfileDropdown to="/user" user={user} arrowIcon={true}/>

@@ -20,8 +20,8 @@ export const NotificationView = () => {
                   onClick={() => setNotiTab('all')}>
             All
             <span
-              className={`${commentNotiCount + likeNotiCount === 0 && 'hidden'} bg-redHover aspect-square w-5 text-xs flex justify-center items-center text-whiteFactory rounded-[50%]`}>
-              {commentNotiCount + likeNotiCount}
+              className={`${(commentNotiCount + likeNotiCount) || 0 === 0 && 'hidden'} bg-redHover aspect-square w-5 text-xs flex justify-center items-center text-whiteFactory rounded-[50%]`}>
+              {(commentNotiCount + likeNotiCount) || 0}
             </span>
           </button>
           <button className={`${notiTab === 'follow' && 'text-redBase'} flex items-center gap-1`}
@@ -32,16 +32,16 @@ export const NotificationView = () => {
                   onClick={() => setNotiTab('like')}>
             Liked
             <span
-              className={`${likeNotiCount === 0 && 'hidden'} bg-redHover aspect-square w-5 text-xs flex justify-center items-center text-whiteFactory rounded-[50%]`}>
-              {likeNotiCount}
+              className={`${likeNotiCount || 0 === 0 && 'hidden'} bg-redHover aspect-square w-5 text-xs flex justify-center items-center text-whiteFactory rounded-[50%]`}>
+              {(likeNotiCount) || 0 }
             </span>
           </button>
           <button className={`${notiTab === 'cmt' && 'text-redBase'} flex items-center gap-1`}
                   onClick={() => setNotiTab('cmt')}>
             Comments
             <span
-              className={`${commentNotiCount === 0 && 'hidden'} bg-redHover aspect-square w-5 text-xs flex justify-center items-center text-whiteFactory rounded-[50%]`}>
-              {commentNotiCount}
+              className={`${commentNotiCount || 0 === 0 && 'hidden'} bg-redHover aspect-square w-5 text-xs flex justify-center items-center text-whiteFactory rounded-[50%]`}>
+              {commentNotiCount || 0}
             </span>
           </button>
         </section>
