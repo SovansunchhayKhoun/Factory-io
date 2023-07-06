@@ -7,6 +7,8 @@ import {tab} from "@material-tailwind/react";
 import {SearchAllTab} from "./SearchAllTab.jsx";
 import userContext from "../context/UserContext.jsx";
 import {useProjectContext} from "../context/Factory/ProjectContext.jsx";
+import {ProjectCard} from "../components/FactoryComponent/ProjectCard.jsx";
+import {SearchUserCard} from "../components/FactoryComponent/SearchUserCard.jsx";
 
 export const SearchContent =  ({modalOpen,setModalOpen}) => {
   const [searchTab, setSearchTab] = useState('all');
@@ -25,6 +27,17 @@ export const SearchContent =  ({modalOpen,setModalOpen}) => {
             || user?.firstName.toLowerCase().includes(searchInput.toLowerCase())
             || user?.lastName.toLowerCase().includes(searchInput.toLowerCase)) {
             return user
+          }
+        }
+      })
+    )
+    setFilteredProject(
+      projects?.filter((project) => {
+        if (e.target.value !== "") {
+          if (
+            project?.name.toLowerCase().includes(searchInput.toLowerCase())
+            || project?.category.toLowerCase().includes(searchInput.toLowerCase())){
+            return project
           }
         }
       })
@@ -70,13 +83,52 @@ export const SearchContent =  ({modalOpen,setModalOpen}) => {
               {/*<button className={`${notiTab === 'like' && 'text-redBase'} whitespace-nowrap`} onClick={() => setSearchTab('like')}>Followed Users*/}
               {/*</button>*/}
             </section>
-            <section className="w-full flex flex-col gap-4 p-6">
+            <section className="w-full flex flex-col gap-4 p-6 justify-start items-center">
+              {filteredUser?.length === 0 && filteredProject?.length === 0 &&
+                <div className={`px-4 py-8 rounded-md shadow-2xl text-center w-full`}>
+                  No recent searches
+                </div>
+              }
               {searchTab === 'all' &&
                 <>
-                  {filteredUser?.length === 0 && <p>empty</p>}
+                  {filteredUser?.slice(0,5).map((user,key) => {
+                    return (
+                      <SearchUserCard user={user} key={key}/>
+                    )
+                  })}
+                  {filteredUser.length !== 0 &&
+                    <p
+                      onClick={(e) => setSearchTab('users')}
+                      className={`hover:underline text-blueBase cursor-pointer`}>
+                      See more users
+                    </p>
+                  }
+                  {filteredProject?.slice(0,5).map((project,key) => {
+                    return (
+                      <ProjectCard setSearchInput={setSearchInput} setModalOpen={setModalOpen} key={key} project={project}/>
+                    )
+                  })}
+                  {filteredProject.length !== 0 &&
+                    <p
+                      onClick={(e) => setSearchTab('projects')}
+                      className={`hover:underline text-blueBase cursor-pointer`}>
+                      See more projects
+                    </p>
+                  }
+                </>}
+              {searchTab === 'users' &&
+                <>
                   {filteredUser?.map((user,key) => {
                     return (
-                      <p key={key}>{user.username}</p>
+                      <SearchUserCard user={user} key={key}/>
+                    )
+                  })}
+                </>}
+              {searchTab === 'projects' &&
+                <>
+                  {filteredProject?.map((project,key) => {
+                    return (
+                      <ProjectCard setSearchInput={setSearchInput} setModalOpen={setModalOpen} key={key} project={project}/>
                     )
                   })}
                 </>}

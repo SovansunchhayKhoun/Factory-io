@@ -4,12 +4,14 @@ import {PVProjectTab} from "../components/FactoryComponent/Tabs/PVProjectTab.jsx
 import {FundProjectTab} from "./FundProjectTab.jsx";
 import {BackProjectTab} from "./BackProjectTab.jsx";
 import FundingContext from "../context/FundingContext.jsx";
+import BackProjectContext from "../context/BackProjectContext.jsx";
 
 
 // eslint-disable-next-line react/prop-types
 export const FundProjectContent = ({setModalOpen, modalOpen, project, projectPrototypes}) => {
 
   const {setResponse,section,setSection} = useContext(FundingContext)
+  const {setCurrentItem,setIsHidden} = useContext(BackProjectContext)
   return (
     <>
       <main className="w-screen h-screen flex justify-center">
@@ -32,12 +34,16 @@ export const FundProjectContent = ({setModalOpen, modalOpen, project, projectPro
                   className={`${section === 'fp' && 'bg-redHover text-whiteFactory'} rounded-md whitespace-nowrap transition duration-200 px-4 py-2 hover:bg-redHover hover:text-whiteFactory`}
                   onClick={() => {
                     setSection('fp')
+                    setIsHidden(false)
                     setResponse({})
                   }}>Fund Project
                 </button>
                 <button
                   className={`${section === 'bp' && 'bg-redHover text-whiteFactory'} rounded-md whitespace-nowrap transition duration-200 px-4 py-2 hover:bg-redHover hover:text-whiteFactory`}
-                  onClick={() => setSection('bp')}>Back Project
+                  onClick={() => {
+                    setCurrentItem({})
+                    setSection('bp')
+                  }}>Back Project
                 </button>
               </section>
             </div>
