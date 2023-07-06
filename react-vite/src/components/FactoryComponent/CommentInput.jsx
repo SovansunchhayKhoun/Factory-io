@@ -41,8 +41,8 @@ export const CommentInput = ({project, cmt}) => {
               submitComment(project, cmt)
             }
             event.key === 'Enter' && event.shiftKey && setRow(row + 1)
-            if (event.key === 'Backspace')
-              row > 1 && setRow(row - 1)
+            // if (event.key === 'Backspace')
+            //   row > 1 && setRow(row - 1)
           }} className="rounded-[20px] w-full placeholder:text-sm p-1 px-4 resize-none"
                     placeholder={"Speak your mind..."} rows={row || 1}></textarea>
           <button onClick={({target}) => submitComment(project, cmt)}>

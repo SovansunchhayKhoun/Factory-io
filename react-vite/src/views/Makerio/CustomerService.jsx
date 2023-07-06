@@ -1,5 +1,5 @@
 import {useAuthContext} from "../../context/AuthContext.jsx";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import ChatContext from "../../context/ChatContext.jsx";
 import {Sender} from "../../components/ChatComponent/Sender.jsx";
 import {Replier} from "../../components/ChatComponent/Replier.jsx";
@@ -24,6 +24,7 @@ export const CustomerService = ({setModalOpen}) => {
   const {user, token} = useAuthContext();
   const [messageInput, setMessageInput] = useState('');
   const [open, setOpen] = useState(false);
+
 
   if (token) {
     return (
@@ -86,8 +87,8 @@ export const CustomerService = ({setModalOpen}) => {
                 e.target.files[0] && setOpen(true);
               }}
             />
-            <input
-              onKeyDown={(event) => {
+
+            <input onKeyDown={(event) => {
                 event.key === 'Enter' && sendMessage(user.username, 'admin', setMessageInput)
               }}
               value={messageInput}
@@ -97,6 +98,7 @@ export const CustomerService = ({setModalOpen}) => {
               }}
               className="w-full flex items-center h-10 rounded px-3 text-sm" type="text"
               placeholder="Type your message…"/>
+
             <button onClick={() => {
               sendMessage(user.username, 'admin', setMessageInput);
             }}
