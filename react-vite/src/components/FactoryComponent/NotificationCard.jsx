@@ -17,12 +17,12 @@ export const NotificationCard = ({project}) => {
 
   return (
     <Link to={`/project/${id}`} onClick={() => updateIndicator(project)}
-          className="transition rounded-md duration-300 px-4 flex justify-between bg-white shadow-xl hover:bg-gray-200 cursor-pointer">
+          className={`${like_indicator === 0 ? 'bg-whiteFactory shadow-sm' : 'bg-white shadow-xl'} transition rounded-md duration-300 px-4 flex justify-between hover:bg-gray-200 cursor-pointer`}>
       <div className="flex items-center gap-4">
         <img className={"w-[56px] h-[56px] rounded-[50%] border"} src={`https://robohash.org/${user?.username}`}
              alt=""/>
         <div className="">
-          <p>{user?.username}</p>
+          <p className={`${like_indicator === 0 ? 'font-normal' : 'font-semibold'}`}>{user?.username}</p>
           <p className="text-sm">Liked your post.&nbsp;
             <span className="text-xs">
               <span

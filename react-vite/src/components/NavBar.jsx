@@ -72,7 +72,8 @@ export const NavBar = (props) => {
             <img className={"lg:w-[100px] md:w-[120px] w-[100px]"} src="/assets/images/makerio.png" alt=""/>
           </Link>
           {
-            user?.acc_type === 1 && <div
+            user?.acc_type === 1 &&
+            <div
               // onClick={() => {initChat(user.username, 'admin')}}
               className={"transition duration-500 flex relative hover:rounded-md rounded-md hover:bg-blackFactory/10 p-2 cursor-pointer"}
               onClick={async (event) => {

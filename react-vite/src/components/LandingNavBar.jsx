@@ -8,14 +8,14 @@ import {useQuery} from "@tanstack/react-query";
 import Axios from "axios";
 import {useProjectContext} from "../context/Factory/ProjectContext.jsx";
 import {useCommentContext} from "../context/Factory/CommentContext.jsx";
+import ChatContext from "../context/ChatContext.jsx";
+import {CustomerService} from "../views/Makerio/CustomerService.jsx";
+import AdminPopUp from "./Modals/AdminPopUp.jsx";
 
 export const LandingNavBar = () => {
   const {user, token} = useAuthContext();
   const {likeNotiCount} = useProjectContext();
   const {commentNotiCount} = useCommentContext();
-  // const commentNotiCount = parseInt(comments?.filter(cmt => cmt?.parent_id === null && cmt?.user_id === user?.id)?.map(cmt => cmt.replies?.filter(cmt => cmt?.replier_id === user?.id)?.length)) +
-  //   parseInt(comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id)?.length);
-  // const likeNotiCount = userLike?.filter(pro => pro.user_id !== user?.id)?.length;
 
   // Not signed in Navbar
   const [navBar, setNavBar] = useState([
@@ -25,6 +25,10 @@ export const LandingNavBar = () => {
     {name: "Contest", to: "contest", img: {imgSrc: "", imgWidth: 0}},
     {name: "", to: "/makerio", img: {imgSrc: "/assets/images/makerio.png", imgWidth: 100}},
   ]);
+
+  const {initChat, setSeen, message, findChat} = useContext(ChatContext);
+  const readMessage = message?.filter((msg) => msg.chat_id === findChat(user.username, 'admin')?.id && msg.is_read === 0 && msg.sender_id !== user.username);
+  const [open, setOpen] = useState(false)
 
   if (token) {
     return (
@@ -41,12 +45,29 @@ export const LandingNavBar = () => {
               <img className="lg:w-[120px] md:w-[120px] w-[100px]" src="/assets/images/factory.png" alt=""/>
             </Link>
             {/*customer-service*/}
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 30 30" fill="none">
+
+            <div
+              // onClick={() => {initChat(user.username, 'admin')}}
+              className={"transition duration-500 flex relative hover:rounded-md rounded-md hover:bg-blackFactory/10 p-2 cursor-pointer"}
+              onClick={async (event) => {
+                await initChat(user?.username, 'admin')
+                event.stopPropagation();
+                setOpen(true);
+                setSeen(readMessage, user?.username);
+              }} title="Customer Support">
+              <svg xmlns="http://www.w3.org/2000/svg"
+                   className="md:w-[22px] md:h-[22px] w-[18px] h-[18px]" viewBox="0 0 30 30"
+                   fill="none">
                 <path
                   d="M23.4 18.4499C23.8375 17.3874 24.075 16.2499 24.075 14.9999C24.075 14.0999 23.9375 13.2374 23.7 12.4374C22.8875 12.6249 22.0375 12.7249 21.15 12.7249C19.3325 12.7268 17.5411 12.2918 15.9269 11.4564C14.3127 10.621 12.923 9.40982 11.875 7.92487C10.7539 10.6376 8.63891 12.8196 5.9625 14.0249C5.9125 14.3374 5.9125 14.6749 5.9125 14.9999C5.9125 16.1933 6.14756 17.375 6.60424 18.4775C7.06093 19.5801 7.73031 20.5819 8.57417 21.4257C10.2784 23.1299 12.5898 24.0874 15 24.0874C16.3125 24.0874 17.575 23.7999 18.7125 23.2874C19.425 24.6499 19.75 25.3249 19.725 25.3249C17.675 26.0124 16.0875 26.3499 15 26.3499C11.975 26.3499 9.0875 25.1624 6.9625 23.0249C5.67 21.7363 4.70921 20.1536 4.1625 18.4124H2.5V12.7249H3.8625C4.2753 10.7155 5.22437 8.85538 6.60899 7.34186C7.99361 5.82834 9.76214 4.71788 11.7269 4.12832C13.6917 3.53876 15.7794 3.49209 17.7686 3.99326C19.7577 4.49442 21.5741 5.52474 23.025 6.97487C24.6003 8.54394 25.6748 10.545 26.1125 12.7249H27.5V18.4124H27.425L22.975 22.4999L16.35 21.7499V19.6624H22.3875L23.4 18.4499ZM11.5875 14.7124C11.9625 14.7124 12.325 14.8624 12.5875 15.1374C12.8513 15.4033 12.9993 15.7628 12.9993 16.1374C12.9993 16.512 12.8513 16.8714 12.5875 17.1374C12.325 17.3999 11.9625 17.5499 11.5875 17.5499C10.8 17.5499 10.1625 16.9249 10.1625 16.1374C10.1625 15.3499 10.8 14.7124 11.5875 14.7124ZM18.4 14.7124C19.1875 14.7124 19.8125 15.3499 19.8125 16.1374C19.8125 16.9249 19.1875 17.5499 18.4 17.5499C17.6125 17.5499 16.975 16.9249 16.975 16.1374C16.975 15.7594 17.1251 15.397 17.3924 15.1297C17.6596 14.8625 18.0221 14.7124 18.4 14.7124Z"
                   fill="#2D335B"/>
               </svg>
+              <span
+                className={`${readMessage?.length === 0 && 'hidden'} absolute top-[-4px] right-[-4px] bg-tealActive w-[18px] h-[18px] rounded-[50%] flex items-center justify-center text-whiteFactory text-[12px]`}>
+              {readMessage?.length}
+              </span>
+              <AdminPopUp modalOpen={open} setModalOpen={setOpen}
+                          content={<CustomerService setModalOpen={setOpen}/>} id={"factory-cs"}/>
             </div>
           </div>
           {/*search bar*/}
@@ -104,7 +125,7 @@ export const LandingNavBar = () => {
               <span
                 className={`${commentNotiCount + likeNotiCount === 0 && 'hidden'} absolute flex justify-center items-center top-[-6px] right-[-8px] rounded-[50%] aspect-square bg-redBase text-whiteFactory w-5 text-[12px]`}>
                 {/*{userLike?.filter(pro => pro.user_id !== user?.id && pro.like_indicator === 1)?.length}*/}
-                {commentNotiCount + likeNotiCount}
+                {(commentNotiCount + likeNotiCount).toString()}
               </span>
             </Link>
             <ProfileDropdown to="/user" user={user} arrowIcon={true}/>

@@ -1,11 +1,7 @@
 import {useAuthContext} from "../../context/AuthContext.jsx";
 import {FloatingUser} from "../../components/FactoryComponent/FloatingUser.jsx";
-import {NotificationCard} from "../../components/FactoryComponent/NotificationCard.jsx";
 import {useEffect, useState} from "react";
 import {useProjectContext} from "../../context/Factory/ProjectContext.jsx";
-import {useQuery} from "@tanstack/react-query";
-import Axios from "axios";
-import {Link, Outlet} from "react-router-dom";
 import {useCommentContext} from "../../context/Factory/CommentContext.jsx";
 import {CommentNotification} from "../../components/FactoryComponent/CommentNotification.jsx";
 import {LikeNotification} from "../../components/FactoryComponent/LikeNotification.jsx";
@@ -14,10 +10,7 @@ export const NotificationView = () => {
   const {user} = useAuthContext();
   const {userLikeIsLoading, userLike, likeNotiCount} = useProjectContext();
   const [notiTab, setNotiTab] = useState('all');
-  const {comments, commentNotiCount} = useCommentContext();
-  // const commentNotiCount = parseInt(comments?.filter(cmt => cmt?.parent_id === null && cmt?.user_id === user?.id)?.map(cmt => cmt.replies?.filter(cmt => cmt?.replier_id === user?.id)?.length)) +
-  //   parseInt(comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id)?.length);
-  // const likeNotiCount = userLike?.filter(pro => pro.user_id !== user?.id)?.length;
+  const {commentNotiCount} = useCommentContext();
 
   if (!userLikeIsLoading) {
     return (
@@ -27,8 +20,7 @@ export const NotificationView = () => {
                   onClick={() => setNotiTab('all')}>
             All
             <span
-              className={`${comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id)?.length +
-              comments?.filter(cmt => cmt?.parent_id === null && cmt?.user_id === user?.id)?.length + likeNotiCount === '0' && 'hidden'} bg-redHover aspect-square w-5 text-xs flex justify-center items-center text-whiteFactory rounded-[50%]`}>
+              className={`${commentNotiCount + likeNotiCount === 0 && 'hidden'} bg-redHover aspect-square w-5 text-xs flex justify-center items-center text-whiteFactory rounded-[50%]`}>
               {commentNotiCount + likeNotiCount}
             </span>
           </button>
@@ -54,7 +46,7 @@ export const NotificationView = () => {
           </button>
         </section>
         <section className="w-full flex flex-col gap-4 p-6">
-          <FilterNoti commentNotiCount={commentNotiCount} likeNotiCount={likeNotiCount} notiTab={notiTab}/>
+          <FilterNoti notiTab={notiTab}/>
         </section>
         <section>
           <FloatingUser user={user}/>
@@ -64,15 +56,15 @@ export const NotificationView = () => {
   }
 };
 
-const FilterNoti = ({notiTab, likeNotiCount, commentNotiCount}) => {
+const FilterNoti = ({notiTab}) => {
   const {user} = useAuthContext()
   const {comments} = useCommentContext();
   const {userLike} = useProjectContext()
-  // console.log(projects?.filter(pro => pro.user_id === user?.id)?.forEach(pro =>)a.comments)
   if (notiTab === 'all') {
     return (
       <div className={"flex flex-col gap-3"}>
-        {commentNotiCount + likeNotiCount === 0 &&
+        {userLike?.length + parseInt(comments?.filter(cmt => cmt?.parent_id === null && cmt?.user_id === user?.id)?.map(cmt => cmt.replies?.filter(cmt => cmt?.replier_id === user?.id)?.length)) +
+          parseInt(comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id)?.length) === 0 &&
           <span>No activity</span>}
         <LikeNotification/>
         <CommentNotification/>
@@ -90,8 +82,8 @@ const FilterNoti = ({notiTab, likeNotiCount, commentNotiCount}) => {
 
   if (notiTab === 'like') {
     return (
-      <div className={""}>
-        {likeNotiCount === 0 && <div>No activity just yet</div>}
+      <div>
+        {userLike?.length === 0 && <div>No activity just yet</div>}
         <LikeNotification/>
       </div>
     )
@@ -100,7 +92,8 @@ const FilterNoti = ({notiTab, likeNotiCount, commentNotiCount}) => {
   if (notiTab === 'cmt') {
     return (
       <div>
-        {commentNotiCount === 0 &&
+        {parseInt(comments?.filter(cmt => cmt?.parent_id === null && cmt?.user_id === user?.id)?.map(cmt => cmt.replies?.filter(cmt => cmt?.replier_id === user?.id)?.length)) +
+          parseInt(comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id)?.length) === 0 &&
           <div>No activity just yet</div>}
         <CommentNotification/>
       </div>

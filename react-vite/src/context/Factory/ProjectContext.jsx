@@ -222,6 +222,8 @@ export const ProjectContext = ({children}) => {
     }).catch(e => console.log(e.response.data.errors))
   }
   const updateIndicator = async (project) => {
+    if(project.like_indicator === 0)
+      return
     await Axios.put(`project_likes/${project?.id}`, {...project, like_indicator: 0})
       .then(() => {
         // userLikeReFetch()
