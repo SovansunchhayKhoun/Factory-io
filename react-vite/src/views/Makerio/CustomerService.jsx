@@ -18,12 +18,22 @@ export const CustomerService = ({setModalOpen}) => {
     setMessageImage,
     chats,
     messageImage,
-    getChat
+    getChat,
+    messageInput,
+    setMessageInput,
+    rows,
+    setRows
   } = useContext(ChatContext);
 
   const {user, token} = useAuthContext();
-  const [messageInput, setMessageInput] = useState('');
+  // const [messageInput, setMessageInput] = useState('');
   const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    ref.current.setSelectionRange(messageInput.length, messageInput.length)
+    setRows(Math.ceil((messageInput.length*15)/ref.current.clientWidth))
+  }, [messageInput])
 
 
   if (token) {
@@ -88,16 +98,34 @@ export const CustomerService = ({setModalOpen}) => {
               }}
             />
 
-            <input onKeyDown={(event) => {
-                event.key === 'Enter' && sendMessage(user.username, 'admin', setMessageInput)
-              }}
-              value={messageInput}
-              onChange={event => {
-                setMessageInput(event.target.value);
-                handleMessage(event, setMessageInput)
-              }}
-              className="w-full flex items-center h-10 rounded px-3 text-sm" type="text"
-              placeholder="Type your message…"/>
+            {/*<input onKeyDown={(event) => {*/}
+            {/*    event.key === 'Enter' && sendMessage(user.username, 'admin', setMessageInput)*/}
+            {/*  }}*/}
+            {/*  value={messageInput}*/}
+            {/*  onChange={event => {*/}
+            {/*    // setMessageInput(event.target.value);*/}
+            {/*    handleMessage(event)*/}
+            {/*  }}*/}
+            {/*  className="w-full flex items-center h-10 rounded px-3 text-sm" type="text"*/}
+            {/*  placeholder="Type your message…"/>*/}
+
+            <textarea ref={ref} onKeyDown={(event) => {
+              if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault()
+                sendMessage(user.username, 'admin')
+              }
+              event.key === 'Enter' && event.shiftKey && setRows(rows + 1)
+              // if (event.key === 'Backspace')
+              //   row > 1 && setRow(row - 1)
+            }}
+                      value={messageInput}
+                      onChange={event => {
+                        if (event.key === 'Enter' && event.shiftKey) return
+                        handleMessage(event);
+                      }}
+                      rows={rows || 1}
+                      className="w-full resize-none flex items-center h-10 rounded px-3 text-sm"
+                      placeholder="Type your message…"></textarea>
 
             <button onClick={() => {
               sendMessage(user.username, 'admin', setMessageInput);
