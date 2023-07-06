@@ -8,7 +8,7 @@ import {ProjectSave} from "./ProjectSave.jsx";
 import {ProjectComment} from "./ProjectComment.jsx";
 
 const imgUrl = `http://127.0.0.1:8000/projects`
-export const ProjectCard = ({project}) => {
+export const ProjectCard = ({project, setModalOpen,setSearchInput}) => {
   const {id, name, projectImages} = project;
   const {username} = project?.user;
 
@@ -32,7 +32,10 @@ export const ProjectCard = ({project}) => {
         {/*comment part*/}
         <div
           className={"px-4 text-sm flex flex-col gap-3"}>
-          <Link to={`/project/${id}`}>
+          <Link onClick={(e) => {
+            setModalOpen(false)
+            setSearchInput('')
+          }} to={`/project/${id}`}>
             <span className="font-semibold overflow-hidden text-ellipsis">
               {name}
             </span>
