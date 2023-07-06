@@ -43,7 +43,8 @@ export const ProjectContext = ({children}) => {
       return res.data.data
     });
   })
-
+  const [modalOpen, setModalOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState('')
   const {
     data: userComments,
     refetch: userCommentsReFetch,
@@ -222,7 +223,7 @@ export const ProjectContext = ({children}) => {
     }).catch(e => console.log(e.response.data.errors))
   }
   const updateIndicator = async (project) => {
-    if(project.like_indicator === 0)
+    if (project.like_indicator === 0)
       return
     await Axios.put(`project_likes/${project?.id}`, {...project, like_indicator: 0})
       .then(() => {
@@ -233,6 +234,10 @@ export const ProjectContext = ({children}) => {
   return (
     <>
       <StateContext.Provider value={{
+        searchInput,
+        setSearchInput,
+        modalOpen,
+        setModalOpen,
         likeNotiCount,
         userComments,
         userCommentsIsLoading,

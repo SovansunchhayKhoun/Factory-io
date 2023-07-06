@@ -19,7 +19,9 @@ export const LandingNavBar = () => {
   const {likeNotiCount} = useProjectContext();
   const {commentNotiCount} = useCommentContext();
   const {user, token, setUser, isLoading, onLogout} = useAuthContext();
-  const [modalOpen,setModalOpen] = useState(false)
+  // const [modalOpen,setModalOpen] = useState(false)
+  const {modalOpen, setModalOpen} = useProjectContext();
+
   // const {userLike} = useProjectContext();
 
   // Not signed in Navbar
@@ -85,7 +87,7 @@ export const LandingNavBar = () => {
                    className="w-[100%] px-12 search-bar py-2 text-start border-none text-slate-600 focus:ring-2 focus:ring-blueActive rounded-[20px]">
               Search....
             </button>
-            <AdminPopUp modalOpen={modalOpen} setModalOpen={setModalOpen} content={<SearchContent setModalOpen={setModalOpen} modalOpen={modalOpen}/>}/>
+            <AdminPopUp modalOpen={modalOpen} setModalOpen={setModalOpen} content={<SearchContent />}/>
           </div>
 
           <div className="flex items-center gap-6">

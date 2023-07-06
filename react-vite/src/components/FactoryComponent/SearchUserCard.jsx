@@ -1,9 +1,9 @@
 import React from "react";
 
-export const SearchUserCard = ({key,user}) => {
+export const SearchUserCard = ({user}) => {
   const fullName = user?.firstName + ' ' + user?.lastName
     return (
-      <div key={key} className={`px-8 py-4 rounded-md shadow-lg flex justify-start items-center gap-x-6 w-full`}>
+      <div className={`px-8 py-4 rounded-md shadow-lg flex justify-start items-center gap-x-6 w-full`}>
         <div className={`shadow-blackFactory w-[100px] h-[100px] border border-slate-400 rounded-[50%]`}>
           <img src={`https://robohash.org/${user?.username}`} alt=""/>
         </div>

@@ -6,10 +6,12 @@ import {ImageExpand} from "../../ImageExpand.jsx";
 import {FundProjectContent} from "../../../views/FundProjectContent.jsx";
 import AdminPopUp from "../../Modals/AdminPopUp.jsx";
 import BackProjectContext from "../../../context/BackProjectContext.jsx";
+import ChatContext from "../../../context/ChatContext.jsx";
+import {useAuthContext} from "../../../context/AuthContext.jsx";
 
 
 const imgUrl = 'http://127.0.0.1:8000/projects'
-export const PVProjectTab = ({projectPrototypes,project,initChat,user,setSection}) => {
+export const PVProjectTab = ({projectPrototypes,project,setSection}) => {
   if (projectPrototypes?.length === 0) {
     return <div>This project does not contain any prototypes</div>
   }
@@ -18,6 +20,9 @@ export const PVProjectTab = ({projectPrototypes,project,initChat,user,setSection
   const [img, setImg] = useState('')
   const [expand, setExpand] = useState(false);
   const {setCurrentItem,setIsHidden,setTotalAmount} = useContext(BackProjectContext)
+  const {initChat} = useContext(ChatContext);
+  const {user} = useAuthContext();
+
   return (
     <main className="flex flex-col">
       <section className="grid grid-cols-1 auto-rows-fr gap-4 w-full">
