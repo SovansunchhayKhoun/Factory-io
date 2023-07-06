@@ -1,72 +1,54 @@
+import React, {useContext, useState} from "react";
+import {PVFactoryHub} from "../components/FactoryComponent/Tabs/PVFactoryHub.jsx";
+import {PVProjectTab} from "../components/FactoryComponent/Tabs/PVProjectTab.jsx";
+import {FundProjectTab} from "./FundProjectTab.jsx";
+import {BackProjectTab} from "./BackProjectTab.jsx";
+import FundingContext from "../context/FundingContext.jsx";
 
-import React, {useEffect, useState} from "react";
 
-export const FundProjectContent = ({setModalOpen, modalOpen}) => {
+// eslint-disable-next-line react/prop-types
+export const FundProjectContent = ({setModalOpen, modalOpen, project, projectPrototypes}) => {
 
-  const options = [
-    {value: '1', text: 'ABA - $$$'},
-    {value: '2', text: 'ABA - KHR'},
-  ];
-  const [selected, setSelected] = useState(1);
-  const handleChange = event => {
-    setSelected(Number(event.target.value));
-  };
-    return (
-        <>
-          <section className="min-w-[1920px]:px-96 xl:px-56 md:px-12
-        w-screen overflow-auto py-4 text-blackFactory rounded-md bg-whiteFactory">
-            <div className="flex flex-col gap-y-3 mx-auto h-screen items-center justify-center max-w-[500px] min-w-[300px] border-slate-600">
-              <div className="flex justify-center items-center flex-row gap-x-2">
-              <h1 className="font-bold text-2xl">Donate for Community Platform</h1>
-                <button onClick={(e) => {
-                  e.stopPropagation();
-                  setModalOpen(false);
-                }} className="transition duration-200 rounded-[50%] hover:bg-blackFactory/50">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                       stroke="currentColor"
-                       className="transition duration-200 w-6 h-6 hover:text-whiteFactory hover:bg-none">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                  </svg>
+  const {setResponse,section,setSection} = useContext(FundingContext)
+  return (
+    <>
+      <main className="w-screen h-screen flex justify-center">
+        <div className={`flex flex-col justify-center items-center`}>
+          <div
+            className="flex flex-col gap-y-3 px-8 py-4 rounded-md items-center h-[70%] bg-whiteFactory overflow-auto">
+            <div className={`flex justify-start items-center gap-x-4 w-full border-b-2 border-b-blackFactory  pb-2`}>
+              <button onClick={(e) => {
+                e.stopPropagation();
+                setModalOpen(false)
+              }} className="transition duration-200 rounded-[50%] hover:bg-blackFactory/50 pt-1">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                     stroke="currentColor"
+                     className="transition duration-200 w-6 h-6 hover:text-whiteFactory hover:bg-none">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
+              <section className='flex flex-row gap-x-2'>
+                <button
+                  className={`${section === 'fp' && 'bg-redHover text-whiteFactory'} rounded-md whitespace-nowrap transition duration-200 px-4 py-2 hover:bg-redHover hover:text-whiteFactory`}
+                  onClick={() => {
+                    setSection('fp')
+                    setResponse({})
+                  }}>Fund Project
                 </button>
-              </div>
-              <div className="flex gap-x-1">Target 10 000$ Currently <p className="text-red-600"> 800$</p></div>
-              <select
-                value={selected}
-                onChange={event => handleChange(event)}
-                className="bg-whiteFactory py-0 px-2 rounded-sm w-2/3
-              md:text-base text-blackFactory font-semibold text-[10px]">
-                {options.map((option) => {
-                  return (
-                    <option key={option.value} value={option.value}>
-                      {option.text}
-                    </option>
-                  );
-                })}
-              </select>
-              <div>
-                {selected === 1 &&
-                  <img className={`object-contain
-              md:w-[200px] md:h-[200px] md:mt-0 mt-2
-              `} src="/assets/images/qr-dollars.jpg"
-                       alt=""/>}
-
-                {selected === 2 &&
-                  <img className={`object-contain
-              md:w-[200px] md:h-[200px] md:mt-0 mt-2
-              `} src="/assets/images/qr-riel.jpg"
-                       alt=""/>}
-              </div>
-              <div className="flex flex-col w-2/3">
-                <label htmlFor="comment">Comment</label>
-                <input id="comment" className="border border-slate-600 rounded-md px-2 py-1"/>
-              </div>
-              <div className="flex flex-col w-2/3">
-                <label htmlFor="upload">Upload Screenshot</label>
-                <input id="upload" className="border border-slate-600 rounded-md px-2 py-1"/>
-              </div>
-              <button className="rounded-[20px] px-6 py-2 text-whiteFactory bg-redHover" >Submit</button>
+                <button
+                  className={`${section === 'bp' && 'bg-redHover text-whiteFactory'} rounded-md whitespace-nowrap transition duration-200 px-4 py-2 hover:bg-redHover hover:text-whiteFactory`}
+                  onClick={() => setSection('bp')}>Back Project
+                </button>
+              </section>
             </div>
-          </section>
-        </>
-    )
+
+            <section className="w-full">
+              {section === 'fp' && <FundProjectTab project={project}/>}
+              {section === 'bp' && <BackProjectTab project={project} projectPrototypes={projectPrototypes}/>}
+            </section>
+          </div>
+        </div>
+      </main>
+    </>
+  )
 }

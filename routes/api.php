@@ -3,9 +3,12 @@
   use App\Http\Controllers\Api\AuthController;
   use App\Http\Controllers\Api\V1\CommentController;
   use App\Http\Controllers\Api\V1\DeliveryAddressController;
+use App\Http\Controllers\Api\V1\BackProjectController;
+//use App\Http\Controllers\Api\V1\DeliveryAddressController;
   use App\Http\Controllers\Api\V1\ChatController;
   use App\Http\Controllers\Api\V1\DonationController;
-  use App\Http\Controllers\Api\V1\InvoiceController;
+use App\Http\Controllers\Api\V1\FundingController;
+use App\Http\Controllers\Api\V1\InvoiceController;
   use App\Http\Controllers\Api\V1\InvoiceProductController;
   use App\Http\Controllers\Api\V1\MessageController;
   use App\Http\Controllers\Api\V1\ProductController;
@@ -47,16 +50,19 @@
       Route ::get('comment_notification', 'comment_notification');
     });
 
+    Route::apiResource('backProjects', BackProjectController::class);
     Route ::controller ( ProjectController::class ) -> group ( function () {
       Route ::get ( 'find_project/{user_id}' , 'find_project' );
       Route ::get ( 'find_comment/{user_id}' , 'find_comment' );
     } );
+    Route ::apiResource ( 'fundings' , FundingController::class );
     Route ::controller ( ProjectLikeController::class ) -> group ( function () {
       Route ::post ( 'checkLike' , 'checkLike' );
     } );
     Route ::controller ( SavedProjectController::class ) -> group ( function () {
       Route ::post ( 'checkUserSave' , 'checkUserSave' );
     } );
+    Route::get('totalDonations', [DonationController::class,'totalDonation']);
     Route ::controller ( DeliveryAddressController::class ) -> group ( function () {
       Route ::get ( 'checkAddress/{userId}/{placeId}' , 'checkAddress' );
       Route ::get ( 'getLastInvoice' , 'getLastInvoice' );
@@ -86,6 +92,7 @@
     Route ::get ( 'last_project' , [ ProjectController::class , 'fetchLastProject' ] );
     Route ::get ( 'mostSoldItem' , [ InvoiceProductController::class , 'mostSoldItem' ] );
     Route ::get ( 'getLastInv' , [ InvoiceController::class , 'getLastInv' ] );
+
 //    Route ::get ( 'checkAddress/{userId}/{placeId}' , [ DeliveryAddressController::class , 'checkAddress' ] );
 //    Route ::get ( 'getLastInvoice' , [ DeliveryAddressController::class , 'getLastInvoice' ] );
 //    Route ::get ( 'getAddress/{address}' , [ DeliveryAddressController::class , 'getAddress' ] );

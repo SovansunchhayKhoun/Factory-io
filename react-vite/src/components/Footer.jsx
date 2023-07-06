@@ -1,11 +1,13 @@
 import {Link} from "react-router-dom";
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import AdminPopUp from "./Modals/AdminPopUp.jsx";
 import {DonateContent} from "../views/DonateContent.jsx";
 import {useAuthContext} from "../context/AuthContext.jsx";
+import DonateContext from "../context/DonateContext.jsx";
 
 export const Footer = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const {setResponse} = useContext(DonateContext)
   const {token} = useAuthContext()
   return (
     <>
@@ -25,6 +27,7 @@ export const Footer = () => {
           {
             token && <button onClick={(e) => {
               e.stopPropagation()
+              setResponse({})
               setModalOpen(true)
             }} className="rounded-[20px] px-4 py-2 text-whiteFactory bg-redHover">
               Donate

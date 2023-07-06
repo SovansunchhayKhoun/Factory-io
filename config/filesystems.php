@@ -89,6 +89,20 @@
         'visibility' => 'public' ,
         'throw' => false ,
       ] ,
+      'fundings' => [
+        'driver' => 'local' ,
+        'root' => storage_path ( 'app/public/fundings/' ) ,
+        'url' => env ( 'APP_URL' ) . '/storage' ,
+        'visibility' => 'public' ,
+        'throw' => false ,
+      ] ,
+      'backProjects' => [
+        'driver' => 'local' ,
+        'root' => storage_path ( 'app/public/backProjects/' ) ,
+        'url' => env ( 'APP_URL' ) . '/storage' ,
+        'visibility' => 'public' ,
+        'throw' => false ,
+      ] ,
       'reviews' => [
         'driver' => 'local' ,
         'root' => storage_path ( 'app/public/reviews/' ) ,
@@ -146,6 +160,8 @@
       public_path ( 'donations' ) => storage_path ( 'app/public/donations' ) ,
       public_path ( 'reviews' ) => storage_path ( 'app/public/reviews' ) ,
       public_path ( 'comments' ) => storage_path ( 'app/public/comments' ) ,
+      public_path ( 'fundings' ) => storage_path ( 'app/public/fundings' ) ,
+      public_path ( 'backProjects' ) => storage_path ( 'app/public/backProjects' ) ,
     ] ,
 
   ];

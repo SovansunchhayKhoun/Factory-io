@@ -11,11 +11,16 @@ import {useCommentContext} from "../context/Factory/CommentContext.jsx";
 import ChatContext from "../context/ChatContext.jsx";
 import {CustomerService} from "../views/Makerio/CustomerService.jsx";
 import AdminPopUp from "./Modals/AdminPopUp.jsx";
+// import AdminPopUp from "./Modals/AdminPopUp.jsx";
+import {SearchContent} from "../views/SearchContent.jsx";
 
 export const LandingNavBar = () => {
-  const {user, token} = useAuthContext();
+  // const {user, token} = useAuthContext();
   const {likeNotiCount} = useProjectContext();
   const {commentNotiCount} = useCommentContext();
+  const {user, token, setUser, isLoading, onLogout} = useAuthContext();
+  const [modalOpen,setModalOpen] = useState(false)
+  // const {userLike} = useProjectContext();
 
   // Not signed in Navbar
   const [navBar, setNavBar] = useState([
@@ -73,9 +78,14 @@ export const LandingNavBar = () => {
           {/*search bar*/}
 
           <div className="bg-[#D9D9D9] rounded-[20px] md:flex md:items-center md:gap-x-12 lg:w-[384px] hidden">
-            <input type="text"
-                   placeholder="Search..."
-                   className="w-[100%] px-12 search-bar py-1 border-none focus:ring-2 focus:ring-blueActive rounded-[20px]"/>
+            <button
+                    onClick={()=>{
+                      setModalOpen(true)
+                    }}
+                   className="w-[100%] px-12 search-bar py-2 text-start border-none text-slate-600 focus:ring-2 focus:ring-blueActive rounded-[20px]">
+              Search....
+            </button>
+            <AdminPopUp modalOpen={modalOpen} setModalOpen={setModalOpen} content={<SearchContent setModalOpen={setModalOpen} modalOpen={modalOpen}/>}/>
           </div>
 
           <div className="flex items-center gap-6">

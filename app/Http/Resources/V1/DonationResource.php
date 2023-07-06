@@ -20,6 +20,7 @@ class DonationResource extends JsonResource
           'comment' => $this->comment,
           'image' => $this->image,
           'user_id' => $this->user_id,
+          'amount' => $this->amount,
           'user' => User::where('id', $this->user_id)->get(),
           'created_at' => $this->created_at,
         ];

@@ -6,7 +6,6 @@ import {Rating} from "@mui/material";
 import {PVFactoryHub} from "../../components/FactoryComponent/Tabs/PVFactoryHub.jsx";
 import {PVProjectTab} from "../../components/FactoryComponent/Tabs/PVProjectTab.jsx";
 import {FloatingUser} from "../../components/FactoryComponent/FloatingUser.jsx";
-import {DonateContent} from "../DonateContent.jsx";
 import AdminPopUp from "../../components/Modals/AdminPopUp.jsx";
 import {FundProjectContent} from "../FundProjectContent.jsx";
 import {Carousel} from "flowbite-react";
@@ -17,25 +16,29 @@ import {ProjectStar} from "../../components/FactoryComponent/ProjectStar.jsx";
 import {ProjectSave} from "../../components/FactoryComponent/ProjectSave.jsx";
 import {ProjectComment} from "../../components/FactoryComponent/ProjectComment.jsx";
 import {ImageExpand} from "../../components/ImageExpand.jsx";
+import chatContext from "../../context/ChatContext.jsx";
+import FundingContext from "../../context/FundingContext.jsx";
 
 const imgUrl = 'http://127.0.0.1:8000/projects';
 export const ProjectView = () => {
   const {id} = useParams();
+  // const navigate = useNavigate();
   const {user} = useAuthContext();
   const {users} = useContext(UserContext);
+  const {initChat} = useContext(chatContext)
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  const [modalOpen, setModalOpen] = useState(false);
+  const {postLike, postSave} = useProjectContext();
+  const {setSection,setCurrentItem} = useContext(FundingContext)
+
   const {data: project, refetch: projectReFetch, isLoading: projectIsLoading} = useQuery(['project', id], () => {
     return Axios.get(`projects/${id}`).then(res => {
       return res.data.data;
     })
   })
-  const {postLike, postSave} = useProjectContext();
 
-  // console.log(project)
-  const navigate = useNavigate();
-  const monthNames = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
-  const [modalOpen, setModalOpen] = useState(false);
   const postDate = `${new Date(project?.created_at.slice(0, 10)).getDate()}-${monthNames[new Date(project?.created_at.slice(0, 10)).getMonth()]}-${new Date(project?.created_at.slice(0, 10)).getFullYear()}`
 
   const [tab, setTab] = useState('fh');
@@ -59,7 +62,6 @@ export const ProjectView = () => {
   return (
     <main className="flex justify-between gap-24">
       <section className="w-full flex flex-col gap-4">
-
         <button onClick={() => {
           navigate(-1)
         }}>
@@ -72,7 +74,8 @@ export const ProjectView = () => {
               <Carousel>
                 {project?.projectImages?.map(projectImage => {
                   return (
-                    <button key={projectImage.id} onClick={(e) => {
+                    <button key={projectImage.id}
+                            onClick={(e) => {
                       e.stopPropagation()
                       setExpand(!expand)
                       setImgExpand(projectImage.image)
@@ -111,12 +114,14 @@ export const ProjectView = () => {
                   <button
                     onClick={(e) => {
                       e.stopPropagation()
+                      initChat('admin', user.username)
+                      setSection('fp')
                       setModalOpen(true)
                     }}
                     className="rounded-[20px] px-4 py-2 text-whiteFactory bg-redHover">
                     Fund this project
                   </button>
-                  <AdminPopUp content={<FundProjectContent modalOpen={modalOpen} setModalOpen={setModalOpen}/>}
+                  <AdminPopUp content={<FundProjectContent project={project} projectPrototypes={project?.projectPrototypes} modalOpen={modalOpen} setModalOpen={setModalOpen}/>}
                               modalOpen={modalOpen} setModalOpen={setModalOpen}/>
                 </div>
 
@@ -164,7 +169,7 @@ export const ProjectView = () => {
 
             <section className="pt-4 w-full">
               {tab === 'fh' && <PVFactoryHub project={project}/>}
-              {tab === 'project' && <PVProjectTab projectPrototypes={project?.projectPrototypes}/>}
+              {tab === 'project' && <PVProjectTab setSection={setSection} setCurrentItem={setCurrentItem} user={user} initChat={initChat} project={project} projectPrototypes={project?.projectPrototypes}/>}
             </section>
           </section>
         </section>
