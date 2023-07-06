@@ -22,7 +22,7 @@ import FundingContext from "../../context/FundingContext.jsx";
 const imgUrl = 'http://127.0.0.1:8000/projects';
 export const ProjectView = () => {
   const {id} = useParams();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const {user} = useAuthContext();
   const {users} = useContext(UserContext);
   const {initChat} = useContext(chatContext)
