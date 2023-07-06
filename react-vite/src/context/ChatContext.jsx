@@ -21,10 +21,6 @@ export const ChatProvider = ({children}) => {
   const [chatErrors, setChatErrors] = useState([]);
   const [messageImage, setMessageImage] = useState('')
   const [messagePost, setMessagePost] = useState({});
-  const [messageInput, setMessageInput] = useState('');
-  const [rows, setRows] = useState(1);
-
-  
 
   const checkChatExist = (newChat) => {
     if (!chatLoading) {
@@ -86,27 +82,24 @@ export const ChatProvider = ({children}) => {
     return chats?.find((chat) => ((chat.sender_id === sender && chat.receiver_id === receiver) || (chat.sender_id === receiver && chat.receiver_id === sender)));
   }
 
-  const handleMessage = (event) => {
-    console.log(event.target.value)
-    if(event.target.value !== '\n' && event.target.value !== ' ')
-      setMessageInput(event.target.value);
-    // setMessagePost({
-    //   msg_content: event.target.value.trim(),
-    // });
+  const handleMessage = (event, setMessageInput) => {
+    setMessageInput(event.target.value);
+    setMessagePost({
+      msg_content: event.target.value.trim(),
+    });
   }
 
-  const clearMessage = () => {
+  const clearMessage = (setMessageInput) => {
     setMessageInput('');
     setMessagePost({});
     setMessageImage('');
   };
 
-  const sendMessage = async (sender, receiver) => {
+  const sendMessage = async (sender, receiver, setMessageInput) => {
+
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
-    console.log(messageInput)
-    if (messageImage || messageInput !== '') {
-      messagePost.msg_content = messageInput
+    if (messageImage !== '' || messagePost.msg_content) {
       messagePost.image = messageImage;
       messagePost.receiver_id = receiver;
       // messagePost.chat_id = findChat(user?.username, receiver)?.id ?? await findChat(user?.username, receiver)?.then(res => res.id);
@@ -121,7 +114,7 @@ export const ChatProvider = ({children}) => {
         }).then(async () => {
           await messageReFetch();
           await chatReFetch()
-          clearMessage();
+          clearMessage(setMessageInput);
         });
       } catch (msg) {
         setChatErrors(msg.response.data.errors)
@@ -158,10 +151,6 @@ export const ChatProvider = ({children}) => {
   return (
     <>
       <ChatContext.Provider value={{
-        rows,
-        setRows,
-        messageInput,
-        setMessageInput,
         getChat,
         chatErrors,
         setChatErrors,

@@ -7,16 +7,16 @@ import ChatContext from "./ChatContext.jsx";
 Axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 const BackProjectContext = createContext();
 export const BackProjectProvider = ({children}) => {
-  const [backProjectFunding,setBackProjectFunding] = useState([])
-  const [image,setImage] = useState('')
-  const [comment,setComment] = useState('')
-  const [totalAmount,setTotalAmount] = useState(0)
-  const [qty,setQty] = useState(1)
-  const [errors,setErrors] = useState({})
-  const [response,setResponse] = useState({})
-  const [currentItem,setCurrentItem] = useState({})
+  const [backProjectFunding, setBackProjectFunding] = useState([])
+  const [image, setImage] = useState('')
+  const [comment, setComment] = useState('')
+  const [totalAmount, setTotalAmount] = useState(0)
+  const [qty, setQty] = useState(1)
+  const [errors, setErrors] = useState({})
+  const [response, setResponse] = useState({})
+  const [currentItem, setCurrentItem] = useState({})
   const {user} = useAuthContext()
-  const [isHidden,setIsHidden] = useState(false)
+  const [isHidden, setIsHidden] = useState(false)
   const {
     autoSendMessage,
   } = useContext(ChatContext);
@@ -30,7 +30,11 @@ export const BackProjectProvider = ({children}) => {
     setIsHidden(false)
   }
 
-  const {data: backProjectQuery, refetch: backProjectQueryReFetch, isLoading: backProjectsLoading} = useQuery(['backProjectQuery'], () => {
+  const {
+    data: backProjectQuery,
+    refetch: backProjectQueryReFetch,
+    isLoading: backProjectsLoading
+  } = useQuery(['backProjectQuery'], () => {
       return Axios.get(`backProjects`).then((res) => {
         setBackProjectFunding(res.data.data);
         return res.data.data
@@ -40,19 +44,19 @@ export const BackProjectProvider = ({children}) => {
 
   const storeBackProjectFunding = async (project) => {
     setResponse({})
-    await Axios.post('backProjects',{
+    await Axios.post('backProjects', {
       funder_id: user?.id,
       project_id: project?.id,
-      prototype_id:currentItem?.id,
-      qty:qty,
+      prototype_id: currentItem?.id,
+      qty: qty,
       amount: totalAmount,
       image: image,
-      comment:comment
-    },{
+      comment: comment
+    }, {
       headers: {'Content-Type': "multipart/form-data"}
     }).then(async (res) => {
       setResponse(res)
-      await autoSendMessage(user?.username, 'admin',`Hi, I would like to back this project.
+      await autoSendMessage(user?.username, 'admin', `Hi, I would like to back this project.
        Project ID: ${project?.id},
        Project Name: ${project?.name},
        Prototype ID: ${currentItem?.id},
@@ -62,9 +66,9 @@ export const BackProjectProvider = ({children}) => {
        Total price: $ ${totalAmount}`)
       await backProjectQueryReFetch()
       resetInput()
-    }).catch((err) =>{
+    }).catch((err) => {
       console.log(err)
-      if(err.response.status === 422){
+      if (err.response.status === 422) {
         setErrors(err.response.data.errors)
       }
     })

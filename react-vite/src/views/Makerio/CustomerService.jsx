@@ -1,5 +1,5 @@
 import {useAuthContext} from "../../context/AuthContext.jsx";
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import ChatContext from "../../context/ChatContext.jsx";
 import {Sender} from "../../components/ChatComponent/Sender.jsx";
 import {Replier} from "../../components/ChatComponent/Replier.jsx";
@@ -18,23 +18,12 @@ export const CustomerService = ({setModalOpen}) => {
     setMessageImage,
     chats,
     messageImage,
-    getChat,
-    messageInput,
-    setMessageInput,
-    rows,
-    setRows
+    getChat
   } = useContext(ChatContext);
 
   const {user, token} = useAuthContext();
-  // const [messageInput, setMessageInput] = useState('');
+  const [messageInput, setMessageInput] = useState('');
   const [open, setOpen] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    ref.current.setSelectionRange(messageInput.length, messageInput.length)
-    setRows(Math.ceil((messageInput.length*15)/ref.current.clientWidth))
-  }, [messageInput])
-
 
   if (token) {
     return (
@@ -97,36 +86,17 @@ export const CustomerService = ({setModalOpen}) => {
                 e.target.files[0] && setOpen(true);
               }}
             />
-
-            {/*<input onKeyDown={(event) => {*/}
-            {/*    event.key === 'Enter' && sendMessage(user.username, 'admin', setMessageInput)*/}
-            {/*  }}*/}
-            {/*  value={messageInput}*/}
-            {/*  onChange={event => {*/}
-            {/*    // setMessageInput(event.target.value);*/}
-            {/*    handleMessage(event)*/}
-            {/*  }}*/}
-            {/*  className="w-full flex items-center h-10 rounded px-3 text-sm" type="text"*/}
-            {/*  placeholder="Type your message…"/>*/}
-
-            <textarea ref={ref} onKeyDown={(event) => {
-              if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault()
-                sendMessage(user.username, 'admin')
-              }
-              event.key === 'Enter' && event.shiftKey && setRows(rows + 1)
-              // if (event.key === 'Backspace')
-              //   row > 1 && setRow(row - 1)
-            }}
-                      value={messageInput}
-                      onChange={event => {
-                        if (event.key === 'Enter' && event.shiftKey) return
-                        handleMessage(event);
-                      }}
-                      rows={rows || 1}
-                      className="w-full resize-none flex items-center h-10 rounded px-3 text-sm"
-                      placeholder="Type your message…"></textarea>
-
+            <input
+              onKeyDown={(event) => {
+                event.key === 'Enter' && sendMessage(user.username, 'admin', setMessageInput)
+              }}
+              value={messageInput}
+              onChange={event => {
+                setMessageInput(event.target.value);
+                handleMessage(event, setMessageInput)
+              }}
+              className="w-full flex items-center h-10 rounded px-3 text-sm" type="text"
+              placeholder="Type your message…"/>
             <button onClick={() => {
               sendMessage(user.username, 'admin', setMessageInput);
             }}
@@ -176,4 +146,3 @@ export const CustomerService = ({setModalOpen}) => {
     );
   }
 };
-
