@@ -8,7 +8,7 @@ export const CommentNotification = () => {
   return (
     <>
       <div className={"flex flex-col gap-3"}>
-        {comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id)?.map(cmt => {
+        {comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id)?.sort((a, b) => new Date(b.comment_time) - new Date(a.comment_time))?.map(cmt => {
           return (
             <div key={cmt?.id} className={""}>
               {/*<Link key={cmt?.id} to={`/project/${cmt?.project_id}`}>*/}
@@ -35,7 +35,7 @@ export const CommentNotification = () => {
         {comments?.filter(cmt => cmt?.parent_id === null && cmt?.user_id === user?.id)?.map(cmt => {
           return (
             <div key={cmt?.id} className={"flex flex-col gap-3"}>
-              {cmt?.replies?.filter(cmt => cmt?.replier_id === user?.id).map(cmt => {
+              {cmt?.replies?.sort((a, b) => new Date(b.comment_time) - new Date(a.comment_time)).filter(cmt => cmt?.replier_id === user?.id).map(cmt => {
                 return (
                   <CommentNotiCard key={cmt?.id} cmt={cmt}/>
                   // <Link key={cmt?.id} to={`/project/${cmt?.project_id}`}>
