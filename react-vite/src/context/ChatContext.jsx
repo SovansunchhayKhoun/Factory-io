@@ -19,34 +19,24 @@ export const ChatProvider = ({children}) => {
     return Axios.get('message').then((res) => res.data.data);
   });
   const [chatErrors, setChatErrors] = useState([]);
-  const [messageImage, setMessageImage] = useState('')
+  const [messageImage, setMessageImage] = useState(null)
   const [messagePost, setMessagePost] = useState({});
-
-  const checkChatExist = (newChat) => {
-    if (!chatLoading) {
-      return chats.some((copy) => {
-        return (copy.sender_id === newChat.sender_id && copy.receiver_id === newChat.receiver_id) || (copy.sender_id === newChat.receiver_id && copy.receiver_id === newChat.sender_id)
-      })
-    }
-  };
-
-  const getChat = (sender, receiver) => {
-    return chats?.filter(chat => chat.sender_id === sender && chat.receiver_id === receiver || chat.sender_id === receiver && chat.receiver_id === sender);
-  }
+  const [messageInput, setMessageInput] = useState('');
 
   const getLatestMessage = (sender, receiver) => {
-    return getChat(sender, receiver)[0]?.messages[getChat(sender, receiver)[0].messages?.length -1];
+    return getChat(sender, receiver)[0]?.messages[getChat(sender, receiver)[0].messages?.length - 1];
   }
 
   const setSeen = (userMessage, receiver) => {
     if (userMessage?.length === 0) {
       return;
     }
+
     userMessage?.forEach(async (usrMsg) => {
       if (usrMsg.sender_id !== receiver) {
-        usrMsg.is_read = 1;
+        // usrMsg.is_read = 1;
         try {
-          await Axios.patch(`message/${usrMsg.id}`, usrMsg).then(() => {
+          await Axios.put(`message/${usrMsg.id}`, {...usrMsg, is_read: 1}).then(() => {
             messageReFetch();
           });
         } catch (e) {
@@ -62,48 +52,59 @@ export const ChatProvider = ({children}) => {
       sender_id: sender,
       receiver_id: receiver,
     }
-    if (!checkChatExist(newChat)) {
-      console.log('init');
-      try {
-        await Axios.post('chat', newChat).then(async ({data}) => {
-          chatReFetch()
-        });
-      } catch (msg) {
-        setChatErrors(msg.response.data.errors)
-        // console.log(msg.response.data.errors);
-      }
+    try {
+      await Axios.post('chat', newChat).then(async ({data}) => {
+        chatReFetch()
+      });
+    } catch (msg) {
+      setChatErrors(msg.response.data.errors)
+      // console.log(msg.response.data.errors);
     }
+    // if (!checkChatExist(newChat)) {
+    //   try {
+    //     await Axios.post('chat', newChat).then(async ({data}) => {
+    //       chatReFetch()
+    //     });
+    //   } catch (msg) {
+    //     setChatErrors(msg.response.data.errors)
+    //     // console.log(msg.response.data.errors);
+    //   }
+    // }
   };
   const findChat = (sender, receiver) => {
-    if (!chats?.find((chat) => ((chat.sender_id === sender && chat.receiver_id === receiver) || (chat.sender_id === receiver && chat.receiver_id === sender)))) {
-      chatReFetch()
-      return Axios.get(`getChat/${sender}/${receiver}`).then(({data}) => data);
-    }
+    // if (!chats?.find((chat) => ((chat.sender_id === sender && chat.receiver_id === receiver) || (chat.sender_id === receiver && chat.receiver_id === sender)))) {
+    //   chatReFetch()
+    //   return Axios.get(`getChat/${sender}/${receiver}`).then(({data}) => data);
+    // }
     return chats?.find((chat) => ((chat.sender_id === sender && chat.receiver_id === receiver) || (chat.sender_id === receiver && chat.receiver_id === sender)));
   }
 
-  const handleMessage = (event, setMessageInput) => {
-    setMessageInput(event.target.value);
-    setMessagePost({
-      msg_content: event.target.value.trim(),
-    });
+  const getChat = (sender, receiver) => {
+    return chats?.filter(chat => chat.sender_id === sender && chat.receiver_id === receiver || chat.sender_id === receiver && chat.receiver_id === sender);
   }
 
-  const clearMessage = (setMessageInput) => {
+  const handleMessage = (event) => {
+    if (event.target.value !== ' ') {
+      setMessageInput(event.target.value);
+    }
+  }
+
+  const clearMessage = () => {
     setMessageInput('');
     setMessagePost({});
-    setMessageImage('');
+    setMessageImage(null);
   };
 
-  const sendMessage = async (sender, receiver, setMessageInput) => {
-
+  const sendMessage = async (sender, receiver) => {
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
-    if (messageImage !== '' || messagePost.msg_content) {
+    if (messageImage || messageInput !== '') {
+      messagePost.msg_content = messageInput;
       messagePost.image = messageImage;
       messagePost.receiver_id = receiver;
       // messagePost.chat_id = findChat(user?.username, receiver)?.id ?? await findChat(user?.username, receiver)?.then(res => res.id);
-      messagePost.chat_id = getChat(user?.username, receiver)[0]?.id || await findChat(user?.username, receiver)?.then(res => res.id);
+      // messagePost.chat_id = getChat(user?.username, receiver)[0]?.id || await findChat(user?.username, receiver)?.then(res => res.id);
+      messagePost.chat_id = getChat(user?.username, receiver)[0]?.id;
       messagePost.sender_id = user?.username;
       messagePost.time_sent = currentDate;
       messagePost.is_read = 0;
@@ -114,7 +115,7 @@ export const ChatProvider = ({children}) => {
         }).then(async () => {
           await messageReFetch();
           await chatReFetch()
-          clearMessage(setMessageInput);
+          clearMessage();
         });
       } catch (msg) {
         setChatErrors(msg.response.data.errors)
@@ -122,15 +123,16 @@ export const ChatProvider = ({children}) => {
       }
     }
   }
-  const autoSendMessage = async (sender, receiver,msg) => {
+  const autoSendMessage = async (sender, receiver, msg) => {
     messagePost.msg_content = msg
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
-    if (messageImage !== '' || messagePost.msg_content) {
+    if (messageImage || messageInput !== '') {
       messagePost.image = messageImage;
       messagePost.receiver_id = receiver;
       // messagePost.chat_id = findChat(user?.username, receiver)?.id ?? await findChat(user?.username, receiver)?.then(res => res.id);
-      messagePost.chat_id = getChat(user?.username, receiver)[0]?.id || await findChat(user?.username, receiver)?.then(res => res.id);
+      // messagePost.chat_id = getChat(user?.username, receiver)[0]?.id || await findChat(user?.username, receiver)?.then(res => res.id);
+      messagePost.chat_id = getChat(user?.username, receiver)[0]?.id;
       messagePost.sender_id = user?.username;
       messagePost.time_sent = currentDate;
       messagePost.is_read = 0;
@@ -141,6 +143,8 @@ export const ChatProvider = ({children}) => {
         }).then(async () => {
           await messageReFetch();
           await chatReFetch()
+          // setMessageImage('')
+          clearMessage()
         });
       } catch (msg) {
         console.log(msg)
@@ -151,12 +155,14 @@ export const ChatProvider = ({children}) => {
   return (
     <>
       <ChatContext.Provider value={{
+        setMessageInput,
+        messageInput,
         getChat,
         chatErrors,
         setChatErrors,
         clearMessage,
         messageImage,
-        checkChatExist,
+        // checkChatExist,
         setSeen,
         getLatestMessage,
         findChat,

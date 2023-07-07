@@ -23,7 +23,7 @@ class MessageRequest extends FormRequest
     {
         return [
             'msg_content' => ['nullable'],
-            'image' => ['nullable', 'image'],
+            'image' => ['nullable'],
             'chat_id' => ['required'],
             'sender_id' => ['required'],
             'receiver_id' => ['required'],

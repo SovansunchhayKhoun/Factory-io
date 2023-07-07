@@ -23,7 +23,7 @@
     {
       return [
         'body' => [ 'nullable' ] ,
-        'image' => [ 'nullable' , 'image' ] ,
+        'image' => [ 'nullable' ] ,
         'comment_time' => [ 'required' ] ,
         'comment_indicator' => [ 'required' ] ,
         'comment_seen' => [ 'required' ] ,

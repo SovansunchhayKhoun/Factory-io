@@ -18,11 +18,12 @@ export const CommentCard = ({cmt, project}) => {
   useEffect(() => {
     setRow(Math.ceil((body?.length*15)/209))
   })
+
   return (
     <section className="flex flex-col w-full">
       <div className={"flex flex-col gap-4 px-2 w-full"}>
 
-        <div className={"flex items-center gap-4"}>
+        <div className={"flex items-start gap-0.5"}>
           <div className="flex items-center">
             <img src={`https://robohash.org/${user_cmt?.username}`} className={"w-[48px] border rounded-[50%]"} alt=""/>
           </div>
@@ -31,8 +32,8 @@ export const CommentCard = ({cmt, project}) => {
               className="font-normal text-blueActive">follow</span></p>
             {/*<textarea rows={match ? match.input.split('\r' + '\n').length : 1} disabled={true}*/}
             {/*<textarea ref={ref} rows={match ? match.input.split('\r' + '\n').length} disabled={true}*/}
-            <textarea ref={ref} rows={row} disabled={true}
-                      className={"resize-none bg-whiteFactory border-none"} value={body || ''}></textarea>
+            <textarea ref={ref} rows={row || 1} disabled={true}
+                      className={`${!body && 'hidden'} resize-none bg-whiteFactory border-none`} value={body || ''}></textarea>
             {image && (
               <div className={"self-start max-w-[250px]"}>
                 <img className={"object-contain aspect-video"} src={`${imgUrl}/${image}`} alt=""/>

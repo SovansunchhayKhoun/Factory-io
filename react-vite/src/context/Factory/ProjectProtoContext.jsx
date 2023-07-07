@@ -42,7 +42,7 @@ export const ProjectProtoContext = ({children}) => {
       prjPrototypeValues.proto_name = "Prototype - " + prjPrototypeValues.id;
       setPrototypeList([...prototypeList, prjPrototypeValues])
       clearPrototype();
-      console.log(prototypeList)
+      // console.log(prototypeList)
       setOpen(false)
     }
   }

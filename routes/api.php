@@ -87,6 +87,7 @@ use App\Http\Controllers\Api\V1\InvoiceController;
       Route ::delete ( '/tmp-delete' , 'delete' );
     } );
     Route ::get ( 'getChat/{sender}/{receiver}' , [ ChatController::class , 'getChat' ] );
+//    Route ::post ( 'checkChat' , [ ChatController::class , 'checkChat' ] );
     Route ::get ( 'downloadFile/{id}' , [ ProjectAssetController::class , 'download' ] );
     Route ::get ( 'prototypes/{id}' , [ ProjectPrototypeController::class , 'prototypes' ] );
     Route ::get ( 'last_project' , [ ProjectController::class , 'fetchLastProject' ] );

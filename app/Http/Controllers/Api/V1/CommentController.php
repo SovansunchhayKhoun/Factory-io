@@ -22,7 +22,7 @@
 
     public function comment_notification ()
     {
-      return CommentResource ::collection ( Comment ::latest () -> where ( [ ['comment_indicator' , '!=' , 0] ] ) -> get () );
+      return CommentResource ::collection ( Comment ::latest () -> where ( [ [ 'comment_indicator' , '!=' , 0 ] ] ) -> get () );
     }
 
     public function store ( CommentRequest $request )
@@ -32,6 +32,10 @@
 //      Comment ::create ( $data );
 //      dd($data);
 //      dd($data);
+      $request -> validate ( [
+        'image' => [ 'nullable', 'image' ]
+      ] );
+
       $myTime = Carbon ::now ();
       if ( $request -> hasFile ( 'image' ) ) {
         $imageFile = $request -> file ( 'image' ) -> getClientOriginalName ();

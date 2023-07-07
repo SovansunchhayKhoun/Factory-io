@@ -22,6 +22,8 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
     setSelected(Number(event.target.value));
   };
 
+  const {totalDonation} = useContext(DonateContext);
+
   return (
     <>
       <main className="w-screen h-screen flex justify-center">
@@ -42,7 +44,7 @@ export const DonateContent = ({setModalOpen, modalOpen}) => {
                 </svg>
               </button>
             </div>
-            <div className="flex gap-x-1">Target 10 000$ Currently <p className="text-red-600"> 800$</p></div>
+            <div className="flex gap-x-1">Target 10 000$ Currently <p className="text-red-600"> ${totalDonation?.total === null ? '0' : totalDonation?.total}</p></div>
             <select
               value={selected}
               onChange={event => handleChange(event)}

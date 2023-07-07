@@ -15,11 +15,6 @@ export const LikeNotification = () => {
             <NotificationCard key={pro?.id} project={pro}/>
           )
         })}
-        {userLike?.filter(pro => pro.user_id !== user?.id)?.map(pro => {
-          return (
-            <NotificationCard key={pro?.id} project={pro}/>
-          )
-        })}
       </div>
     );
 };

@@ -8,8 +8,11 @@
   use App\Models\Project;
   use App\Models\ProjectAsset;
   use App\Models\TemporaryFile;
+  use Illuminate\Http\Request;
   use Illuminate\Support\Carbon;
   use Illuminate\Support\Facades\Storage;
+  use Response;
+  use File;
 
   class ProjectAssetController extends Controller
   {
@@ -35,19 +38,19 @@
       return response () -> json ( 'Project Assets created' );
     }
 
-    public function download ($id)
+    public function download ( Request $request )
     {
-//      return $name;
-      $projectAsset = ProjectAsset::where('project_id', $id)->first();
-//      dd($projectAsset->file);
-      $path = public_path ('All-Khmer-Fonts-9-26-15.zip');
-//      $path = public_path ('projects\\'.$projectAsset->file);
-//      dd($path);
-//      dd($path);
-//      $headers = array ('Accept' => 'application/octet-stream',
-//        'Content-Disposition' => 'attachment; filename="'.$projectAsset->file."\"",
-//        'Content-Type' => 'multipart/form-data');
-//      return Storage::download ($path, $projectAsset->file, $headers);
-      return response ()->download ($path);
+      $projectAsset = ProjectAsset ::where ( 'project_id' , $request -> id ) -> first ();
+//      $file = Storage ::disk ( 'projects' ) -> get ( $projectAsset -> file );
+
+      if ( Storage ::disk ( 'projects' ) -> exists ( $projectAsset -> file ) ) {
+        $path = Storage ::disk ( 'projects' ) -> path ( $projectAsset -> file );
+        $content = file_get_contents ( $path );
+
+        return response ( $content ) -> withHeaders ( [
+          'Content-Type' => mime_content_type ( $path )
+        ] );
+      }
+      return response () -> json ( 'File does not exist.' );
     }
   }

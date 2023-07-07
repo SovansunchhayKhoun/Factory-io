@@ -22,7 +22,7 @@ export const CommentContext = ({children}) => {
   const [picture, setPicture] = useState(null);
   const [replyOpen, setReplyOpen] = useState(0);
   const [row, setRow] = useState(1); // text area row
-  const [cmtOpen, setCmtOpen] = useState(false);
+  // const [cmtOpen, setCmtOpen] = useState(false);
 
   const commentNotiCount = parseInt(comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id && !cmt.parent_id && cmt?.comment_seen === 0)?.length) +
     parseInt(comments?.filter(cmt => cmt?.replier_id === user?.id && cmt?.comment_seen === 0)?.length)
@@ -93,8 +93,8 @@ export const CommentContext = ({children}) => {
 
   return (
     <StateContext.Provider value={{
-      cmtOpen,
-      setCmtOpen,
+      // cmtOpen,
+      // setCmtOpen,
       updateCommentIndi,
       commentNotiCount,
       commentNotificationIsLoading,

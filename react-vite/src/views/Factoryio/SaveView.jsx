@@ -36,40 +36,8 @@ export const SaveView = ({openSave, setOpenSave}) => {
             )}
             {projectSaves?.filter(pro => pro.user_id === user?.id && pro.save_state === 1)?.map(pro => {
               const {project_resource} = pro;
-              // const {name, id, user, description, projectImages} = project_resource[0];
               return (
-                <ProjectCard project={project_resource[0]}/>
-                // <div key={pro?.id}>
-                //   <div className="flex justify-center w-full">
-                //     <div className="flex gap-12 justify-center">
-                //       <div className="flex flex-col w-[90%] items-start gap-3">
-                //         <div className="flex justify-center items-center text-sm gap-2">
-                //           <img className="w-[48px] h-[48px] border border-blueActive rounded-[50%]"
-                //                src={`https://robohash.org/${user?.username}`} alt=""/>
-                //           <span className="font-semibold">{user?.username}</span>
-                //         </div>
-                //         <div className="w-full grid grid-cols-[1fr_2fr] gap-6">
-                //           <Carousel>
-                //             {projectImages?.map((pic, key) => {
-                //               return (
-                //                 <div key={key} className="relative bg-grayFactory flex justify-center w-fit">
-                //                   <img src={`${imgUrl}/${pic.image}`} className="h-[200px] object-contain" alt=""/>
-                //                 </div>
-                //               )
-                //             })}
-                //           </Carousel>
-                //           <Link to={`/project/${id}`} className="h-fit w-fit">
-                //             <div>{name}</div>
-                //             <div>{description}</div>
-                //           </Link>
-                //         </div>
-                //       </div>
-                //     </div>
-                //   </div>
-                //   <div className={"flex justify-center"}>
-                //     <hr className="mt-12 rounded-3xl w-3/4 border border-blackFactory"/>
-                //   </div>
-                // </div>
+                <ProjectCard key={pro?.id} project={project_resource[0]}/>
               )
             })}
           </section>

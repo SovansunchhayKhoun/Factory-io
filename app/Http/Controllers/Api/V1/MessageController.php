@@ -22,6 +22,9 @@ class MessageController extends Controller
     public function store(MessageRequest $request)
     {
         $data = $request->validated();
+        $request->validate([
+          'image' => ['nullable', 'image']
+        ]);
         if ($request->hasFile('image')) {
             $filename = $request->file('image')->getClientOriginalName();
             $filepath = 'messages/'.$filename;

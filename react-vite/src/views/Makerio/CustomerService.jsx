@@ -12,6 +12,8 @@ export const CustomerService = ({setModalOpen}) => {
   const {
     messageReFetch,
     message,
+    setMessageInput,
+    messageInput,
     sendMessage,
     handleMessage,
     findChat,
@@ -22,7 +24,7 @@ export const CustomerService = ({setModalOpen}) => {
   } = useContext(ChatContext);
 
   const {user, token} = useAuthContext();
-  const [messageInput, setMessageInput] = useState('');
+  // const [messageInput, setMessageInput] = useState('');
   const [open, setOpen] = useState(false);
 
   if (token) {
@@ -92,8 +94,8 @@ export const CustomerService = ({setModalOpen}) => {
               }}
               value={messageInput}
               onChange={event => {
-                setMessageInput(event.target.value);
-                handleMessage(event, setMessageInput)
+                // setMessageInput(event.target.value);
+                handleMessage(event)
               }}
               className="w-full flex items-center h-10 rounded px-3 text-sm" type="text"
               placeholder="Type your message…"/>

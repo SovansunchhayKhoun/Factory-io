@@ -41,9 +41,9 @@
     {
       return CommentResource ::collection ( Comment ::join ( 'users' , 'users.id' , '=' , 'comments.user_id' )
 //        -> join ('projects', 'projects.user_id', '=', 'comments.user_id')
-        -> where('users.id', '=', $request->user_id)
+        -> where ( 'users.id' , '=' , $request -> user_id )
         -> select ( 'comments.*' )
-        -> orderby('comments.id')
+        -> orderby ( 'comments.id' )
         -> get () );
     }
 
@@ -52,25 +52,13 @@
       $data = $projectRequest -> validated ();
       $projectRequest -> validate ( [
         'image' => [ 'required' , 'image' ] ,
-        'file' => [ 'required' , 'mimes:zip,rar,7z,gz' ] ,
+        'file' => [ 'required' , 'mimes:zip,rar,7z,gz,pdf,tar' ] ,
       ] );
-//      $request -> validate ( [
-//        'image' => 'image' ,
-//        'file' => 'mimetypes:zip, tar,gz,pdf,7z'
-//      ] );
-//      if ( $request -> hasFile ( 'image' )
-//        && (
-//        $request -> file ( 'file' ) -> getClientOriginalExtension () == 'zip' ||
-//        $request -> file ( 'file' ) -> getClientOriginalExtension () == 'tar' ||
-//        $request -> file ( 'file' ) -> getClientOriginalExtension () == 'gz' ||
-//        $request -> file ( 'file' ) -> getClientOriginalExtension () == 'pdf' ||
-//        $request -> file ( 'file' ) -> getClientOriginalExtension () == '7z'
-//         ) )
       if ( $projectRequest -> hasFile ( 'image' ) && $projectRequest -> file ( 'file' ) ) {
         return Project ::create ( $data );
       }
       return response () -> json ( '...' );
-//      abort ('422', 'Cannot process request');
+
     }
 
     public function destroy ( Project $project )

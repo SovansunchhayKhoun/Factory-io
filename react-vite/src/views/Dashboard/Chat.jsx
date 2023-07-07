@@ -44,10 +44,12 @@ export const Chat = () => {
     setSeen,
     setMessageImage,
     getChat,
-    chats
+    chats,
+    messageInput,
+    setMessageInput
   } = useContext(ChatContext);
 
-  const [messageInput, setMessageInput] = useState('');
+  // const [messageInput, setMessageInput] = useState('');
   const [open, setOpen] = useState(false);
   const ref = useRef();
 
@@ -235,15 +237,18 @@ export const Chat = () => {
                   setOpen={setOpen} open={open}
                   messageImage={messageImage} setMessageInput={setMessageInput}
                   sendMessage={sendMessage} receiver={activeUser?.username} sender={'admin'}/>
-                <input onKeyDown={event => {
-                  event.key === 'Enter' && sendMessage('admin', activeUser?.username, setMessageInput)
-                }} value={messageInput}
-                       onChange={event => {
-                         setMessageInput(event.target.value);
-                         handleMessage(event, setMessageInput)
-                       }} type="text" placeholder="Message"
-                       className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
-                       name="message" required/>
+                <input
+                  onKeyDown={event => {
+                    event.key === 'Enter' && sendMessage('admin', activeUser?.username, setMessageInput)
+                  }} value={messageInput}
+                  onChange={event => {
+                    // if(event.target.value !== ' ') {
+                    // setMessageInput(event.target.value);
+                    // }
+                    handleMessage(event)
+                  }} type="text" placeholder="Message"
+                  className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
+                  name="message" required/>
                 <button onClick={() => {
                   sendMessage('admin', activeUser?.username, setMessageInput)
                 }}>

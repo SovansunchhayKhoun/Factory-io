@@ -51,6 +51,7 @@ export const DonateProvider = ({children}) => {
     }).then((res) => {
       setResponse(res)
       donationsQueryReFetch()
+      totalDonationsReFetch();
       resetInput()
     }).catch((err) =>{
       if(err.response.status === 422){
