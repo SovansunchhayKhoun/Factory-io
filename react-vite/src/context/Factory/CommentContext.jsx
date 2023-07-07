@@ -80,8 +80,10 @@ export const CommentContext = ({children}) => {
       return
     await Axios.put(`comments/${cmt?.id}`, {...cmt, comment_seen: 1}).then(() => {
       cmt?.replies.forEach(reply => {
-        updateCommentIndi(reply)
+        updateCommentIndi(reply) // recursively update child comments of parent
       })
+    }).then(() => {
+      reFetchAll()
     }).catch(e => {
       console.log(e.response.data.errors)
     })
