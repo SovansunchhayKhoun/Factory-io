@@ -5,8 +5,10 @@ import {useCommentContext} from "../../context/Factory/CommentContext.jsx";
 import {CommentInput} from "./CommentInput.jsx";
 
 export const ProjectComment = ({iconWidth, iconHeight, project}) => {
-  const [cmtOpen, setCmtOpen] = useState(false);
+  // const [cmtOpen, setCmtOpen] = useState(false);
   // console.log(comments[0].body)
+  const {cmtOpen, setCmtOpen} = useCommentContext();
+  console.log(cmtOpen)
   return (
     <>
       {/*comment icon*/}
@@ -22,15 +24,15 @@ export const ProjectComment = ({iconWidth, iconHeight, project}) => {
         </svg>
       </button>
       <AdminPopUp id={"comment-screen"} modalOpen={cmtOpen} setModalOpen={setCmtOpen}
-                  content={<CommentView project={project} setCmtOpen={setCmtOpen}/>}/>
+                  content={<CommentView project={project}/>}/>
     </>
   );
 };
 
-const CommentView = ({setCmtOpen, project}) => {
+export const CommentView = ({project}) => {
   const {comments, replyOpen, setReplyOpen} = useCommentContext()
   // const {user} = project;
-
+  const {setCmtOpen} = useCommentContext();
   return (
     <section className={"w-screen h-screen flex justify-center items-center"}>
       <div className="w-1/2 h-2/3 flex flex-col bg-white rounded-xl">
