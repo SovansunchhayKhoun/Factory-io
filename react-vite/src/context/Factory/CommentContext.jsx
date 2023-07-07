@@ -23,7 +23,7 @@ export const CommentContext = ({children}) => {
   const [replyOpen, setReplyOpen] = useState(0);
   const [row, setRow] = useState(1); // text area row
   const commentNotiCount = parseInt(comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id && !cmt.parent_id && cmt?.comment_seen === 0)?.length) +
-  parseInt(comments?.filter(cmt => cmt?.replier_id === user?.id && cmt?.comment_seen === 0)?.length)
+    parseInt(comments?.filter(cmt => cmt?.replier_id === user?.id && cmt?.comment_seen === 0)?.length)
   const handleCommentInput = (event) => {
     if (event.target.value !== '\n' && event.target.value !== ' ')
       setCommentInput(event.target.value);
@@ -76,10 +76,12 @@ export const CommentContext = ({children}) => {
   }
 
   const updateCommentIndi = async (cmt) => {
-    if (cmt.comment_seen === 1)
+    if (cmt?.comment_seen === 1)
       return
     await Axios.put(`comments/${cmt?.id}`, {...cmt, comment_seen: 1}).then(() => {
-      reFetchAll();
+      cmt?.replies.forEach(reply => {
+        updateCommentIndi(reply)
+      })
     }).catch(e => {
       console.log(e.response.data.errors)
     })
