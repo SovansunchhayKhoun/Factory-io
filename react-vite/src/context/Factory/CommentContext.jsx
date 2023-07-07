@@ -22,8 +22,8 @@ export const CommentContext = ({children}) => {
   const [picture, setPicture] = useState(null);
   const [replyOpen, setReplyOpen] = useState(0);
   const [row, setRow] = useState(1); // text area row
-  const commentNotiCount = parseInt(comments?.filter(cmt => cmt?.parent_id === null && cmt?.user_id === user?.id)?.map(cmt => cmt.replies?.filter(cmt => cmt?.replier_id === user?.id).filter(cmt => cmt.comment_indicator !== 0)?.length)) +
-    parseInt(comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id)?.filter(cmt => cmt.comment_indicator !== 0)?.length);
+  const commentNotiCount = parseInt(comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id && !cmt.parent_id && cmt?.comment_seen === 0)?.length) +
+  parseInt(comments?.filter(cmt => cmt?.replier_id === user?.id && cmt?.comment_seen === 0)?.length)
   const handleCommentInput = (event) => {
     if (event.target.value !== '\n' && event.target.value !== ' ')
       setCommentInput(event.target.value);
@@ -54,6 +54,7 @@ export const CommentContext = ({children}) => {
         image: picture,
         parent_id: cmt?.id || null,
         replier_id: cmt?.user_id !== user?.id ? cmt?.user_id : null,
+        comment_seen: 0,
         comment_indicator:
           (!cmt?.user_id && project?.user?.id === user?.id) || (cmt?.user_id === user?.id && project?.user?.id === user?.id) ? 0 :
             project?.user?.id !== user?.id && !cmt ? 1 :
@@ -75,10 +76,9 @@ export const CommentContext = ({children}) => {
   }
 
   const updateCommentIndi = async (cmt) => {
-    console.log(cmt)
-    if(cmt.comment_indicator === 0)
+    if (cmt.comment_seen === 1)
       return
-    await Axios.put(`comments/${cmt?.id}`, {...cmt, comment_indicator: 0}).then(() => {
+    await Axios.put(`comments/${cmt?.id}`, {...cmt, comment_seen: 1}).then(() => {
       reFetchAll();
     }).catch(e => {
       console.log(e.response.data.errors)

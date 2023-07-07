@@ -15,10 +15,12 @@ export const CommentInput = ({project, cmt}) => {
   } = useCommentContext();
   const ref = useRef(null);
   useEffect(() => {
-    ref.current.setSelectionRange(commentInput.length, commentInput.length)
     setRow(Math.ceil((commentInput.length*15)/ref.current.clientWidth))
   }, [commentInput]);
 
+  useEffect(() => {
+    ref.current.setSelectionRange(commentInput.length, commentInput.length)
+  }, [])
   return (
     <>
       <section className="mt-auto flex flex-col">

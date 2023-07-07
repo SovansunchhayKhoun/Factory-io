@@ -33,7 +33,7 @@ export const NotificationView = () => {
             Liked
             <span
               className={`${likeNotiCount || 0 === 0 && 'hidden'} bg-redHover aspect-square w-5 text-xs flex justify-center items-center text-whiteFactory rounded-[50%]`}>
-              {(likeNotiCount) || 0 }
+              {(likeNotiCount) || 0}
             </span>
           </button>
           <button className={`${notiTab === 'cmt' && 'text-redBase'} flex items-center gap-1`}
@@ -58,13 +58,13 @@ export const NotificationView = () => {
 
 const FilterNoti = ({notiTab}) => {
   const {user} = useAuthContext()
-  const {comments} = useCommentContext();
+  const {comments, commentNotiCount} = useCommentContext();
   const {userLike} = useProjectContext()
   if (notiTab === 'all') {
     return (
-      <div className={"flex flex-col gap-3"}>
-        {userLike?.length + parseInt(comments?.filter(cmt => cmt?.parent_id === null && cmt?.user_id === user?.id)?.map(cmt => cmt.replies?.filter(cmt => cmt?.replier_id === user?.id)?.length)) +
-          parseInt(comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id)?.length) === 0 &&
+      <div className={"flex flex-col"}>
+        {userLike?.length + parseInt(comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id && !cmt.parent_id)?.length) +
+          parseInt(comments?.filter(cmt => cmt?.replier_id === user?.id)?.length) === 0 &&
           <span>No activity</span>}
         <LikeNotification/>
         <CommentNotification/>
@@ -92,8 +92,8 @@ const FilterNoti = ({notiTab}) => {
   if (notiTab === 'cmt') {
     return (
       <div>
-        {parseInt(comments?.filter(cmt => cmt?.parent_id === null && cmt?.user_id === user?.id)?.map(cmt => cmt.replies?.filter(cmt => cmt?.replier_id === user?.id)?.length)) +
-          parseInt(comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id)?.length) === 0 &&
+        {parseInt(comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id && !cmt.parent_id)?.length) +
+          parseInt(comments?.filter(cmt => cmt?.replier_id === user?.id)?.length) === 0 &&
           <div>No activity just yet</div>}
         <CommentNotification/>
       </div>

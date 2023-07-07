@@ -17,6 +17,7 @@
         $table -> integer ( 'user_id' );
         $table -> integer ( 'project_id' );
         $table -> integer ( 'comment_indicator' ) -> default ( 0 );
+        $table -> tinyInteger ( 'comment_seen' ) -> default ( 0 );
         $table -> integer ( 'replier_id' ) -> nullable ();
         $table -> integer ( 'parent_id' ) -> nullable ();
         $table -> string ( 'image' ) -> nullable ();

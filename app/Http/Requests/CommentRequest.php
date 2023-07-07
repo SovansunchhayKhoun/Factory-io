@@ -26,6 +26,7 @@
         'image' => [ 'nullable' , 'image' ] ,
         'comment_time' => [ 'required' ] ,
         'comment_indicator' => [ 'required' ] ,
+        'comment_seen' => [ 'required' ] ,
         'user_id' => [ 'required' ] ,
         'replier_id' => [ 'nullable' ] ,
         'project_id' => [ 'required' ] ,

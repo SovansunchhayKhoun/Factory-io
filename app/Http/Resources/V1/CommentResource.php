@@ -26,6 +26,7 @@
         'parent_id' => $this -> parent_id ,
         'user_cmt' => $this -> user ,
         'comment_indicator' => $this -> comment_indicator ,
+        'comment_seen' => $this -> comment_seen ,
         'replies' => CommentResource ::collection ( $this -> replies ) ,
         'replier_id' => $this -> replier_id ,
         'replier' => $this -> replier ,

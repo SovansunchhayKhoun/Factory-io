@@ -27,7 +27,7 @@ export const CommentCard = ({cmt, project}) => {
             <img src={`https://robohash.org/${user_cmt?.username}`} className={"w-[48px] border rounded-[50%]"} alt=""/>
           </div>
           <div className={"w-fit flex flex-col items-start text-sm px-4 py-4 bg-whiteFactory gap-1 rounded-3xl"}>
-            <p className="font-semibold">{user_cmt?.username} <span className={"text-redBase"}>&#x2022;</span> <span
+            <p className="font-semibold">{user_cmt?.username}<span className={"text-redBase"}>&#x2022;</span> <span
               className="font-normal text-blueActive">follow</span></p>
             {/*<textarea rows={match ? match.input.split('\r' + '\n').length : 1} disabled={true}*/}
             {/*<textarea ref={ref} rows={match ? match.input.split('\r' + '\n').length} disabled={true}*/}
