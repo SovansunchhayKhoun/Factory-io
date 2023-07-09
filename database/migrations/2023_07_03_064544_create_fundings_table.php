@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('fundings', function (Blueprint $table) {
             $table->id();
-            $table->integer('project_id');
-            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->string('funder_id');
-            $table->foreign('funder_id')->references('id')->on('users')->onDelete('cascade');
+//            $table->integer('project_id');
+            $table->foreignId('project_id')->references('id')->on('projects')->onDelete('cascade');
+
+//            $table->string('funder_id');
+            $table->foreignId('funder_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('comment');
             $table->float('amount');
             $table->string('image');

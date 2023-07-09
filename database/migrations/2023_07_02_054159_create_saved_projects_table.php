@@ -12,12 +12,12 @@
     {
       Schema ::create ( 'saved_projects' , function ( Blueprint $table ) {
         $table -> id ();
-        $table -> integer ( 'user_id' );
-        $table -> integer ( 'project_id' );
+//        $table -> integer ( 'user_id' );
+//        $table -> integer ( 'project_id' );
         $table -> tinyInteger ( 'save_state' ) -> default ( 0 );
 
-        $table -> foreign ( 'user_id' ) -> on ( 'users' ) -> references ( 'id' ) -> onDelete ( 'cascade' );
-        $table -> foreign ( 'project_id' ) -> on ( 'projects' ) -> references ( 'id' ) -> onDelete ( 'cascade' );
+        $table -> foreignId ( 'user_id' ) -> on ( 'users' ) -> references ( 'id' ) -> onDelete ( 'cascade' );
+        $table -> foreignId ( 'project_id' ) -> on ( 'projects' ) -> references ( 'id' ) -> onDelete ( 'cascade' );
         $table -> timestamps ();
       } );
     }

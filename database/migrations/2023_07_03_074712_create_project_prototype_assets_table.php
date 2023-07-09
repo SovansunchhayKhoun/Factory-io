@@ -13,9 +13,9 @@
       Schema ::create ( 'project_prototype_assets' , function ( Blueprint $table ) {
         $table -> id ();
         $table -> string ( 'image' );
-        $table -> integer ( 'project_prototype_id' );
+//        $table -> integer ( 'project_prototype_id' );
 
-        $table -> foreign ( 'project_prototype_id' ) -> references ( 'id' ) -> on ( 'project_prototypes' ) -> onDelete ( 'cascade' );
+        $table -> foreignId ( 'project_prototype_id' ) -> references ( 'id' ) -> on ( 'project_prototypes' ) -> onDelete ( 'cascade' );
         $table -> timestamps ();
       } );
     }

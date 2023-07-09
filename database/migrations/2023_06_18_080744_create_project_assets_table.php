@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('project_assets', function (Blueprint $table) {
             $table->id();
-            $table->integer ('project_id');
-            $table->foreign ('project_id')->references ('id')->on('projects')->onDelete ('cascade');
+//            $table->integer ('project_id');
+            $table->foreignId ('project_id')->references ('id')->on('projects')->onDelete ('cascade');
 
 //            $table->string ('image');
             $table->string ('file');
