@@ -18,8 +18,8 @@
         $table -> tinyInteger ( 'like_indicator' ) -> default ( 0 );
         $table -> timestamp ( 'like_time' ) -> default ( now () );
 
-        $table -> foreignId ( 'user_id' ) -> on ( 'users' ) -> references ( 'id' ) -> onDelete ( 'cascade' );
-        $table -> foreignId ( 'project_id' ) -> on ( 'projects' ) -> references ( 'id' ) -> onDelete ( 'cascade' );
+        $table -> foreignId ( 'user_id' ) -> references ( 'id' ) -> on ( 'users' ) -> onDelete ( 'cascade' );
+        $table -> foreignId ( 'project_id' ) -> references ( 'id' ) -> on ( 'projects' ) -> onDelete ( 'cascade' );
         $table -> timestamps ();
       } );
     }
