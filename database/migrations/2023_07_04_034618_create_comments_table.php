@@ -14,17 +14,18 @@
         $table -> id ();
         $table -> text ( 'body' ) -> nullable ();
         $table -> timestamp ( 'comment_time' );
-        $table -> integer ( 'user_id' );
-        $table -> integer ( 'project_id' );
         $table -> integer ( 'comment_indicator' ) -> default ( 0 );
         $table -> tinyInteger ( 'comment_seen' ) -> default ( 0 );
-        $table -> integer ( 'replier_id' ) -> nullable ();
         $table -> integer ( 'parent_id' ) -> nullable ();
         $table -> string ( 'image' ) -> nullable ();
 
-        $table -> foreign ( 'user_id' ) -> references ( 'id' ) -> on ( 'users' ) -> onDelete ( 'cascade' );
-        $table -> foreign ( 'replier_id' ) -> references ( 'id' ) -> on ( 'users' ) -> onDelete ( 'cascade' );
-        $table -> foreign ( 'project_id' ) -> references ( 'id' ) -> on ( 'projects' ) -> onDelete ( 'cascade' );
+//        $table -> integer ( 'user_id' );
+//        $table -> integer ( 'replier_id' ) -> nullable ();
+//        $table -> integer ( 'project_id' );
+
+        $table -> foreignId ( 'user_id' ) -> references ( 'id' ) -> on ( 'users' ) -> onDelete ( 'cascade' );
+        $table -> foreignId ( 'replier_id' ) -> references ( 'id' ) -> on ( 'users' ) -> onDelete ( 'cascade' );
+        $table -> foreignId ( 'project_id' ) -> references ( 'id' ) -> on ( 'projects' ) -> onDelete ( 'cascade' );
 
         $table -> timestamps ();
       } );

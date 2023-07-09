@@ -17,11 +17,15 @@
   |
   */
 
+//
+//  Route ::get ( '/' , function () {
+//    return view('welcome');
+//  } );
 
-  Route ::get ( '/' , function () {
-    return view('welcome');
-  } );
-  Route::post ('post', [ProjectAssetController::class, 'store']);
+    Route::view('/{path?}', 'welcome')
+        ->where('path', '.*');
+
+//  Route::post ('post', [ProjectAssetController::class, 'store']);
   //Route::get('/', function () {
   //    //    $users = User::all();
   //    //    $products = Product ::all ();

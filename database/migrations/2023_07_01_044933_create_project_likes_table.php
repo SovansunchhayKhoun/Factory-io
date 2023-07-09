@@ -13,13 +13,13 @@
       Schema ::create ( 'project_likes' , function ( Blueprint $table ) {
         $table -> id ();
         $table -> tinyInteger ( 'like_state' ) -> default ( 0 );
-        $table -> integer ( 'user_id' );
-        $table -> integer ( 'project_id' );
+//        $table -> integer ( 'user_id' );
+//        $table -> integer ( 'project_id' );
         $table -> tinyInteger ( 'like_indicator' ) -> default ( 0 );
         $table -> timestamp ( 'like_time' ) -> default ( now () );
 
-        $table -> foreign ( 'user_id' ) -> on ( 'users' ) -> references ( 'id' ) -> onDelete ( 'cascade' );
-        $table -> foreign ( 'project_id' ) -> on ( 'projects' ) -> references ( 'id' ) -> onDelete ( 'cascade' );
+        $table -> foreignId ( 'user_id' ) -> references ( 'id' ) -> on ( 'users' ) -> onDelete ( 'cascade' );
+        $table -> foreignId ( 'project_id' ) -> references ( 'id' ) -> on ( 'projects' ) -> onDelete ( 'cascade' );
         $table -> timestamps ();
       } );
     }

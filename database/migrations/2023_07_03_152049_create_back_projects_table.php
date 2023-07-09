@@ -12,12 +12,15 @@ return new class extends Migration {
   {
     Schema::create('back_projects', function (Blueprint $table) {
       $table->id();
-      $table->integer('project_id');
-      $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-      $table->integer('funder_id');
-      $table->foreign('funder_id')->references('id')->on('users')->onDelete('cascade');
-      $table->integer('prototype_id');
-      $table->foreign('prototype_id')->references('id')->on('project_prototypes')->onDelete('cascade');
+//      $table->integer('project_id');
+//      $table->integer('funder_id');
+//      $table->integer('prototype_id');
+
+
+      $table->foreignId('project_id')->references('id')->on('projects')->onDelete('cascade');
+      $table->foreignId('funder_id')->references('id')->on('users')->onDelete('cascade');
+      $table->foreignId('prototype_id')->references('id')->on('project_prototypes')->onDelete('cascade');
+
       $table->integer('qty');
       $table->string('comment');
       $table->float('amount');

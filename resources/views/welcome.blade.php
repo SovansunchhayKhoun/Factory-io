@@ -1,66 +1,19 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  @vite('resources/css/app.css')
-</head>
-<body>
-{{--<div>--}}
-{{--  <div class="mb-3">--}}
-{{--    Product List >--}}
-{{--    @foreach($products as $product)--}}
-{{--      <div class="inline-block bg-gray-700 text-white px-2 py-1 rounded-md">{{ $product->name }}</div>--}}
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-{{--    @endforeach--}}
-{{--  </div>--}}
-{{--  <br>--}}
-{{--  <div>--}}
-{{--    Invoice List >--}}
-{{--    <br>--}}
-{{--    @foreach($invoices as $invoice)--}}
-{{--      Invoice ID: {{ $invoice->id.', Total Price: '.$invoice->totalPrice }}--}}
-{{--      @foreach($invoice->products as $invoice_item)--}}
-{{--        <div class="inline-block bg-gray-700 text-white px-2 py-1 rounded-md mb-3">--}}
-{{--          <div class="">--}}
-{{--            Product ID: {{ $invoice_item->id }}--}}
-{{--          </div>--}}
-{{--          <div>--}}
-{{--            Product Name: {{ $invoice_item->name }}--}}
-{{--          </div>--}}
-{{--          <div>--}}
-{{--            Product Price: {{ $invoice_item->price }}--}}
-{{--          </div>--}}
-{{--        </div>--}}
-{{--        <br>--}}
-{{--      @endforeach--}}
-{{--      <br>--}}
-{{--    @endforeach--}}
+        <title>Laravel</title>
 
-{{--    @foreach($invoices as $invoice)--}}
-{{--      @foreach($invoice->products as $item)--}}
-{{--        <div class="inline-block bg-gray-700 text-white px-2 py-1 rounded-md mb-3">--}}
-{{--          <div class="">--}}
-{{--            {{ $item->name }}--}}
-{{--            {{ $item->id }}--}}
-{{--          </div>--}}
-{{--        </div>--}}
-{{--      @endforeach--}}
-{{--      <br>--}}
-{{--    @endforeach--}}
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 
-{{--  </div>--}}
-{{--</div>--}}
-<form method="post" action="{{ url ('post') }}">
-  @csrf
-  @method('POST')
-  <input type="file" multiple>
-  <button type="submit">
-   submit
-  </button>
-</form>
-</body>
+        @vite('resources/js/app.js')
+        @vite('resources/css/app.css')
+    </head>
+    <body>
+        <div id="root"></div>
+    </body>
 </html>
