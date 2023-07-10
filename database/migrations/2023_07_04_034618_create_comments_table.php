@@ -20,11 +20,11 @@
         $table -> string ( 'image' ) -> nullable ();
 
 //        $table -> integer ( 'user_id' );
-//        $table -> integer ( 'replier_id' ) -> nullable ();
+        $table -> integer ( 'replier_id' ) -> nullable ();
 //        $table -> integer ( 'project_id' );
 
         $table -> foreignId ( 'user_id' ) -> references ( 'id' ) -> on ( 'users' ) -> onDelete ( 'cascade' );
-        $table -> foreignId ( 'replier_id' ) -> references ( 'id' ) -> on ( 'users' ) -> onDelete ( 'cascade' );
+//        $table -> foreignId ( 'replier_id' ) -> references ( 'id' ) -> on ( 'users' ) -> onDelete ( 'cascade' );
         $table -> foreignId ( 'project_id' ) -> references ( 'id' ) -> on ( 'projects' ) -> onDelete ( 'cascade' );
 
         $table -> timestamps ();
