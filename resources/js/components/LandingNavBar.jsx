@@ -44,8 +44,9 @@ export const LandingNavBar = () => {
     return (
       <>
         <nav className="fixed top-0 w-full bg-whiteFactory z-50 flex justify-between items-center
-        min-[1920px]:px-36 min-[1920px]:py-4
-        lg:px-16 lg:py-3
+        min-[1880px]:px-96 min-[1880px]:py-4
+        xl:px-56
+        lg:px-24 lg:py-4
         md:px-6 md:py-2
         px-6 py-2
       ">
@@ -158,8 +159,9 @@ export const LandingNavBar = () => {
   return (
     <>
       <nav className="fixed top-0 w-full bg-whiteFactory z-50 flex justify-between items-center
-        min-[1920px]:px-36 min-[1920px]:py-4
-        lg:px-16 lg:py-3
+        min-[1880px]:px-96 min-[1880px]:py-4
+        xl:px-56
+        lg:px-24 lg:py-4
         md:px-6 md:py-2
         px-6 py-2
       ">

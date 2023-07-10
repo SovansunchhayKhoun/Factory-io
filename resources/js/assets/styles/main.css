@@ -33,7 +33,7 @@ main {
 }
 
 .search-bar {
-  background: url("assets/images/material-symbols_search.png") center left 10px no-repeat;
+  background: url('/assets/images/material-symbols_search.png') center left 10px no-repeat;
 }
 
 .highlight-hover:hover {
@@ -48,10 +48,10 @@ main {
 /*  grid-template-columns: repeat(4, 300px);*/
 /*}*/
 
-.card-container{
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-}
+/*.card-container{*/
+/*  display: grid;*/
+/*  grid-template-columns: repeat(5, 1fr);*/
+/*}*/
 .user-card{
   background: linear-gradient(to bottom, #18264B, #B21317);
 }

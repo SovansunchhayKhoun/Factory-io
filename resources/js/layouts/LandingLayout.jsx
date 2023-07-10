@@ -29,9 +29,9 @@ export const LandingLayout = () => {
           <div className="min-h-screen flex flex-col overflow-auto">
             <LandingNavBar/>
             <main className="
-          min-[1920px]:px-36
-          xl:pb-8
-          lg:px-16
+          min-[1880px]:px-96
+          xl:px-56
+          lg:px-24
           md:px-6 md:pt-24 md:pb-2
           pb-6 px-6 pt-16">
               <Outlet/>
@@ -57,10 +57,9 @@ export const LandingLayout = () => {
       <>
         <div className="min-h-screen flex flex-col overflow-auto">
           <LandingNavBar/>
-          <main className="
-          min-[1920px]:px-36
-          xl:pb-8
-          lg:px-16
+          <main className="min-[1880px]:px-96
+          xl:px-56
+          lg:px-24
           md:px-6 md:pt-24 md:pb-2
           pb-6 px-6 pt-16">
             <Outlet/>
