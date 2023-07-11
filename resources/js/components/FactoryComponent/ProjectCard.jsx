@@ -15,7 +15,7 @@ export const ProjectCard = ({project}) => {
 
   return (
     <>
-      <div className="max-w-[400px] flex flex-col bg-whiteFactory shadow-blueHover shadow-md rounded-md">
+      <div className="min-w-[350px] max-w-[400px] flex flex-col bg-whiteFactory shadow-blueHover shadow-md rounded-md">
         <div className="justify-center flex-1 text-sm px-4 py-3 flex flex-col gap-2">
           <div className="flex h-full justify-center shadow-md rounded-md">
             <Carousel indicators={false}>

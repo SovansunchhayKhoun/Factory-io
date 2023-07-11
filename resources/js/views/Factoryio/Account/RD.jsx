@@ -74,7 +74,7 @@ export const RD = () => {
         </Dropdown>
         <UploadPrjBtn modalOpen={modalOpen} setModalOpen={setModalOpen}/>
       </section>
-      <section className="grid grid-cols-3 gap-10 auto-rows-fr">
+      <section className="grid grid-cols-2 gap-10 auto-rows-fr">
         {loading?.map(l => <LoadingProject key={l}/>)}
         {projects?.map((project, key) => <ProjectCard key={key} project={project}/>)}
       </section>
