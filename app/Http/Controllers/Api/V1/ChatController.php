@@ -23,18 +23,20 @@
       $sender = $request -> sender_id;
       $receiver = $request -> receiver_id;
 
-      $check = Chat ::where ( [
-        [ 'sender_id' , '=' , $sender ] ,
-        [ 'receiver_id' , '=' , $receiver ]
-      ] ) -> orWhere ( [
-        [ 'sender_id' , '=' , $receiver ] ,
-        [ 'receiver_id' , '=' , $sender ]
-      ] ) -> first ();
+      if ( $sender !== $receiver ) {
+        $check = Chat ::where ( [
+          [ 'sender_id' , '=' , $sender ] ,
+          [ 'receiver_id' , '=' , $receiver ]
+        ] ) -> orWhere ( [
+          [ 'sender_id' , '=' , $receiver ] ,
+          [ 'receiver_id' , '=' , $sender ]
+        ] ) -> first ();
 
-      if ( $check ) {
-        return response () -> json ( false );
-      } else {
-        return Chat ::create ( $data );
+        if ( $check ) {
+          return response () -> json ( false );
+        } else {
+          return Chat ::create ( $data );
+        }
       }
 
     }
