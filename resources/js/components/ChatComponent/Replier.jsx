@@ -2,7 +2,7 @@ import React from "react";
 import {useState} from "react";
 import AdminPopUp from "../Modals/AdminPopUp.jsx";
 import {ImageExpand} from "../ImageExpand.jsx";
-
+const imgUrl = import.meta.env.VITE_APP_URL;
 export const Replier = (props) => {
   const {messageContent, time, image, setModalOpen} = props;
   const [handleExpand, setHandleExpand] = useState(false);
@@ -13,7 +13,7 @@ export const Replier = (props) => {
       <img onClick={(e) => {
         e.stopPropagation();
         setHandleExpand(true)
-      }} className="md:max-w-[250px] max-w-[156px] object-contain" src={`http://127.0.0.1:8000/${image}`} alt=""/>
+      }} className="md:max-w-[250px] max-w-[156px] object-contain" src={`${imgUrl}/${image}`} alt=""/>
     );
   }
 
@@ -42,8 +42,8 @@ export const Replier = (props) => {
                 setHandleExpand(true)
               }}
                    className="cursor-pointer md:max-w-[250px] max-w-[156px] object-contain"
-                   src={`http://127.0.0.1:8000/${image}`} alt=""/>}
-            <ImageExpand open={handleExpand} imgSrc={`http://127.0.0.1:8000/${image}`} setOpen={setHandleExpand}/>
+                   src={`${imgUrl}/${image}`} alt=""/>}
+            <ImageExpand open={handleExpand} imgSrc={`${imgUrl}/${image}`} setOpen={setHandleExpand}/>
           </div>
           <span
             className="text-xs text-gray-500 leading-none">{time.slice(10).slice(0, 6)}{timePrefix >= 12 ? ' PM' : ' AM'}</span>

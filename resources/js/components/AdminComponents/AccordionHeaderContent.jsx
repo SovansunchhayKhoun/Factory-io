@@ -4,6 +4,7 @@ import React, {useState} from "react";
 import {useAuthContext} from "../../context/AuthContext.jsx";
 import {ImageExpand} from "../ImageExpand.jsx";
 
+const imgUrl = import.meta.env.VITE_APP_URL;
 export const AccordionHeaderContent = (props) => {
   const {invProd, setInvProd} = props;
   const {id, date, totalPrice, status, payment_pic} = props.invoice;
@@ -51,8 +52,8 @@ export const AccordionHeaderContent = (props) => {
           Total Price: <span className="font-bold text-blueBase">${totalPrice}</span>
         </div>
         <div onClick={e => handleOpen(e)}>
-          <img width={100} alt="" src={`http://127.0.0.1:8000/${payment_pic}`}/>
-          <ImageExpand open={open} setOpen={setOpen} imgSrc={`http://127.0.0.1:8000/${payment_pic}`}/>
+          <img width={100} alt="" src={`${imgUrl}/${payment_pic}`}/>
+          <ImageExpand open={open} setOpen={setOpen} imgSrc={`${imgUrl}/${payment_pic}`}/>
         </div>
         <div className={`${user.acc_type !== 0 && "hidden"} flex text-whiteFactory gap-x-2 mt-1`}>
             <AcceptOrderButton buttonStyle={buttonStyle} invProd={invProd} setInvProd={setInvProd} invoice={props.invoice}/>

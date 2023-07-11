@@ -5,6 +5,7 @@ import {ImageExpand} from "../ImageExpand.jsx";
 import {useContext, useState} from "react";
 import ChatContext from "../../context/ChatContext.jsx";
 
+const imgUrl = import.meta.env.VITE_APP_URL;
 export const Sender = (props) => {
   const {getLatestMessage} = useContext(ChatContext);
   const {messageContent, time, image, setModalOpen} = props;
@@ -26,9 +27,9 @@ export const Sender = (props) => {
                 e.stopPropagation();
                 setHandleExpand(true)
               }} alt="" className="cursor-pointer border md:max-w-[250px] max-w-[156px] object-contain bg-white"
-                   src={`http://127.0.0.1:8000/${image}`}/>
+                   src={`${imgUrl}/${image}`}/>
             )}
-            <ImageExpand open={handleExpand} setOpen={setHandleExpand} imgSrc={`http://127.0.0.1:8000/${image}`}/>
+            <ImageExpand open={handleExpand} setOpen={setHandleExpand} imgSrc={`${imgUrl}/${image}`}/>
           </div>
           <span className="text-xs text-gray-500 leading-none">{time.slice(10).slice(0,6)}{timePrefix >= 12 ? ' PM' : ' AM'}</span>
         </div>

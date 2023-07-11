@@ -3,6 +3,7 @@ import React, {useContext} from "react";
 import ProductContext from "../context/ProductContext.jsx";
 import Axios from "axios";
 
+const imgUrl = import.meta.env.VITE_APP_URL;
 export const ItemRow = (props) => {
   const deleteItem = async (id) => {
     await Axios.delete("http://127.0.0.1:8000/api/v1/products/" + id)
@@ -52,7 +53,7 @@ export const ItemRow = (props) => {
               {
                 image === null || image === 'undefined'
                   ? <img className="w-[150px] mb-5" src="/assets/images/makerio.png"/>
-                  :<img className="w-[150px] mb-5" src={`http://127.0.0.1:8000/${image}`}/>
+                  :<img className="w-[150px] mb-5" src={`${imgUrl}/${image}`}/>
               }
             </td>
             <td className="px-4 py-4 flex">

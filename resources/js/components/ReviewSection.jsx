@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {ImageExpand} from "./ImageExpand.jsx";
 import {useAuthContext} from "../context/AuthContext.jsx";
 
-
+const imgUrl = import.meta.env.VITE_APP_URL;
 export const ReviewSection = (props) => {
   const {user, created_at, title, description, image} = props.review;
   const [open, setOpen] = useState(false)
@@ -31,7 +31,7 @@ export const ReviewSection = (props) => {
               e.stopPropagation();
               setOpen(!open)
             }}>
-              <img alt={title} className="w-[150px] mb-5 mt-4" src={`http://127.0.0.1:8000/${image}`}/>
+              <img alt={title} className="w-[150px] mb-5 mt-4" src={`${imgUrl}/${image}`}/>
             </button>
           )}
           <ImageExpand imgSrc={`http://127.0.0.1:8000/${image}`} open={open} setOpen={setOpen}/>

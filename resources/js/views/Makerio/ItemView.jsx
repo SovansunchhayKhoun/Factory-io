@@ -10,6 +10,7 @@ import {ItemCardCarousel} from "../../components/CartComponents/ItemCardCarousel
 import {ProductReview} from "../../components/ProductReview.jsx";
 import {Spinner} from "flowbite-react";
 
+const imgUrl = import.meta.env.VITE_APP_URL;
 export const ItemView = (props) => {
   let {id} = useParams();
   const {item, getItem, items, itemsQueryReFetch, reviewsQueryReFetch, getType} = useContext(ProductContext);
@@ -76,7 +77,7 @@ export const ItemView = (props) => {
               className="xl:min-w-[500px] xl:min-h-[500px]
                 lg:max-w-[500px]
                 object-contain"
-              src={`http://127.0.0.1:8000/${item.image}`} alt={item.name}/>
+              src={`${imgUrl}/${item.image}`} alt={item.name}/>
           }
         </div>
         {/*product description*/}

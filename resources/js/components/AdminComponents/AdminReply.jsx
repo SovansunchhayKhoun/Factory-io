@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {ImageExpand} from "../ImageExpand.jsx";
-
+const imgUrl = import.meta.env.VITE_APP_URL;
 export const AdminReply = ({msg}) => {
   const [handleExpand, setHandleExpand] = useState(false);
   const timePrefix = new Date(msg?.time_sent).getHours();
@@ -16,10 +16,10 @@ export const AdminReply = ({msg}) => {
                      onClick={(e) => {
                        e.stopPropagation();
                        setHandleExpand(true)
-                     }} className="max-w-[250px] cursor-pointer" src={`http://127.0.0.1:8000/${msg?.image}`}/>
+                     }} className="max-w-[250px] cursor-pointer" src={`${imgUrl}/${msg?.image}`}/>
               </>
             )}
-            <ImageExpand open={handleExpand} setOpen={setHandleExpand} imgSrc={`http://127.0.0.1:8000/${msg?.image}`}/>
+            <ImageExpand open={handleExpand} setOpen={setHandleExpand} imgSrc={`${imgUrl}/${msg?.image}`}/>
           </span>
           <span
             className={`${msg?.image ? 'text-xs block text-grayFactory' : 'hidden'}`}>{msg?.time_sent.slice(10).slice(0, 6) + `${timePrefix >= 12 ? ' PM' : ' AM'}`}</span>

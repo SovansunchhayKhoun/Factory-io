@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom";
 import React, {useContext} from "react";
 import CartContext from "../../context/CartContext.jsx";
-
+const imgUrl = import.meta.env.VITE_APP_URL;
 export const PendingItem = (props) => {
   const {invoice_product, date, status} = props.invoice
   const Label = ({status, inv_prd, products}) => {
@@ -24,7 +24,7 @@ export const PendingItem = (props) => {
               {
                 (image === null || image === undefined)
                   ? <img src="/assets/images/makerio.png" alt={name}/>
-                  : <img src={`http://127.0.0.1:8000/${image}`} alt={name}/>
+                  : <img src={`${imgUrl}/${image}`} alt={name}/>
               }
             </div>
             <div>

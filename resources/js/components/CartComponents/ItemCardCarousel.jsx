@@ -5,6 +5,7 @@ import InvoiceContext from "../../context/InvoiceContext.jsx";
 import {useAuthContext} from "../../context/AuthContext.jsx";
 import ProductContext from "../../context/ProductContext.jsx";
 
+const imgUrl = import.meta.env.VITE_APP_URL
 export const ItemCardCarousel = ({item}) => {
   const {name, price, id, image, status} = item;
   const {getItem} = useContext(ProductContext);
@@ -29,7 +30,7 @@ export const ItemCardCarousel = ({item}) => {
           {
             (image === null || image === undefined)
               ? <img className="hover:scale-75 ease-in-out duration-300" src="/assets/images/makerio.png" alt={name}/>
-              : <img className="hover:scale-75 ease-in-out duration-300" src={`http://127.0.0.1:8000/${image}`}
+              : <img className="hover:scale-75 ease-in-out duration-300" src={`${imgUrl}/${image}`}
                      alt={name}/>
           }
         </Link>

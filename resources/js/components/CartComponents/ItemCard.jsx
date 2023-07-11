@@ -7,7 +7,7 @@ import Tooltip, {tooltipClasses} from '@mui/material/Tooltip';
 import {styled} from '@mui/material/styles'
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import ProductContext from "../../context/ProductContext.jsx";
-
+const imgUrl = import.meta.env.VITE_APP_URL;
 export const ItemCard = (props) => {
   const navigate = useNavigate()
   const {name, price, id, image, status} = props.item;
@@ -52,7 +52,7 @@ export const ItemCard = (props) => {
                      src="/assets/images/makerio.png"
                      alt={name}/>
                 : <img loading={"lazy"} className="hover:scale-75 ease-in-out duration-300 object-contain"
-                       src={`http://127.0.0.1:8000/${image}`} alt={name}/>
+                       src={`${imgUrl}/${image}`} alt={name}/>
             }
           </Link>
           <div className="flex-1 flex flex-col items-center">

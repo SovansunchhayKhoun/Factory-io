@@ -5,7 +5,7 @@ import CartContext from "../../context/CartContext.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 import UserContext from "../../context/UserContext.jsx";
 import {useAuthContext} from "../../context/AuthContext.jsx";
-
+const imgUrl = import.meta.env.VITE_APP_URL;
 export const CartItem = (props) => {
   const {item} = props;
   const {
@@ -37,7 +37,7 @@ export const CartItem = (props) => {
           {
             (item.image === null || item.image === undefined)
               ? <img className="md:w-[150px] w-[100px]" src="/assets/images/makerio.png" alt={item.name}/> :
-              <img className="md:w-[150px] w-[100px]" src={`http://127.0.0.1:8000/${item.image}`} alt={item.name}/>
+              <img className="md:w-[150px] w-[100px]" src={`${imgUrl}/${item.image}`} alt={item.name}/>
           }
           {/*<img width="150" src={`/assets/images/${stockItem?.image ?? 'makerio.png'}`} alt=""/>*/}
         </div>
