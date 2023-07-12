@@ -12,7 +12,7 @@ import AdminPopUp from "../Modals/AdminPopUp.jsx";
 import {Carousel} from "flowbite-react"
 
 registerPlugin(FilePondPluginFileValidateType)
-
+const filePondUrl = import.meta.env.VITE_APP_URL;
 export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
   const {
     postProject,
@@ -198,8 +198,8 @@ export const UploadProjectForm = ({setModalOpen, modalOpen}) => {
                   'application/x-tar' /*validate tar files*/,
                 ]}
                 server={{
-                  process: "http://127.0.0.1:8000/api/v1/tmp-post",
-                  revert: "http://127.0.0.1:8000/api/v1/tmp-delete",
+                  process: `${filePondUrl}/api/v1/tmp-post`,
+                  revert: `${filePondUrl}/api/v1/tmp-delete`,
                 }}
                 onupdatefiles={(e) => {
                   setFile(e)
