@@ -1,11 +1,10 @@
 import {useAuthContext} from "../../context/AuthContext.jsx";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import ChatContext from "../../context/ChatContext.jsx";
 import {Sender} from "../../components/ChatComponent/Sender.jsx";
 import {Replier} from "../../components/ChatComponent/Replier.jsx";
 import {Link} from "react-router-dom";
 import {ImagePreview} from "../../components/ImagePreview.jsx";
-import * as trace_events from "trace_events";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
 
 export const CustomerService = ({setModalOpen}) => {
@@ -20,12 +19,16 @@ export const CustomerService = ({setModalOpen}) => {
     setMessageImage,
     chats,
     messageImage,
-    getChat
+    getChat,
+    chatScroll,
   } = useContext(ChatContext);
 
   const {user, token} = useAuthContext();
   // const [messageInput, setMessageInput] = useState('');
   const [open, setOpen] = useState(false);
+  useEffect(() => {
+    chatScroll.current.scrollIntoView({behavior: "smooth"})
+  })
 
   if (token) {
     return (
@@ -69,6 +72,7 @@ export const CustomerService = ({setModalOpen}) => {
               }
             })}
 
+            <div ref={chatScroll}></div>
           </div>
           <div className="flex items-center gap-x-2 bg-gray-300 p-4">
             <label htmlFor="file_upload" className="cursor-pointer">

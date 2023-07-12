@@ -1,11 +1,11 @@
-import React from "react";
+import React, {useRef} from "react";
 import {createContext, useCallback, useContext, useEffect, useState} from "react";
 import Axios from "axios";
 import {useQuery} from "@tanstack/react-query";
 import {useAuthContext} from "./AuthContext.jsx";
 import InvoiceContext from "./InvoiceContext.jsx";
 
-Axios.defaults.baseURL = import.meta.env.VITE_APP_URL+"/api/v1/";
+Axios.defaults.baseURL = import.meta.env.VITE_APP_URL + "/api/v1/";
 const ChatContext = createContext();
 export const ChatProvider = ({children}) => {
   const {user} = useAuthContext();
@@ -23,6 +23,7 @@ export const ChatProvider = ({children}) => {
   const [messageImage, setMessageImage] = useState(null)
   const [messagePost, setMessagePost] = useState({});
   const [messageInput, setMessageInput] = useState('');
+  const chatScroll = useRef(null);
 
   const getLatestMessage = (sender, receiver) => {
     return getChat(sender, receiver)[0]?.messages[getChat(sender, receiver)[0].messages?.length - 1];
@@ -118,6 +119,8 @@ export const ChatProvider = ({children}) => {
           await chatReFetch()
           clearMessage();
         });
+        chatScroll.current.scrollIntoView({behavior: "smooth"});
+
       } catch (msg) {
         setChatErrors(msg.response.data.errors)
         // console.log(msg.response.data.errors);
@@ -145,6 +148,7 @@ export const ChatProvider = ({children}) => {
           await messageReFetch();
           await chatReFetch()
           // setMessageImage('')
+          chatScroll.current.scrollIntoView({behavior: "smooth"});
           clearMessage()
         });
       } catch (msg) {
@@ -177,6 +181,7 @@ export const ChatProvider = ({children}) => {
         setMessageImage,
         setMessagePost,
         autoSendMessage,
+        chatScroll,
       }}>
         {children}
       </ChatContext.Provider>

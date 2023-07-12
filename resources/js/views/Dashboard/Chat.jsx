@@ -46,13 +46,16 @@ export const Chat = () => {
     getChat,
     chats,
     messageInput,
-    setMessageInput
+    setMessageInput,
+    chatScroll
   } = useContext(ChatContext);
 
   // const [messageInput, setMessageInput] = useState('');
   const [open, setOpen] = useState(false);
-  const ref = useRef();
-
+  const ref = useRef(null);
+  useEffect(() => {
+    chatScroll.current.scrollIntoView({behavior: "smooth"})
+  })
   // useEffect(() => {
   //   // chats.forEach(chat => console.log(chat))
   //   chats.sort((a, b) => {
@@ -207,6 +210,7 @@ export const Chat = () => {
                       }
                     })}
                   </ul>
+                  <div ref={chatScroll}></div>
                 </div>
               </div>
 
