@@ -21,7 +21,7 @@
   {
     public function index ()
     {
-      return ProjectResource ::collection ( Project ::all () );
+      return ProjectResource ::collection ( Project ::orderby ('id', 'desc')->get() );
     }
 
     public function show ( Project $project )

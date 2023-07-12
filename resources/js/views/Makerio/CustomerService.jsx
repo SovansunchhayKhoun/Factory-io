@@ -21,8 +21,9 @@ export const CustomerService = ({setModalOpen}) => {
     messageImage,
     getChat,
     chatScroll,
+    setLoadingSend,
+    loadingSend
   } = useContext(ChatContext);
-
 
   const {user, token} = useAuthContext();
   // const [messageInput, setMessageInput] = useState('');
@@ -95,8 +96,12 @@ export const CustomerService = ({setModalOpen}) => {
               }}
             />
             <input
+              disabled={loadingSend || false}
               onKeyDown={(event) => {
-                event.key === 'Enter' && sendMessage(user.username, 'admin', setMessageInput)
+                if (event.key === 'Enter') {
+                  // setLoadingSend(true);
+                  sendMessage(user.username, 'admin')
+                }
               }}
               value={messageInput}
               onChange={event => {
@@ -105,19 +110,15 @@ export const CustomerService = ({setModalOpen}) => {
               }}
               className="w-full flex items-center h-10 rounded px-3 text-sm" type="text"
               placeholder="Type your message…"/>
-            <button onClick={() => {
-              sendMessage(user.username, 'admin', setMessageInput);
+            <button disabled={loadingSend || false} onClick={() => {
+              sendMessage(user.username, 'admin');
             }}
-                    className="bg-[#1C64F2] text-whiteFactory font-semibold rounded-md px-3 py-1 flex items-center hover:bg-blue-700 cursor-pointer">
-              send
+                    className={`${loadingSend ? 'bg-opacity-60' : 'hover:bg-blue-700'} bg-[#1C64F2] text-whiteFactory font-semibold rounded-md px-3 py-1 flex items-center cursor-pointer`}>
+              {loadingSend ? <span>sending...</span> : <span>send</span>}
             </button>
             <ImagePreview
-              messageInput={messageInput}
-              setMessageImage={setMessageImage}
-              handleMessage={handleMessage}
               setOpen={setOpen} open={open}
-              messageImage={messageImage} setMessageInput={setMessageInput}
-              sendMessage={sendMessage} sender={user?.username} receiver={'admin'}/>
+              sender={user?.username} receiver={'admin'}/>
           </div>
         </div>
       </div>

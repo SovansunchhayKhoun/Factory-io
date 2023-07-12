@@ -43,14 +43,17 @@
       $projectAsset = ProjectAsset ::where ( 'project_id' , $request -> id ) -> first ();
 //      $file = Storage ::disk ( 'projects' ) -> get ( $projectAsset -> file );
 
-      if ( Storage ::disk ( 'projects' ) -> exists ( $projectAsset -> file ) ) {
-        $path = Storage ::disk ( 'projects' ) -> path ( $projectAsset -> file );
-        $content = file_get_contents ( $path );
+      if ( $projectAsset ) {
+        if ( Storage ::disk ( 'projects' ) -> exists ( $projectAsset -> file ) ) {
+          $path = Storage ::disk ( 'projects' ) -> path ( $projectAsset -> file );
+          $content = file_get_contents ( $path );
 
-        return response ( $content ) -> withHeaders ( [
-          'Content-Type' => mime_content_type ( $path )
-        ] );
+          return response ( $content ) -> withHeaders ( [
+            'Content-Type' => mime_content_type ( $path )
+          ] );
+        }
+        return response () -> json ( 'File does not exist.' );
       }
-      return response () -> json ( 'File does not exist.' );
+      return redirect ('/project/'.$request->id);
     }
   }

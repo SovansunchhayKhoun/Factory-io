@@ -8,11 +8,11 @@ import {GoogleMapsContext} from "./GoogleMapsContext.jsx";
 import InvoiceProductContext from "./InvoiceProductContext.jsx";
 
 
-Axios.defaults.baseURL = import.meta.env.VITE_APP_URL+"/api/v1/";
+Axios.defaults.baseURL = import.meta.env.VITE_APP_URL + "/api/v1/";
 const libraries = ['places'];
 const InvoiceContext = createContext();
 export const InvoiceProvider = ({children}) => {
-  // need to redeclare cuz cannot access product context to this context
+  // need to redeclare cuz cannot access product context in this context
   const {data: items} = useQuery(['items'], () => {
     return Axios.get('products').then((res) => res.data.data);
   });
@@ -24,6 +24,7 @@ export const InvoiceProvider = ({children}) => {
   });
   const [invoiceError, setInvoiceError] = useState([]);
   const {address, setAddress, placeId} = useContext(GoogleMapsContext)
+  const [invLoading, setInvLoading] = useState(false);
 
   const {user} = useAuthContext();
   const [invStatus, setInvStatus] = useState(-1);
@@ -80,7 +81,7 @@ export const InvoiceProvider = ({children}) => {
       clearCart();
       setCartItem([]);
       setModalOpen(false);
-      setInvoiceError([{...invoiceError, paymentPic:''}])
+      setInvoiceError([{...invoiceError, paymentPic: ''}])
       addressesReFetch()
     }).catch((e) => {
       setInvoiceError(e.response.data.errors);
@@ -91,7 +92,7 @@ export const InvoiceProvider = ({children}) => {
   }
 
   const storeInvoice = async (total, cartItem, paymentPic, clearCart, setCartItem, setModalOpen, setSuccess) => {
-    if(address) {
+    if (address) {
       if (addressExist) {
         await Axios.get(`getAddress/${placeId}`).then(async ({data}) => {
           // in case user change address name
@@ -134,26 +135,33 @@ export const InvoiceProvider = ({children}) => {
 
   const {invoiceProductReFetch} = useContext(InvoiceProductContext)
   const updateInvProd = (invoice_product) => {
-    invoice_product.forEach(async (inv) => {
+    invoice_product?.forEach(async (inv) => {
       try {
+        setInvLoading(true);
         await Axios.put(`invoice_products/${inv.id}`, inv).then(() => {
           invoiceProductReFetch()
+          setInvLoading(false);
         });
       } catch (e) {
         setInvoiceError(e.response.data.errors)
         // console.log(e.response.data.errors);
       }
     })
+    // setInvLoading(false);
   }
 
   const updateOrder = async (invoice) => {
+    setInvLoading(true);
     try {
-      await Axios.patch(`invoices/${invoice.id}`, invoice);
-      await invoicesReFetch();
+      await Axios.patch(`invoices/${invoice.id}`, invoice).then(async () => {
+        await invoicesReFetch();
+        setInvLoading(false);
+      });
     } catch (e) {
       // console.log(e.response.data.errors)
       setInvoiceError(e.response.data.errors);
     }
+
   };
 
   const updateOrderStatus = (invoice) => {
@@ -172,7 +180,7 @@ export const InvoiceProvider = ({children}) => {
   const checkInvoiceItemQty = async (invoice) => {
     const {invoice_product} = invoice;
     let stockArr = [];
-    invoice_product.forEach((inv_prod) => {
+    invoice_product?.forEach((inv_prod) => {
       const stockItem = items.find((item) => inv_prod.product_id === item.id);
       const tempObj = {...stockItem, qty: stockItem.qty - inv_prod.qty}
       stockArr.push(tempObj);
@@ -188,20 +196,25 @@ export const InvoiceProvider = ({children}) => {
     await updateOrder(invoice);
   }
 
-  const declineOrder = async (setModalOpen, order) => {
+  const declineOrder = async (order) => {
     try {
+      setInvLoading(true);
       await Axios.delete(`invoices/${order.id}`).then(() => {
         invoicesReFetch();
-        setModalOpen(false)
+        // setModalOpen(false)
+        setInvLoading(false);
       });
     } catch (e) {
       // console.log(e.response.data.errors);
       setInvoiceError(e.response.data.errors);
     }
+    setInvLoading(false);
   }
 
   return (
     <InvoiceContext.Provider value={{
+      invLoading,
+      setInvLoading,
       scrollTop,
       updateInvProd,
       updateOrder,

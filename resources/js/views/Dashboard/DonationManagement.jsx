@@ -6,7 +6,7 @@ import React, {useContext, useEffect, useState} from "react";
 import DonateContext from "../../context/DonateContext.jsx";
 import {Link} from "react-router-dom";
 
-
+const imgUrl = import.meta.env.VITE_APP_URL;
 export const DonationManagement = () => {
     const {donations,deleteDonation,totalDonationsReFetch,donationsQueryReFetch,totalDonation} = useContext(DonateContext)
     useEffect(() => {
@@ -74,7 +74,7 @@ export const DonationManagement = () => {
                       {
                         donation?.image === null || donation?.image === 'undefined'
                           ? <img className="w-[150px] mb-5" src="/assets/images/makerio.png"/>
-                          :<img className="w-[150px] mb-5" src={`http://127.0.0.1:8000/${donation?.image}`}/>
+                          :<img className="w-[150px] mb-5" src={`${imgUrl}/${donation?.image}`}/>
                       }
                     </td>
                     <td className="px-4 py-4">

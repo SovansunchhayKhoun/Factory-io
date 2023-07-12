@@ -97,10 +97,14 @@ export const ChatProvider = ({children}) => {
     setMessageImage(null);
   };
 
+  const [loadingSend, setLoadingSend] = useState(false);
+
   const sendMessage = async (sender, receiver) => {
     const tempDate = new Date();
     const currentDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
+    setLoadingSend(true);
     if (messageImage || messageInput !== '') {
+      // console.log(loadingSend)
       messagePost.msg_content = messageInput;
       messagePost.image = messageImage;
       messagePost.receiver_id = receiver;
@@ -118,13 +122,14 @@ export const ChatProvider = ({children}) => {
           await messageReFetch();
           await chatReFetch()
           clearMessage();
+          setLoadingSend(false);
         });
         chatScroll.current?.scrollIntoView({behavior: "smooth"});
-
       } catch (msg) {
         setChatErrors(msg.response.data.errors)
-        // console.log(msg.response.data.errors);
       }
+    } else {
+      setLoadingSend(false);
     }
   }
   const autoSendMessage = async (sender, receiver, msg) => {
@@ -160,6 +165,8 @@ export const ChatProvider = ({children}) => {
   return (
     <>
       <ChatContext.Provider value={{
+        loadingSend,
+        setLoadingSend,
         setMessageInput,
         messageInput,
         getChat,

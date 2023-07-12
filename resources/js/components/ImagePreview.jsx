@@ -5,16 +5,22 @@ import {Card} from "flowbite-react";
 import React, {useContext, useEffect, useState} from "react";
 import ChatContext from "../context/ChatContext.jsx";
 
+// export const ImagePreview = ({
+//                                messageImage,
+//                                sendMessage,
+//                                messageInput,
+//                                setMessageInput,
+//                                receiver,
+//                                sender,
+//                                open,
+//                                setOpen,
+//                                handleMessage
+//                              }) => {
 export const ImagePreview = ({
-                               messageImage,
-                               sendMessage,
-                               messageInput,
-                               setMessageInput,
                                receiver,
                                sender,
                                open,
                                setOpen,
-                               handleMessage
                              }) => {
   const style = {
     position: 'absolute',
@@ -24,7 +30,16 @@ export const ImagePreview = ({
     bgcolor: 'background.paper',
     p: 2,
   };
-  const {setMessagePost, clearMessage} = useContext(ChatContext);
+  const {
+    loadingSend,
+    messageImage,
+    sendMessage,
+    setMessageInput,
+    messageInput,
+    handleMessage,
+    clearMessage,
+    setLoadingSend
+  } = useContext(ChatContext);
   return (
     <>
       <Modal
@@ -45,24 +60,29 @@ export const ImagePreview = ({
                     <input
                       value={messageInput}
                       autoFocus
+                      disabled={loadingSend || false}
                       className="w-full flex items-center h-10 rounded px-3 text-sm"
                       onKeyDown={event => {
                         if (event.key === 'Enter') {
-                          sendMessage(sender, receiver, setMessageInput);
-                          setOpen(false);
+                          sendMessage(sender, receiver).then(() => {
+                            setOpen(false);
+                            setLoadingSend(false);
+                          });
                         }
                         if (event.key === 'Escape') {
                           setOpen(false);
-                          clearMessage(setMessageInput);
+                          clearMessage();
                         }
                       }}
                       onChange={event => handleMessage(event, setMessageInput)} type="text"/>
-                    <button onClick={() => {
-                      sendMessage(sender, receiver, setMessageInput);
-                      setOpen(false);
+                    <button disabled={loadingSend || false} onClick={() => {
+                      sendMessage(sender, receiver).then(() => {
+                        setOpen(false);
+                        setLoadingSend(false);
+                      });
                     }}
-                            className="bg-[#1C64F2] text-whiteFactory font-semibold rounded-md px-3 py-1 flex items-center hover:bg-blue-700 cursor-pointer">
-                      send
+                            className={`${loadingSend ? 'bg-opacity-60' : 'hover:bg-blue-700'} bg-[#1C64F2] text-whiteFactory font-semibold rounded-md px-3 py-1 flex items-center cursor-pointer`}>
+                      {loadingSend ? <span>sending...</span> : <span>send</span>}
                     </button>
                   </div>
                 </Card>

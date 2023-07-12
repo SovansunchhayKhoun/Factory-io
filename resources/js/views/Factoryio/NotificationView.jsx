@@ -64,7 +64,7 @@ const FilterNoti = ({notiTab}) => {
   if (notiTab === 'all') {
     return (
       <div className={"flex flex-col"}>
-        {userLike?.length + parseInt(comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id && !cmt.parent_id)?.length) +
+        {userLike?.filter(l => l?.user_id !== user?.id)?.length + parseInt(comments?.filter(cmt => cmt?.project?.user_id === user?.id && cmt?.user_id !== user?.id && !cmt.parent_id)?.length) +
           parseInt(comments?.filter(cmt => cmt?.replier_id === user?.id)?.length) === 0 &&
           <span>No activity</span>}
         <LikeNotification/>
@@ -84,7 +84,7 @@ const FilterNoti = ({notiTab}) => {
   if (notiTab === 'like') {
     return (
       <div>
-        {userLike?.length === 0 && <div>No activity just yet</div>}
+        {userLike?.filter(l => l?.user_id !== user?.id)?.length === 0 && <div>No activity just yet</div>}
         <LikeNotification/>
       </div>
     )

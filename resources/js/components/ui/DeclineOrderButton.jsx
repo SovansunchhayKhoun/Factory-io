@@ -3,11 +3,12 @@ import React, {useContext, useState} from "react";
 import AdminPopUp from "../Modals/AdminPopUp.jsx";
 import {AccordionBodyContent} from "../AdminComponents/AccordionBodyContent.jsx";
 import InvoiceContext from "../../context/InvoiceContext.jsx";
+import {Spinner} from "flowbite-react";
 
 export const DeclineOrderButton = (props) => {
   const [declineOrderModalOpen, setDeclineOrderModalOpen] = useState(false)
   const {invoice} = props;
-  const {declineOrder} = useContext(InvoiceContext);
+  const {declineOrder, invLoading} = useContext(InvoiceContext);
 
   const DeclineOrderContent = () => {
     return (
@@ -16,14 +17,17 @@ export const DeclineOrderButton = (props) => {
         Are you sure to decline this order?
         <AccordionBodyContent invoice={invoice}/>
         <div className="flex gap-x-2">
-          <button type="submit"
-                  onClick={() => declineOrder(setDeclineOrderModalOpen, invoice)}
-                  className="w-full text-white bg-redBase hover:bg-redHover font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-            Delete Order
+          <button type="submit" disabled={invLoading || false}
+                  onClick={() => declineOrder(invoice).then(() => {
+                    setDeclineOrderModalOpen(false);
+                  })}
+                  className={`${invLoading ? 'bg-redHover' : 'bg-redBase hover:bg-redHover '} w-full text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center`}>
+            Delete Order &nbsp;
+            {invLoading && <Spinner size={"sm"} color={"purple"}/>}
           </button>
-          <button type="submit"
+          <button type="submit" disabled={invLoading || false}
                   onClick={() => setDeclineOrderModalOpen(!declineOrderModalOpen)}
-                  className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  className={`w-full text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center ${invLoading ? 'bg-grayFactory' : 'bg-blue-700 hover:bg-blue-800'}`}>
             No
           </button>
         </div>

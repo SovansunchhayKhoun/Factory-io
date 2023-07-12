@@ -142,8 +142,8 @@ export default function CheckoutButton() {
                   </button>
                   <button
                     disabled={!success}
-                    className={`${!success && 'bg-redHover'}
-                      flex-1 transition duration-500 bg-redBase text-whiteFactory py-2 rounded-md hover:bg-redHover active:bg-redActive`}
+                    className={`${!success ? 'bg-grayFactory text-blackFactory' : 'bg-redBase text-whiteFactory hover:bg-redHover active:bg-redActive'}
+                      flex-1 transition duration-500 py-2 rounded-md cursor-pointer`}
                     onClick={(e) => {
                       e.stopPropagation();
                       setModalOpen(false)

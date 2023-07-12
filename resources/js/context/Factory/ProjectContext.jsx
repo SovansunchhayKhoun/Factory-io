@@ -57,11 +57,18 @@ export const ProjectContext = ({children}) => {
   })
 
   const reFetchAll = async () => {
-    await projectsReFetch()
-    await projectImagesReFetch()
-    await projectSavesReFetch()
-    await projectLikesReFetch()
-    await userLikeReFetch()
+    await Promise.all([
+      projectImagesReFetch(),
+      projectsReFetch(),
+      projectSavesReFetch(),
+      projectLikesReFetch(),
+      userLikeReFetch(),
+    ])
+    // await projectImagesReFetch()
+    // await projectsReFetch()
+    // await projectSavesReFetch()
+    // await projectLikesReFetch()
+    // await userLikeReFetch()
   }
   const likeNotiCount = userLike?.filter(pro => pro.user_id !== user?.id && pro.like_indicator === 1)?.length;
   const {postPrototype, clearPrototypes} = useProjectProtoContext();
@@ -152,9 +159,9 @@ export const ProjectContext = ({children}) => {
         }).then(async () => {
           await postPrototype(project_id);
         }).then(() => {
+          reFetchAll()
           setIsPosting(false)
           // projectsReFetch();
-          reFetchAll()
           clearProjectValues();
           setModalOpen(false);
           setToastOpen(true);

@@ -1,6 +1,6 @@
 import {useAuthContext} from "../context/AuthContext"
 import {Link, Navigate} from "react-router-dom";
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import UserContext from "../context/UserContext.jsx";
 import ConfirmPasswordModal from "../components/ConfirmPasswordModal.jsx";
 import axiosClient from "../axios-client.js";
@@ -130,7 +130,8 @@ export const UserView = () => {
                       type="button"
                       onClick={() => {
                         handleClick()
-                        location.reload()
+                        setUserToFormValues(user)
+                        // location.reload()
                       }}
                     >
                       Cancel

@@ -29,7 +29,11 @@ export const SaveView = ({openSave, setOpenSave}) => {
               Close
             </button>
           </section>
-          <section className="grid grid-cols-3 overflow-auto gap-12 p-4">
+          <div className="overflow-auto px-12 py-4 grid
+              min-[1880px]:grid-cols-3 min-[1880px]:gap-12
+              xl:grid-cols-2
+              lg:grid-cols-1
+              gap-6">
             {projectSaves?.filter(pro => pro.user_id === user?.id && pro.save_state === 1)?.length === 0 && (
               <div className="text-gray-600">
                 No Saved Projects
@@ -38,10 +42,12 @@ export const SaveView = ({openSave, setOpenSave}) => {
             {projectSaves?.filter(pro => pro.user_id === user?.id && pro.save_state === 1)?.map(pro => {
               const {project_resource} = pro;
               return (
-                <ProjectCard key={pro?.id} project={project_resource[0]}/>
+                <div key={pro?.id} className={"flex justify-center"}>
+                  <ProjectCard project={project_resource[0]}/>
+                </div>
               )
             })}
-          </section>
+          </div>
         </div>
       </div>
     </main>
