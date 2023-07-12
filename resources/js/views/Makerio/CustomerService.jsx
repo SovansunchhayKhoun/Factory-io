@@ -23,11 +23,13 @@ export const CustomerService = ({setModalOpen}) => {
     chatScroll,
   } = useContext(ChatContext);
 
+
   const {user, token} = useAuthContext();
   // const [messageInput, setMessageInput] = useState('');
   const [open, setOpen] = useState(false);
+  // const chatScroll = useRef(null);
   useEffect(() => {
-    chatScroll.current.scrollIntoView({behavior: "smooth"})
+    chatScroll.current?.scrollIntoView({behavior: "smooth"})
   })
 
   if (token) {

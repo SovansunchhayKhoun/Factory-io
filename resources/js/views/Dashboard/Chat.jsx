@@ -54,7 +54,7 @@ export const Chat = () => {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
   useEffect(() => {
-    chatScroll.current.scrollIntoView({behavior: "smooth"})
+    chatScroll.current?.scrollIntoView({behavior: "smooth"})
   })
   // useEffect(() => {
   //   // chats.forEach(chat => console.log(chat))

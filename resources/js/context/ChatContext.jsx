@@ -119,7 +119,7 @@ export const ChatProvider = ({children}) => {
           await chatReFetch()
           clearMessage();
         });
-        chatScroll.current.scrollIntoView({behavior: "smooth"});
+        chatScroll.current?.scrollIntoView({behavior: "smooth"});
 
       } catch (msg) {
         setChatErrors(msg.response.data.errors)
@@ -148,7 +148,7 @@ export const ChatProvider = ({children}) => {
           await messageReFetch();
           await chatReFetch()
           // setMessageImage('')
-          chatScroll.current.scrollIntoView({behavior: "smooth"});
+          chatScroll.current?.scrollIntoView({behavior: "smooth"});
           clearMessage()
         });
       } catch (msg) {
