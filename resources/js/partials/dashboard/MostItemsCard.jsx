@@ -3,6 +3,7 @@ import ProductContext from "../../context/ProductContext.jsx";
 import {useQuery} from "@tanstack/react-query";
 import Axios from "axios";
 
+const imgUrl = import.meta.env.VITE_APP_URL;
 function MostItemsCard() {
   const [mostSoldItem, setMostSoldItem] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -71,7 +72,7 @@ function MostItemsCard() {
                             {
                               item?.product[0].image === null || item?.product[0].image === 'undefined'
                                 ? <img className="w-[100px] mb-5 mr-8" src="/assets/images/makerio.png"/>
-                                :<img className="w-[100px] mb-5 mr-8" src={`http://127.0.0.1:8000/${item?.product[0].image}`}/>
+                                :<img className="w-[100px] mb-5 mr-8" src={`${imgUrl}/${item?.product[0].image}`}/>
                             }
                             <div className="text-slate-800">{item?.product[0].name}</div>
                           </div>
