@@ -4,7 +4,7 @@ import Axios from "axios";
 import {useQuery} from "@tanstack/react-query";
 import {useAuthContext} from "../AuthContext.jsx";
 
-Axios.defaults.baseURL = import.meta.env.VITE_APP_URL+"/api/v1/";
+Axios.defaults.baseURL = import.meta.env.VITE_APP_URL + "/api/v1/";
 const StateContext = createContext();
 export const CommentContext = ({children}) => {
   const {data: comments, isLoading: commentsIsLoading, refetch: commentsReFetch} = useQuery(['comments'], () => {
@@ -41,14 +41,15 @@ export const CommentContext = ({children}) => {
     await commentsReFetch();
     await commentNotificationReFetch()
   }
+  const [postCmtLoading, setPostCmtLoading] = useState(false);
   const submitComment = async (project, cmt) => {
     const comment_time = new Date().toLocaleDateString('en-GB', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
     }).split('/').reverse().join('-') + ' ' + new Date().toTimeString().slice(0, 8);
-
     if (commentInput !== '' || picture) { // check whether we have at least a picture or message before submit
+      setPostCmtLoading(true);
       await Axios.post('comments', {
         project_id: project.id,
         user_id: user?.id,
@@ -65,7 +66,8 @@ export const CommentContext = ({children}) => {
                 project && cmt?.user_id !== user?.id && 2
       }, {headers: {"Content-type": "multipart/form-data"}}).then(({data}) => {
         reFetchAll();
-        clearComment()
+        clearComment();
+        setPostCmtLoading(false);
       }).catch(e => {
         setCmtErrors(e.response.data.errors)
         console.log(e.response.data.errors)
@@ -96,6 +98,8 @@ export const CommentContext = ({children}) => {
     <StateContext.Provider value={{
       // cmtOpen,
       // setCmtOpen,
+      postCmtLoading,
+      setPostCmtLoading,
       updateCommentIndi,
       commentNotiCount,
       commentNotificationIsLoading,

@@ -17,11 +17,11 @@ export const ImageExpand = ({open, setOpen, imgSrc}) => {
   });
 
   const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 65 + "%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minWidth: "100vw",
+    minHeight: "100vh"
   };
 
   return (
@@ -32,9 +32,11 @@ export const ImageExpand = ({open, setOpen, imgSrc}) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography variant="div" id="modal-modal-description" sx={{mt: 2}}>
-            <div className="flex justify-center">
-              <img src={imgSrc} alt=""/>
+          <Typography variant="div" id="modal-modal-description">
+            <div className="w-full h-full flex justify-center items-center">
+              <div className={"flex justify-center items-center w-[65%] aspect-video"}>
+                <img className={"object-contain"} src={imgSrc} alt=""/>
+              </div>
             </div>
           </Typography>
         </Box>

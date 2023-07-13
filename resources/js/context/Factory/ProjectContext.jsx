@@ -6,7 +6,7 @@ import {useAuthContext} from "../AuthContext.jsx";
 import axiosClient from "../../axios-client.js";
 import {useProjectProtoContext} from "./ProjectProtoContext.jsx";
 
-Axios.defaults.baseURL = import.meta.env.VITE_APP_URL+"/api/v1/";
+Axios.defaults.baseURL = import.meta.env.VITE_APP_URL + "/api/v1/";
 const StateContext = createContext();
 export const ProjectContext = ({children}) => {
   const {user} = useAuthContext();
@@ -239,9 +239,21 @@ export const ProjectContext = ({children}) => {
         reFetchAll()
       }).catch(e => console.log(e.response.data.errors))
   }
+
+  const deleteProject = async (project) => {
+    console.log(project?.id);
+    setIsPosting(true);
+    await Axios.delete(`projects/${project?.id}`).then(() => {
+      setIsPosting(false);
+      reFetchAll();
+    }).catch((e) => {
+      console.log(e.response.data.errors);
+    })
+  }
   return (
     <>
       <StateContext.Provider value={{
+        deleteProject,
         searchInput,
         setSearchInput,
         modalOpen,

@@ -7,8 +7,9 @@ import {ProjectStar} from "./ProjectStar.jsx";
 import {ProjectSave} from "./ProjectSave.jsx";
 import {ProjectComment} from "./ProjectComment.jsx";
 
-const imgUrl = import.meta.env.VITE_APP_URL+`/projects`
+const imgUrl = import.meta.env.VITE_APP_URL + `/projects`
 export const ProjectCard = ({project}) => {
+  const {user} = useAuthContext();
   const {id, name, projectImages} = project;
   const {username} = project?.user;
   const {setModalOpen, setSearchInput} = useProjectContext()
@@ -21,7 +22,8 @@ export const ProjectCard = ({project}) => {
             <Carousel indicators={false}>
               {projectImages?.map((projectImage) => {
                 return (
-                  <img key={projectImage?.id} loading="lazy" className="transition ease-linear duration-200 hover:scale-125 relative w-fit object-contain max-h-[270px]"
+                  <img key={projectImage?.id} loading="lazy"
+                       className="transition ease-linear duration-200 hover:scale-125 relative w-fit object-contain max-h-[270px]"
                        src={`${imgUrl}/${projectImage?.image}`} alt=""/>
                 )
               })}
@@ -44,10 +46,13 @@ export const ProjectCard = ({project}) => {
               {username}
             </div>
           </Link>
-          <div className={"border-t-2 border-grayFactory mt-auto pt-2 pb-3 flex items-center gap-x-3 justify-between"}>
-            <ProjectStar project={project}/>
-            <ProjectComment project={project}/>
-            <ProjectSave project={project}/>
+          <div className={`border-t-2 border-grayFactory mt-auto pt-2 pb-3`}>
+            <div className={`${user?.acc_type !== 1 && 'hidden'} flex items-center gap-x-3 justify-between`}>
+              <ProjectStar project={project}/>
+              <ProjectComment project={project}/>
+              <ProjectSave project={project}/>
+            </div>
+            {user?.acc_type !== 1 && <span className={"text-grayFactory"}>Comment, Like, Save is disabled</span>}
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useCommentContext} from "../../context/Factory/CommentContext.jsx";
+import {Spinner} from "flowbite-react";
 
 export const CommentInput = ({project, cmt}) => {
   const {
@@ -12,10 +13,11 @@ export const CommentInput = ({project, cmt}) => {
     cmtErrors,
     row,
     setRow,
+    postCmtLoading,
   } = useCommentContext();
   const ref = useRef(null);
   useEffect(() => {
-    setRow(Math.ceil((commentInput.length*15)/ref.current.clientWidth))
+    setRow(Math.ceil((commentInput.length * 15) / ref.current.clientWidth))
   }, [commentInput]);
 
   useEffect(() => {
@@ -34,9 +36,9 @@ export const CommentInput = ({project, cmt}) => {
             <input onKeyDown={({key, target}) => key === 'Enter' && submitComment(target, project, cmt)}
                    onChange={handlePicture} id={"file-input"} accept={"image/*"} className="hidden" type="file"/>
           </label>
-          <textarea ref={ref} autoFocus value={commentInput} onChange={(event) => {
+          <textarea ref={ref} disabled={postCmtLoading || false} autoFocus value={commentInput} onChange={(event) => {
             if (event.key === 'Enter' && event.shiftKey) return
-              handleCommentInput(event);
+            handleCommentInput(event);
           }} onKeyDown={(event) => {
             if (event.key === 'Enter' && !event.shiftKey) {
               event.preventDefault()
@@ -47,12 +49,16 @@ export const CommentInput = ({project, cmt}) => {
             //   row > 1 && setRow(row - 1)
           }} className="rounded-[20px] w-full placeholder:text-sm p-1 px-4 resize-none"
                     placeholder={"Speak your mind..."} rows={row || 1}></textarea>
-          <button onClick={({target}) => submitComment(project, cmt)}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                 stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round"
-                    d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
-            </svg>
+          <button disabled={postCmtLoading || false} onClick={({target}) => submitComment(project, cmt)}>
+            {!postCmtLoading ? (
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                   stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round"
+                      d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
+              </svg>
+            ) : (
+              <Spinner color={"purple"} size={"md"}/>
+            )}
           </button>
         </div>
         <div className={"flex items-center gap-3"}>

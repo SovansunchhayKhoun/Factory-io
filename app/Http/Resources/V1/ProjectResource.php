@@ -2,6 +2,7 @@
 
   namespace App\Http\Resources\V1;
 
+  use App\Models\Comment;
   use App\Models\ProjectAsset;
   use App\Models\ProjectImage;
   use App\Models\ProjectLike;
@@ -29,12 +30,12 @@
         'category' => $this -> category ,
         'funder_count' => $this -> funder_count ,
         'target_fund' => $this -> target_fund ,
-        'comment_count' => $this -> comment_count ,
         'proposal' => $this -> proposal ,
         'description' => $this -> description ,
         'created_at' => $this -> created_at ,
         'user_id' => $this -> user_id ,
         'user' => $this -> users ,
+        'comment_count' => Comment ::where ( 'project_id' , $this -> id ) -> get () -> count () ,
         'like_count' => ProjectLike ::where ( 'project_id' , $this -> id ) -> sum ( 'like_state' ) ,
         'save_count' => SavedProject ::where ( 'project_id' , $this -> id ) -> sum ( 'save_state' ) ,
         'projectPrototypes' => ProjectPrototypeResource ::collection ( $this -> project_prototypes ) ,

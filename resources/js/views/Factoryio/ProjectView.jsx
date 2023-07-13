@@ -40,7 +40,7 @@ export const ProjectView = () => {
     })
   })
 
-  const postDate = `${new Date(project?.created_at.slice(0, 10)).getDate()}-${monthNames[new Date(project?.created_at.slice(0, 10)).getMonth()]}-${new Date(project?.created_at.slice(0, 10)).getFullYear()}`
+  const postDate = `${new Date(project?.created_at?.slice(0, 10)).getDate()}-${monthNames[new Date(project?.created_at?.slice(0, 10)).getMonth()]}-${new Date(project?.created_at?.slice(0, 10)).getFullYear()}`
 
   const [tab, setTab] = useState('fh');
   const [expand, setExpand] = useState(false)
@@ -148,10 +148,13 @@ export const ProjectView = () => {
                   </section>
                   {/*comment part*/}
                   <section
-                    className={"px-4 pt-2 pb-3 flex items-center gap-x-3 justify-between"}>
-                    <ProjectStar project={project} iconWidth={8} iconHeight={8}/>
-                    <ProjectComment project={project} iconWidth={24} iconHeight={24}/>
-                    <ProjectSave project={project} iconWidth={8} iconHeight={8}/>
+                    className={`px-4 pt-2 pb-3`}>
+                    <div className={`${user?.acc_type !== 1 && 'hidden'} flex items-center gap-x-3 justify-between`}>
+                      <ProjectStar project={project} iconWidth={8} iconHeight={8}/>
+                      <ProjectComment project={project} iconWidth={24} iconHeight={24}/>
+                      <ProjectSave project={project} iconWidth={8} iconHeight={8}/>
+                    </div>
+                    {user?.acc_type !== 1 && <span className={"text-grayFactory"}>Comment, Like, Save is disabled</span>}
                   </section>
                 </section>
               </section>
