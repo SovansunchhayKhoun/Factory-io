@@ -93,7 +93,7 @@
       }
       $product -> reviews () -> delete ();
       $product -> delete ();
-
+      $product -> invoice_products () -> delete ();
       return response () -> json ( 'Product deleted' );
     }
   }

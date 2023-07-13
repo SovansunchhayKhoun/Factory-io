@@ -95,13 +95,13 @@
       }
 
       $project -> delete ();
-      $project -> project_prototypes ();
-      $project -> project_assets ();
-      $project -> project_images ();
-      $project -> project_likes ();
-      $project -> project_saves ();
-      $project -> fundings ();
-      $project -> comments ();
+      $project -> project_prototypes () -> delete ();
+      $project -> project_assets () -> delete ();
+      $project -> project_images () -> delete ();
+      $project -> project_likes () -> delete ();
+      $project -> project_saves () -> delete ();
+      $project -> fundings () -> delete ();
+      $project -> comments () -> delete ();
 
       return response () -> json ( 'Project Deleted' );
     }

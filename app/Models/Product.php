@@ -1,25 +1,30 @@
 <?php
 
-namespace App\Models;
+  namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+  use Illuminate\Database\Eloquent\Factories\HasFactory;
+  use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
-{
+  class Product extends Model
+  {
     use HasFactory;
 
     protected $fillable = [
-        'name', 'price', 'qty', 'status', 'type', 'description','feature', 'image',
+      'name' , 'price' , 'qty' , 'status' , 'type' , 'description' , 'feature' , 'image' ,
     ];
 
-    public function Invoice()
+    public function Invoice ()
     {
-        return $this->belongsToMany(Invoice::class);
+      return $this -> belongsToMany ( Invoice::class );
     }
 
-    public function reviews()
+    public function reviews ()
     {
-        return $this->hasMany(Review::class, 'product_id', 'id');
+      return $this -> hasMany ( Review::class , 'product_id' , 'id' );
     }
-}
+
+    public function invoice_products ()
+    {
+      return $this -> hasMany ( InvoiceProduct::class , 'product_id' , 'id' );
+    }
+  }

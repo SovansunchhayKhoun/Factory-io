@@ -70,21 +70,21 @@ function MostItemsCard() {
                         <td className="p-2">
                           <div className="flex items-center">
                             {
-                              item?.product[0].image === null || item?.product[0].image === 'undefined'
+                              item?.product[0]?.image === null || item?.product[0]?.image === 'undefined'
                                 ? <img className="w-[100px] mb-5 mr-8" src="/assets/images/makerio.png"/>
-                                :<img className="w-[100px] mb-5 mr-8" src={`${imgUrl}/${item?.product[0].image}`}/>
+                                :<img className="w-[100px] mb-5 mr-8" src={`${imgUrl}/${item?.product[0]?.image}`}/>
                             }
-                            <div className="text-slate-800">{item?.product[0].name}</div>
+                            <div className="text-slate-800">{item?.product[0]?.name}</div>
                           </div>
                         </td>
                         <td className="p-2">
-                          <div className="text-center">$ {item?.product[0].price}</div>
+                          <div className="text-center">$ {item?.product[0]?.price}</div>
                         </td>
                         <td className="p-2">
                           <div className="text-center">{item?.totalSold}</div>
                         </td>
                         <td className="p-2">
-                          <div className="text-center text-green-500">$ {item?.product[0].price * item?.totalSold}</div>
+                          <div className="text-center text-green-500">$ {item?.product[0]?.price * item?.totalSold}</div>
                         </td>
                       </tr>
                   )
