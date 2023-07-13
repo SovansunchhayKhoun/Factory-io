@@ -34,7 +34,7 @@ export const ReviewSection = (props) => {
               <img alt={title} className="w-[150px] mb-5 mt-4" src={`${imgUrl}/${image}`}/>
             </button>
           )}
-          <ImageExpand imgSrc={`http://127.0.0.1:8000/${image}`} open={open} setOpen={setOpen}/>
+          <ImageExpand imgSrc={`${imgUrl}/${image}`} open={open} setOpen={setOpen}/>
         </div>
       </div>
     </div>

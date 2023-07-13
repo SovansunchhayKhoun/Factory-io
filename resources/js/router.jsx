@@ -36,6 +36,7 @@ import axiosClient from "./axios-client.js";
 import {ProjectView} from "./views/Factoryio/ProjectView.jsx";
 import {DonationManagement} from "./views/Dashboard/DonationManagement.jsx";
 import {NotificationView} from "./views/Factoryio/NotificationView.jsx";
+import {DashboardProject} from "./views/Dashboard/DashboardProject.jsx";
 
 const router = createBrowserRouter([
   {
@@ -68,11 +69,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'notification',
-        element: <NotificationView />,
+        element: <NotificationView/>,
       },
       {
         path: 'project/:id',
-        element: <ProjectView />
+        element: <ProjectView/>
       }
     ]
   },
@@ -104,7 +105,7 @@ const router = createBrowserRouter([
       {
         path: 'admin',
         element: <AdminView/>,
-        errorElement: <ErrorBoundary />
+        errorElement: <ErrorBoundary/>
       },
       {
         path: 'user/change-password',
@@ -134,6 +135,11 @@ const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <DashboardLanding/>,
+        errorElement: <ErrorBoundary/>
+      },
+      {
+        path: 'user-project',
+        element: <DashboardProject/>,
         errorElement: <ErrorBoundary/>
       },
       {

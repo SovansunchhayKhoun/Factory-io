@@ -9,11 +9,11 @@ export const UserRow = (props) => {
   const {getUsers} = useContext(UserContext)
   const {invoicesReFetch} = useContext(InvoiceContext);
   const deleteUser = async (id) => {
-    await Axios.delete("http://127.0.0.1:8000/api/v1/users/" + id)
+    await Axios.delete(`${import.meta.env.VITE_APP_URL}/api/v1/users/` + id)
     getUsers()
     invoicesReFetch()
   }
-  const {id,firstName,lastName,gender,phoneNumber,email,username,bio} = props.user
+  const {id, firstName, lastName, gender, phoneNumber, email, username, bio} = props.user
   return (
     <>
       <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
@@ -39,10 +39,12 @@ export const UserRow = (props) => {
           {username}
         </td>
         <td className="px-6 py-4 flex">
-          <Link to={`/admin/user/${id}/edit`} className="bg-blue-600 px-4 py-2 rounded text-whiteFactory dark:text-whiteFactory-500 mr-2">Edit</Link>
+          <Link to={`/admin/user/${id}/edit`}
+                className="bg-blue-600 px-4 py-2 rounded text-whiteFactory dark:text-whiteFactory-500 mr-2">Edit</Link>
           <button onClick={() => {
             deleteUser(id)
-          }} className="bg-red-600 px-4 py-2 rounded text-whiteFactory dark:text-whiteFactory-500">Delete</button>
+          }} className="bg-red-600 px-4 py-2 rounded text-whiteFactory dark:text-whiteFactory-500">Delete
+          </button>
         </td>
       </tr>
     </>

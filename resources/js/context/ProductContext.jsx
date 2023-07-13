@@ -4,7 +4,7 @@ import Axios from "axios";
 import axios from "axios";
 import {useQuery} from "@tanstack/react-query";
 
-Axios.defaults.baseURL = import.meta.env.VITE_APP_URL+"/api/v1/";
+Axios.defaults.baseURL = import.meta.env.VITE_APP_URL + "/api/v1/";
 
 const ProductContext = createContext();
 
@@ -34,7 +34,7 @@ export const ProductProvider = ({children}) => {
 
   const [item, setItem] = useState({});
   const [searchInput, setSearchInput] = useState('')
-  const [types,setTypes] = useState([])
+  const [types, setTypes] = useState([])
   const [errors, setErrors] = useState([]);
 
   const fetchTypes = async () => {
@@ -143,12 +143,13 @@ export const ProductProvider = ({children}) => {
 
   const updateItem = async (formData) => {
     try {
-      await Axios.post("http://127.0.0.1:8000/api/v1/products/" + item.id, formData, {
+      await Axios.post("products/" + item.id, formData, {
         headers: {'Content-Type': "multipart/form-data"},
+      }).then(async () => {
+        resetFormValues()
+        await itemsQueryReFetch()
+        history.back()
       });
-      resetFormValues()
-      await itemsQueryReFetch()
-      history.back()
     } catch (msg) {
       setErrors(msg.response.data.errors)
       // console.log(msg.response.data.errors);

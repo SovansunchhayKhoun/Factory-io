@@ -4,15 +4,15 @@ import Axios from "axios";
 import {useQuery} from "@tanstack/react-query";
 
 
-Axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
+Axios.defaults.baseURL = `${import.meta.env.VITE_APP_URL}/api/v1/`;
 
 const UserContext = createContext();
 
 export const UserProvider = ({children}) => {
   const [users, setUsers] = useState([]);
-  const [isLoading,setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [user, setUser] = useState({});
-  const [admin,setAdmin] = useState({});
+  const [admin, setAdmin] = useState({});
 
   const [formValues, setFormValues] = useState({
     firstName: "",
@@ -20,11 +20,11 @@ export const UserProvider = ({children}) => {
     gender: "",
     phoneNumber: "",
     email: "",
-    username:"",
+    username: "",
     address: "",
-    password:"",
-    new_password:"",
-    password_confirmation:"",
+    password: "",
+    new_password: "",
+    password_confirmation: "",
   })
   const [errors, setErrors] = useState({})
 
@@ -80,7 +80,7 @@ export const UserProvider = ({children}) => {
       gender: user.gender,
       phoneNumber: user.phoneNumber,
       email: user.email,
-      username:user.username,
+      username: user.username,
       address: user.address
     })
     setUser(user)
@@ -93,7 +93,7 @@ export const UserProvider = ({children}) => {
       gender: admin.gender,
       phoneNumber: admin.phoneNumber,
       email: admin.email,
-      username:admin.username,
+      username: admin.username,
       address: admin.address
     })
   }
@@ -110,7 +110,7 @@ export const UserProvider = ({children}) => {
       }
     }
   }
-  const updateAdmin = async (e,adminID) => {
+  const updateAdmin = async (e, adminID) => {
     e.preventDefault()
     try {
       await Axios.put("updateAdmin/" + adminID, formValues)
@@ -130,11 +130,11 @@ export const UserProvider = ({children}) => {
       gender: "",
       phoneNumber: "",
       email: "",
-      username:"",
-      password:"",
+      username: "",
+      password: "",
       new_password: "",
       address: "",
-      password_confirmation:"",
+      password_confirmation: "",
     })
   }
 
@@ -151,9 +151,9 @@ export const UserProvider = ({children}) => {
       }
     }
   }
-  const changeAdminPassword = async (e,adminID) => {
+  const changeAdminPassword = async (e, adminID) => {
     e.preventDefault()
-      // console.log(formValues)
+    // console.log(formValues)
     try {
       await Axios.put("admins/" + adminID + "/change-password", formValues)
       resetFormValues()

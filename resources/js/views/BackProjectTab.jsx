@@ -9,8 +9,8 @@ import {ImageExpand} from "../components/ImageExpand.jsx";
 import BackProjectContext from "../context/BackProjectContext.jsx";
 import ChatContext from "../context/ChatContext.jsx";
 
+const imgUrl = `${import.meta.env.VITE_APP_URL}/projects`
 export const BackProjectTab = ({projectPrototypes, project}) => {
-  const imgUrl = 'http://127.0.0.1:8000/projects'
   const [img, setImg] = useState('')
   const [expand, setExpand] = useState(false);
   const {
@@ -236,7 +236,8 @@ export const BackProjectTab = ({projectPrototypes, project}) => {
                       setMessageImage(image)
                       storeBackProjectFunding(project)
                     }}
-                    className="rounded-[20px] px-6 py-2 text-whiteFactory bg-redHover">Submit</button>
+                    className="rounded-[20px] px-6 py-2 text-whiteFactory bg-redHover">Submit
+                  </button>
                 </div>
               </div>
             </div>

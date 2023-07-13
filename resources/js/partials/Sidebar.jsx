@@ -9,6 +9,7 @@ import {FiMessageSquare, FiFolder, FiDollarSign} from "react-icons/fi";
 import {TbRoad, TbHomeCheck, TbPackageOff} from "react-icons/tb"
 import {Link, NavLink} from "react-router-dom";
 import ChatContext from "../context/ChatContext.jsx";
+import {BsCardText} from "react-icons/bs";
 
 const Sidebar = () => {
   const {invoices, setInvStatus, invStatus} = useContext(InvoiceContext);
@@ -28,6 +29,7 @@ const Sidebar = () => {
     {name: "Users", link: "/admin/users", icon: AiOutlineUser},
     {name: "Inventory", link: "/admin/inventory", icon: FiFolder},
     {name: "Manage Donations", link: "/admin/donation", icon: FiDollarSign},
+    {name: "User Projects", link: "/admin/user-project", icon: BsCardText},
     {name: "Customer Service", link: "/admin/customer-service", icon: FiMessageSquare, notification: message?.filter((msg) => msg.is_read === 0 && msg.sender_id !== 'admin').length},
     {name: "Pending", link: "/admin/orders", icon: MdOutlinePending, handleClick: -1, notification: notificationCounter(-1)},
     {name: "Accepted", link: "/admin/orders", icon: AiOutlineCheckCircle, handleClick: 1, notification: notificationCounter(1)},

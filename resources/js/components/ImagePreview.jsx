@@ -49,8 +49,20 @@ export const ImagePreview = ({
       >
         <Box sx={style}>
           <div className="md:w-[450px] w-[250px]">
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Send an Image
+            <Typography id="modal-modal-title" variant="div" component="h2">
+              <div className={"flex justify-between"}>
+                <div>Send an Image</div>
+                <button className="transition duration-300 rounded-[50%] hover:bg-grayFactory" onClick={event => {
+                  event.stopPropagation();
+                  setOpen(false);
+                  clearMessage();
+                }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                       stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                  </svg>
+                </button>
+              </div>
             </Typography>
             <Typography variant="div" id="modal-modal-description" sx={{mt: 2}}>
               {messageImage &&

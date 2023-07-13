@@ -11,17 +11,20 @@
   use App\Models\Comment;
   use App\Models\Product;
   use App\Models\Project;
+  use App\Models\ProjectAsset;
+  use App\Models\ProjectImage;
   use App\Models\User;
   use http\Env\Response;
   use Illuminate\Http\Request;
   use Illuminate\Support\Carbon;
   use Illuminate\Support\Facades\Storage;
+  use Illuminate\Support\Str;
 
   class ProjectController extends Controller
   {
     public function index ()
     {
-      return ProjectResource ::collection ( Project ::orderby ('id', 'desc')->get() );
+      return ProjectResource ::collection ( Project ::orderby ( 'id' , 'desc' ) -> get () );
     }
 
     public function show ( Project $project )
@@ -61,12 +64,6 @@
 
     }
 
-    public function destroy ( Project $project )
-    {
-      $project -> delete ();
-      return response () -> json ( 'Product deleted' );
-    }
-
     public function update ( ProjectRequest $request , Project $project )
     {
       $data = $request -> validated ();
@@ -77,5 +74,35 @@
     public function fetchLastProject ()
     {
       return Project ::latest ( 'id' ) -> first ();
+    }
+
+    public function destroy ( Project $project )
+    {
+      $project_images = ProjectImage ::where ( 'project_id' , $project -> id ) -> get ();
+      $storage = Storage ::disk ( 'projects' );
+      $project_asset = ProjectAsset ::where ( 'project_id' , $project -> id ) -> first ();
+
+      // delete zip
+      if ( $storage -> exists ( $project_asset -> file ) ) {
+        $storage -> delete ( $project_asset -> file );
+      }
+
+      // delete images
+      foreach ( $project_images as $image ) {
+        if ( $storage -> exists ( $image -> image ) ) {
+          $storage -> delete ( $image -> image );
+        }
+      }
+
+      $project -> delete ();
+      $project -> project_prototypes ();
+      $project -> project_assets ();
+      $project -> project_images ();
+      $project -> project_likes ();
+      $project -> project_saves ();
+      $project -> fundings ();
+      $project -> comments ();
+
+      return response () -> json ( 'Project Deleted' );
     }
   }
